@@ -62,8 +62,8 @@ class CreateCommunityState extends State<CreateCommunity> {
     }
   }
 
-  __clearTextField() {
-    //called to clear the text field when pressing cancel icon 
+  clearTextField() {
+    //called to clear the text field when pressing cancel icon
     setState(() {
       _communityNameController.text = '';
       count = 21;
@@ -83,6 +83,13 @@ class CreateCommunityState extends State<CreateCommunity> {
       choosenCommunityType = key2;
       communityDefinition = communityType[key2]!;
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _communityNameController.dispose();
   }
 
   @override
@@ -137,13 +144,9 @@ class CreateCommunityState extends State<CreateCommunity> {
                     textAlignVertical: TextAlignVertical.center,
                     controller: _communityNameController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      if ((value!.length < 3 && value.isNotEmpty) ||
-                          !RegExp(r'^[A-Za-z0-9_.]+$').hasMatch(value)) {
-                        return 'Community names must be between 3-21 characters,and\n only contain letters,numbers or underscores';
-                      }
-                      return null;
-                    },
+                    validator: validateTextField
+                    // _validateTextField(value)
+                    ,
                     onChanged: (value) {
                       _onChangeTextField(value);
                     },
@@ -170,7 +173,7 @@ class CreateCommunityState extends State<CreateCommunity> {
                             const TextStyle(color: Colors.grey, fontSize: 10),
                         suffixIcon: ClearTextField(
                             typed: _typed,
-                            clearTextField: __clearTextField,
+                            clearTextField: clearTextField,
                             count: count)),
                     maxLength: 21,
                     maxLengthEnforcement: MaxLengthEnforcement.enforced,
@@ -228,7 +231,7 @@ class CreateCommunityState extends State<CreateCommunity> {
                           !uniqueCommunityName
                       ? null
                       : () {
-                          //GOTO POST IN COMMUNITY & SAVE THE CREATED COMMUNITY 
+                          //GOTO POST IN COMMUNITY & SAVE THE CREATED COMMUNITY
                           _saveCommunity();
                           Navigator.of(context).pushNamed(Post.routeName);
                         },
@@ -252,6 +255,14 @@ class CreateCommunityState extends State<CreateCommunity> {
             ],
           )),
     );
+  }
+
+  String? validateTextField(value) {
+    if ((value!.length < 3 && value.isNotEmpty) ||
+        !RegExp(r'^[A-Za-z0-9_.]+$').hasMatch(value)) {
+      return 'Community names must be between 3-21 characters,and\n only contain letters,numbers or underscores';
+    }
+    return null;
   }
 
   _validateCommunityName() async {
@@ -288,7 +299,7 @@ class CreateCommunityState extends State<CreateCommunity> {
         nSFW: plus18Community,
         name: _communityNameController.text,
         type: choosenCommunityType);
-      DioClient.post(
+    DioClient.post(
       path: createCommunity,
       data: createCommunityModel.toJson(),
     ).then((value) {

@@ -13,13 +13,12 @@ class Home extends StatelessWidget {
         padding: EdgeInsets.zero,
         child: Center(
           child: OutlinedButton(
-              child: Icon(Icons.add),
-              onPressed: () =>
-                 // Navigator.of(context).pushNamed(CreateCommunity.routeName),
-                  Navigator.of(context).pushNamed(ModeratorTools.routeName),
-                  // Navigator.of(context)
-                  //     .pushNamed(NotificationScreen.routeName)
-                   ),
+            child: Icon(Icons.add),
+            onPressed: () =>
+                // Navigator.of(context).pushNamed(CreateCommunity.routeName),
+                //  Navigator.of(context).pushNamed(ModeratorTools.routeName),
+                Navigator.of(context).pushNamed(NotificationScreen.routeName),
+          ),
         ),
       ),
     );

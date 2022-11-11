@@ -72,7 +72,7 @@ class NotificationsMainScreen extends StatelessWidget {
                                     top: 20,
                                     child: CircleAvatar(
                                       backgroundImage:
-                                          AssetImage('assets/img/upvote.png'),
+                                          AssetImage('assets/img/like.png'),
                                       radius: 9,
                                     ),
                                   ),
