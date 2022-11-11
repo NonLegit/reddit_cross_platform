@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sw_code/screens/create_community.dart';
-import 'package:sw_code/screens/moderator_tools_screen.dart';
-//import 'package:sw_code/screens/create_community.dart';
-//import 'package:sw_code/screens/moderator_tools_screen.dart';
-//import 'package:sw_code/screens/topics_screen.dart';
+import '../create_community/screens/create_community.dart';
+import '../moderation_settings/screens/moderator_tools_screen.dart';
+import '../notification/screens/notifications_screen.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -15,10 +13,13 @@ class Home extends StatelessWidget {
         padding: EdgeInsets.zero,
         child: Center(
           child: OutlinedButton(
-            child: Icon(Icons.add),
-            onPressed: () =>
-                Navigator.of(context).pushNamed(CreateCommunity.routeName),
-          ),
+              child: Icon(Icons.add),
+              onPressed: () =>
+                 // Navigator.of(context).pushNamed(CreateCommunity.routeName),
+                  Navigator.of(context).pushNamed(ModeratorTools.routeName),
+                  // Navigator.of(context)
+                  //     .pushNamed(NotificationScreen.routeName)
+                   ),
         ),
       ),
     );
