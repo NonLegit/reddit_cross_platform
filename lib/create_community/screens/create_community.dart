@@ -138,11 +138,7 @@ class CreateCommunityState extends State<CreateCommunity> {
                     controller: _communityNameController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
-                      if ((value!.length < 3 && value.isNotEmpty) ||
-                          !RegExp(r'^[A-Za-z0-9_.]+$').hasMatch(value)) {
-                        return 'Community names must be between 3-21 characters,and\n only contain letters,numbers or underscores';
-                      }
-                      return null;
+                      _validateTextField(value);
                     },
                     onChanged: (value) {
                       _onChangeTextField(value);
@@ -253,7 +249,13 @@ class CreateCommunityState extends State<CreateCommunity> {
           )),
     );
   }
-
+  String _validateTextField(value){
+    if ((value!.length < 3 && value.isNotEmpty) ||
+                          !RegExp(r'^[A-Za-z0-9_.]+$').hasMatch(value)) {
+                        return 'Community names must be between 3-21 characters,and\n only contain letters,numbers or underscores';
+                      }
+                      return null;
+  }
   _validateCommunityName() async {
     //Called to check if the choosen community name is unique or not
     if (_communityNameController.text.length >= 3) {
