@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_code_style/analysis_options.yaml';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import './post_sort_bottom.dart';
+import '../widgets/mod_subreddit_post_sort_bottom.dart';
 
-class ProfilePosts extends StatefulWidget {
+class ModeratedSubriddetPosts extends StatefulWidget {
   final String routeNamePop;
-  const ProfilePosts({
+  const ModeratedSubriddetPosts({
     Key? key,
     required this.routeNamePop,
   }) : super(key: key);
 
   // Posts(this.routeNamePop);
   @override
-  State<ProfilePosts> createState() => _ProfilePosts();
+  State<ModeratedSubriddetPosts> createState() => _ModeratedSubriddetPosts();
 }
 
-class _ProfilePosts extends State<ProfilePosts> {
+class _ModeratedSubriddetPosts extends State<ModeratedSubriddetPosts> {
 //     final  String routeNamePop;
 //  _PostsState(this.routeNamePop);
-final _dropDownValue = 'HOT POST';
-final _icon = Icons.local_fire_department_rounded;
+  final _dropDownValue = 'HOT POST';
+  final _icon = Icons.local_fire_department_rounded;
   @override
   Widget build(BuildContext context) {
     return ListView(
       scrollDirection: Axis.vertical,
       children: [
-        PostSortBottom(widget.routeNamePop,_dropDownValue,_icon),
+            ModSubredditPostSortBottom(
+                widget.routeNamePop, _dropDownValue, _icon),
         Container(
           padding: const EdgeInsets.only(bottom: 10, top: 100),
           // height: MediaQuery.of(context).size.height * 0.4,
@@ -53,7 +54,7 @@ final _icon = Icons.local_fire_department_rounded;
             )
           ]),
         ),
-          Container(
+        Container(
           padding: const EdgeInsets.only(bottom: 10, top: 100),
           // height: MediaQuery.of(context).size.height * 0.4,
           // width: MediaQuery.of(context).size.height * 1,
@@ -80,8 +81,7 @@ final _icon = Icons.local_fire_department_rounded;
             )
           ]),
         ),
-      
-          Container(
+        Container(
           padding: const EdgeInsets.only(bottom: 10, top: 100),
           // height: MediaQuery.of(context).size.height * 0.4,
           // width: MediaQuery.of(context).size.height * 1,
@@ -108,7 +108,7 @@ final _icon = Icons.local_fire_department_rounded;
             )
           ]),
         ),
-            Container(
+        Container(
           padding: const EdgeInsets.only(bottom: 10, top: 100),
           // height: MediaQuery.of(context).size.height * 0.4,
           // width: MediaQuery.of(context).size.height * 1,
