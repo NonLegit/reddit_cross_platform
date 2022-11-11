@@ -14,7 +14,7 @@ class SubredditData {
   List<String>? moderators;
   bool? isJoined;
   SubredditData(
-      {required this.id,
+      { this.id,
       required this.name,
       required this.subredditPicture,
       required this.subredditBackPicture,

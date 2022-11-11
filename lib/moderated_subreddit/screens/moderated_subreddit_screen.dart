@@ -330,7 +330,6 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
                           moderators:
                               loadedSubreddit!.moderators as List<String>,userName:userName)
                     ])),
-      // drawer: AppDrawer(),
       endDrawer: _isLoading
           ? const Center(
               child: Icon(
