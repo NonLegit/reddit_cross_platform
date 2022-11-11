@@ -169,7 +169,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
                             ))
                         // AppDrawer(),
                       ],
-                      expandedHeight: (loadedSubreddit!.description == '')
+                      expandedHeight: (loadedSubreddit!.description == null||loadedSubreddit!.description == '')
                           ? 35.h
                           : (35 +
                                   ((loadedSubreddit!.description
@@ -195,7 +195,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
                             children: <Widget>[
                               //Profile back ground
                               Container(
-                                  height: (loadedSubreddit!.description == '')
+                                  height: (loadedSubreddit!.description == null||loadedSubreddit!.description == '')
                                       ? 30.h
                                       : (30 +
                                               ((loadedSubreddit!.description)

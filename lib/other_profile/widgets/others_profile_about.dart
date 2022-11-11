@@ -23,7 +23,7 @@ class OthersProfileAbout extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(top: 120),
           // height: 32.h,
-          height: (description == '')
+          height: (description == null||description == '')
               ? 36.h
               : (36 + (description.length / 42) + 4).h,
           width: 100.w,
@@ -74,7 +74,7 @@ class OthersProfileAbout extends StatelessWidget {
                   //  padding: EdgeInsets.all(20),
                   margin: EdgeInsets.only(right: 15,left: 15,top: 15),
                   width: 100.w,
-                  height: (description == '')
+                  height: (description == null||description == '')
                       ? 0.h
                       : (0 + (description.length / 42) + 7).h,
                   child: Column(

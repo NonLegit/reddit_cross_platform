@@ -140,7 +140,7 @@ class PositionInFlexAppBarOtherProfile extends StatelessWidget {
 
             Container(
               width: 100.w,
-              height: (loadProfile.description == '')
+              height: (loadProfile.description==null||loadProfile.description == '')
                   ? 0.h
                   : (0 + (loadProfile.description.toString().length / 42) + 7).h,
               child: Text(loadProfile.description.toString(),

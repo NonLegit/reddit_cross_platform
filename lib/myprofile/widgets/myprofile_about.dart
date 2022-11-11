@@ -22,7 +22,7 @@ class MyProfileAbout extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.only(top: 110),
-          height: (description == '')
+          height: (description == null||description == '')
               ? 30.h
               : (30 + (description.length / 42) + 4).h,
           width: 100.h,
@@ -73,7 +73,7 @@ class MyProfileAbout extends StatelessWidget {
                   //  padding: EdgeInsets.all(20),
                   margin: EdgeInsets.only(right: 10,left: 10,top: 0),
                   width: 100.w,
-                  height: (description == '')
+                  height: (description == null||description == '')
                       ? 0.h
                       : (0 + (description.length / 42) + 7).h,
                   child: Column(

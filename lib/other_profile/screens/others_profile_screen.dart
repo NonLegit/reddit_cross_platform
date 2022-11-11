@@ -133,7 +133,7 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
                     child: Text('u/${loadProfile.displayName}',
                         style: Theme.of(context).textTheme.headline6),
                   ),
-                  expandedHeight: (loadProfile.description == '')
+                  expandedHeight: (loadProfile.description==null||loadProfile.description == '')
                       ? 54.h
                       : (54 + ((loadProfile.description.toString().length / 42) + 7)).h,
                   floating: false,
@@ -155,7 +155,7 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
                           //Profile back ground
                           Container(
                             // color: Colors.blue,
-                            height: (loadProfile.description == '')
+                            height: (loadProfile.description==null||loadProfile.description == '')
                                 ? 51.h
                                 : (51 + (loadProfile.description.toString().length / 42) + 7).h,
                             width: 100.w,

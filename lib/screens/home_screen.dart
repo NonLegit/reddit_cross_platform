@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                MyProfileScreen.routeName
+                      OthersProfileScreen.routeName
                 //   OthersProfileScreen.routeName,
                 ,arguments: 'ZeinabMoawad'
                 );
