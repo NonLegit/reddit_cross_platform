@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:reddit/layout/home_layout.dart';
 import 'package:flutter_code_style/flutter_code_style.dart';
@@ -14,16 +15,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-     theme: ThemeData(
-       scaffoldBackgroundColor: Colors.white,
-       appBarTheme:  AppBarTheme(
-     systemOverlayStyle: SystemUiOverlayStyle(
-       statusBarColor: Colors.white,
-       statusBarBrightness: Brightness.dark
-     )
-
-       ),
-     ),
       home: homeLayoutScreen(),
     );
   }
