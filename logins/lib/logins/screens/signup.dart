@@ -180,7 +180,7 @@ class _SignUpState extends State<SignUp> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UpperBar('log'),
+          UpperBar(UpperbarStatus.login),
           Expanded(
             child: Container(
               // height: 80.h,

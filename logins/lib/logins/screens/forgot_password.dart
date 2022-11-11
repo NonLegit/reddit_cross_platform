@@ -10,6 +10,8 @@ import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'forgot_username.dart';
 
+import '../models/status.dart';
+
 class ForgotPassword extends StatefulWidget {
   @override
   State<ForgotPassword> createState() => _ForgotPasswordState();
@@ -36,7 +38,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UpperBar('log'),
+          UpperBar(UpperbarStatus.login),
           Expanded(
               child: SingleChildScrollView(
             child: Column(

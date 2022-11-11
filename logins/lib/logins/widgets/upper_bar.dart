@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logins/logins/screens/gender.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
 
@@ -9,11 +10,14 @@ import '../../icons/GoogleFacebookIcons.dart';
 import '../../icons/closeIcons.dart';
 import '../screens/signup.dart';
 import '../screens/login.dart';
+import '../screens/emptyscreen.dart';
+import '../models/status.dart';
 
 class UpperBar extends StatelessWidget {
   //  UpperBar({Key? key}) : super(key: key);
-  final String openningScreen;
-  UpperBar(this.openningScreen);
+  // final String openningScreen;
+  final UpperbarStatus currentStatus;
+  UpperBar(this.currentStatus);
   void _pushScreen(context) {
     Navigator.of(context).pop(context);
     Navigator.push(
@@ -23,7 +27,13 @@ class UpperBar extends StatelessWidget {
             builder: (cntx, orientation, Screentype) {
               // Device.deviceType == DeviceType.web;
               return Scaffold(
-                body: openningScreen == 'log' ? Login() : SignUp(),
+                body: currentStatus == UpperbarStatus.login
+                    ? Login()
+                    : currentStatus == UpperbarStatus.signup
+                        ? SignUp()
+                        : currentStatus == UpperbarStatus.skip
+                            ? EmptyScreen()
+                            : EmptyScreen(),
               );
             },
           ),
@@ -71,13 +81,19 @@ class UpperBar extends StatelessWidget {
                     onPressed: () {
                       _pushScreen(context);
                     },
-                    child: openningScreen == 'log'
+                    child: currentStatus == UpperbarStatus.login
                         ? Text(
                             'Log in',
                             style: TextStyle(color: Colors.black54),
                           )
-                        : Text('Sign up',
-                            style: TextStyle(color: Colors.black54)),
+                        : currentStatus == UpperbarStatus.signup
+                            ? Text('Sign up',
+                                style: TextStyle(color: Colors.black54))
+                            : currentStatus == UpperbarStatus.skip
+                                ? Text('Skip',
+                                    style: TextStyle(color: Colors.black54))
+                                : Text('',
+                                    style: TextStyle(color: Colors.black54)),
                   ),
                 )),
           ],

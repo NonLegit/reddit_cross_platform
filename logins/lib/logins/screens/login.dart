@@ -20,6 +20,8 @@ import 'package:http/http.dart' as http;
 import '../models/wrapper.dart';
 import 'dart:convert';
 
+import '../models/status.dart';
+
 class Login extends StatefulWidget {
   // Login({Key? key}) : super(key: key);
 
@@ -87,7 +89,7 @@ class _LoginState extends State<Login> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UpperBar('sign'),
+          UpperBar(UpperbarStatus.signup),
           Expanded(
             child: Container(
               child: SingleChildScrollView(

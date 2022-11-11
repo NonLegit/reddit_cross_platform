@@ -9,6 +9,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../models/status.dart';
+
 class ForgotUserName extends StatefulWidget {
   @override
   State<ForgotUserName> createState() => _ForgotUserNameState();
@@ -31,7 +33,7 @@ class _ForgotUserNameState extends State<ForgotUserName> {
     return Scaffold(
       body: Column(
         children: [
-          UpperBar('log'),
+          UpperBar(UpperbarStatus.login),
           Expanded(
               child: SingleChildScrollView(
             child:
