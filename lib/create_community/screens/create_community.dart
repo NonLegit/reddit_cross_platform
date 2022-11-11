@@ -220,36 +220,38 @@ class CreateCommunityState extends State<CreateCommunity> {
               SizedBox(
                 height: 1.5.h,
               ),
-              Container(
-                width: 60.h,
-                height: 5.5.h,
-                child: ElevatedButton(
-                  onPressed: (_textFieldKey.currentState == null ||
-                              !_textFieldKey.currentState!.validate() ||
-                              validating ||
-                              !_typed) ||
-                          !uniqueCommunityName
-                      ? null
-                      : () {
-                          //GOTO POST IN COMMUNITY & SAVE THE CREATED COMMUNITY
-                          _saveCommunity();
-                          Navigator.of(context).pushNamed(Post.routeName);
-                        },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+              Center(
+                child: Container(
+                  width: 60.h,
+                  height: 5.5.h,
+                  child: ElevatedButton(
+                    onPressed: (_textFieldKey.currentState == null ||
+                                !_textFieldKey.currentState!.validate() ||
+                                validating ||
+                                !_typed) ||
+                            !uniqueCommunityName
+                        ? null
+                        : () {
+                            //GOTO POST IN COMMUNITY & SAVE THE CREATED COMMUNITY
+                            _saveCommunity();
+                            Navigator.of(context).pushNamed(Post.routeName);
+                          },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      backgroundColor: Colors.blue[800],
                     ),
-                    backgroundColor: Colors.blue[800],
-                  ),
-                  child: (validating && !uniqueCommunityName)
-                      ? const CircularProgressIndicator()
-                      : const Text(
-                          'Create Community',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                    child: (validating && !uniqueCommunityName)
+                        ? const CircularProgressIndicator()
+                        : const Text(
+                            'Create Community',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
+                  ),
                 ),
               ),
             ],
