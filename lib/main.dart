@@ -28,11 +28,62 @@ import './screens/home.dart';
 import './moderation_settings/screens/moderator_tools_screen.dart';
 import './notification/screens/notifications_screen.dart';
 import './notification/screens/navigate_to_correct_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+import './logins/screens/gender.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter/gestures.dart';
+
+import 'package:url_launcher/url_launcher.dart';
+
+import 'icons/redditIcons.dart';
+import 'icons/GoogleFacebookIcons.dart';
+
+import 'logins/screens/login.dart';
+import 'logins/screens/signup.dart';
+import 'logins/screens/forgot_password.dart';
+import 'logins/screens/forgot_username.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'logins/screens/emptyscreen.dart';
 
 void main() {
   runApp(MyApp());
 }
 
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // return MaterialApp(
+    //   home: Text('hello world'),
+    //  );
+    final forgot_sucess = '/users/forgot_password/204';
+    final forgot_failed = '/users/forgot_password/400';
+    final tempUrl = Uri.parse(
+        'https://a6da66ef-18c0-4c77-bb40-45ec54bd706d.mock.pstmn.io' +
+            forgot_failed);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
+    return ResponsiveSizer(
+      builder: (cntx, orientation, Screentype) {
+        Device.deviceType == DeviceType.web;
+        return MaterialApp(
+            title: 'Logins',
+            theme: ThemeData(
+              primarySwatch: Colors.red,
+              backgroundColor: Color.fromARGB(26, 82, 82, 82),
+              // primaryColor: Colors.red,
+            ),
+            home: SignUp());
+      },
+    );
+  }
+}
 // class MyApp extends StatelessWidget {
 //   const MyApp({super.key});
 
@@ -79,68 +130,69 @@ void main() {
 //     );
 //   }
 // }
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    //all widget will rebuild
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => MyProfileProvider()),
-        ],
-        child: Consumer<MyProfileProvider>(
-          builder: (context, auth, child) =>
-              ResponsiveSizer(builder: (context, orientation, screenType) {
-            return MaterialApp(
-              title: 'Reddit',
-              theme: ThemeData(
-//for one single color and shade not available
-                // primaryColor:
-                // one single color but
-                // generates different shades of that color automatically
-                // primarySwatch: Colors.purple,
-                // //foreground color for widgets
-                // accentColor: Colors.amber,
-                // errorColor: Colors.red,
-                // buttonColor: Colors.white,
-                fontFamily: "Verdana",
-                textTheme: ThemeData.light().textTheme.copyWith(
-                    headline6: const TextStyle(
-                        fontFamily: 'Verdana',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white)),
-                appBarTheme: const AppBarTheme(
-                    titleTextStyle: TextStyle(
-                        fontFamily: 'Verdana',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold)),
-              ),
-              home: const HomeScreen(),
-              routes: {
-                // '/': (ctx) => CategoriesScreen(),
-                MyProfileScreen.routeName: (ctx) => MyProfileScreen(),
-                OthersProfileScreen.routeName: (ctx) => OthersProfileScreen(),
-                EditProfileScreen.routeName: (context) => EditProfileScreen(),
-                UserFollowersScreen.routeName: (context) =>
-                    UserFollowersScreen(),
-                SubredditScreen.routeName: (context) => SubredditScreen(),
-                SubredditSearchScreen.routeName: (context) =>
-                    SubredditSearchScreen(),
-                ContactModMessageScreen.routeName: (context) =>
-                    ContactModMessageScreen(),
-                CommunityInfoScreen.routeName: (context) =>
-                    CommunityInfoScreen(),
-                ModNotificationScreen.routeName: (context) =>
-                    ModNotificationScreen(),
-                ModeratedSubredditScreen.routeName: (context) =>
-                    ModeratedSubredditScreen(),
-              },
-            );
-          }),
-        ));
-  }
-}
+
+// class MyApp extends StatelessWidget {
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     //all widget will rebuild
+//     return MultiProvider(
+//         providers: [
+//           ChangeNotifierProvider(create: (context) => MyProfileProvider()),
+//         ],
+//         child: Consumer<MyProfileProvider>(
+//           builder: (context, auth, child) =>
+//               ResponsiveSizer(builder: (context, orientation, screenType) {
+//             return MaterialApp(
+//               title: 'Reddit',
+//               theme: ThemeData(
+// //for one single color and shade not available
+//                 // primaryColor:
+//                 // one single color but
+//                 // generates different shades of that color automatically
+//                 // primarySwatch: Colors.purple,
+//                 // //foreground color for widgets
+//                 // accentColor: Colors.amber,
+//                 // errorColor: Colors.red,
+//                 // buttonColor: Colors.white,
+//                 fontFamily: "Verdana",
+//                 textTheme: ThemeData.light().textTheme.copyWith(
+//                     headline6: const TextStyle(
+//                         fontFamily: 'Verdana',
+//                         fontSize: 18,
+//                         fontWeight: FontWeight.bold,
+//                         color: Colors.white)),
+//                 appBarTheme: const AppBarTheme(
+//                     titleTextStyle: TextStyle(
+//                         fontFamily: 'Verdana',
+//                         fontSize: 20,
+//                         fontWeight: FontWeight.bold)),
+//               ),
+//               home: const HomeScreen(),
+//               routes: {
+//                 // '/': (ctx) => CategoriesScreen(),
+//                 MyProfileScreen.routeName: (ctx) => MyProfileScreen(),
+//                 OthersProfileScreen.routeName: (ctx) => OthersProfileScreen(),
+//                 EditProfileScreen.routeName: (context) => EditProfileScreen(),
+//                 UserFollowersScreen.routeName: (context) =>
+//                     UserFollowersScreen(),
+//                 SubredditScreen.routeName: (context) => SubredditScreen(),
+//                 SubredditSearchScreen.routeName: (context) =>
+//                     SubredditSearchScreen(),
+//                 ContactModMessageScreen.routeName: (context) =>
+//                     ContactModMessageScreen(),
+//                 CommunityInfoScreen.routeName: (context) =>
+//                     CommunityInfoScreen(),
+//                 ModNotificationScreen.routeName: (context) =>
+//                     ModNotificationScreen(),
+//                 ModeratedSubredditScreen.routeName: (context) =>
+//                     ModeratedSubredditScreen(),
+//               },
+//             );
+//           }),
+//         ));
+//   }
+// }
 
 class _MyHomeApp extends StatelessWidget {
   // This widget is the root of your application.

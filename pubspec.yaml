@@ -34,6 +34,8 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  email_validator: ^2.1.17
+  url_launcher: ^6.1.6 
   cupertino_icons: ^1.0.2
   flutter_dotenv: ^5.0.2
   fluttericon: ^2.0.0
@@ -75,6 +77,16 @@ flutter:
   uses-material-design: true
 
   fonts:
+    - family: closeIcons
+      fonts:
+        - asset: assets/icons/closeIcons.ttf
+    - family: RedditIcons
+      fonts:
+        - asset: assets/icons/RedditIcons.ttf
+    - family: GoogleFacebookIcons
+      fonts:
+        - asset: assets/icons/GoogleFacebookIcons.ttf
+
     - family: Verdana
       fonts:
         - asset: assets/fonts/Verdana.ttf
