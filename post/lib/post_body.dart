@@ -111,7 +111,7 @@ class _PostBodyState extends State<PostBody> {
                 // if (((widget.spoiler || widget.nsfw) &&
                 //         !(widget.type == 'text' || widget.type == 'poll')) ||
                 //     widget.type == 'link')
-                //   {Image()}
+                  
               ],
             ),
           )

@@ -31,9 +31,7 @@ class MyApp extends StatelessWidget {
           title: const Text('Post'),
           // elevation: 0,
         ),
-        body: Column(
-          children: const [Post(data: {}), Post(data: {})],
-        ),
+        body: Post.home(data: {}),
       ),
     );
   }
