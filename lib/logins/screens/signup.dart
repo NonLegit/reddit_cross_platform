@@ -25,6 +25,7 @@ import 'gender.dart';
 
 class SignUp extends StatefulWidget {
   // const SignUp({Key? key}) : super(key: key);
+  static const routeName = '/SignUp';
   String token = '';
   String expiresIn = '';
   @override

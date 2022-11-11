@@ -8,6 +8,8 @@ import '../../widgets/profile_posts.dart';
 import '../widgets/others_profile_about.dart';
 import '../models/others_profile_data.dart';
 import '../providers/other_profile_provider.dart';
+import '../../screens/emptyscreen.dart';
+
 class PopDownMenu extends StatelessWidget {
   const PopDownMenu({
     Key? key,
@@ -47,7 +49,9 @@ class PopDownMenu extends StatelessWidget {
                               color: Colors.black,
                             ),
                             onTap: () {
-                              return Navigator.pop(context);
+                              Navigator.of(context).pushNamed(
+                                  EmptyScreen.routeName,
+                                  arguments: 'send message');
                             },
                             title: const Text(
                               'Send a message',

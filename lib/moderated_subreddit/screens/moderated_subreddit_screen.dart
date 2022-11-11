@@ -132,6 +132,11 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
                       backgroundColor: innerBoxIsScrolled
                           ? const Color.fromARGB(137, 33, 33, 33)
                           : Colors.white,
+                      leading: IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(context);
+                          },
+                          icon: Icon(Icons.arrow_back)),
                       title: Container(
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(137, 33, 33, 33),
@@ -327,7 +332,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
                       ),
                     )
                   : TabBarView(controller: _controller, children: [
-                      const ModeratedSubriddetPosts(
+                      ModeratedSubriddetPosts(
                           routeNamePop: ModeratedSubredditScreen.routeName),
                       SubredditAbout(
                           rules: loadedSubreddit!.rules

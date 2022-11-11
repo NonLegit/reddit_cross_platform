@@ -120,7 +120,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ? Container(
                   color: Colors.grey[100],
                   child: Center(
-                      child: Image.asset('assets/img/redditLoading.png')),
+                      child: Image.asset('assets/images/redditLoading.png')),
                 )
               : NotificationsMainScreen(
                   usersAllNotificatiion: usersAllNotificatiion,

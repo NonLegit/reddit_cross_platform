@@ -11,8 +11,8 @@ import '../widgets/app_bar.dart';
 import '../widgets/community_type.dart';
 import '../widgets/list_of_community_type.dart';
 import '../widgets/toggle_switch.dart';
-import './post.dart';
-import './login_screen.dart';
+// import './post.dart';
+import '../../logins/screens/login.dart';
 
 class CreateCommunity extends StatefulWidget {
   static const routeName = '/createCommunity';
@@ -233,7 +233,7 @@ class CreateCommunityState extends State<CreateCommunity> {
                         : () {
                             //GOTO POST IN COMMUNITY & SAVE THE CREATED COMMUNITY
                             _saveCommunity();
-                            Navigator.of(context).pushNamed(Post.routeName);
+                            // Navigator.of(context).pushNamed(Post.routeName);
                           },
                     style: ElevatedButton.styleFrom(
                       onPrimary: Colors.blue[800],
@@ -290,7 +290,7 @@ class CreateCommunityState extends State<CreateCommunity> {
         } else if (error['status'] == '400' || error['status'] == '409') {
           print('badRequest');
         } else if (error['status'] == '401') {
-          Navigator.of(context).pushNamed(LoginPage.routeName);
+          Navigator.of(context).pushNamed(Login.routeName);
         }
       });
     }
@@ -312,7 +312,7 @@ class CreateCommunityState extends State<CreateCommunity> {
       } else if (error['status'] == '400' || error['status'] == '409') {
         print('badRequest');
       } else if (error['status'] == '401') {
-        Navigator.of(context).pushNamed(LoginPage.routeName);
+        Navigator.of(context).pushNamed(Login.routeName);
       }
     });
   }

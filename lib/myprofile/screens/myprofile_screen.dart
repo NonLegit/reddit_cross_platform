@@ -200,7 +200,7 @@ class _MyProfileState extends State<MyProfileScreen>
                       ),
                     )
                   : TabBarView(controller: _controller, children: [
-                      const ProfilePosts(
+                        ProfilePosts(
                           routeNamePop: MyProfileScreen.routeName),
                       ProfileComments(),
                       MyProfileAbout(

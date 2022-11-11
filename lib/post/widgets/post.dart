@@ -22,10 +22,10 @@ class Post extends StatelessWidget {
         PostHeader(
             inHome: _inHome,
             inProfile: _inProfile,
-            userName: 'Amr',
+            userName: data['username'],
             communityName: 'vexmains',
             createDate: '2017-07-21T17:32:28Z'),
-        const PostBody(title: 'How to lane', type: 'link'),
+        PostBody(title: data['title'], type: 'link'),
         PostFooter(),
       ],
     );

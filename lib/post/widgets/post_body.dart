@@ -29,12 +29,12 @@ class _PostBodyState extends State<PostBody> {
     if (widget.type == 'link') {
       String? link, linkImage;
       FetchPreview().fetch(widget.url).then((res) {
-        setState(
-          () {
-            link = res['link'];
-            linkImage = res['image'];
-          },
-        );
+        // setState(
+        //   () {
+        //     link = res['link'];
+        //     linkImage = res['image'];
+        //   },
+        // );
       });
     }
 

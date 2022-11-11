@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/status.dart';
 
 class ForgotUserName extends StatefulWidget {
+  static const routeName = '/ForgotUserName';
   @override
   State<ForgotUserName> createState() => _ForgotUserNameState();
 }

@@ -24,7 +24,7 @@ import '../models/status.dart';
 
 class Login extends StatefulWidget {
   // Login({Key? key}) : super(key: key);
-
+  static const routeName = '/Login';
   @override
   State<Login> createState() => _LoginState();
 }
@@ -159,7 +159,9 @@ class _LoginState extends State<Login> {
                                   ),
                                 ));
                           },
-                          child: Text('Forget passward'))),
+                          child: Text(
+                              style: TextStyle(color: Colors.red),
+                              'Forget passward'))),
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(children: [
@@ -236,6 +238,7 @@ class _LoginState extends State<Login> {
                 ),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    // onPrimary: Colors.green,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:post/home/screens/home_layout.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:dartdoc/dartdoc.dart';
@@ -19,10 +20,8 @@ import 'moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:responsive_sizer/responsive_sizer.dart';
-import './create_community/screens/login_screen.dart';
 
 import 'create_community/screens/create_community.dart';
-import 'create_community/screens/post.dart';
 import './moderation_settings/screens/topics_screen.dart';
 import './screens/home.dart';
 import './moderation_settings/screens/moderator_tools_screen.dart';
@@ -45,7 +44,7 @@ import 'logins/screens/forgot_password.dart';
 import 'logins/screens/forgot_username.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'logins/screens/emptyscreen.dart';
+import './screens/emptyscreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -59,11 +58,13 @@ class MyApp extends StatelessWidget {
     // return MaterialApp(
     //   home: Text('hello world'),
     //  );
-    final forgot_sucess = '/users/forgot_password/204';
-    final forgot_failed = '/users/forgot_password/400';
-    final tempUrl = Uri.parse(
-        'https://a6da66ef-18c0-4c77-bb40-45ec54bd706d.mock.pstmn.io' +
-            forgot_failed);
+    final ThemeData theme = ThemeData();
+
+    // final forgot_sucess = '/users/forgot_password/204';
+    // final forgot_failed = '/users/forgot_password/400';
+    // final tempUrl = Uri.parse(
+    //     'https://a6da66ef-18c0-4c77-bb40-45ec54bd706d.mock.pstmn.io' +
+    //         forgot_failed);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -73,17 +74,55 @@ class MyApp extends StatelessWidget {
       builder: (cntx, orientation, Screentype) {
         Device.deviceType == DeviceType.web;
         return MaterialApp(
-            title: 'Logins',
-            theme: ThemeData(
-              primarySwatch: Colors.red,
-              backgroundColor: Color.fromARGB(26, 82, 82, 82),
-              // primaryColor: Colors.red,
-            ),
-            home: SignUp());
+          title: 'Logins',
+          theme: theme.copyWith(
+            primaryColor: Colors.red,
+            brightness: Brightness.light,
+            colorScheme: theme.colorScheme.copyWith(
+                primary: Colors.white,
+                onPrimary: Colors.black,
+                secondary: Colors.grey,
+                surface: Colors.black87,
+                onSurface: Colors.white),
+          ),
+          // home: homeLayoutScreen(),
+          home: HomeScreen(),
+          // home: Login(),
+          routes: {
+            EmptyScreen.routeName: (context) => EmptyScreen(),
+            ForgotPassword.routeName: (context) => ForgotPassword(),
+            ForgotUserName.routeName: (context) => ForgotUserName(),
+            SignUp.routeName: (context) => SignUp(),
+            Gender.routeName: (context) => Gender(),
+            Login.routeName: (context) => Login(),
+            CreateCommunity.routeName: (ctx) => CreateCommunity(),
+            ModeratorTools.routeName: (context) => ModeratorTools(),
+            TopicsScreen.routeName: (context) => TopicsScreen(),
+            NotificationScreen.routeName: (context) => NotificationScreen(),
+            NavigateToCorrectScreen.routeName: (context) =>
+                NavigateToCorrectScreen(),
+            MyProfileScreen.routeName: (ctx) => MyProfileScreen(),
+            OthersProfileScreen.routeName: (ctx) => OthersProfileScreen(),
+            EditProfileScreen.routeName: (context) => EditProfileScreen(),
+            UserFollowersScreen.routeName: (context) => UserFollowersScreen(),
+            SubredditScreen.routeName: (context) => SubredditScreen(),
+            SubredditSearchScreen.routeName: (context) =>
+                SubredditSearchScreen(),
+            ContactModMessageScreen.routeName: (context) =>
+                ContactModMessageScreen(),
+            CommunityInfoScreen.routeName: (context) => CommunityInfoScreen(),
+            ModNotificationScreen.routeName: (context) =>
+                ModNotificationScreen(),
+            ModeratedSubredditScreen.routeName: (context) =>
+                ModeratedSubredditScreen(),
+            // LoginPage.routeName: (context) => LoginPage(),
+          },
+        );
       },
     );
   }
 }
+
 // class MyApp extends StatelessWidget {
 //   const MyApp({super.key});
 

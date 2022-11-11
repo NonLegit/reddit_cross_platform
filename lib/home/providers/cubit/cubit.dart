@@ -9,8 +9,8 @@ import '../../screens/home_layout.dart';
 import '../../../chat/chat.dart';
 import '../../../createpost/screens/createpost.dart';
 import '../../../discover/discover.dart';
-import '../../../notifications/notifications.dart';
 import '../../../icons/icon_broken.dart';
+import '../../../notification/screens/notifications_screen.dart';
 
 class layoutCubit extends Cubit<layoutStates> {
   layoutCubit() : super(layoutInitialState());
@@ -58,7 +58,9 @@ class layoutCubit extends Cubit<layoutStates> {
     BottomNavigationBarItem(
       icon: IconButton(
         icon: Icon(IconBroken.Notification, color: Colors.black),
-        onPressed: () {},
+        onPressed: () {
+          // Navigator.of(context).pushNamed(NotificationScreen.routeName);
+        },
       ),
       label: 'notifications',
     ),
@@ -74,6 +76,7 @@ class layoutCubit extends Cubit<layoutStates> {
     discoverScreen(),
     createPostScreen(),
     chatScreen(),
-    notificationsScreen(),
+    NotificationScreen(),
+    // notificationsScreen(),
   ];
 }

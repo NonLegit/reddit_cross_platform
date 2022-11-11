@@ -210,8 +210,7 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
                       ),
                     )
                   : TabBarView(controller: _controller, children: [
-                      const ProfilePosts(
-                          routeNamePop: OthersProfileScreen.routeName),
+                      ProfilePosts(routeNamePop: OthersProfileScreen.routeName),
                       ProfileComments(),
                       OthersProfileAbout(
                           int.parse(loadProfile!.postKarma.toString()),

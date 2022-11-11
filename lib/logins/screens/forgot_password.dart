@@ -13,6 +13,7 @@ import 'forgot_username.dart';
 import '../models/status.dart';
 
 class ForgotPassword extends StatefulWidget {
+  static const routeName = '/ForgotPassword';
   @override
   State<ForgotPassword> createState() => _ForgotPasswordState();
 }

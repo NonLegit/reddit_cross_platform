@@ -6,7 +6,7 @@ import '../widgets/upper_bar.dart';
 
 class Gender extends StatefulWidget {
   const Gender({Key? key}) : super(key: key);
-
+  static const routeName = '/Gender';
   @override
   State<Gender> createState() => _GenderState();
 }

@@ -8,10 +8,10 @@ import '../../chat/chat.dart';
 import '../../createpost/screens/createpost.dart';
 import '../../discover/discover.dart';
 
-import '../../notifications/notifications.dart';
 import '../../icons/icon_broken.dart';
 
 import '../providers/cubit/cubit.dart';
+import '../../../notification/screens/notifications_screen.dart';
 
 class homeLayoutScreen extends StatefulWidget {
   @override
@@ -229,6 +229,10 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => createPostScreen()));
+                    }
+                    if (index == 4) {
+                      Navigator.of(context)
+                          .pushNamed(NotificationScreen.routeName);
                     }
                   },
                   items: cubit.bottomItems,
