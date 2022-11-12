@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:logins/logins/widgets/upper_bar.dart';
+import '../widgets/upper_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
 
@@ -25,6 +25,7 @@ import 'gender.dart';
 
 class SignUp extends StatefulWidget {
   // const SignUp({Key? key}) : super(key: key);
+  static const routeName = '/SignUp';
   String token = '';
   String expiresIn = '';
   @override
@@ -50,11 +51,9 @@ class _SignUpState extends State<SignUp> {
   // check if the user enter the input field correctly
   // and then activate the continue bottom
   void changeInput() {
-    setState(() {
-      isFinished = (validateEmail() == InputStatus.sucess) &
-          (validateUsername() == InputStatus.sucess) &
-          (validatePassword() == InputStatus.sucess);
-    });
+    isFinished = (validateEmail() == InputStatus.sucess) &
+        (validateUsername() == InputStatus.sucess) &
+        (validatePassword() == InputStatus.sucess);
   }
 
   InputStatus validateEmail() {
@@ -70,20 +69,17 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future checkUnique() async {
-    print(url +
-        '/users/username_available' +
-        ((isMock) ? '/1' : '') +
-        '?userName=${inputUserNameController.text}');
     Uri URL = Uri.parse(url +
         '/users/username_available' +
-        ((isMock) ? '/1' : '') +
+        ((isMock) ? '/3' : '') +
         '?userName=${inputUserNameController.text}');
 
     await http.get(URL).then((response) {
-      if (response.statusCode == 200)
-        isUnige = true;
-      else
-        isUnige = false;
+      isUnige = jsonDecode(response.body)['available'];
+      // if (jsonDecode(response.body)['available'] == true)
+      //   isUnige = true;
+      // else
+      //   isUnige = false;
     });
   }
 
@@ -116,22 +112,31 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
-  void controlEmailStatus() {
-    inputEmailStatus = InputStatus.taped;
-    inputUsernameStatus = validateUsername();
-    inputPasswardStatus = validatePassword();
+  void controlEmailStatus(hasFocus) {
+    if (hasFocus == true)
+      inputEmailStatus = InputStatus.taped;
+    else
+      inputEmailStatus = validateEmail();
+    // inputUsernameStatus = validateUsername();
+    // inputPasswardStatus = validatePassword();
   }
 
-  void controlUsernameStatus() {
-    inputUsernameStatus = InputStatus.taped;
-    inputEmailStatus = validateEmail();
-    inputPasswardStatus = validatePassword();
+  void controlUsernameStatus(hasFocus) {
+    if (hasFocus)
+      inputUsernameStatus = InputStatus.taped;
+    else
+      inputUsernameStatus = validateUsername();
+    // inputEmailStatus = validateEmail();
+    // inputPasswardStatus = validatePassword();
   }
 
-  void controlPasswordStatus() {
-    inputPasswardStatus = InputStatus.taped;
-    inputEmailStatus = validateEmail();
-    inputUsernameStatus = validateUsername();
+  void controlPasswordStatus(hasFocus) {
+    if (hasFocus)
+      inputPasswardStatus = InputStatus.taped;
+    else
+      inputPasswardStatus = validatePassword();
+    // inputEmailStatus = validateEmail();
+    // inputUsernameStatus = validateUsername();
   }
 
   /// variable to contain the url of the server
@@ -162,9 +167,7 @@ class _SignUpState extends State<SignUp> {
               builder: (BuildContext context) => ResponsiveSizer(
                 builder: (cntx, orientation, Screentype) {
                   // Device.deviceType == DeviceType.web;
-                  return Scaffold(
-                    body: Gender(),
-                  );
+                  return Gender();
                 },
               ),
             ));
@@ -225,8 +228,9 @@ class _SignUpState extends State<SignUp> {
                   TextInput(
                       currentStatus: inputEmailStatus,
                       lable: 'Email',
-                      ontap: () {
-                        controlEmailStatus();
+                      ontap: (focus) {
+                        controlEmailStatus(focus);
+                        setState(() {});
                       },
                       changeInput: changeInput,
                       inputController: inputEmailController),
@@ -238,8 +242,9 @@ class _SignUpState extends State<SignUp> {
                   TextInput(
                       currentStatus: inputUsernameStatus,
                       lable: 'Username',
-                      ontap: () {
-                        controlUsernameStatus();
+                      ontap: (focus) {
+                        controlUsernameStatus(focus);
+                        setState(() {});
                       },
                       changeInput: changeInput,
                       inputController: inputUserNameController),
@@ -251,11 +256,16 @@ class _SignUpState extends State<SignUp> {
                   PasswordInput(
                       lable: 'Passward',
                       currentStatus: inputPasswardStatus,
-                      ontap: () {
-                        controlPasswordStatus();
+                      ontap: (focus) {
+                        controlPasswordStatus(focus);
+                        setState(() {});
                       },
                       isVisable: isVisable,
-                      changeInput: changeInput,
+                      changeInput: () {
+                        setState(() {
+                          changeInput();
+                        });
+                      },
                       inputController: inputPasswardController),
                   if (inputPasswardStatus == InputStatus.failed)
                     Text(
@@ -328,6 +338,9 @@ class _SignUpState extends State<SignUp> {
                 ),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.white,
+                    primary: Colors.red,
+                    onSurface: Colors.grey[700],
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                   ),

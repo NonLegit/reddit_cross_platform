@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:logins/logins/screens/gender.dart';
+import '../screens/gender.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
 
@@ -10,8 +10,8 @@ import '../../icons/GoogleFacebookIcons.dart';
 import '../../icons/closeIcons.dart';
 import '../screens/signup.dart';
 import '../screens/login.dart';
-import '../screens/emptyscreen.dart';
 import '../models/status.dart';
+import '../../screens/emptyscreen.dart';
 
 class UpperBar extends StatelessWidget {
   //  UpperBar({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:logins/logins/widgets/text_input.dart';
-import 'package:logins/logins/widgets/upper_bar.dart';
+import '../widgets/text_input.dart';
+import '../widgets/upper_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
 
@@ -24,7 +24,14 @@ import '../models/status.dart';
 
 class Login extends StatefulWidget {
   // Login({Key? key}) : super(key: key);
+  static const routeName = '/Login';
 
+  /// variable to contain the url of the server
+  final String url =
+      'https://abf8b3a8-af00-46a9-ba71-d2c4eac785ce.mock.pstmn.io';
+
+  /// variable to check if the backend finish the actual server of work with the mock
+  final bool isMock = true;
   @override
   State<Login> createState() => _LoginState();
 }
@@ -43,19 +50,15 @@ class _LoginState extends State<Login> {
   }
 
   bool isError = false;
+  bool isSubmit = false;
   String token = '';
   String expiresIn = '';
-
-  /// variable to contain the url of the server
-  final String url =
-      'https://abf8b3a8-af00-46a9-ba71-d2c4eac785ce.mock.pstmn.io';
-
-  /// variable to check if the backend finish the actual server of work with the mock
-  final bool isMock = true;
+  String errorMessage = '';
   void checkLogin() {
     // print('the user name is: ' + inputUserNameController.text);
     // print('the password is: ' + inputPasswardController.text);
-    Uri URL = Uri.parse(url + '/users/login' + ((isMock) ? '/1' : ''));
+    Uri URL =
+        Uri.parse(widget.url + '/users/login' + ((widget.isMock) ? '/1' : ''));
     http
         .post(URL,
             body: json.encode({
@@ -72,10 +75,13 @@ class _LoginState extends State<Login> {
       } else if (response.statusCode == 400) {
         // print('bad request');
         isError = true;
+        errorMessage = json.decode(response.body)['errorMessage'];
       } else if (response.statusCode == 404) {
         // print('incorrect userName or password');
         isError = true;
+        errorMessage = json.decode(response.body)['errorMessage'];
       }
+      isSubmit = true;
       setState(() {});
     });
     // print('finish post');
@@ -131,13 +137,13 @@ class _LoginState extends State<Login> {
                   ),
                   TextInput(
                       lable: 'Username',
-                      ontap: () {},
+                      ontap: (hasfocus) {},
                       changeInput: changeInput,
                       inputController: inputUserNameController),
                   PasswordInput(
                       isVisable: isVisable,
                       lable: 'Password',
-                      ontap: () {},
+                      ontap: (hasfocus) {},
                       changeInput: changeInput,
                       inputController: inputPasswardController),
                   SizedBox(
@@ -159,7 +165,9 @@ class _LoginState extends State<Login> {
                                   ),
                                 ));
                           },
-                          child: Text('Forget passward'))),
+                          child: Text(
+                              style: TextStyle(color: Colors.red),
+                              'Forget passward'))),
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(children: [
@@ -215,17 +223,31 @@ class _LoginState extends State<Login> {
             ),
           ),
           // Spacer(),
-          if (isError)
+          if (isSubmit && isError)
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(5.w),
               child: Center(
-                child: Text('incorrect username of password',
+                child: Text(
+                    textAlign: TextAlign.center,
+                    errorMessage,
                     style: TextStyle(
                       fontSize: 18,
                       // fontWeight: FontWeight.w500,
                       color: Theme.of(context).errorColor,
                     )),
               ),
+            ),
+          if (isSubmit && !isError)
+            Padding(
+              padding: EdgeInsets.all(5.w),
+              child: Text(
+                  textAlign: TextAlign.center,
+                  'you will receve if that adress maches your mail',
+                  style: TextStyle(
+                    fontSize: 18,
+                    // fontWeight: FontWeight.w500,
+                    color: Colors.green,
+                  )),
             ),
           Container(
               width: double.infinity,
@@ -236,6 +258,9 @@ class _LoginState extends State<Login> {
                 ),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.white,
+                    primary: Colors.red,
+                    onSurface: Colors.grey[700],
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                   ),
