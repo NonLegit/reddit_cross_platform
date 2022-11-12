@@ -3,6 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_code_style/flutter_code_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:post/create_community/screens/create_community.dart';
+import 'package:post/myprofile/screens/myprofile_screen.dart';
+import 'package:post/networks/const_endpoint_data.dart';
+import 'package:post/subreddit/screens/subreddit_screen.dart';
 import '../providers/cubit/states.dart';
 import '../../chat/chat.dart';
 import '../../createpost/screens/createpost.dart';
@@ -11,9 +15,12 @@ import '../../discover/discover.dart';
 import '../../icons/icon_broken.dart';
 
 import '../providers/cubit/cubit.dart';
-import '../../../notification/screens/notifications_screen.dart';
+import '../../notification/screens/notifications_screen.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 
 class homeLayoutScreen extends StatefulWidget {
+  static const routeName = '/homescreen';
   @override
   State<homeLayoutScreen> createState() => _homeLayoutScreenState();
 }
@@ -22,76 +29,11 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
 // Value for DropDownButton
   String dropDownButtonValue = "Home";
   List<String> list = ["Home", "Popular"];
+  String userName = 'ahmed';
   //Model Reccent visited
-  List<ListTile> recentlyVisited = [
-    ListTile(
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "Cross_platform"),
-      horizontalTitleGap: 0,
-    ),
-    ListTile(
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "Egypt"),
-      horizontalTitleGap: 0,
-    ),
-    ListTile(
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "memes"),
-      horizontalTitleGap: 0,
-    ),
-  ];
+
   // COMMUNITIES YOU ARE MODERATOR IN
   //Model Reccent visited
-  List<ListTile> Communoties = [
-    ListTile(
-      trailing: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            IconBroken.Star,
-          )),
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "Cross_platform"),
-      horizontalTitleGap: 0,
-    ),
-    ListTile(
-      trailing: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            IconBroken.Star,
-          )),
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "Egypt"),
-      horizontalTitleGap: 0,
-    ),
-    ListTile(
-      trailing: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            IconBroken.Star,
-          )),
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "memes"),
-      horizontalTitleGap: 0,
-    ),
-  ];
 
   // Icons when expansion
   dynamic icRecent = Icon(IconBroken.Arrow___Right_2);
@@ -189,7 +131,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
                         children: [
                           CircleAvatar(
                             backgroundImage: NetworkImage(
-                                'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
+                                'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4'),
                             radius: 30.0,
                           ),
                           CircleAvatar(
@@ -240,354 +182,432 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
               ),
             ),
             endDrawer: endDrawerHome(context),
-           
-           
-            drawer: drawerHome(),
+
+            drawer: drawerHome(context),
           );
         },
       ),
     );
   }
 
-  Drawer drawerHome() {
+  Drawer drawerHome(context) {
+    List<ListTile> Communoties = [
+      ListTile(
+        onTap: () => Navigator.of(context).pushNamed(
+            ModeratedSubredditScreen.routeName,
+            arguments: 'Cross_platform'),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Cross_platform"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context).pushNamed(
+            ModeratedSubredditScreen.routeName,
+            arguments: 'Cross_platform'),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Egypt"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context).pushNamed(
+            ModeratedSubredditScreen.routeName,
+            arguments: 'Cross_platform'),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "memes"),
+        horizontalTitleGap: 0,
+      ),
+    ];
+    List<ListTile> recentlyVisited = [
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(SubredditScreen.routeName, arguments: 'Cross_platform'),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Cross_platform"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(SubredditScreen.routeName, arguments: 'Cross_platform'),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Egypt"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(SubredditScreen.routeName, arguments: 'Cross_platform'),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "memes"),
+        horizontalTitleGap: 0,
+      ),
+    ];
     return Drawer(
-            key: drawerKey,
-            elevation: 20.0,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Divider(
-                    height: 3,
-                  ),
-                  ExpansionTile(
-                    onExpansionChanged: (isRecentlyVisitedPannelExpanded) {
-                      setState(() {
-                        if (isRecentlyVisitedPannelExpanded) {
-                          icRecent = TextButton(
-                            onPressed: () => Drawer(
-                              elevation: 20.0,
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 40,
-                                  ),
-                                  Divider(
-                                    height: 3,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            child: Text(
-                              "See all",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          );
-                        } else {
-                          icRecent = IconButton(
-                              onPressed: () {},
-                              icon: Icon(IconBroken.Arrow___Right_2));
-                        }
-                      });
-                    },
-                    initiallyExpanded: isRecentlyVisitedPannelExpanded,
-                    expandedAlignment: Alignment.bottomRight,
-                    trailing: icRecent,
-                    title: Text(
-                      "Recently Visited",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          color: Colors.black),
-                    ),
-                    children: [
-                      SingleChildScrollView(
-                        child: Container(
-                          height: recentlyVisited.length * 70,
-                          child: ListView.builder(
-                            itemCount: recentlyVisited.length,
-                            itemBuilder: (context, index) {
-                              return recentlyVisited[index];
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  ExpansionTile(
-                    onExpansionChanged: (isRecentlyVisitedPannelExpanded) {
-                      setState(() {
-                        if (isRecentlyVisitedPannelExpanded) {
-                          icModerating = Icon(
-                            IconBroken.Arrow___Down_2,
-                            color: Colors.black,
-                          );
-                        } else {
-                          icModerating = IconButton(
-                              onPressed: () {},
-                              icon: Icon(IconBroken.Arrow___Right_2));
-                        }
-                      });
-                    },
-                    initiallyExpanded: isRecentlyVisitedPannelExpanded,
-                    expandedAlignment: Alignment.bottomRight,
-                    trailing: icModerating,
-                    title: Text(
-                      "Moderating",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          color: Colors.black),
-                    ),
-                    children: [
-                      ListTile(
-                        horizontalTitleGap: 0.0,
-                        leading: Icon(
-                          Icons.shield_outlined,
-                        ),
-                        title: Text("Mod Feed"),
-                      ),
-                      ListTile(
-                        horizontalTitleGap: 0.0,
-                        leading: Icon(
-                          Icons.quick_contacts_dialer_rounded,
-                        ),
-                        title: Text("Mod Queue"),
-                      ),
-                      ListTile(
-                        horizontalTitleGap: 0.0,
-                        leading: Icon(
-                          Icons.mail,
-                        ),
-                        title: Text("Modmail"),
-                      ),
-                      Container(
-                        height: Communoties.length * 70,
-                        child: ListView.builder(
-                          itemCount: Communoties.length,
-                          itemBuilder: (context, index) {
-                            return Communoties[index];
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  ExpansionTile(
-                    onExpansionChanged: (isRecentlyVisitedPannelExpanded) {
-                      setState(() {
-                        if (isRecentlyVisitedPannelExpanded) {
-                          icYourCommunities = Icon(
-                            IconBroken.Arrow___Down_2,
-                            color: Colors.black,
-                          );
-                        } else {
-                          icYourCommunities = IconButton(
-                              onPressed: () {},
-                              icon: Icon(IconBroken.Arrow___Right_2));
-                        }
-                      });
-                    },
-                    initiallyExpanded: isRecentlyVisitedPannelExpanded,
-                    expandedAlignment: Alignment.bottomRight,
-                    trailing: icModerating,
-                    title: Text(
-                      "Your Communities",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          color: Colors.black),
-                    ),
-                    children: [
-                      ListTile(
-                          horizontalTitleGap: 0.0,
-                          leading: Icon(
-                            Icons.add,
-                            size: 30.0,
-                          ),
-                          title: Text("Create a community")),
-                      Container(
-                        height: Communoties.length * 70,
-                        child: ListView.builder(
-                          itemCount: Communoties.length,
-                          itemBuilder: (context, index) {
-                            return Communoties[index];
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  ListTile(
-                      onTap: () {},
-                      horizontalTitleGap: 0.0,
-                      leading: Icon(
-                        Icons.stacked_bar_chart,
-                        size: 25.0,
-                      ),
-                      title: Text("All")),
-                ],
-              ),
+      key: drawerKey,
+      elevation: 20.0,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 40,
             ),
-          );
-  }
-
-  Drawer endDrawerHome(BuildContext context) {
-    return Drawer(
-            elevation: 20.0,
-            width: 250.0,
-            child: Column(
+            Divider(
+              height: 3,
+            ),
+            ExpansionTile(
+              onExpansionChanged: (isRecentlyVisitedPannelExpanded) {
+                setState(() {
+                  if (isRecentlyVisitedPannelExpanded) {
+                    icRecent = TextButton(
+                      onPressed: () => Drawer(
+                        elevation: 20.0,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Divider(
+                              height: 3,
+                            ),
+                          ],
+                        ),
+                      ),
+                      child: Text(
+                        "See all",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    );
+                  } else {
+                    icRecent = IconButton(
+                        onPressed: () {},
+                        icon: Icon(IconBroken.Arrow___Right_2));
+                  }
+                });
+              },
+              initiallyExpanded: isRecentlyVisitedPannelExpanded,
+              expandedAlignment: Alignment.bottomRight,
+              trailing: icRecent,
+              title: Text(
+                "Recently Visited",
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: Colors.black),
+              ),
               children: [
-                SizedBox(
-                  height: 80.0,
+                SingleChildScrollView(
+                  child: Container(
+                    height: recentlyVisited.length * 70,
+                    child: ListView.builder(
+                      itemCount: recentlyVisited.length,
+                      itemBuilder: (context, index) {
+                        return recentlyVisited[index];
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            ExpansionTile(
+              onExpansionChanged: (isRecentlyVisitedPannelExpanded) {
+                setState(() {
+                  if (isRecentlyVisitedPannelExpanded) {
+                    icModerating = Icon(
+                      IconBroken.Arrow___Down_2,
+                      color: Colors.black,
+                    );
+                  } else {
+                    icModerating = IconButton(
+                        onPressed: () {},
+                        icon: Icon(IconBroken.Arrow___Right_2));
+                  }
+                });
+              },
+              initiallyExpanded: isRecentlyVisitedPannelExpanded,
+              expandedAlignment: Alignment.bottomRight,
+              trailing: icModerating,
+              title: Text(
+                "Moderating",
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: Colors.black),
+              ),
+              children: [
+                ListTile(
+                  horizontalTitleGap: 0.0,
+                  leading: Icon(
+                    Icons.shield_outlined,
+                  ),
+                  title: Text("Mod Feed"),
+                ),
+                ListTile(
+                  horizontalTitleGap: 0.0,
+                  leading: Icon(
+                    Icons.quick_contacts_dialer_rounded,
+                  ),
+                  title: Text("Mod Queue"),
+                ),
+                ListTile(
+                  horizontalTitleGap: 0.0,
+                  leading: Icon(
+                    Icons.mail,
+                  ),
+                  title: Text("Modmail"),
                 ),
                 Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    width: 250.0,
-                    height: 250.0,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 60.0,
-                            backgroundImage: NetworkImage(
-                                'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text(
-                            'u/' + 'Ahmed Fawzy',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 17.0,
-                                color: Colors.black),
-                          ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          SizedBox(
-                            width: 200.0,
-                            height: 30.0,
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                setState(() {
-                                  if (isOnline) {
-                                    isOnline = false;
-                                  } else {
-                                    isOnline = true;
-                                  }
-                                });
-                              },
-                              icon: CircleAvatar(
-                                radius: 4,
-                                backgroundColor: isOnline
-                                    ? Colors.green
-                                    : Colors.grey[200],
-                              ),
-                              style: ButtonStyle(
-                                  elevation: MaterialStateProperty.all(0),
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Colors.grey[200]),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                          side: BorderSide(
-                                              color: isOnline
-                                                  ? Colors.green
-                                                  : Colors.black54)))),
-                              label: Text(
-                                "Online Status: " +
-                                    "${isOnline ? "On" : "Off"}",
-                                style: TextStyle(
-                                    color: isOnline
-                                        ? Colors.green
-                                        : Colors.black54),
-                              ),
-                            ),
-                          ),
-                        ])),
-                SizedBox(
-                  height: 20.0,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Divider(
-                  thickness: 1,
-                ),
-                ListTile(
-                  horizontalTitleGap: 3,
-                  leading: Icon(Icons.account_circle_outlined),
-                  title: Text(
-                    'My profile',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  horizontalTitleGap: 3,
-                  leading: Icon(IconBroken.Category),
-                  title: Text(
-                    'Create a community',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  horizontalTitleGap: 3,
-                  leading: Icon(Icons.save),
-                  title: Text(
-                    'Saved',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  horizontalTitleGap: 3,
-                  leading: Icon(Icons.access_time_outlined),
-                  title: Text(
-                    'History',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                SizedBox(
-                  height: 230.0,
-                ),
-                Expanded(
-                  child: ListTile(
-                    horizontalTitleGap: 3,
-                    leading: Icon(IconBroken.Setting),
-                    title: Text(
-                      'Settings',
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w600),
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
+                  height: Communoties.length * 70,
+                  child: ListView.builder(
+                    itemCount: Communoties.length,
+                    itemBuilder: (context, index) {
+                      return Communoties[index];
                     },
                   ),
                 ),
               ],
             ),
-          );
+            ExpansionTile(
+              onExpansionChanged: (isRecentlyVisitedPannelExpanded) {
+                setState(() {
+                  if (isRecentlyVisitedPannelExpanded) {
+                    icYourCommunities = Icon(
+                      IconBroken.Arrow___Down_2,
+                      color: Colors.black,
+                    );
+                  } else {
+                    icYourCommunities = IconButton(
+                        onPressed: () {},
+                        icon: Icon(IconBroken.Arrow___Right_2));
+                  }
+                });
+              },
+              initiallyExpanded: isRecentlyVisitedPannelExpanded,
+              expandedAlignment: Alignment.bottomRight,
+              trailing: icModerating,
+              title: Text(
+                "Your Communities",
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: Colors.black),
+              ),
+              children: [
+                ListTile(
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(CreateCommunity.routeName);
+                    },
+                    horizontalTitleGap: 0.0,
+                    leading: Icon(
+                      Icons.add,
+                      size: 30.0,
+                    ),
+                    title: Text("Create a community")),
+                Container(
+                  height: Communoties.length * 70,
+                  child: ListView.builder(
+                    itemCount: Communoties.length,
+                    itemBuilder: (context, index) {
+                      return Communoties[index];
+                    },
+                  ),
+                ),
+              ],
+            ),
+            ListTile(
+                onTap: () {},
+                horizontalTitleGap: 0.0,
+                leading: Icon(
+                  Icons.stacked_bar_chart,
+                  size: 25.0,
+                ),
+                title: Text("All")),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Drawer endDrawerHome(BuildContext context) {
+    return Drawer(
+      elevation: 20.0,
+      width: 250.0,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 80.0,
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                width: 250.0,
+                height: 250.0,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 60.0,
+                        backgroundImage: NetworkImage(
+                            'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4'),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        'u/' + 'Ahmed Fawzy',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 17.0,
+                            color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      SizedBox(
+                        width: 200.0,
+                        height: 30.0,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              if (isOnline) {
+                                isOnline = false;
+                              } else {
+                                isOnline = true;
+                              }
+                            });
+                          },
+                          icon: CircleAvatar(
+                            radius: 4,
+                            backgroundColor:
+                                isOnline ? Colors.green : Colors.grey[200],
+                          ),
+                          style: ButtonStyle(
+                              elevation: MaterialStateProperty.all(0),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.grey[200]),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      side: BorderSide(
+                                          color: isOnline
+                                              ? Colors.green
+                                              : Colors.black54)))),
+                          label: Text(
+                            "Online Status: " + "${isOnline ? "On" : "Off"}",
+                            style: TextStyle(
+                                color:
+                                    isOnline ? Colors.green : Colors.black54),
+                          ),
+                        ),
+                      ),
+                    ])),
+            SizedBox(
+              height: 20.0,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(
+              thickness: 1,
+            ),
+            ListTile(
+              horizontalTitleGap: 3,
+              leading: Icon(Icons.account_circle_outlined),
+              title: Text(
+                'My profile',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(MyProfileScreen.routeName, arguments: userName);
+              },
+            ),
+            ListTile(
+              horizontalTitleGap: 3,
+              leading: Icon(IconBroken.Category),
+              title: Text(
+                'Create a community',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed(CreateCommunity.routeName);
+                // Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              horizontalTitleGap: 3,
+              leading: Icon(Icons.save),
+              title: Text(
+                'Saved',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              horizontalTitleGap: 3,
+              leading: Icon(Icons.access_time_outlined),
+              title: Text(
+                'History',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            ListTile(
+              horizontalTitleGap: 3,
+              leading: Icon(IconBroken.Setting),
+              title: Text(
+                'Settings',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

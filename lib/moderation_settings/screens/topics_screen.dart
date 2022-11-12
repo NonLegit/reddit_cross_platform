@@ -5,9 +5,9 @@ import '../constants/topics.dart';
 import '../widgets/topic_main_body.dart';
 
 class TopicsScreen extends StatefulWidget {
-  TopicsScreen({super.key,this.selectedBefore});
-  static const routeName = 'topicsScreen';
-  var selectedBefore ; 
+  TopicsScreen({super.key});
+  static const routeName = '/topicsScreen';
+  String selectedBefore = '';
   @override
   State<TopicsScreen> createState() => _TopicsScreenState();
 }
@@ -17,9 +17,8 @@ class _TopicsScreenState extends State<TopicsScreen> {
   bool _pressed = false;
   Topics t1 = Topics();
   var topics = {};
-  
-  var args;//from backend
 
+  var args; //from backend
 
   var _selectedIndex = -1;
   var _selectedTopic = '';
@@ -27,7 +26,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
   void initState() {
     // TODO: implement initState
     topics = t1.topic;
-    
+
     super.initState();
   }
 
@@ -36,7 +35,6 @@ class _TopicsScreenState extends State<TopicsScreen> {
       _selectedIndex = index;
       _iselected = true;
       widget.selectedBefore = topics.keys.elementAt(_selectedIndex);
-
     });
   }
 

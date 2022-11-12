@@ -16,6 +16,8 @@ import '../widgets/subreddit_join_buttons.dart';
 import '../../widgets/drawer.dart';
 import '../models/subreddit_data.dart';
 import '../widgets/subreddit_posts.dart';
+import '../../myprofile/screens/myprofile_screen.dart';
+import '../../create_community/screens/create_community.dart';
 
 class SubredditScreen extends StatefulWidget {
   static const routeName = '/Subreddit';
@@ -26,11 +28,12 @@ class SubredditScreen extends StatefulWidget {
 
 class _SubredditScreenState extends State<SubredditScreen>
     with TickerProviderStateMixin {
-      //===============Drawer Bar=====================//
-        bool isOnline = true;
+  //===============Drawer Bar=====================//
+  bool isOnline = true;
   void showEndDrawer(BuildContext context) {
     Scaffold.of(context).openEndDrawer();
   }
+
   //================Tab bar==================//
   List<Tab> tabs = <Tab>[
     const Tab(text: 'Posts'),
@@ -120,392 +123,392 @@ class _SubredditScreenState extends State<SubredditScreen>
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      key: _scaffoldKey,
-      body: _isLoading
-          ? const Center(
-              child: Icon(
-                Icons.reddit,
-                color: Colors.blue,
-              ),
-            )
-          : NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return <Widget>[
-                  SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
-                    sliver: SliverAppBar(
-                      elevation: 4,
-                      backgroundColor: innerBoxIsScrolled
-                          ? const Color.fromARGB(137, 33, 33, 33)
-                          : Colors.white,
-                      leading: IconButton(
+        key: _scaffoldKey,
+        body: _isLoading
+            ? const Center(
+                child: Icon(
+                  Icons.reddit,
+                  color: Colors.blue,
+                ),
+              )
+            : NestedScrollView(
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return <Widget>[
+                    SliverOverlapAbsorber(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                          context),
+                      sliver: SliverAppBar(
+                        elevation: 4,
+                        backgroundColor: innerBoxIsScrolled
+                            ? const Color.fromARGB(137, 33, 33, 33)
+                            : Colors.white,
+                        leading: IconButton(
                           onPressed: () {
                             Navigator.of(context).pop(context);
                           },
-                          icon: Icon(Icons.arrow_back)),
-                      title: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(137, 33, 33, 33),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        width: 60.w,
-                        height: 4.h,
-                        //color: Color.fromARGB(157, 255, 245, 245),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(SubredditSearchScreen.routeName);
-                          },
-                          child: Row(
-                            children: [
-                              Icon(Icons.search_outlined),
-                              Text(
-                                'r/${loadedSubreddit!.name}',
-                                style: Theme.of(context).textTheme.headline6,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      actions: [
-                        SubredditPopupMenuButton(
-                            loadedSubreddit!.subredditLink.toString(),
-                            loadedSubreddit!.name.toString(),
-                            userName),
-                         Builder(builder: (context) {
-                    return IconButton(
-                      onPressed: () => showEndDrawer(context),
-                      icon: Stack(
-                        alignment: AlignmentDirectional.bottomEnd,
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
-                            radius: 30.0,
-                          ),
-                          CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 6,
-                          ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.only(
-                                end: 2, bottom: 2),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.green,
-                              radius: 4,
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  }),
-                      ],
-                      expandedHeight: (loadedSubreddit!.description == null ||
-                              loadedSubreddit!.description == '')
-                          ? 35.h
-                          : (35 +
-                                  ((loadedSubreddit!.description
-                                              .toString()
-                                              .length /
-                                          42) +
-                                      7))
-                              .h,
-                      floating: false,
-                      pinned: true,
-                      snap: false,
-                      bottom: PreferredSize(
-                        preferredSize: _tabBar.preferredSize,
-                        child: ColoredBox(
+                          icon: Icon(Icons.arrow_back),
                           color: Colors.white,
-                          child: _tabBar,
                         ),
-                      ),
-                      flexibleSpace: FlexibleSpaceBar(
-                        background: Column(children: <Widget>[
-                          Stack(
-                            alignment: AlignmentDirectional.centerStart,
-                            children: <Widget>[
-                              //Profile back ground
-                              Container(
-                                  height: (loadedSubreddit!.description ==
-                                              null ||
-                                          loadedSubreddit!.description == '')
-                                      ? 30.h
-                                      : (30 +
-                                              ((loadedSubreddit!.description)
-                                                      .toString()
-                                                      .length /
-                                                  42) +
-                                              7)
-                                          .h,
-                                  width: 100.w,
+                        title: Container(
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(137, 33, 33, 33),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          width: 60.w,
+                          height: 4.h,
+                          //color: Color.fromARGB(157, 255, 245, 245),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(SubredditSearchScreen.routeName);
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.search_outlined,
                                   color: Colors.white,
-                                  child: Image.network(
-                                    loadedSubreddit!.subredditBackPicture
-                                        .toString(),
-                                    fit: BoxFit.cover,
-                                  )),
-                              // for name , members ,online and description
-                              Positioned(
-                                top: 150,
-                                right: 0,
-                                left: 0,
-                                bottom: 0,
-                                child: Container(
-                                    color: Colors.white,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(top: 15),
-                                          width: 100.w,
-                                          height: 9.h,
-                                          child: ListTile(
-                                            title: Text(
-                                                'r/${loadedSubreddit!.name.toString()}',
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            subtitle: Text(
-                                              '${int.parse(loadedSubreddit!.numOfMembers.toString())} members .${int.parse(loadedSubreddit!.numOfOnlines.toString())} online ',
-                                            ),
-                                            trailing: JoinButtons(
-                                                isJoined: loadedSubreddit!
-                                                    .isJoined as bool,
-                                                icon: icon,
-                                                dropDownValue: dropDownValue,
-                                                communityName: loadedSubreddit!
-                                                    .name
-                                                    .toString()),
-                                          ),
-                                        ),
-                                        Container(
-                                            padding: EdgeInsets.only(
-                                                left: 20, right: 20),
-                                            child: Text(
-                                              '${loadedSubreddit!.description.toString()}',
-                                              overflow: TextOverflow.ellipsis,
-                                            ))
-                                      ],
-                                    )),
+                                ),
+                                Text(
+                                  'r/${loadedSubreddit!.name}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        actions: [
+                          SubredditPopupMenuButton(
+                              loadedSubreddit!.subredditLink.toString(),
+                              loadedSubreddit!.name.toString(),
+                              userName),
+                          Builder(builder: (context) {
+                            return IconButton(
+                              onPressed: () => showEndDrawer(context),
+                              icon: Stack(
+                                alignment: AlignmentDirectional.bottomEnd,
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
+                                    radius: 30.0,
+                                  ),
+                                  CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    radius: 6,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.only(
+                                        end: 2, bottom: 2),
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.green,
+                                      radius: 4,
+                                    ),
+                                  )
+                                ],
                               ),
-                              //for profile picture
-                              Positioned(
-                                top: 90,
-                                right: 260,
-                                left: 0,
-                                bottom: 120,
-                                child: Container(
-                                  width: 200,
-                                  height: 200,
-                                  decoration: BoxDecoration(
+                            );
+                          }),
+                        ],
+                        expandedHeight: (loadedSubreddit!.description == null ||
+                                loadedSubreddit!.description == '')
+                            ? 35.h
+                            : (35 +
+                                    ((loadedSubreddit!.description
+                                                .toString()
+                                                .length /
+                                            42) +
+                                        7))
+                                .h,
+                        floating: false,
+                        pinned: true,
+                        snap: false,
+                        bottom: PreferredSize(
+                          preferredSize: _tabBar.preferredSize,
+                          child: ColoredBox(
+                            color: Colors.white,
+                            child: _tabBar,
+                          ),
+                        ),
+                        flexibleSpace: FlexibleSpaceBar(
+                          background: Column(children: <Widget>[
+                            Stack(
+                              alignment: AlignmentDirectional.centerStart,
+                              children: <Widget>[
+                                //Profile back ground
+                                Container(
+                                    height: (loadedSubreddit!.description ==
+                                                null ||
+                                            loadedSubreddit!.description == '')
+                                        ? 30.h
+                                        : (30 +
+                                                ((loadedSubreddit!.description)
+                                                        .toString()
+                                                        .length /
+                                                    42) +
+                                                7)
+                                            .h,
+                                    width: 100.w,
                                     color: Colors.white,
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: NetworkImage(loadedSubreddit!
-                                            .subredditPicture
-                                            .toString()),
-                                        fit: BoxFit.fill),
+                                    child: Image.network(
+                                      loadedSubreddit!.subredditBackPicture
+                                          .toString(),
+                                      fit: BoxFit.cover,
+                                    )),
+                                // for name , members ,online and description
+                                Positioned(
+                                  top: 150,
+                                  right: 0,
+                                  left: 0,
+                                  bottom: 0,
+                                  child: Container(
+                                      color: Colors.white,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(top: 15),
+                                            width: 100.w,
+                                            height: 9.h,
+                                            child: ListTile(
+                                              title: Text(
+                                                  'r/${loadedSubreddit!.name.toString()}',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              subtitle: Text(
+                                                '${int.parse(loadedSubreddit!.numOfMembers.toString())} members .${int.parse(loadedSubreddit!.numOfOnlines.toString())} online ',
+                                              ),
+                                              trailing: JoinButtons(
+                                                  isJoined: loadedSubreddit!
+                                                      .isJoined as bool,
+                                                  icon: icon,
+                                                  dropDownValue: dropDownValue,
+                                                  communityName:
+                                                      loadedSubreddit!.name
+                                                          .toString()),
+                                            ),
+                                          ),
+                                          Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 20, right: 20),
+                                              child: Text(
+                                                '${loadedSubreddit!.description.toString()}',
+                                                overflow: TextOverflow.ellipsis,
+                                              ))
+                                        ],
+                                      )),
+                                ),
+                                //for profile picture
+                                Positioned(
+                                  top: 90,
+                                  right: 260,
+                                  left: 0,
+                                  bottom: 120,
+                                  child: Container(
+                                    width: 200,
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: NetworkImage(loadedSubreddit!
+                                              .subredditPicture
+                                              .toString()),
+                                          fit: BoxFit.fill),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ]),
-                      ),
-                    ),
-                  ),
-                ];
-              },
-              body: _isLoading
-                  ? const Center(
-                      child: Icon(
-                        Icons.reddit,
-                        color: Colors.blue,
-                      ),
-                    )
-                  : TabBarView(controller: _controller, children: [
-                      SubredditPosts(routeNamePop: SubredditScreen.routeName),
-                      SubredditAbout(
-                        rules:
-                            loadedSubreddit!.rules as List<SubredditAboutRules>,
-                        moderators: loadedSubreddit!.moderators as List<String>,
-                        userName: userName,
-                      )
-                    ])),
-      // drawer: AppDrawer(),
-      endDrawer: _isLoading
-          ? const Center(
-              child: Icon(
-                Icons.reddit,
-                color: Colors.blue,
-              ),
-            )
-          : endDrawerHome(context)
-    );
-  }
-    Drawer endDrawerHome(BuildContext context) {
-    return Drawer(
-            elevation: 20.0,
-            width: 250.0,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 80.0,
-                ),
-                Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    width: 250.0,
-                    height: 250.0,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 60.0,
-                            backgroundImage: NetworkImage(
-                                'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text(
-                            'u/' + 'Ahmed Fawzy',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 17.0,
-                                color: Colors.black),
-                          ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          SizedBox(
-                            width: 200.0,
-                            height: 30.0,
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                setState(() {
-                                  if (isOnline) {
-                                    isOnline = false;
-                                  } else {
-                                    isOnline = true;
-                                  }
-                                });
-                              },
-                              icon: CircleAvatar(
-                                radius: 4,
-                                backgroundColor: isOnline
-                                    ? Colors.green
-                                    : Colors.grey[200],
-                              ),
-                              style: ButtonStyle(
-                                  elevation: MaterialStateProperty.all(0),
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Colors.grey[200]),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                          side: BorderSide(
-                                              color: isOnline
-                                                  ? Colors.green
-                                                  : Colors.black54)))),
-                              label: Text(
-                                "Online Status: " +
-                                    "${isOnline ? "On" : "Off"}",
-                                style: TextStyle(
-                                    color: isOnline
-                                        ? Colors.green
-                                        : Colors.black54),
-                              ),
+                              ],
                             ),
-                          ),
-                        ])),
-                SizedBox(
-                  height: 20.0,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Divider(
-                  thickness: 1,
-                ),
-                ListTile(
-                  horizontalTitleGap: 3,
-                  leading: Icon(Icons.account_circle_outlined),
-                  title: Text(
-                    'My profile',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  horizontalTitleGap: 3,
-                  leading: Icon(IconBroken.Category),
-                  title: Text(
-                    'Create a community',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  horizontalTitleGap: 3,
-                  leading: Icon(Icons.save),
-                  title: Text(
-                    'Saved',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  horizontalTitleGap: 3,
-                  leading: Icon(Icons.access_time_outlined),
-                  title: Text(
-                    'History',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                SizedBox(
-                  height: 230.0,
-                ),
-                Expanded(
-                  child: ListTile(
-                    horizontalTitleGap: 3,
-                    leading: Icon(IconBroken.Setting),
-                    title: Text(
-                      'Settings',
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w600),
+                          ]),
+                        ),
+                      ),
                     ),
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
+                  ];
+                },
+                body: _isLoading
+                    ? const Center(
+                        child: Icon(
+                          Icons.reddit,
+                          color: Colors.blue,
+                        ),
+                      )
+                    : TabBarView(controller: _controller, children: [
+                        SubredditPosts(routeNamePop: SubredditScreen.routeName),
+                        SubredditAbout(
+                          rules: loadedSubreddit!.rules
+                              as List<SubredditAboutRules>,
+                          moderators:
+                              loadedSubreddit!.moderators as List<String>,
+                          userName: userName,
+                        )
+                      ])),
+        // drawer: AppDrawer(),
+        endDrawer: _isLoading
+            ? const Center(
+                child: Icon(
+                  Icons.reddit,
+                  color: Colors.blue,
                 ),
-              ],
-            ),
-          );
+              )
+            : endDrawerHome(context));
   }
 
+  Drawer endDrawerHome(BuildContext context) {
+    return Drawer(
+      elevation: 20.0,
+      width: 250.0,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 80.0,
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                width: 250.0,
+                height: 250.0,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 60.0,
+                        backgroundImage: NetworkImage(
+                            'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4'),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        'u/' + 'Ahmed Fawzy',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 17.0,
+                            color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      SizedBox(
+                        width: 200.0,
+                        height: 30.0,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              if (isOnline) {
+                                isOnline = false;
+                              } else {
+                                isOnline = true;
+                              }
+                            });
+                          },
+                          icon: CircleAvatar(
+                            radius: 4,
+                            backgroundColor:
+                                isOnline ? Colors.green : Colors.grey[200],
+                          ),
+                          style: ButtonStyle(
+                              elevation: MaterialStateProperty.all(0),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.grey[200]),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      side: BorderSide(
+                                          color: isOnline
+                                              ? Colors.green
+                                              : Colors.black54)))),
+                          label: Text(
+                            "Online Status: " + "${isOnline ? "On" : "Off"}",
+                            style: TextStyle(
+                                color:
+                                    isOnline ? Colors.green : Colors.black54),
+                          ),
+                        ),
+                      ),
+                    ])),
+            SizedBox(
+              height: 20.0,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(
+              thickness: 1,
+            ),
+            ListTile(
+              horizontalTitleGap: 3,
+              leading: Icon(Icons.account_circle_outlined),
+              title: Text(
+                'My profile',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(MyProfileScreen.routeName, arguments: userName);
+              },
+            ),
+            ListTile(
+              horizontalTitleGap: 3,
+              leading: Icon(IconBroken.Category),
+              title: Text(
+                'Create a community',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed(CreateCommunity.routeName);
+                // Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              horizontalTitleGap: 3,
+              leading: Icon(Icons.save),
+              title: Text(
+                'Saved',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              horizontalTitleGap: 3,
+              leading: Icon(Icons.access_time_outlined),
+              title: Text(
+                'History',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            ListTile(
+              horizontalTitleGap: 3,
+              leading: Icon(IconBroken.Setting),
+              title: Text(
+                'Settings',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

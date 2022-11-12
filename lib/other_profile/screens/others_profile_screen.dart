@@ -28,7 +28,7 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
   var _isInit = true;
   // var myUserName = 'Zeinab-Moawad';
   // var otherUserName = 'zeinab-moawad';
-  var loadProfile ;
+  var loadProfile;
   // = OtherProfileData(
   //     id: 0,
   //     userName: 'Zeinab-Moawad',
@@ -82,15 +82,15 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
       setState(() {
         _isLoading = true;
       });
-        userName = ModalRoute.of(context)?.settings.arguments as String;
-        DioClient.init();
-        DioClient.get(path:otherprofile).then((response) {
+      userName = ModalRoute.of(context)?.settings.arguments as String;
+      DioClient.init();
+      DioClient.get(path: otherprofile).then((response) {
         loadProfile = OtherProfileData.fromJson(json.decode(response.data));
-         setState(() {
-            _isLoading = false;
-          });
+        setState(() {
+          _isLoading = false;
+        });
       });
-      }
+    }
     _isInit = false;
 
     //==================================================//
@@ -103,7 +103,7 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
     // .gettingOtherProfileData;
     return Scaffold(
       body: _isLoading
-          ?LoadingReddit()
+          ? LoadingReddit()
           : NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
@@ -116,8 +116,10 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
                       backgroundColor: Colors.blue,
                       title: Visibility(
                         visible: innerBoxIsScrolled,
-                        child: Text('u/${loadProfile.displayName}',
-                            style: Theme.of(context).textTheme.headline6),
+                        child: Text('u/${loadProfile!.displayName}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
                       ),
                       expandedHeight: (loadProfile.description == null ||
                               loadProfile.description == '')

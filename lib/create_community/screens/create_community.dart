@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:post/moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../models/create_community_model.dart';
 
@@ -46,6 +47,7 @@ class CreateCommunityState extends State<CreateCommunity> {
     }
     validateOnStopTyping = Timer(duration, () => _validateCommunityName());
   }
+
 
   _onChangeTextField(value) {
     setState(() {
@@ -95,7 +97,7 @@ class CreateCommunityState extends State<CreateCommunity> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    DioClient.init();
+    DioClient.initCreateCoumunity();
   }
 
   final _textFieldKey = GlobalKey<FormState>();
@@ -137,45 +139,49 @@ class CreateCommunityState extends State<CreateCommunity> {
               ),
               SizedBox(
                 height: 10.h,
+                // width: 60.h,
                 child: Form(
                   key: _textFieldKey,
-                  child: TextFormField(
-                    textAlignVertical: TextAlignVertical.center,
-                    controller: _communityNameController,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: validateTextField
-                    // _validateTextField(value)
-                    ,
-                    onChanged: (value) {
-                      _onChangeTextField(value);
-                    },
-                    decoration: InputDecoration(
-                        prefixText: 'r/',
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        labelText: 'r/Community_name',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none),
-                        counterText: "",
-                        labelStyle: const TextStyle(
-                          fontSize: 15,
-                        ),
-                        filled: true,
-                        errorText: (!uniqueCommunityName) ? errorMessage : null,
-                        errorStyle:
-                            const TextStyle(color: Colors.grey, fontSize: 10),
-                        suffixIcon: ClearTextField(
-                            typed: _typed,
-                            clearTextField: clearTextField,
-                            count: count)),
-                    maxLength: 21,
-                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                  child: Container(
+                    child: TextFormField(
+                      textAlignVertical: TextAlignVertical.center,
+                      controller: _communityNameController,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: validateTextField
+                      // _validateTextField(value)
+                      ,
+                      onChanged: (value) {
+                        _onChangeTextField(value);
+                      },
+                      decoration: InputDecoration(
+                          prefixText: 'r/',
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          labelText: 'r/Community_name',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none),
+                          counterText: "",
+                          labelStyle: const TextStyle(
+                            fontSize: 15,
+                          ),
+                          filled: true,
+                          errorText:
+                              (!uniqueCommunityName) ? errorMessage : null,
+                          errorStyle:
+                              const TextStyle(color: Colors.grey, fontSize: 10),
+                          suffixIcon: ClearTextField(
+                              typed: _typed,
+                              clearTextField: clearTextField,
+                              count: count)),
+                      maxLength: 21,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    ),
                   ),
                 ),
               ),
@@ -233,10 +239,14 @@ class CreateCommunityState extends State<CreateCommunity> {
                         : () {
                             //GOTO POST IN COMMUNITY & SAVE THE CREATED COMMUNITY
                             _saveCommunity();
-                            // Navigator.of(context).pushNamed(Post.routeName);
+
+                            Navigator.of(context).pushNamed(
+                                ModeratedSubredditScreen.routeName,
+                                arguments: _communityNameController.text);
                           },
                     style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.blue[800],
+                      onSurface: Colors.grey[900],
+                      primary: Colors.blue[800],
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -282,18 +292,19 @@ class CreateCommunityState extends State<CreateCommunity> {
           validating = false;
         });
       }).catchError((error) {
-        if (error['status'] == '404') {
-          setState(() {
-            uniqueCommunityName = true;
-            errorMessage = '';
-            validating = false;
-          });
-        } else if (error['status'] == '400' || error['status'] == '409') {
-          print('badRequest');
-        } else if (error['status'] == '401') {
-          Navigator.of(context).pushNamed(Login.routeName);
-        }
+        // if (error['status'] == '404') {
+        setState(() {
+          uniqueCommunityName = true;
+          errorMessage = '';
+          validating = false;
+        });
+        //     } else if (error['status'] == '400' || error['status'] == '409') {
+        //       print('badRequest');
+        //     } else if (error['status'] == '401') {
+        //       Navigator.of(context).pushNamed(Login.routeName);
+        //     }
       });
+      //  }
     }
   }
 
@@ -308,13 +319,13 @@ class CreateCommunityState extends State<CreateCommunity> {
     ).then((value) {
       print(value.toString());
     }).catchError((error) {
-      if (error['status'] == '404') {
-        print('error 404');
-      } else if (error['status'] == '400' || error['status'] == '409') {
-        print('badRequest');
-      } else if (error['status'] == '401') {
-        Navigator.of(context).pushNamed(Login.routeName);
-      }
+      // if (error['status'] == '404') {
+      //   print('error 404');
+      // } else if (error['status'] == '400' || error['status'] == '409') {
+      //   print('badRequest');
+      // } else if (error['status'] == '401') {
+      //   Navigator.of(context).pushNamed(Login.routeName);
+      // }
     });
   }
 }

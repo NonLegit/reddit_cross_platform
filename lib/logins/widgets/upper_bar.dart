@@ -10,8 +10,8 @@ import '../../icons/GoogleFacebookIcons.dart';
 import '../../icons/closeIcons.dart';
 import '../screens/signup.dart';
 import '../screens/login.dart';
-import '../screens/emptyscreen.dart';
 import '../models/status.dart';
+import '../../screens/emptyscreen.dart';
 
 class UpperBar extends StatelessWidget {
   //  UpperBar({Key? key}) : super(key: key);

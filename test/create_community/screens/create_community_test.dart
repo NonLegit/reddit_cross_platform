@@ -9,6 +9,7 @@ void main() {
       final createCommunityState = CreateCommunityState();
       test('create community ', () {
         // TODO: Implement test
+        createCommunityState.choosenCommunityType = 'private';
         String? result = createCommunityState.validateTextField('ddsdfs');
         expect(result, null);
       });

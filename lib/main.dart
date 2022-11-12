@@ -85,10 +85,11 @@ class MyApp extends StatelessWidget {
                 surface: Colors.black87,
                 onSurface: Colors.white),
           ),
-          //home: homeLayoutScreen(),
-          home: HomeScreen(),
+          home: homeLayoutScreen(),
+          // home: HomeScreen(),
           // home: Login(),
           routes: {
+            homeLayoutScreen.routeName: (context) => homeLayoutScreen(),
             EmptyScreen.routeName: (context) => EmptyScreen(),
             ForgotPassword.routeName: (context) => ForgotPassword(),
             ForgotUserName.routeName: (context) => ForgotUserName(),

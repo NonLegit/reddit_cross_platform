@@ -27,7 +27,7 @@ class _MyProfileState extends State<MyProfileScreen>
   var _isLoading = false;
   var _isInit = true;
   //var userName = 'Zeinab-Moawad';
-  var loadProfile ;
+  var loadProfile;
   // = MyProfileData(
   //     id: 0,
   //     userName: 'Zeinab-Moawad',
@@ -80,14 +80,14 @@ class _MyProfileState extends State<MyProfileScreen>
       setState(() {
         _isLoading = true;
       });
-    userName = ModalRoute.of(context)?.settings.arguments as String;
-    DioClient.init();
-    DioClient.get(path: myprofile).then((response) {
-      loadProfile = MyProfileData.fromJson(json.decode(response.data));
-      setState(() {
-        _isLoading = false;
+      userName = ModalRoute.of(context)?.settings.arguments as String;
+      DioClient.init();
+      DioClient.get(path: myprofile).then((response) {
+        loadProfile = MyProfileData.fromJson(json.decode(response.data));
+        setState(() {
+          _isLoading = false;
+        });
       });
-    });
     }
     _isInit = false;
 
@@ -101,7 +101,7 @@ class _MyProfileState extends State<MyProfileScreen>
     //     .gettingMyProfileData;
     return Scaffold(
       body: _isLoading
-          ?LoadingReddit()
+          ? LoadingReddit()
           : NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
@@ -114,10 +114,10 @@ class _MyProfileState extends State<MyProfileScreen>
                       backgroundColor: Colors.blue,
                       title: Visibility(
                         visible: innerBoxIsScrolled,
-                        child: Text(
-                          'u/${loadProfile!.displayName}',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
+                        child: Text('u/${loadProfile!.displayName}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
                       ),
                       expandedHeight: (loadProfile.description == null ||
                               loadProfile.description == '')
@@ -185,8 +185,7 @@ class _MyProfileState extends State<MyProfileScreen>
               body: _isLoading
                   ? LoadingReddit()
                   : TabBarView(controller: _controller, children: [
-                        ProfilePosts(
-                          routeNamePop: MyProfileScreen.routeName),
+                      ProfilePosts(routeNamePop: MyProfileScreen.routeName),
                       ProfileComments(),
                       MyProfileAbout(
                           int.parse(loadProfile!.postKarma.toString()),
