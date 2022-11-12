@@ -29,21 +29,17 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
 // Value for DropDownButton
   String dropDownButtonValue = "Home";
   List<String> list = ["Home", "Popular"];
-  String userName = 'ahmed';
-  //Model Reccent visited
 
-  // COMMUNITIES YOU ARE MODERATOR IN
-  //Model Reccent visited
 
-  // Icons when expansion
+  // Icons when expansionlist at the drawer
   dynamic icRecent = Icon(IconBroken.Arrow___Right_2);
   dynamic icModerating = Icon(IconBroken.Arrow___Right_2);
   dynamic icYourCommunities = Icon(IconBroken.Arrow___Right_2);
-  // bools
+  // bools to handle the Expansion pannels in drawer
   bool isRecentlyVisitedPannelExpanded = true;
   bool isModeratingPannelExpanded = false;
   bool isOnline = true;
-  //KEYS
+  //Unique  KEYS to handle the scaffold and form and drawer
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var formKey = GlobalKey<FormState>();
   var drawerKey = GlobalKey<DrawerControllerState>();
@@ -58,6 +54,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
 
 // for dropdown list
   String dropValue = "Home";
+  // Lists for DropDown Menu at appBar
   List<DropdownMenuItem> dropdownItems = [
     DropdownMenuItem(
         child: ButtonBar(
@@ -79,6 +76,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
           var cubit = layoutCubit.get(context);
           return Scaffold(
             appBar: AppBar(
+              // To make style for status bar
                 systemOverlayStyle: SystemUiOverlayStyle(
                   statusBarColor: Colors.white,
                   statusBarIconBrightness: Brightness.dark,

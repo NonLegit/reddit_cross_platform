@@ -1,17 +1,22 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:post/home/screens/home_layout.dart';
 import '../../icons/icon_broken.dart';
 import './schedulepost.dart';
 
 class finalPostScreen extends StatefulWidget {
-  const finalPostScreen({Key? key}) : super(key: key);
 
+  const finalPostScreen({Key? key}) : super(key: key);
   @override
   State<finalPostScreen> createState() => _finalPostScreenState();
 }
+var colorOfSpoiler= Colors.grey[100];
+var colorOfNSFW= Colors.grey[100];
 
 class _finalPostScreenState extends State<finalPostScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +40,11 @@ class _finalPostScreenState extends State<finalPostScreen> {
               Padding(
                 padding: const EdgeInsetsDirectional.only(end: 30.0),
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                    MaterialPageRoute(builder: (context)=>homeLayoutScreen())
+                    );
+                  },
                   elevation: 0.0,
                   height: 40.0,
                   minWidth: 80.0,
@@ -71,7 +80,7 @@ class _finalPostScreenState extends State<finalPostScreen> {
                     ElevatedButton.icon(
                       onPressed: () {},
                       icon: Text(
-                        "ascdavwVWRV",
+                        "r/Cross-platform",
                         style: TextStyle(color: Colors.black),
                       ),
                       label: Icon(
@@ -100,14 +109,28 @@ class _finalPostScreenState extends State<finalPostScreen> {
                                       child: Center(
                                           child: Text("Community Standards"))),
                                   ElevatedButton(
+                                   style: ButtonStyle(
+                                     backgroundColor: MaterialStateProperty.all(
+                                       Colors.blue[900],
+                                     ),
+                                   ),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      child: Text("understand"))
+                                      child: Text("understand",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      ),
+                                  )
                                 ],
                               ),
                             )),
-                    child: Text("Rules"))
+                    child: Text("Rules",
+                    style: TextStyle(
+                      color: Colors.blue
+                    ),
+                    ))
               ],
             ),
           ),
@@ -115,12 +138,16 @@ class _finalPostScreenState extends State<finalPostScreen> {
             padding: const EdgeInsets.all(16.0),
             child: TextFormField(
               enabled: false,
-              style: TextStyle(fontSize: 20.0),
+              style: TextStyle(
+                  fontSize: 20.0
+              ),
+              maxLines: 2,
               decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(10.0),
+                  contentPadding:const EdgeInsets.all(10.0),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50.0),
-                  )),
+                  )
+              ),
             ),
           ),
           Row(
@@ -129,47 +156,69 @@ class _finalPostScreenState extends State<finalPostScreen> {
                 width: 20.0,
               ),
               ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      if(colorOfNSFW==Colors.grey[100])
+                      {
+                        colorOfNSFW=Colors.black87;
+                      }
+                      else if(colorOfNSFW==Colors.black87)
+                      {
+                        colorOfNSFW=Colors.grey[100];
+                      }
+                    });
+                  },
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all<double>(0),
                     fixedSize: MaterialStateProperty.all(Size(130.0, 20.0)),
                     backgroundColor: MaterialStateProperty.all(
-                      Colors.grey[100],
+                      colorOfNSFW,
                     ),
                   ),
                   label: Text(
                     "NSFW",
                     style: TextStyle(
-                      color: Colors.grey[600],
+                      color: Colors.grey[400],
                     ),
                   ),
                   icon: Text(
                     "18",
                     style: TextStyle(
-                      color: Colors.grey[600],
+                      color:Colors.grey[400],
                     ),
                   )),
               SizedBox(
                 width: 10.0,
               ),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    if(colorOfSpoiler==Colors.grey[100])
+                      {
+                        colorOfSpoiler=Colors.black87;
+                      }
+                    else if(colorOfSpoiler==Colors.black87)
+                      {
+                        colorOfSpoiler=Colors.grey[100];
+                      }
+                  });
+                },
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all<double>(0),
                   fixedSize: MaterialStateProperty.all(Size(122.0, 20.0)),
                   backgroundColor: MaterialStateProperty.all(
-                    Colors.grey[100],
+                   colorOfSpoiler,
                   ),
                 ),
                 label: Text(
                   "Spoiler",
                   style: TextStyle(
-                    color: Colors.grey[600],
+                    color: Colors.grey[400],
                   ),
                 ),
                 icon: Icon(
                   IconBroken.Danger,
-                  color: Colors.grey[600],
+                  color: Colors.grey[400],
                 ),
               ),
             ],
