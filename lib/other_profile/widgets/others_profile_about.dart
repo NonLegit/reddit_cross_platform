@@ -89,7 +89,7 @@ class OthersProfileAbout extends StatelessWidget {
                       ]),
                 ),
              ListTile(
-                            leading: const Icon(
+                            leading: Icon(
                               size: 25,
                               Icons.local_post_office_outlined,
                               color: Colors.grey,

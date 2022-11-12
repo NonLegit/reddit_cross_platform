@@ -29,20 +29,21 @@ class OtherProfileData {
       required this.commentkarma,
       required this.isFollowed});
 //       {
-// "id": 10,
-// "userName": "Zeinab_maoawad",
-// "email": "user@email.com",
-// "profilePicture":"https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2019/10/blank-person-icon-9.jpg",
-// "profileBackPicture":"https://preview.redd.it/vqqv5xbfezp91.jpg?width=4096&format=pjpg&auto=webp&s=54acda24af01e2de60e98603e3e29e8db381ebac",
-// "description":"I'm Student",
-// "toDayTime":"2022-11-09T00:19:45.186+00:00",
-// "followersCount": 0,
-// "numOfDaysInReddit": 0,
-// "displayName": "Zeinab_maoawad",
-// "postKarma": 1,
-// "commentkarma": 1,
-// "isFollowed":true
+//   "id": 10,
+//   "userName": "Zeinab_maoawad",
+//   "email": "user@email.com",
+//   "profilePicture": "https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2019/10/blank-person-icon-9.jpg",
+//   "profileBackPicture": "https://preview.redd.it/vqqv5xbfezp91.jpg?width=4096&format=pjpg&auto=webp&s=54acda24af01e2de60e98603e3e29e8db381ebac",
+//   "description": "I'm Student",
+//   "createdAt": "2022-11-09",
+//   "followersCount": 0,
+//   "numOfDaysInReddit": 0,
+//   "displayName": "Zeinab_maoawad",
+//   "postKarma": 1,
+//   "commentkarma": 1,
+//   "isFollowed": true
 // }
+
   OtherProfileData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userName = json['userName'];

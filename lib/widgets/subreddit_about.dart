@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:test_app/network/constant_endpoint_data.dart';
+import '../networks/const_endpoint_data.dart';
 import '../models/subreddit_about _rules.dart';
 import '../screens/contact_mod_message_screen.dart';
 import '../myprofile/screens/myprofile_screen.dart';

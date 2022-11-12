@@ -78,7 +78,7 @@ class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom 
                                 fontSize: 12),
                             textAlign: TextAlign.end,
                           ),
-                          const Icon(
+                          Icon(
                             color: Color.fromARGB(255, 121, 121, 121),
                             Icons.keyboard_arrow_down_rounded,
                             size: 25,
@@ -96,7 +96,7 @@ class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom 
               const Divider(),
             ]));
   }
-
+//Select the type of Posts 
   Future<void> typesBottomSheet(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -137,7 +137,7 @@ class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom 
                         ),
                         trailing: Visibility(
                           visible: tappedIndex == index,
-                          child: const Icon(
+                          child: Icon(
                             Icons.done,
                             color: Colors.blue,
                           ),
@@ -173,7 +173,7 @@ class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom 
       },
     );
   }
-
+//Select the time of top  Posts 
   Future<void> topTimeBottomSheet(BuildContext context, int index) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,

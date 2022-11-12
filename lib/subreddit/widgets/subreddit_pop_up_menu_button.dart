@@ -14,14 +14,9 @@ class SubredditPopupMenuButton extends StatefulWidget {
 }
 
 class _SubredditPopupMenuButtonState extends State<SubredditPopupMenuButton> {
-  // var selectedItem = '';
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(onSelected: (value) {
-      // your logic
-      // setState(() {
-      //   selectedItem = value.toString();
-      // });
       if (value.toString() == '/communitymodmessage' ||
           value.toString() == '/communityinfo')
         Navigator.pushNamed(context, value.toString());
@@ -62,7 +57,7 @@ class _SubredditPopupMenuButtonState extends State<SubredditPopupMenuButton> {
       ];
     });
   }
-
+// to copy Link of Subreddit
   Future<void> shareCommunitySheetButton(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -75,7 +70,7 @@ class _SubredditPopupMenuButtonState extends State<SubredditPopupMenuButton> {
       },
     );
   }
-
+  //to Disjoin from subreddit
   void _showLeaveDialog(String message) {
     showDialog(
       context: context,

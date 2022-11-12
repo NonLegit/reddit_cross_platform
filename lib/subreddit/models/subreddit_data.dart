@@ -40,17 +40,7 @@ class SubredditData {
     json['rules'].forEach((rule) {
       rules!.add(SubredditAboutRules(rule['title'], rule[description]));
     });
-    // json['moderators'].forEach((moderator) {
-    //   moderators!.add(moderator);
-    // });
   }
-
-  // SubredditData.fromJsonlist(Map<String, dynamic> json) {
-  //   json[id].forEach((moderator) {
-  //     moderators!.add(moderator['userName']);
-  //   });
-  // }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
 

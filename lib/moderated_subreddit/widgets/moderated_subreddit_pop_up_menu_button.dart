@@ -91,7 +91,7 @@ class _ModeratedSubredditPopupMenuButtonState
       ];
     });
   }
-
+// To copy Link of Moderated Subreddit
   Future<void> shareCommunitySheetButton(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -104,7 +104,7 @@ class _ModeratedSubredditPopupMenuButtonState
       },
     );
   }
-
+// to disjoin of subreddit
   void _showLeaveDialog() {
     showDialog(
       context: context,
@@ -157,7 +157,7 @@ class _ModeratedSubredditPopupMenuButtonState
       ),
     );
   }
-
+//to change Notification mode
   Future<void> _bellBottomSheet(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,

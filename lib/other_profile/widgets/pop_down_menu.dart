@@ -8,6 +8,8 @@ import '../../widgets/profile_posts.dart';
 import '../widgets/others_profile_about.dart';
 import '../models/others_profile_data.dart';
 import '../providers/other_profile_provider.dart';
+import '../../screens/emptyscreen.dart';
+
 class PopDownMenu extends StatelessWidget {
   const PopDownMenu({
     Key? key,
@@ -21,6 +23,7 @@ class PopDownMenu extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
+              // Some Features that User interact Like(send message , Block account,report account)
               showModalBottomSheet<void>(
                 backgroundColor: Colors.transparent,
                 context: context,
@@ -41,13 +44,15 @@ class PopDownMenu extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           ListTile(
-                            leading: const Icon(
+                            leading: Icon(
                               size: 25,
                               Icons.local_post_office_outlined,
                               color: Colors.black,
                             ),
                             onTap: () {
-                              return Navigator.pop(context);
+                              Navigator.of(context).pushNamed(
+                                  EmptyScreen.routeName,
+                                  arguments: 'send message');
                             },
                             title: const Text(
                               'Send a message',
@@ -57,7 +62,7 @@ class PopDownMenu extends StatelessWidget {
                             ),
                           ),
                           ListTile(
-                            leading: const Icon(
+                            leading: Icon(
                               size: 25,
                               Icons.favorite_border_outlined,
                               color: Colors.black,
@@ -73,7 +78,7 @@ class PopDownMenu extends StatelessWidget {
                             ),
                           ),
                           ListTile(
-                            leading: const Icon(
+                            leading: Icon(
                               size: 25,
                               Icons.block_outlined,
                               color: Colors.black,
@@ -89,7 +94,7 @@ class PopDownMenu extends StatelessWidget {
                             ),
                           ),
                           ListTile(
-                            leading: const Icon(
+                            leading: Icon(
                               size: 25,
                               Icons.flag_outlined,
                               color: Colors.black,
@@ -111,7 +116,7 @@ class PopDownMenu extends StatelessWidget {
                 },
               );
             },
-            icon: const Icon(Icons.more_vert_rounded),
+            icon: Icon(Icons.more_vert_rounded),
           ),
         ]);
   }

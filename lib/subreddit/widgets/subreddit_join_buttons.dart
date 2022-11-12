@@ -2,32 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class JoinButtons extends StatefulWidget {
-  int? tappedIndex;
-  List<String> notifyItems = ["Off", "Low", 'Frequent'];
-  List<IconData?> notifyItemsIcons = [
+
+  bool isJoined;
+  //String dropDownValue;
+  String communityName;
+  //IconData icon;
+  JoinButtons(
+      {
+      required this.isJoined,
+      //required this.icon,
+      //required this.dropDownValue,
+      required this.communityName});
+
+  @override
+  State<JoinButtons> createState() => JoinButtonsState();
+}
+
+class JoinButtonsState extends State<JoinButtons> {
+    String dropDownValue = "Low";
+  IconData icon = Icons.notifications;
+  var tappedIndex = 0;
+  bool isJoinedstate = false;
+  static const List<String> notifyItems = ["Off", "Low", 'Frequent'];
+  static List<IconData> notifyItemsIcons = [
     Icons.notifications_off,
     Icons.notifications,
     Icons.notifications_active
   ];
-  bool isJoined;
-  String dropDownValue;
-  String communityName;
-  IconData icon;
-  JoinButtons(
-      {required this.isJoined,
-      required this.icon,
-      required this.dropDownValue,
-      required this.communityName});
-
-  @override
-  State<JoinButtons> createState() => _JoinButtonsState();
-}
-
-class _JoinButtonsState extends State<JoinButtons> {
   @override
   void initState() {
     super.initState();
-    widget.tappedIndex = 0;
+    tappedIndex = 0;
+    isJoinedstate = widget.isJoined;
   }
 
   @override
@@ -40,12 +46,12 @@ class _JoinButtonsState extends State<JoinButtons> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            (widget.isJoined)
+            (isJoinedstate)
                 ? IconButton(
                     onPressed: () => bellBottomSheet(context),
                     icon: Icon(
                       size: 30,
-                      widget.icon,
+                      icon,
                       color: Colors.blue,
                     ))
                 : SizedBox(
@@ -63,18 +69,18 @@ class _JoinButtonsState extends State<JoinButtons> {
                   shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(22)))),
                 ),
-                child: (widget.isJoined)
+                child: (isJoinedstate)
                     ? Text(
                         'Joined',
                         style: TextStyle(fontSize: 13),
                       )
                     : Text('Join'),
                 onPressed: () {
-                  if (widget.isJoined) {
+                  if (isJoinedstate) {
                     _showLeaveDialog();
                   } else {
                     setState(() {
-                      widget.isJoined = true;
+                      isJoinedstate = true;
                     });
                   }
                 },
@@ -83,7 +89,7 @@ class _JoinButtonsState extends State<JoinButtons> {
           ],
         ));
   }
-
+// Change Notification Mod  of subreddit
   Future<void> bellBottomSheet(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -112,38 +118,35 @@ class _JoinButtonsState extends State<JoinButtons> {
                 const Divider(),
                 ListView.builder(
                     shrinkWrap: true,
-                    itemCount: widget.notifyItems.length,
+                    itemCount: notifyItems.length,
                     itemBuilder: (context, index) {
                       return Container(
                           child: ListTile(
                         leading: Icon(
                           size: 25,
-                          widget.notifyItemsIcons[index],
-                          color: widget.tappedIndex == index
+                        notifyItemsIcons[index],
+                          color: tappedIndex == index
                               ? Colors.black
                               : Colors.grey,
                         ),
                         trailing: Visibility(
-                          visible: widget.tappedIndex == index,
+                          visible: tappedIndex == index,
                           child: const Icon(
                             Icons.done,
                             color: Colors.blue,
                           ),
                         ),
                         title: Text(
-                          widget.notifyItems[index],
+                          notifyItems[index],
                           style: TextStyle(
-                              color: widget.tappedIndex == index
+                              color: tappedIndex == index
                                   ? Colors.black
                                   : Colors.grey,
                               fontWeight: FontWeight.bold),
                         ),
                         onTap: () {
                           setState(() {
-                            widget.dropDownValue = widget.notifyItems[index];
-                            widget.tappedIndex = index;
-                            widget.icon =
-                                widget.notifyItemsIcons[index] as IconData;
+                            changeNotificationMode(index);
                           });
                           return Navigator.pop(context);
                         },
@@ -156,7 +159,14 @@ class _JoinButtonsState extends State<JoinButtons> {
       },
     );
   }
+  int changeNotificationMode(int index) {
+    icon = notifyItemsIcons[index] as IconData;
+    dropDownValue = notifyItems[index];
+    tappedIndex = index;
 
+    return  tappedIndex;
+  }
+  //to Disjoin from subreddit
   void _showLeaveDialog() {
     showDialog(
       context: context,
@@ -195,8 +205,8 @@ class _JoinButtonsState extends State<JoinButtons> {
               ),
               child: Text('Leave'),
               onPressed: () {
-                setState(() {
-                  widget.isJoined = false;
+            setState(() {
+                  disJoin();
                 });
                 Navigator.of(ctx).pop();
               },
@@ -205,5 +215,9 @@ class _JoinButtonsState extends State<JoinButtons> {
         ],
       ),
     );
+  }
+  bool disJoin() {
+    isJoinedstate = false;
+    return isJoinedstate;
   }
 }

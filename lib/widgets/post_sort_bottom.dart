@@ -73,7 +73,7 @@ class _PostSortBottomState extends State<PostSortBottom> {
                             fontSize: 12),
                         textAlign: TextAlign.end,
                       ),
-                      const Icon(
+                      Icon(
                         color: Color.fromARGB(255, 121, 121, 121),
                         Icons.keyboard_arrow_down_rounded,
                         size: 25,
@@ -124,7 +124,7 @@ class _PostSortBottomState extends State<PostSortBottom> {
                         ),
                         trailing: Visibility(
                           visible: tappedIndex == index,
-                          child: const Icon(
+                          child: Icon(
                             Icons.done,
                             color: Colors.blue,
                           ),
