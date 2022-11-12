@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../networks/dio_client.dart';
+<<<<<<< HEAD
+=======
+import '../../widgets/loading_reddit.dart';
+>>>>>>> origin/Eman
 import '../models/moderator_tools.dart';
 import './topics_screen.dart';
 import '../../networks/const_endpoint_data.dart';
@@ -19,15 +23,37 @@ class ModeratorTools extends StatefulWidget {
 class _ModeratorToolsState extends State<ModeratorTools> {
   @override
   // bool returned = false;
+<<<<<<< HEAD
+=======
+  bool fetchingDone = false;
+  String? choosenTopic;
+>>>>>>> origin/Eman
   void initState() {
     // TODO: implement initState
 
     //DioClient.init();
+<<<<<<< HEAD
     super.initState();
+=======
+    DioClient.initModerationSetting();
+    super.initState();
+        DioClient.get(path: moderationTools).then((value) {
+      print(value);
+      final result = json.decode(value.data);
+      choosenTopic = result['primaryTopic'];
+      print(choosenTopic);
+    }).onError((error, stackTrace){
+      print(error);
+    } );
+    setState(() {
+      fetchingDone = true;
+    });
+>>>>>>> origin/Eman
   }
 
   List<String>? topics;
 
+<<<<<<< HEAD
   @override
   void didChangeDependencies() {
     // // TODO: implement didChangeDependencies
@@ -42,6 +68,8 @@ class _ModeratorToolsState extends State<ModeratorTools> {
 
     super.didChangeDependencies();
   }
+=======
+>>>>>>> origin/Eman
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +89,11 @@ class _ModeratorToolsState extends State<ModeratorTools> {
           shadowColor: Colors.white,
         ),
       ),
+<<<<<<< HEAD
       body: Column(
+=======
+      body:(!fetchingDone) ? LoadingReddit(): Column(
+>>>>>>> origin/Eman
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
@@ -85,7 +117,11 @@ class _ModeratorToolsState extends State<ModeratorTools> {
               //call buildGeneralOptions to create the widget of each option under general in settings
               buildGeneralOptions(
                   context,
+<<<<<<< HEAD
                   () => Navigator.of(context).pushNamed(TopicsScreen.routeName),
+=======
+                  () => Navigator.of(context).pushNamed(TopicsScreen.routeName,arguments: choosenTopic),
+>>>>>>> origin/Eman
                   'Topics',
                   Icons.topic),
             ],

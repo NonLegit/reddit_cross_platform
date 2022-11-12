@@ -37,7 +37,23 @@ class DioClient {
       BaseOptions(
           baseUrl: notification_baseUrl3,
           receiveDataWhenStatusError: true,
+<<<<<<< HEAD
           connectTimeout: 5000,
+=======
+          connectTimeout: 7000,
+          receiveTimeout: 20 * 1000,
+          responseType: ResponseType.json
+          // headers: {'Content-type': 'text/plain'},
+          ),
+    );
+  }
+  static initModerationSetting() {
+    dio = Dio(
+      BaseOptions(
+          baseUrl: moderationsSetting_baseUrl4,
+          receiveDataWhenStatusError: true,
+          connectTimeout: 7000,
+>>>>>>> origin/Eman
           receiveTimeout: 20 * 1000,
           responseType: ResponseType.json
           // headers: {'Content-type': 'text/plain'},
@@ -57,4 +73,11 @@ class DioClient {
   static Future<Response> get({required String path}) async {
     return await dio!.get(path);
   }
+<<<<<<< HEAD
+=======
+
+  static Future<Response> patch({required String path,required Map<String, dynamic> data}) async{
+    return await dio!.patch(path,data: data);
+  }
+>>>>>>> origin/Eman
 }

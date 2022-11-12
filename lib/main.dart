@@ -85,7 +85,12 @@ class MyApp extends StatelessWidget {
                 surface: Colors.black87,
                 onSurface: Colors.white),
           ),
+<<<<<<< HEAD
           home: homeLayoutScreen(),
+=======
+          home:
+           homeLayoutScreen(),
+>>>>>>> origin/Eman
           // home: HomeScreen(),
           // home: Login(),
           routes: {

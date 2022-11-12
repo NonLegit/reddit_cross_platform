@@ -51,7 +51,11 @@ class NotificationsMainScreen extends StatelessWidget {
                           return ListTile(
                               onTap: () =>
                                   _navigateToCorrectScreen(index, context),
+<<<<<<< HEAD
                               tileColor: (usersAllNotificatiion[index]['seen'])
+=======
+                              tileColor: (!usersAllNotificatiion[index]['seen'])
+>>>>>>> origin/Eman
                                   ? Colors.lightBlue[50]
                                   : Colors.white,
                               leading: Container(
@@ -92,6 +96,10 @@ class NotificationsMainScreen extends StatelessWidget {
                                 usersAllNotificatiion[index]['postId'],
                                 // maxLines: 1,
                               ),
+<<<<<<< HEAD
+=======
+                              //according to the type of notifications the options is shown or not shown
+>>>>>>> origin/Eman
                               trailing: (usersAllNotificatiion[index]['type'] !=
                                       'userMention')
                                   ? ThreeDotsWidget(
@@ -115,6 +123,10 @@ class NotificationsMainScreen extends StatelessWidget {
                                         ListTileWidget(
                                             icon: Icons.visibility_off_outlined,
                                             title: 'Hide this notification'),
+<<<<<<< HEAD
+=======
+                                            //only in community notifications this option is shown
+>>>>>>> origin/Eman
                                         if (usersAllNotificatiion[index]
                                                 ['type'] ==
                                             'community')
@@ -130,7 +142,10 @@ class NotificationsMainScreen extends StatelessWidget {
                                             style: ElevatedButton.styleFrom(
                                               shape: const StadiumBorder(),
                                               onPrimary: Colors.grey[200],
+<<<<<<< HEAD
                                               // backgroundColor: Colors.grey[200],
+=======
+>>>>>>> origin/Eman
                                             ),
                                             child: const Text(
                                               'Close',

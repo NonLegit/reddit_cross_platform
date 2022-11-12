@@ -34,7 +34,11 @@ class AlertDialog1 extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
+<<<<<<< HEAD
               onPrimary: Colors.grey[200],
+=======
+              primary: Colors.grey[200],
+>>>>>>> origin/Eman
               // backgroundColor: Colors.grey[200],
             ),
             child: const Text(
@@ -54,7 +58,11 @@ class AlertDialog1 extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
+<<<<<<< HEAD
               onPrimary: Colors.blue[800],
+=======
+              primary: Colors.blue[800],
+>>>>>>> origin/Eman
               // backgroundColor: Colors.blue[800],
             ),
             child: const Text('Leave'),

@@ -37,6 +37,11 @@ class CreateCommunityState extends State<CreateCommunity> {
   String errorMessage = '';
   bool uniqueCommunityName = false;
 
+<<<<<<< HEAD
+=======
+  bool mock = false;
+
+>>>>>>> origin/Eman
   _onChangeHandler(value) {
     //Used to detect if the user finished typing or not so it is called on changing the text field input
     const duration = Duration(
@@ -48,6 +53,7 @@ class CreateCommunityState extends State<CreateCommunity> {
     validateOnStopTyping = Timer(duration, () => _validateCommunityName());
   }
 
+<<<<<<< HEAD
 
   _onChangeTextField(value) {
     setState(() {
@@ -57,6 +63,21 @@ class CreateCommunityState extends State<CreateCommunity> {
       } else {
         _typed = true;
       }
+=======
+  changeCounterValue(String value) {
+    count = 21 - value.length;
+    if (value.isEmpty) {
+      _typed = false;
+    } else {
+      _typed = true;
+    }
+  }
+
+  _onChangeTextField(value) {
+    //called when changing the input field
+    setState(() {
+      changeCounterValue(value);
+>>>>>>> origin/Eman
     });
     if (value.length >= 3) {
       _onChangeHandler(value);
@@ -64,11 +85,23 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   clearTextField() {
+<<<<<<< HEAD
     //called to clear the text field when pressing cancel icon
     setState(() {
       _communityNameController.text = '';
       count = 21;
       _typed = false;
+=======
+    _communityNameController.text = '';
+    count = 21;
+    _typed = false;
+  }
+
+  _clearTextField() {
+    //called to clear the text field when pressing cancel icon
+    setState(() {
+      clearTextField();
+>>>>>>> origin/Eman
     });
   }
 
@@ -79,6 +112,10 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   _changeCommunityType(key2) {
+<<<<<<< HEAD
+=======
+    //changing the type of commmunity chosen
+>>>>>>> origin/Eman
     Navigator.of(context).pop();
     setState(() {
       choosenCommunityType = key2;
@@ -284,12 +321,21 @@ class CreateCommunityState extends State<CreateCommunity> {
         validating = true;
       });
       subredditName = _communityNameController.text;
+<<<<<<< HEAD
       DioClient.get(path: getCommunity).then((value) {
+=======
+      String pathMock = (mock) ? '1' : '2';
+      DioClient.get(path: getCommunity + pathMock).then((value) {
+>>>>>>> origin/Eman
         setState(() {
           uniqueCommunityName = false;
           errorMessage =
               'Sorry,${_communityNameController.text} is taken.Try another.';
           validating = false;
+<<<<<<< HEAD
+=======
+          mock = !mock;
+>>>>>>> origin/Eman
         });
       }).catchError((error) {
         // if (error['status'] == '404') {
@@ -297,6 +343,10 @@ class CreateCommunityState extends State<CreateCommunity> {
           uniqueCommunityName = true;
           errorMessage = '';
           validating = false;
+<<<<<<< HEAD
+=======
+          mock = !mock;
+>>>>>>> origin/Eman
         });
         //     } else if (error['status'] == '400' || error['status'] == '409') {
         //       print('badRequest');

@@ -3,7 +3,11 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
+<<<<<<< HEAD
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+=======
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+>>>>>>> origin/Eman
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -35,7 +39,11 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   email_validator: ^2.1.17
+<<<<<<< HEAD
   url_launcher: ^6.1.6 
+=======
+  url_launcher: ^6.1.6
+>>>>>>> origin/Eman
   cupertino_icons: ^1.0.2
   flutter_dotenv: ^5.0.2
   fluttericon: ^2.0.0
@@ -91,7 +99,11 @@ flutter:
       fonts:
         - asset: assets/fonts/Verdana.ttf
         - asset: assets/fonts/verdanab.ttf
+<<<<<<< HEAD
           weight: 700    
+=======
+          weight: 700
+>>>>>>> origin/Eman
     - family: Jannah
       fonts:
         - asset: assets/fonts/jannah.ttf
