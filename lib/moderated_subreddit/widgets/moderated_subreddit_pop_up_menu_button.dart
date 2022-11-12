@@ -8,6 +8,18 @@ class ModeratedSubredditPopupMenuButton extends StatefulWidget {
   final String linkOfCommuinty;
   final String communityName;
   final String userName;
+
+  ModeratedSubredditPopupMenuButton(
+      {required this.linkOfCommuinty,
+      required this.communityName,
+      required this.userName});
+  @override
+  State<ModeratedSubredditPopupMenuButton> createState() =>
+      ModeratedSubredditPopupMenuButtonState();
+}
+
+class ModeratedSubredditPopupMenuButtonState
+    extends State<ModeratedSubredditPopupMenuButton> {
   int? tappedIndex;
   List<String> notifyItems = ["Off", "Low", 'Frequent'];
   List<IconData?> notifyItemsIcons = [
@@ -16,22 +28,11 @@ class ModeratedSubredditPopupMenuButton extends StatefulWidget {
     Icons.notifications_active
   ];
   bool? isJoined;
-  String? dropDownValue;
-  IconData? icon;
-  ModeratedSubredditPopupMenuButton(
-      {required this.linkOfCommuinty,
-      required this.communityName,
-      required this.userName});
-  @override
-  State<ModeratedSubredditPopupMenuButton> createState() =>
-      _ModeratedSubredditPopupMenuButtonState();
-}
-
-class _ModeratedSubredditPopupMenuButtonState
-    extends State<ModeratedSubredditPopupMenuButton> {
+  String? dropDownValue='Low';
+  IconData? icon=  Icons.notifications;
   void initState() {
     super.initState();
-    widget.tappedIndex = 0;
+    tappedIndex = 1;
   }
 
   // var selectedItem = '';
@@ -52,7 +53,7 @@ class _ModeratedSubredditPopupMenuButtonState
       else
         _bellBottomSheet(context);
     }, itemBuilder: (BuildContext bc) {
-      return const [
+      return  [
         PopupMenuItem(
           child: ListTile(
             leading: Icon(Icons.share_outlined),
@@ -76,7 +77,7 @@ class _ModeratedSubredditPopupMenuButtonState
         ),
         PopupMenuItem(
           child: ListTile(
-            leading: Icon(Icons.notifications_none_outlined),
+            leading: Icon(icon),
             title: Text('Community notifications'),
           ),
           value: 'Community notifications',
@@ -91,6 +92,7 @@ class _ModeratedSubredditPopupMenuButtonState
       ];
     });
   }
+
 // To copy Link of Moderated Subreddit
   Future<void> shareCommunitySheetButton(BuildContext context) {
     return showModalBottomSheet<void>(
@@ -104,6 +106,7 @@ class _ModeratedSubredditPopupMenuButtonState
       },
     );
   }
+
 // to disjoin of subreddit
   void _showLeaveDialog() {
     showDialog(
@@ -144,11 +147,10 @@ class _ModeratedSubredditPopupMenuButtonState
               child: Text('Leave'),
               onPressed: () {
                 setState(() {
-                  widget.isJoined = false;
+                  isJoined = false;
                 });
-                Navigator.pushNamed(
-                    context, SubredditScreen.routeName,
-                    arguments:widget.userName);
+                Navigator.pushNamed(context, SubredditScreen.routeName,
+                    arguments: widget.userName);
                 //Navigator.of(ctx).pop();
               },
             ),
@@ -157,6 +159,7 @@ class _ModeratedSubredditPopupMenuButtonState
       ),
     );
   }
+
 //to change Notification mode
   Future<void> _bellBottomSheet(BuildContext context) {
     return showModalBottomSheet<void>(
@@ -186,38 +189,35 @@ class _ModeratedSubredditPopupMenuButtonState
                 const Divider(),
                 ListView.builder(
                     shrinkWrap: true,
-                    itemCount: widget.notifyItems.length,
+                    itemCount: notifyItems.length,
                     itemBuilder: (context, index) {
                       return Container(
                           child: ListTile(
                         leading: Icon(
                           size: 25,
-                          widget.notifyItemsIcons[index],
-                          color: widget.tappedIndex == index
+                        notifyItemsIcons[index],
+                          color:tappedIndex == index
                               ? Colors.black
                               : Colors.grey,
                         ),
                         trailing: Visibility(
-                          visible: widget.tappedIndex == index,
+                          visible: tappedIndex == index,
                           child: const Icon(
                             Icons.done,
                             color: Colors.blue,
                           ),
                         ),
                         title: Text(
-                          widget.notifyItems[index],
+                         notifyItems[index],
                           style: TextStyle(
-                              color: widget.tappedIndex == index
+                              color: tappedIndex == index
                                   ? Colors.black
                                   : Colors.grey,
                               fontWeight: FontWeight.bold),
                         ),
                         onTap: () {
                           setState(() {
-                            widget.dropDownValue = widget.notifyItems[index];
-                            widget.tappedIndex = index;
-                            widget.icon =
-                                widget.notifyItemsIcons[index] as IconData;
+                            chooseNotificationType(index);
                           });
                           return Navigator.pop(context);
                         },
@@ -229,5 +229,12 @@ class _ModeratedSubredditPopupMenuButtonState
         );
       },
     );
+  }
+
+  int chooseNotificationType(int index) {
+    dropDownValue = notifyItems[index];
+    tappedIndex = index;
+    icon = notifyItemsIcons[index] as IconData;
+    return tappedIndex as int ;
   }
 }

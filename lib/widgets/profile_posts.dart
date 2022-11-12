@@ -36,7 +36,9 @@ class _ProfilePosts extends State<ProfilePosts> {
     return ListView(
       scrollDirection: Axis.vertical,
       children: [
-        PostSortBottom(widget.routeNamePop, _dropDownValue, _icon),
+        PostSortBottom(widget.routeNamePop, 
+        //_dropDownValue, _icon
+        ),
         SingleChildScrollView(
           child: ListView.builder(
             physics: const ClampingScrollPhysics(),

@@ -26,14 +26,15 @@ class ModeratedSubriddetPosts extends StatefulWidget {
 }
 
 class _ModeratedSubriddetPosts extends State<ModeratedSubriddetPosts> {
-  final _dropDownValue = 'HOT POST';
-  final _icon = Icons.local_fire_department_rounded;
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       scrollDirection: Axis.vertical,
       children: [
-        ModSubredditPostSortBottom(widget.routeNamePop, _dropDownValue, _icon),
+        ModSubredditPostSortBottom(widget.routeNamePop, 
+        //_dropDownValue, _icon
+        ),
      //Select the type of Posts 
         SingleChildScrollView(
           child: ListView.builder(

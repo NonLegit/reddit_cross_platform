@@ -4,34 +4,37 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ModSubredditPostSortBottom extends StatefulWidget {
   final String routeNamePop;
-  String _dropDownValue;
-  IconData? _icon;
-ModSubredditPostSortBottom (this.routeNamePop, this._dropDownValue, this._icon);
+
+  ModSubredditPostSortBottom(
+    this.routeNamePop,
+// this._dropDownValue, this._icon
+  );
   @override
-  State<ModSubredditPostSortBottom > createState() => _ModSubredditPostSortBottomState();
+  State<ModSubredditPostSortBottom> createState() =>
+      ModSubredditPostSortBottomState();
 }
 
-int? tappedIndex;
-int? tappedIndexTop;
-const List<String> litems = ["Hot", "New", 'Top'];
-const List<IconData?> liItemIcons = [
-  Icons.local_fire_department_rounded,
-  Icons.brightness_low,
-  Icons.hourglass_empty
-];
-const List<String> litemsTop = [
-  "Past hour",
-  "Past 24 hours",
-  'Past week',
-  ' Past month',
-  'Past year',
-  'All time'
-];
-String? topValue = 'Past hour';
+class ModSubredditPostSortBottomState
+    extends State<ModSubredditPostSortBottom> {
+  String _dropDownValue = 'HOT POST';
+  IconData _icon = Icons.local_fire_department_rounded;
+  int? tappedIndex;
+  int? tappedIndexTop;
+  List<String> litems = ["Hot", "New", 'Top'];
+  List<IconData?> liItemIcons = [
+    Icons.local_fire_department_rounded,
+    Icons.brightness_low,
+    Icons.hourglass_empty
+  ];
+  List<String> litemsTop = [
+    "Past hour",
+    "Past 24 hours",
+    'Past week',
+    ' Past month',
+    'Past year',
+    'All time'
+  ];
 
-class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom > {
-//    final String routeNamePop;
-//  _PostSortBottomState(this.routeNamePop);
   @override
   void initState() {
     super.initState();
@@ -53,10 +56,9 @@ class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom 
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Row(
-            crossAxisAlignment:  CrossAxisAlignment.start,
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
                   TextButton(
                     onPressed: () {
                       typesBottomSheet(context);
@@ -66,12 +68,12 @@ class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom 
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            widget._icon,
+                            _icon,
                             color: Color.fromARGB(255, 121, 121, 121),
                             size: 25,
                           ),
                           Text(
-                            '${widget._dropDownValue}',
+                            '${_dropDownValue}',
                             style: const TextStyle(
                                 color: Color.fromARGB(255, 121, 121, 121),
                                 fontWeight: FontWeight.bold,
@@ -85,18 +87,19 @@ class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom 
                           )
                         ]),
                   ),
-                            IconButton(
-                icon: Icon(
-                  Icons.shield_outlined,
-                  color: Colors.grey,
-                ),
-                onPressed: () {})
+                  IconButton(
+                      icon: Icon(
+                        Icons.shield_outlined,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {})
                 ],
               ),
               const Divider(),
             ]));
   }
-//Select the type of Posts 
+
+//Select the type of Posts
   Future<void> typesBottomSheet(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -153,11 +156,7 @@ class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom 
                         onTap: () {
                           if (index != 2) {
                             setState(() {
-                              tappedIndexTop = null;
-                              tappedIndex = index;
-                              widget._icon = liItemIcons[index];
-                             widget._dropDownValue =
-                                  '${litems[index].toUpperCase()} POSTS ';
+                              choosePostType(index);
                             });
                             return Navigator.pop(context);
                           } else {
@@ -173,7 +172,16 @@ class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom 
       },
     );
   }
-//Select the time of top  Posts 
+
+  int choosePostType(int index) {
+    tappedIndexTop = null;
+    tappedIndex = index;
+    _icon = liItemIcons[index] as IconData;
+    _dropDownValue = '${litems[index].toUpperCase()} POSTS ';
+    return tappedIndex as int;
+  }
+
+//Select the time of top  Posts
   Future<void> topTimeBottomSheet(BuildContext context, int index) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -218,11 +226,7 @@ class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom 
                               // topValue =
                               //     litemsTop[
                               //         index1];
-                              tappedIndex = index;
-                              tappedIndexTop = index1;
-                              widget._icon = liItemIcons[index];
-                              widget._dropDownValue =
-                                  '${litems[index].toUpperCase()} POSTS ${litemsTop[index1].toUpperCase()}';
+                              chooseTimeTopPost(index, index1);
                             });
                             return Navigator.popUntil(context,
                                 ModalRoute.withName(widget.routeNamePop));
@@ -242,5 +246,14 @@ class _ModSubredditPostSortBottomState extends State<ModSubredditPostSortBottom 
         );
       },
     );
+  }
+
+  int chooseTimeTopPost(int index, int index1) {
+    tappedIndex = index;
+    tappedIndexTop = index1;
+    _icon = liItemIcons[index] as IconData;
+    _dropDownValue =
+        '${litems[index].toUpperCase()} POSTS ${litemsTop[index1].toUpperCase()}';
+    return tappedIndexTop as int;
   }
 }

@@ -29,14 +29,15 @@ class SubredditPosts extends StatefulWidget {
 class _SubredditPosts extends State<SubredditPosts> {
 //     final  String routeNamePop;
 //  _PostsState(this.routeNamePop);
-  final _dropDownValue = 'HOT POST';
-  final _icon = Icons.local_fire_department_rounded;
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       scrollDirection: Axis.vertical,
       children: [
-        PostSortBottom(widget.routeNamePop, _dropDownValue, _icon),
+        PostSortBottom(widget.routeNamePop,
+         //_dropDownValue, _icon
+         ),
         //Select the type of Posts 
         SingleChildScrollView(
           child: ListView.builder(
