@@ -60,6 +60,7 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   _onChangeTextField(value) {
+    //called when changing the input field
     setState(() {
       changeCounterValue(value);
     });
@@ -88,6 +89,7 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   _changeCommunityType(key2) {
+    //changing the type of commmunity chosen
     Navigator.of(context).pop();
     setState(() {
       choosenCommunityType = key2;

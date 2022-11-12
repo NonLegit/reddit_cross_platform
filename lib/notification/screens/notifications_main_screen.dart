@@ -92,6 +92,7 @@ class NotificationsMainScreen extends StatelessWidget {
                                 usersAllNotificatiion[index]['postId'],
                                 // maxLines: 1,
                               ),
+                              //according to the type of notifications the options is shown or not shown
                               trailing: (usersAllNotificatiion[index]['type'] !=
                                       'userMention')
                                   ? ThreeDotsWidget(
@@ -115,6 +116,7 @@ class NotificationsMainScreen extends StatelessWidget {
                                         ListTileWidget(
                                             icon: Icons.visibility_off_outlined,
                                             title: 'Hide this notification'),
+                                            //only in community notifications this option is shown
                                         if (usersAllNotificatiion[index]
                                                 ['type'] ==
                                             'community')
@@ -130,7 +132,6 @@ class NotificationsMainScreen extends StatelessWidget {
                                             style: ElevatedButton.styleFrom(
                                               shape: const StadiumBorder(),
                                               onPrimary: Colors.grey[200],
-                                              // backgroundColor: Colors.grey[200],
                                             ),
                                             child: const Text(
                                               'Close',
