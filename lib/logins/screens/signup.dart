@@ -29,35 +29,64 @@ class SignUp extends StatefulWidget {
   String token = '';
   String expiresIn = '';
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<SignUp> createState() => SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class SignUpState extends State<SignUp> {
+  /// Whether the user finish enter the 3 inputs
   bool isFinished = false;
+
+  /// Whether the user name is unige
   bool isUnige = false;
+
+  ///Whether the password is visiable or not
   BoolWrapper isVisable = BoolWrapper();
 
+  /// listener to the Email input field
   final inputEmailController = TextEditingController();
+
+  /// listener to the Username input field
   final inputUserNameController = TextEditingController();
+
+  /// listener to the password input field
   final inputPasswardController = TextEditingController();
 
+  /// the Current Status of the Email input field
   InputStatus inputEmailStatus = InputStatus.original;
+
+  /// the Current Status of the Email input field
   InputStatus inputUsernameStatus = InputStatus.original;
+
+  /// the Current Status of the Email input field
   InputStatus inputPasswardStatus = InputStatus.original;
 
+  /// error message to view when the Email is invalid
   String emailErrorMessage = '';
+
+  /// error message to view when the username is invalid
   String usernameErrorMessage = '';
+
+  /// error message to view when the password is invalid
   String passwordErrorMessage = '';
-  // check if the user enter the input field correctly
-  // and then activate the continue bottom
+
+  ///controlling the finish flag
+  ///
+  ///when user typing in any input field ->
+  ///check the changes and detect when the finish flag is true
+  ///and then activate the continue bottom
   void changeInput() {
     isFinished = (validateEmail() == InputStatus.sucess) &
         (validateUsername() == InputStatus.sucess) &
         (validatePassword() == InputStatus.sucess);
   }
 
+  /// Returns the Status of the Email input field after check its validation
+  ///
+  /// the validation will be sucess when :
+  ///      1- the email is correct
+  /// the validator will return original if the field is empty
+  /// otherwise the status will be faild and put an error message
   InputStatus validateEmail() {
-    // print(EmailValidator.validate(inputEmailController.text.toLowerCase()));
     if (inputEmailController.text.isEmpty)
       return InputStatus.original;
     else if (EmailValidator.validate(inputEmailController.text.toLowerCase()))
@@ -68,21 +97,29 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
+  /// check if the username is taken or not
   Future checkUnique() async {
     Uri URL = Uri.parse(url +
         '/users/username_available' +
-        ((isMock) ? '/3' : '') +
+        ((isMock && inputUserNameController.text == 'ahmed')
+            ? '/4'
+            : (isMock)
+                ? '/3'
+                : '') +
         '?userName=${inputUserNameController.text}');
 
     await http.get(URL).then((response) {
       isUnige = jsonDecode(response.body)['available'];
-      // if (jsonDecode(response.body)['available'] == true)
-      //   isUnige = true;
-      // else
-      //   isUnige = false;
     });
   }
 
+  /// Returns the Status of the Username input field after check its validation
+  ///
+  /// the validation will be sucess when :
+  ///      1- between 3-20 cahracters
+  ///      2- the username is unique
+  /// the validator will return original if the field is empty
+  /// otherwise the status will be faild and put an error message
   InputStatus validateUsername() {
     if (inputUserNameController.text.isEmpty) {
       return InputStatus.original;
@@ -101,6 +138,11 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
+  /// Returns the Status of the Password input field after check its validation
+  ///
+  /// the validation will be sucess when there is at least 8 characters
+  /// the validator will return original if the field is empty
+  /// otherwise the status will be faild and put an error message
   InputStatus validatePassword() {
     if (inputPasswardController.text.isEmpty)
       return InputStatus.original;
@@ -112,6 +154,10 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
+  /// Control the status of the Email textfield
+  ///
+  /// when user tap in the email textfailed mark it as taped
+  /// when tap out check the validation using [validateEmail()]
   void controlEmailStatus(hasFocus) {
     if (hasFocus == true)
       inputEmailStatus = InputStatus.taped;
@@ -119,6 +165,9 @@ class _SignUpState extends State<SignUp> {
       inputEmailStatus = validateEmail();
   }
 
+  /// Control the status of the Username textfield
+  ///
+  /// Similar the [controlEmailStatus()] in the methodology
   void controlUsernameStatus(hasFocus) {
     if (hasFocus)
       inputUsernameStatus = InputStatus.taped;
@@ -126,6 +175,9 @@ class _SignUpState extends State<SignUp> {
       inputUsernameStatus = validateUsername();
   }
 
+  /// Control the status of the Password textfield
+  ///
+  /// Similar the [controlEmailStatus()] in the methodology
   void controlPasswordStatus(hasFocus) {
     if (hasFocus)
       inputPasswardStatus = InputStatus.taped;
@@ -137,9 +189,12 @@ class _SignUpState extends State<SignUp> {
   final String url =
       'https://abf8b3a8-af00-46a9-ba71-d2c4eac785ce.mock.pstmn.io';
 
-  /// variable to check if the backend finish the actual server of work with the mock
+  /// Whether the Mock server is still working not the actual API
   final bool isMock = true;
 
+  ///post the signup info to the backend server
+  ///
+  /// take the data from inputs listener and sent it to the server
   void submitSignUp() {
     Uri URL = Uri.parse(url + '/users/signup' + ((isMock) ? '/1' : ''));
     print(URL.toString());
