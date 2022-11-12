@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/text_input.dart';
 import '../widgets/upper_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
@@ -7,137 +8,64 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../icons/redditIcons.dart';
 import '../../icons/GoogleFacebookIcons.dart';
-import 'login.dart';
 import '../../icons/closeIcons.dart';
+import 'signup.dart';
 import '../widgets/upper_text.dart';
-
-import '../widgets/text_input.dart';
+import 'forgot_password.dart';
 import '../widgets/password_input.dart';
-
+import '../widgets/continue_with_email.dart';
 import '../widgets/continue_with_facebook.dart';
 import '../widgets/continue_with_google.dart';
-import '../models/wrapper.dart';
 import 'package:http/http.dart' as http;
+import '../models/wrapper.dart';
 import 'dart:convert';
-import '../models/status.dart';
-import 'package:email_validator/email_validator.dart';
-import 'gender.dart';
 
-class SignUp extends StatefulWidget {
-  // const SignUp({Key? key}) : super(key: key);
-  static const routeName = '/SignUp';
-  String token = '';
-  String expiresIn = '';
+import '../../home/screens/home_layout.dart';
+import '../models/status.dart';
+
+class Login extends StatefulWidget {
+  // Login({Key? key}) : super(key: key);
+  static const routeName = '/Login';
+
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<Login> createState() => LoginState();
 }
 
-class _SignUpState extends State<SignUp> {
-  bool isFinished = false;
-  bool isUnige = false;
-  BoolWrapper isVisable = BoolWrapper();
-
-  final inputEmailController = TextEditingController();
+class LoginState extends State<Login> {
+  /// listener to the Username input field
   final inputUserNameController = TextEditingController();
+
+  /// listener to the password input field
   final inputPasswardController = TextEditingController();
 
-  InputStatus inputEmailStatus = InputStatus.original;
-  InputStatus inputUsernameStatus = InputStatus.original;
-  InputStatus inputPasswardStatus = InputStatus.original;
+  /// Whether the user finish enter the 3 inputs
+  bool isFinished = false;
 
-  String emailErrorMessage = '';
-  String usernameErrorMessage = '';
-  String passwordErrorMessage = '';
-  // check if the user enter the input field correctly
-  // and then activate the continue bottom
+  ///Whether the password is visiable or not
+  BoolWrapper isVisable = BoolWrapper();
+
+  ///controlling the finish flag
+  ///
+  ///when user typing in any input field ->
+  ///check the changes and detect when the finish flag is true
+  ///and then activate the continue bottom
   void changeInput() {
-    isFinished = (validateEmail() == InputStatus.sucess) &
-        (validateUsername() == InputStatus.sucess) &
-        (validatePassword() == InputStatus.sucess);
+    isFinished = (!inputUserNameController.text.isEmpty) &
+        (!inputPasswardController.text.isEmpty);
   }
 
-  InputStatus validateEmail() {
-    // print(EmailValidator.validate(inputEmailController.text.toLowerCase()));
-    if (inputEmailController.text.isEmpty)
-      return InputStatus.original;
-    else if (EmailValidator.validate(inputEmailController.text.toLowerCase()))
-      return InputStatus.sucess;
-    else {
-      emailErrorMessage = 'Not a valid email address';
-      return InputStatus.failed;
-    }
-  }
+  /// Whether there is an error in the fields or not
+  bool isError = false;
 
-  Future checkUnique() async {
-    Uri URL = Uri.parse(url +
-        '/users/username_available' +
-        ((isMock) ? '/3' : '') +
-        '?userName=${inputUserNameController.text}');
+  /// Whether the user tring to submit or not
+  bool isSubmit = false;
 
-    await http.get(URL).then((response) {
-      isUnige = jsonDecode(response.body)['available'];
-      // if (jsonDecode(response.body)['available'] == true)
-      //   isUnige = true;
-      // else
-      //   isUnige = false;
-    });
-  }
+  ///saving the authontigation from the back
+  String token = '';
+  String expiresIn = '';
 
-  InputStatus validateUsername() {
-    if (inputUserNameController.text.isEmpty) {
-      return InputStatus.original;
-    } else if (inputUserNameController.text.length < 3 ||
-        inputUserNameController.text.length > 20) {
-      usernameErrorMessage = 'Username must be between 3 and 20 characters';
-      return InputStatus.failed;
-    } else {
-      checkUnique();
-      if (isUnige)
-        return InputStatus.sucess;
-      else {
-        usernameErrorMessage = 'that username is already taken';
-        return InputStatus.failed;
-      }
-    }
-  }
-
-  InputStatus validatePassword() {
-    if (inputPasswardController.text.isEmpty)
-      return InputStatus.original;
-    else if (inputPasswardController.text.length >= 8)
-      return InputStatus.sucess;
-    else {
-      passwordErrorMessage = 'the password must be at least 8 characters';
-      return InputStatus.failed;
-    }
-  }
-
-  void controlEmailStatus(hasFocus) {
-    if (hasFocus == true)
-      inputEmailStatus = InputStatus.taped;
-    else
-      inputEmailStatus = validateEmail();
-    // inputUsernameStatus = validateUsername();
-    // inputPasswardStatus = validatePassword();
-  }
-
-  void controlUsernameStatus(hasFocus) {
-    if (hasFocus)
-      inputUsernameStatus = InputStatus.taped;
-    else
-      inputUsernameStatus = validateUsername();
-    // inputEmailStatus = validateEmail();
-    // inputPasswardStatus = validatePassword();
-  }
-
-  void controlPasswordStatus(hasFocus) {
-    if (hasFocus)
-      inputPasswardStatus = InputStatus.taped;
-    else
-      inputPasswardStatus = validatePassword();
-    // inputEmailStatus = validateEmail();
-    // inputUsernameStatus = validateUsername();
-  }
+  /// error message to view when the log in is failed
+  String errorMessage = '';
 
   /// variable to contain the url of the server
   final String url =
@@ -146,32 +74,34 @@ class _SignUpState extends State<SignUp> {
   /// variable to check if the backend finish the actual server of work with the mock
   final bool isMock = true;
 
-  void submitSignUp() {
-    Uri URL = Uri.parse(url + '/users/signup' + ((isMock) ? '/1' : ''));
-    print(URL.toString());
+  ///post the login info to the backend server
+  ///
+  /// take the data from inputs listener and sent it to the server
+  /// if the server return failed response then there is error message will appare
+  /// other wise jump on the homeScreen
+  void checkLogin() {
+    Uri URL = Uri.parse(url + '/users/login' + ((isMock) ? '/1' : ''));
     http
         .post(URL,
             body: json.encode({
               'userName': inputUserNameController.text,
-              'email': inputEmailController.text,
               'password': inputPasswardController.text
             }))
         .then((response) {
-      print('the status code: ' + response.statusCode.toString());
-      if (response.statusCode == 201) {
-        widget.token = json.decode(response.body)['token'];
-        widget.expiresIn = json.decode(response.body)['expiresIn'];
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => ResponsiveSizer(
-                builder: (cntx, orientation, Screentype) {
-                  // Device.deviceType == DeviceType.web;
-                  return Gender();
-                },
-              ),
-            ));
+      if (response.statusCode == 200) {
+        isError = false;
+        token = json.decode(response.body)['token'];
+        expiresIn = json.decode(response.body)['expiresIn'];
+        Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
+      } else if (response.statusCode == 400) {
+        isError = true;
+        errorMessage = json.decode(response.body)['errorMessage'];
+      } else if (response.statusCode == 404) {
+        isError = true;
+        errorMessage = json.decode(response.body)['errorMessage'];
       }
+      isSubmit = true;
+      setState(() {});
     });
   }
 
@@ -183,13 +113,12 @@ class _SignUpState extends State<SignUp> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UpperBar(UpperbarStatus.login),
+          UpperBar(UpperbarStatus.signup),
           Expanded(
             child: Container(
-              // height: 80.h,
               child: SingleChildScrollView(
                 child: Column(children: [
-                  UpperText('Hi new friend, welcome to Reddit'),
+                  UpperText('Log in to Reddit'),
                   SizedBox(
                     height: 4.h,
                   ),
@@ -203,7 +132,6 @@ class _SignUpState extends State<SignUp> {
                         Container(
                           width: 20.h,
                           child: Divider(
-                            // height: 2,
                             thickness: 1,
                             color: Colors.black26,
                           ),
@@ -226,55 +154,46 @@ class _SignUpState extends State<SignUp> {
                     height: 3.h,
                   ),
                   TextInput(
-                      currentStatus: inputEmailStatus,
-                      lable: 'Email',
-                      ontap: (focus) {
-                        controlEmailStatus(focus);
-                        setState(() {});
-                      },
-                      changeInput: changeInput,
-                      inputController: inputEmailController),
-                  if (inputEmailStatus == InputStatus.failed)
-                    Text(
-                      emailErrorMessage,
-                      style: TextStyle(color: Theme.of(context).errorColor),
-                    ),
-                  TextInput(
-                      currentStatus: inputUsernameStatus,
                       lable: 'Username',
-                      ontap: (focus) {
-                        controlUsernameStatus(focus);
-                        setState(() {});
+                      ontap: (hasfocus) {},
+                      changeInput: () {
+                        setState(() {
+                          changeInput();
+                        });
                       },
-                      changeInput: changeInput,
                       inputController: inputUserNameController),
-                  if (inputUsernameStatus == InputStatus.failed)
-                    Text(
-                      usernameErrorMessage,
-                      style: TextStyle(color: Theme.of(context).errorColor),
-                    ),
                   PasswordInput(
-                      lable: 'Passward',
-                      currentStatus: inputPasswardStatus,
-                      ontap: (focus) {
-                        controlPasswordStatus(focus);
-                        setState(() {});
-                      },
                       isVisable: isVisable,
+                      lable: 'Password',
+                      ontap: (hasfocus) {},
                       changeInput: () {
                         setState(() {
                           changeInput();
                         });
                       },
                       inputController: inputPasswardController),
-                  if (inputPasswardStatus == InputStatus.failed)
-                    Text(
-                      passwordErrorMessage,
-                      style: TextStyle(color: Theme.of(context).errorColor),
-                    ),
                   SizedBox(
                     height: 2.h,
                   ),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ResponsiveSizer(
+                                    builder: (cntx, orientation, Screentype) {
+                                      // Device.deviceType == DeviceType.web;
+                                      return Scaffold(body: ForgotPassword());
+                                    },
+                                  ),
+                                ));
+                          },
+                          child: Text(
+                              style: TextStyle(color: Colors.red),
+                              'Forget passward'))),
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(children: [
@@ -329,6 +248,33 @@ class _SignUpState extends State<SignUp> {
               ),
             ),
           ),
+          // Spacer(),
+          if (isSubmit && isError)
+            Padding(
+              padding: EdgeInsets.all(5.w),
+              child: Center(
+                child: Text(
+                    textAlign: TextAlign.center,
+                    errorMessage,
+                    style: TextStyle(
+                      fontSize: 18,
+                      // fontWeight: FontWeight.w500,
+                      color: Theme.of(context).errorColor,
+                    )),
+              ),
+            ),
+          if (isSubmit && !isError)
+            Padding(
+              padding: EdgeInsets.all(5.w),
+              child: Text(
+                  textAlign: TextAlign.center,
+                  'you will receve if that adress maches your mail',
+                  style: TextStyle(
+                    fontSize: 18,
+                    // fontWeight: FontWeight.w500,
+                    color: Colors.green,
+                  )),
+            ),
           Container(
               width: double.infinity,
               child: Padding(
@@ -344,10 +290,10 @@ class _SignUpState extends State<SignUp> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                   ),
-                  onPressed: isFinished ? submitSignUp : null,
+                  onPressed: isFinished ? checkLogin : null,
                   child: Text('Continue'),
                 ),
-              ))
+              )),
         ],
       ),
     );

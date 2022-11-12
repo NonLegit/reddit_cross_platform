@@ -22,24 +22,48 @@ class ForgotUserName extends StatefulWidget {
   /// variable to check if the backend finish the actual server of work with the mock
   final bool isMock = true;
   @override
-  State<ForgotUserName> createState() => _ForgotUserNameState();
+  State<ForgotUserName> createState() => ForgotUserNameState();
 }
 
-class _ForgotUserNameState extends State<ForgotUserName> {
-  // const ForgotUserName({Key? key}) : super(key: key);
+class ForgotUserNameState extends State<ForgotUserName> {
+  /// Whether there is an error in the fields or not
+  bool isError = false;
+
+  /// Whether the user tring to submit or not
+  bool isSubmit = false;
+
+  /// error message to view when the log in is failed
+  String errorMessage = '';
+
+  /// Whether the user finish enter the 3 inputs
   bool isFinished = false;
 
+  /// listener to the Email input field
   TextEditingController inputEmailController = TextEditingController();
 
+  ///controlling the finish flag
+  ///
+  ///when user typing in any input field ->
+  ///check the changes and detect when the finish flag is true
+  ///and then activate the continue bottom
   void changeInput() {
     isFinished = (!inputEmailController.text.isEmpty) &&
         (validateEmail() == InputStatus.sucess);
   }
 
+  /// the Current Status of the Email input field
   InputStatus inputEmailStatus = InputStatus.original;
+
+  /// error message to view when the Email is invalid
   String emailErrorMessage = '';
+
+  /// Returns the Status of the Email input field after check its validation
+  ///
+  /// the validation will be sucess when :
+  ///      1- the email is correct
+  /// the validator will return original if the field is empty
+  /// otherwise the status will be faild and put an error message
   InputStatus validateEmail() {
-    // print(EmailValidator.validate(inputEmailController.text.toLowerCase()));
     if (inputEmailController.text.isEmpty)
       return InputStatus.original;
     else if (EmailValidator.validate(inputEmailController.text.toLowerCase()))
@@ -50,6 +74,10 @@ class _ForgotUserNameState extends State<ForgotUserName> {
     }
   }
 
+  /// Control the status of the Email textfield
+  ///
+  /// when user tap in the email textfailed mark it as taped
+  /// when tap out check the validation using [validateEmail()]
   void controlEmailStatus(hasFocus) {
     if (hasFocus)
       inputEmailStatus = InputStatus.taped;
@@ -57,9 +85,11 @@ class _ForgotUserNameState extends State<ForgotUserName> {
       inputEmailStatus = validateEmail();
   }
 
-  bool isError = false;
-  bool isSubmit = false;
-  String errorMessage = '';
+  ///post the forgotUsername  info to the backend server
+  ///
+  /// take the data from inputs listener and sent it to the server
+  /// if the server return failed response then there is error message will appare
+  /// other show sucess message
   void submitForgorUserName() {
     Uri URL = Uri.parse(widget.url +
         '/users/forgot_username' +

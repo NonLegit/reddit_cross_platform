@@ -24,26 +24,52 @@ class ForgotPassword extends StatefulWidget {
   /// variable to check if the backend finish the actual server of work with the mock
   final bool isMock = true;
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
+  State<ForgotPassword> createState() => ForgotPasswordState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
-  // const ForgotPassword({Key? key}) : super(key: key);
-  TextEditingController inputUserNameController = TextEditingController();
+class ForgotPasswordState extends State<ForgotPassword> {
+  /// Whether there is an error in the fields or not
+  bool isError = false;
 
+  /// Whether the user tring to submit or not
+  bool isSubmit = false;
+
+  /// error message to view when the log in is failed
+  String errorMessage = '';
+
+  /// Whether the user finish enter the 3 inputs
   bool isFinished = false;
 
+  /// listener to the Username input field
+  TextEditingController inputUserNameController = TextEditingController();
+
+  /// listener to the Email input field
   TextEditingController inputEmailController = TextEditingController();
+
+  /// the Current Status of the Email input field
   InputStatus inputEmailStatus = InputStatus.original;
+
+  /// error message to view when the Email is invalid
   String emailErrorMessage = '';
+
+  ///controlling the finish flag
+  ///
+  ///when user typing in any input field ->
+  ///check the changes and detect when the finish flag is true
+  ///and then activate the continue bottom
   void changeInput() {
     isFinished = (!inputUserNameController.text.isEmpty) &&
         (!inputEmailController.text.isEmpty) &&
         (validateEmail() == InputStatus.sucess);
   }
 
+  /// Returns the Status of the Email input field after check its validation
+  ///
+  /// the validation will be sucess when :
+  ///      1- the email is correct
+  /// the validator will return original if the field is empty
+  /// otherwise the status will be faild and put an error message
   InputStatus validateEmail() {
-    // print(EmailValidator.validate(inputEmailController.text.toLowerCase()));
     if (inputEmailController.text.isEmpty)
       return InputStatus.original;
     else if (EmailValidator.validate(inputEmailController.text.toLowerCase()))
@@ -54,6 +80,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     }
   }
 
+  /// Control the status of the Email textfield
+  ///
+  /// when user tap in the email textfailed mark it as taped
+  /// when tap out check the validation using [validateEmail()]
   void controlEmailStatus(hasFocus) {
     if (hasFocus)
       inputEmailStatus = InputStatus.taped;
@@ -61,9 +91,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       inputEmailStatus = validateEmail();
   }
 
-  bool isError = false;
-  bool isSubmit = false;
-  String errorMessage = '';
+  ///post the forgotPassword  info to the backend server
+  ///
+  /// take the data from inputs listener and sent it to the server
+  /// if the server return failed response then there is error message will appare
+  /// other show sucess message
   void submitForgorPasssword() {
     Uri URL = Uri.parse(widget.url +
         '/users/forgot_password' +
@@ -92,9 +124,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return Scaffold(
       //GestureDetector to hide the soft keyboard
       //by clicking outside of TextField or anywhere on the screen
-// onTap: () {
-//           FocusScope.of(context).requestFocus(new FocusNode());
-//         },
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
