@@ -22,7 +22,7 @@ class _ModeratorToolsState extends State<ModeratorTools> {
   void initState() {
     // TODO: implement initState
 
-    DioClient.init();
+    //DioClient.init();
     super.initState();
   }
 

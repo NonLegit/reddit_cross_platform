@@ -7,6 +7,7 @@ import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../../widgets/profile_comments.dart';
 import '../../widgets/profile_posts.dart';
+import '../../icons/icon_broken.dart';
 import '../../widgets/subreddit_about.dart';
 import '../../widgets/drawer.dart';
 import '../widgets/moderated_subreddit_pop_up_menu_button.dart';
@@ -24,6 +25,11 @@ class ModeratedSubredditScreen extends StatefulWidget {
 
 class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
     with TickerProviderStateMixin {
+      //=====================End Drawer=============//
+              bool isOnline = true;
+        void showEndDrawer(BuildContext context) {
+    Scaffold.of(context).openEndDrawer();
+  }
   //================Tab bar==================//
   List<Tab> tabs = <Tab>[
     const Tab(text: 'Posts'),
@@ -168,14 +174,33 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
                           communityName: loadedSubreddit!.name.toString(),
                           userName: userName,
                         ),
-                        IconButton(
-                            onPressed: () {
-                              _scaffoldKey.currentState!.openEndDrawer();
-                            },
-                            icon: Icon(
-                              Icons.person_sharp,
-                            ))
-                        // AppDrawer(),
+                                  Builder(builder: (context) {
+                    return IconButton(
+                      onPressed: () => showEndDrawer(context),
+                      icon: Stack(
+                        alignment: AlignmentDirectional.bottomEnd,
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
+                            radius: 30.0,
+                          ),
+                          CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 6,
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.only(
+                                end: 2, bottom: 2),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.green,
+                              radius: 4,
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }),
                       ],
                       expandedHeight: (loadedSubreddit!.description == null ||
                               loadedSubreddit!.description == '')
@@ -348,7 +373,166 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
                 color: Colors.blue,
               ),
             )
-          : AppDrawer(),
+          : endDrawerHome(context)
     );
   }
+  Drawer endDrawerHome(BuildContext context) {
+    return Drawer(
+            elevation: 20.0,
+            width: 250.0,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 80.0,
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    width: 250.0,
+                    height: 250.0,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 60.0,
+                            backgroundImage: NetworkImage(
+                                'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            'u/' + 'Ahmed Fawzy',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 17.0,
+                                color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          SizedBox(
+                            width: 200.0,
+                            height: 30.0,
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                setState(() {
+                                  if (isOnline) {
+                                    isOnline = false;
+                                  } else {
+                                    isOnline = true;
+                                  }
+                                });
+                              },
+                              icon: CircleAvatar(
+                                radius: 4,
+                                backgroundColor: isOnline
+                                    ? Colors.green
+                                    : Colors.grey[200],
+                              ),
+                              style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all(0),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.grey[200]),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                          side: BorderSide(
+                                              color: isOnline
+                                                  ? Colors.green
+                                                  : Colors.black54)))),
+                              label: Text(
+                                "Online Status: " +
+                                    "${isOnline ? "On" : "Off"}",
+                                style: TextStyle(
+                                    color: isOnline
+                                        ? Colors.green
+                                        : Colors.black54),
+                              ),
+                            ),
+                          ),
+                        ])),
+                SizedBox(
+                  height: 20.0,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Divider(
+                  thickness: 1,
+                ),
+                ListTile(
+                  horizontalTitleGap: 3,
+                  leading: Icon(Icons.account_circle_outlined),
+                  title: Text(
+                    'My profile',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  horizontalTitleGap: 3,
+                  leading: Icon(IconBroken.Category),
+                  title: Text(
+                    'Create a community',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  horizontalTitleGap: 3,
+                  leading: Icon(Icons.save),
+                  title: Text(
+                    'Saved',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  horizontalTitleGap: 3,
+                  leading: Icon(Icons.access_time_outlined),
+                  title: Text(
+                    'History',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                SizedBox(
+                  height: 230.0,
+                ),
+                Expanded(
+                  child: ListTile(
+                    horizontalTitleGap: 3,
+                    leading: Icon(IconBroken.Setting),
+                    title: Text(
+                      'Settings',
+                      style: TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w600),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+  }
+
 }

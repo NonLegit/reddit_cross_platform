@@ -273,6 +273,7 @@ class CreateCommunityState extends State<CreateCommunity> {
       setState(() {
         validating = true;
       });
+      subredditName = _communityNameController.text;
       DioClient.get(path: getCommunity).then((value) {
         setState(() {
           uniqueCommunityName = false;

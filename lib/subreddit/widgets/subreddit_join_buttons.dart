@@ -20,10 +20,10 @@ class JoinButtons extends StatefulWidget {
       required this.communityName});
 
   @override
-  State<JoinButtons> createState() => _JoinButtonsState();
+  State<JoinButtons> createState() => JoinButtonsState();
 }
 
-class _JoinButtonsState extends State<JoinButtons> {
+class JoinButtonsState extends State<JoinButtons> {
   @override
   void initState() {
     super.initState();
@@ -195,9 +195,7 @@ class _JoinButtonsState extends State<JoinButtons> {
               ),
               child: Text('Leave'),
               onPressed: () {
-                setState(() {
-                  widget.isJoined = false;
-                });
+                joinButtonFunc();
                 Navigator.of(ctx).pop();
               },
             ),
@@ -205,5 +203,12 @@ class _JoinButtonsState extends State<JoinButtons> {
         ],
       ),
     );
+  }
+
+ bool  joinButtonFunc() {
+    setState(() {
+                widget.isJoined = false;
+              });
+         return widget.isJoined;
   }
 }

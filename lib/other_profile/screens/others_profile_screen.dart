@@ -8,6 +8,7 @@ import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../../widgets/profile_comments.dart';
 import '../../widgets/profile_posts.dart';
+import '../../widgets/loading_reddit.dart';
 import '../widgets/others_profile_about.dart';
 import '../models/others_profile_data.dart';
 import '../providers/other_profile_provider.dart';
@@ -27,22 +28,23 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
   var _isInit = true;
   // var myUserName = 'Zeinab-Moawad';
   // var otherUserName = 'zeinab-moawad';
-  var loadProfile = OtherProfileData(
-      id: 0,
-      userName: 'Zeinab-Moawad',
-      email: 'email',
-      profilePicture:
-          'https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2019/10/blank-person-icon-9.jpg',
-      profileBackPicture:
-          'https://preview.redd.it/vqqv5xbfezp91.jpg?width=4096&format=pjpg&auto=webp&s=54acda24af01e2de60e98603e3e29e8db381ebac',
-      description: 'I\'m student',
-      displayName: 'Zeinab moawad',
-      createdAt: '12/10/2022',
-      numOfDaysInReddit: 2,
-      followersCount: 2,
-      postKarma: 1,
-      isFollowed: false,
-      commentkarma: 1);
+  var loadProfile ;
+  // = OtherProfileData(
+  //     id: 0,
+  //     userName: 'Zeinab-Moawad',
+  //     email: 'email',
+  //     profilePicture:
+  //         'https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2019/10/blank-person-icon-9.jpg',
+  //     profileBackPicture:
+  //         'https://preview.redd.it/vqqv5xbfezp91.jpg?width=4096&format=pjpg&auto=webp&s=54acda24af01e2de60e98603e3e29e8db381ebac',
+  //     description: 'I\'m student',
+  //     displayName: 'Zeinab moawad',
+  //     createdAt: '12/10/2022',
+  //     numOfDaysInReddit: 2,
+  //     followersCount: 2,
+  //     postKarma: 1,
+  //     isFollowed: false,
+  //     commentkarma: 1);
   // ===================================================//
   List<Tab> tabs = <Tab>[
     const Tab(text: 'Posts'),
@@ -80,29 +82,15 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
       setState(() {
         _isLoading = true;
       });
-      //   //userName = ModalRoute.of(context)?.settings.arguments as String;
-      //   DioClient.init();
-      //   DioClient.get(path:otherprofile).then((response) {
-      //   loadProfile = OtherProfileData.fromJson(json.decode(response.data));
-      //    setState(() {
-      //       _isLoading = false;
-      //     });
-      // });
-      // }
-      // _isInit = false;
-      // if (_isInit) {
-      //   setState(() {
-      //     _isLoading = true;
-      //   });
-      //   myUserName = ModalRoute.of(context)?.settings.arguments as String;
-      //   Provider.of<OtherProfileprovider>(context)
-      //       .fetchAndSetOtherProfile(myUserName, otherUserName)
-      // .then((_) {
-      setState(() {
-        _isLoading = false;
+        userName = ModalRoute.of(context)?.settings.arguments as String;
+        DioClient.init();
+        DioClient.get(path:otherprofile).then((response) {
+        loadProfile = OtherProfileData.fromJson(json.decode(response.data));
+         setState(() {
+            _isLoading = false;
+          });
       });
-      // });
-    }
+      }
     _isInit = false;
 
     //==================================================//
@@ -115,12 +103,7 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
     // .gettingOtherProfileData;
     return Scaffold(
       body: _isLoading
-          ? const Center(
-              child: Icon(
-                Icons.reddit,
-                color: Colors.blue,
-              ),
-            )
+          ?LoadingReddit()
           : NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
@@ -203,12 +186,7 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
                 ];
               },
               body: _isLoading
-                  ? const Center(
-                      child: Icon(
-                        Icons.reddit,
-                        color: Colors.blue,
-                      ),
-                    )
+                  ? LoadingReddit()
                   : TabBarView(controller: _controller, children: [
                       ProfilePosts(routeNamePop: OthersProfileScreen.routeName),
                       ProfileComments(),

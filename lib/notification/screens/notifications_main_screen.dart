@@ -143,8 +143,8 @@ class NotificationsMainScreen extends StatelessWidget {
                                       height: (usersAllNotificatiion[index]
                                                   ['type'] ==
                                               'community')
-                                          ? 28
-                                          : 22)
+                                          ? 31
+                                          : 25)
                                   : null);
                         },
                         itemCount: usersAllNotificatiion.length,

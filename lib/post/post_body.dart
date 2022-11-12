@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/mfg_labs_icons.dart';
 
-import './helpers/fetch_preview.dart';
+import '../helpers/fetch_preview.dart';
 
 class PostBody extends StatefulWidget {
   final String title;

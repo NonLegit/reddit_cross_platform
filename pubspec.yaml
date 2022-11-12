@@ -112,6 +112,7 @@ flutter:
     - assets/images/img.jpg
     - assets/images/emptyNotification.png
     - assets/images/redditLoading.png
+    - assets/images/loadingreddit.gif
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
