@@ -19,6 +19,44 @@ class DioClient {
     );
   }
 
+  static initCreateCoumunity() {
+    dio = Dio(
+      BaseOptions(
+          baseUrl: createcommunity_baseUrl2,
+          receiveDataWhenStatusError: true,
+          connectTimeout: 5000,
+          receiveTimeout: 20 * 1000,
+          responseType: ResponseType.json
+          // headers: {'Content-type': 'text/plain'},
+          ),
+    );
+  }
+
+  static initNotification() {
+    dio = Dio(
+      BaseOptions(
+          baseUrl: notification_baseUrl3,
+          receiveDataWhenStatusError: true,
+          connectTimeout: 7000,
+          receiveTimeout: 20 * 1000,
+          responseType: ResponseType.json
+          // headers: {'Content-type': 'text/plain'},
+          ),
+    );
+  }
+  static initModerationSetting() {
+    dio = Dio(
+      BaseOptions(
+          baseUrl: moderationsSetting_baseUrl4,
+          receiveDataWhenStatusError: true,
+          connectTimeout: 7000,
+          receiveTimeout: 20 * 1000,
+          responseType: ResponseType.json
+          // headers: {'Content-type': 'text/plain'},
+          ),
+    );
+  }
+
   // Post:----------------------------------------------------------------------
   static Future<Response> post(
       {required String path,
@@ -30,7 +68,9 @@ class DioClient {
 
   static Future<Response> get({required String path}) async {
     return await dio!.get(path);
-    
+  }
 
+  static Future<Response> patch({required String path,required Map<String, dynamic> data}) async{
+    return await dio!.patch(path,data: data);
   }
 }

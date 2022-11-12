@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sw_code/create_community/widgets/bar_widget.dart';
-import 'package:sw_code/notification/screens/navigate_to_correct_screen.dart';
-import 'package:sw_code/notification/widgets/list_tile_widget.dart';
-import 'package:sw_code/notification/widgets/three_dots_widget.dart';
+import '../../create_community/widgets/bar_widget.dart';
+import './navigate_to_correct_screen.dart';
+import '../widgets/list_tile_widget.dart';
+import '../widgets/three_dots_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class NotificationsMainScreen extends StatelessWidget {
@@ -26,7 +26,7 @@ class NotificationsMainScreen extends StatelessWidget {
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/img/emptyNotification.png'),
+                Image.asset('assets/images/emptyNotification.png'),
                 Text(
                   'Wow,such empty',
                   style: TextStyle(
@@ -51,7 +51,7 @@ class NotificationsMainScreen extends StatelessWidget {
                           return ListTile(
                               onTap: () =>
                                   _navigateToCorrectScreen(index, context),
-                              tileColor: (usersAllNotificatiion[index]['seen'])
+                              tileColor: (!usersAllNotificatiion[index]['seen'])
                                   ? Colors.lightBlue[50]
                                   : Colors.white,
                               leading: Container(
@@ -63,7 +63,7 @@ class NotificationsMainScreen extends StatelessWidget {
                                     top: 0,
                                     child: CircleAvatar(
                                       backgroundImage:
-                                          AssetImage('assets/img/img.jpg'),
+                                          AssetImage('assets/images/img.jpg'),
                                       radius: 17,
                                     ),
                                   ),
@@ -71,8 +71,8 @@ class NotificationsMainScreen extends StatelessWidget {
                                     left: 20,
                                     top: 20,
                                     child: CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage('assets/img/like.png'),
+                                      backgroundImage: AssetImage(
+                                          'assets/images/upvote.png'),
                                       radius: 9,
                                     ),
                                   ),
@@ -129,7 +129,8 @@ class NotificationsMainScreen extends StatelessWidget {
                                                 Navigator.of(context).pop(),
                                             style: ElevatedButton.styleFrom(
                                               shape: const StadiumBorder(),
-                                              backgroundColor: Colors.grey[200],
+                                              onPrimary: Colors.grey[200],
+                                              // backgroundColor: Colors.grey[200],
                                             ),
                                             child: const Text(
                                               'Close',
@@ -142,8 +143,8 @@ class NotificationsMainScreen extends StatelessWidget {
                                       height: (usersAllNotificatiion[index]
                                                   ['type'] ==
                                               'community')
-                                          ? 28
-                                          : 22)
+                                          ? 31
+                                          : 25)
                                   : null);
                         },
                         itemCount: usersAllNotificatiion.length,

@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:post/moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:sw_code/create_community/models/create_community_model.dart';
+import '../models/create_community_model.dart';
 
 import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
@@ -12,8 +12,8 @@ import '../widgets/app_bar.dart';
 import '../widgets/community_type.dart';
 import '../widgets/list_of_community_type.dart';
 import '../widgets/toggle_switch.dart';
-import './post.dart';
-import './login_screen.dart';
+// import './post.dart';
+import '../../logins/screens/login.dart';
 
 class CreateCommunity extends StatefulWidget {
   static const routeName = '/createCommunity';
@@ -37,6 +37,8 @@ class CreateCommunityState extends State<CreateCommunity> {
   String errorMessage = '';
   bool uniqueCommunityName = false;
 
+  bool mock = false;
+
   _onChangeHandler(value) {
     //Used to detect if the user finished typing or not so it is called on changing the text field input
     const duration = Duration(
@@ -48,14 +50,18 @@ class CreateCommunityState extends State<CreateCommunity> {
     validateOnStopTyping = Timer(duration, () => _validateCommunityName());
   }
 
+  changeCounterValue(String value) {
+    count = 21 - value.length;
+    if (value.isEmpty) {
+      _typed = false;
+    } else {
+      _typed = true;
+    }
+  }
+
   _onChangeTextField(value) {
     setState(() {
-      count = 21 - _communityNameController.text.length;
-      if (value.isEmpty) {
-        _typed = false;
-      } else {
-        _typed = true;
-      }
+      changeCounterValue(value);
     });
     if (value.length >= 3) {
       _onChangeHandler(value);
@@ -63,11 +69,15 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   clearTextField() {
+    _communityNameController.text = '';
+    count = 21;
+    _typed = false;
+  }
+
+  _clearTextField() {
     //called to clear the text field when pressing cancel icon
     setState(() {
-      _communityNameController.text = '';
-      count = 21;
-      _typed = false;
+      clearTextField();
     });
   }
 
@@ -96,7 +106,7 @@ class CreateCommunityState extends State<CreateCommunity> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    DioClient.init();
+    DioClient.initCreateCoumunity();
   }
 
   final _textFieldKey = GlobalKey<FormState>();
@@ -138,45 +148,49 @@ class CreateCommunityState extends State<CreateCommunity> {
               ),
               SizedBox(
                 height: 10.h,
+                // width: 60.h,
                 child: Form(
                   key: _textFieldKey,
-                  child: TextFormField(
-                    textAlignVertical: TextAlignVertical.center,
-                    controller: _communityNameController,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: validateTextField
-                    // _validateTextField(value)
-                    ,
-                    onChanged: (value) {
-                      _onChangeTextField(value);
-                    },
-                    decoration: InputDecoration(
-                        prefixText: 'r/',
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        labelText: 'r/Community_name',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none),
-                        counterText: "",
-                        labelStyle: const TextStyle(
-                          fontSize: 15,
-                        ),
-                        filled: true,
-                        errorText: (!uniqueCommunityName) ? errorMessage : null,
-                        errorStyle:
-                            const TextStyle(color: Colors.grey, fontSize: 10),
-                        suffixIcon: ClearTextField(
-                            typed: _typed,
-                            clearTextField: clearTextField,
-                            count: count)),
-                    maxLength: 21,
-                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                  child: Container(
+                    child: TextFormField(
+                      textAlignVertical: TextAlignVertical.center,
+                      controller: _communityNameController,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: validateTextField
+                      // _validateTextField(value)
+                      ,
+                      onChanged: (value) {
+                        _onChangeTextField(value);
+                      },
+                      decoration: InputDecoration(
+                          prefixText: 'r/',
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          labelText: 'r/Community_name',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none),
+                          counterText: "",
+                          labelStyle: const TextStyle(
+                            fontSize: 15,
+                          ),
+                          filled: true,
+                          errorText:
+                              (!uniqueCommunityName) ? errorMessage : null,
+                          errorStyle:
+                              const TextStyle(color: Colors.grey, fontSize: 10),
+                          suffixIcon: ClearTextField(
+                              typed: _typed,
+                              clearTextField: clearTextField,
+                              count: count)),
+                      maxLength: 21,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    ),
                   ),
                 ),
               ),
@@ -234,13 +248,18 @@ class CreateCommunityState extends State<CreateCommunity> {
                         : () {
                             //GOTO POST IN COMMUNITY & SAVE THE CREATED COMMUNITY
                             _saveCommunity();
-                            Navigator.of(context).pushNamed(Post.routeName);
+
+                            Navigator.of(context).pushNamed(
+                                ModeratedSubredditScreen.routeName,
+                                arguments: _communityNameController.text);
                           },
                     style: ElevatedButton.styleFrom(
+                      onSurface: Colors.grey[900],
+                      primary: Colors.blue[800],
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      backgroundColor: Colors.blue[800],
+                      // backgroundColor: Colors.blue[800],
                     ),
                     child: (validating && !uniqueCommunityName)
                         ? const CircularProgressIndicator()
@@ -273,26 +292,31 @@ class CreateCommunityState extends State<CreateCommunity> {
       setState(() {
         validating = true;
       });
-      DioClient.get(path: getCommunity).then((value) {
+      subredditName = _communityNameController.text;
+      String pathMock = (mock) ? '1' : '2';
+      DioClient.get(path: getCommunity + pathMock).then((value) {
         setState(() {
           uniqueCommunityName = false;
           errorMessage =
               'Sorry,${_communityNameController.text} is taken.Try another.';
           validating = false;
+          mock = !mock;
         });
       }).catchError((error) {
-        if (error['status'] == '404') {
-          setState(() {
-            uniqueCommunityName = true;
-            errorMessage = '';
-            validating = false;
-          });
-        } else if (error['status'] == '400' || error['status'] == '409') {
-          print('badRequest');
-        } else if (error['status'] == '401') {
-          Navigator.of(context).pushNamed(LoginPage.routeName);
-        }
+        // if (error['status'] == '404') {
+        setState(() {
+          uniqueCommunityName = true;
+          errorMessage = '';
+          validating = false;
+          mock = !mock;
+        });
+        //     } else if (error['status'] == '400' || error['status'] == '409') {
+        //       print('badRequest');
+        //     } else if (error['status'] == '401') {
+        //       Navigator.of(context).pushNamed(Login.routeName);
+        //     }
       });
+      //  }
     }
   }
 
@@ -307,13 +331,13 @@ class CreateCommunityState extends State<CreateCommunity> {
     ).then((value) {
       print(value.toString());
     }).catchError((error) {
-      if (error['status'] == '404') {
-        print('error 404');
-      } else if (error['status'] == '400' || error['status'] == '409') {
-        print('badRequest');
-      } else if (error['status'] == '401') {
-        Navigator.of(context).pushNamed(LoginPage.routeName);
-      }
+      // if (error['status'] == '404') {
+      //   print('error 404');
+      // } else if (error['status'] == '400' || error['status'] == '409') {
+      //   print('badRequest');
+      // } else if (error['status'] == '401') {
+      //   Navigator.of(context).pushNamed(Login.routeName);
+      // }
     });
   }
 }
