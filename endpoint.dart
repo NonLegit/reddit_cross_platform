@@ -1,1 +1,0 @@
-const submit="Submit a post to a subreddit";
