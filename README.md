@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-# post
-=======
-# sw_code
->>>>>>> origin/Eman
-
 A new Flutter project.
 
 ## Getting Started
