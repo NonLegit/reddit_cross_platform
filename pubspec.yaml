@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: '>=2.17.6 <3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -34,13 +34,14 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  email_validator: ^2.1.17
-  url_launcher: ^6.1.6 
   cupertino_icons: ^1.0.2
   flutter_dotenv: ^5.0.2
   fluttericon: ^2.0.0
   http: ^0.13.5
   html: ^0.15.1
+  blur: ^3.0.0
+  flutter_image_slideshow: any
+  dots_indicator: ^2.1.0
   conditional_builder: ^1.0.2
   bloc: ^7.0.0
   flutter_bloc: ^7.0.0
@@ -53,11 +54,13 @@ dependencies:
   dartdoc: ^6.1.2
   flutter_switch: ^0.3.2
   badges: ^2.0.3
+  url_launcher_web: ^2.0.13
+  email_validator: ^2.1.17
+  url_launcher: ^6.1.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_code_style: ^2.1.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -76,43 +79,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  fonts:
-    - family: closeIcons
-      fonts:
-        - asset: assets/icons/closeIcons.ttf
-    - family: RedditIcons
-      fonts:
-        - asset: assets/icons/RedditIcons.ttf
-    - family: GoogleFacebookIcons
-      fonts:
-        - asset: assets/icons/GoogleFacebookIcons.ttf
-
-    - family: Verdana
-      fonts:
-        - asset: assets/fonts/Verdana.ttf
-        - asset: assets/fonts/verdanab.ttf
-          weight: 700    
-    - family: Jannah
-      fonts:
-        - asset: assets/fonts/jannah.ttf
-          weight: 700
-    - family: IconBroken
-      fonts:
-        - asset: assets/fonts/icons.ttf
-
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
     - assets/images/community_icon.png
-    - assets/images/Activism.png
-    - assets/images/Addiction Support.png
-    - assets/images/Animal and Pets.png
-    - assets/images/Anime.png
-    - assets/images/upvote.png
-    - assets/images/img.jpg
-    - assets/images/emptyNotification.png
-    - assets/images/redditLoading.png
-    - assets/images/loadingreddit.gif
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
