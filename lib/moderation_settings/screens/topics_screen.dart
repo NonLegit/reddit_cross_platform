@@ -25,7 +25,6 @@ class _TopicsScreenState extends State<TopicsScreen> {
   var _selectedIndex = -1;
   var _selectedTopic = '';
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -35,15 +34,14 @@ class _TopicsScreenState extends State<TopicsScreen> {
     super.initState();
   }
 
-    @override
+  @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    widget.selectedBefore =  ModalRoute.of(context)?.settings.arguments as String;
+    widget.selectedBefore =
+        ModalRoute.of(context)?.settings.arguments as String;
     print(widget.selectedBefore);
   }
-
-  
 
   //change the value of the choosen topic and remove styling from the old one
   onClick(index, topic) {
@@ -53,20 +51,22 @@ class _TopicsScreenState extends State<TopicsScreen> {
       widget.selectedBefore = topics.keys.elementAt(_selectedIndex);
     });
   }
+
   //enabling the save button to save the new topic chosen
   makeButtonEnable() async {
     setState(() {
       _pressed = true;
     });
     print(topics.keys.elementAt(_selectedIndex));
-    await DioClient.patch(path: moderationTools, data: {"primaryTopic" :'${topics.keys.elementAt(_selectedIndex)}'});
+    await DioClient.patch(
+        path: moderationTools,
+        data: {"primaryTopic": '${topics.keys.elementAt(_selectedIndex)}'});
     Navigator.of(context).pop();
   }
-  
 
   @override
   Widget build(BuildContext context) {
-    //used to detect the back button of the mobile to check if user didn't save the changing that happened 
+    //used to detect the back button of the mobile to check if user didn't save the changing that happened
 
     return WillPopScope(
         onWillPop: () async {

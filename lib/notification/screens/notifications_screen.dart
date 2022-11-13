@@ -19,6 +19,8 @@ import '../../home/widgets/component.dart';
 import '../../widgets/loading_reddit.dart';
 import '../../myprofile/screens/myprofile_screen.dart';
 import '../../create_community/screens/create_community.dart';
+import '../../subreddit/screens/subreddit_screen.dart';
+import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -256,7 +258,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           },
         ),
         endDrawer: endDrawerHome(context),
-        drawer: drawerHome(),
+        drawer: drawerHome(context),
         body: TabBarView(children: [
           !returned
               ? LoadingReddit()
@@ -269,7 +271,89 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-  Drawer drawerHome() {
+  Drawer drawerHome(context) {
+    List<ListTile> Communoties = [
+      ListTile(
+        onTap: () => Navigator.of(context).pushNamed(
+            ModeratedSubredditScreen.routeName,
+            arguments: 'Cross_platform'),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Cross_platform"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context).pushNamed(
+            ModeratedSubredditScreen.routeName,
+            arguments: 'Cross_platform'),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Egypt"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context).pushNamed(
+            ModeratedSubredditScreen.routeName,
+            arguments: 'Cross_platform'),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "memes"),
+        horizontalTitleGap: 0,
+      ),
+    ];
+    List<ListTile> recentlyVisited = [
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(SubredditScreen.routeName, arguments: 'Cross_platform'),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Cross_platform"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(SubredditScreen.routeName, arguments: 'Cross_platform'),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Egypt"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(SubredditScreen.routeName, arguments: 'Cross_platform'),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "memes"),
+        horizontalTitleGap: 0,
+      ),
+    ];
     return Drawer(
       key: drawerKey,
       elevation: 20.0,
@@ -424,7 +508,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     onTap: () {
                       Navigator.of(context)
                           .pushNamed(CreateCommunity.routeName);
-                      // Navigator.pop(context);
                     },
                     horizontalTitleGap: 0.0,
                     leading: Icon(
