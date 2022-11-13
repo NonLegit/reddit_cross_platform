@@ -75,6 +75,7 @@ class MyApp extends StatelessWidget {
       builder: (cntx, orientation, Screentype) {
         Device.deviceType == DeviceType.web;
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Logins',
           theme: theme.copyWith(
             primaryColor: Colors.red,
@@ -86,9 +87,9 @@ class MyApp extends StatelessWidget {
                 surface: Colors.black87,
                 onSurface: Colors.white),
           ),
-          home: homeLayoutScreen(),
+          // home: homeLayoutScreen(),
           // home: HomeScreen(),
-          // home: Login(),
+          home: Login(),
           // home: ModeratorTools(),
           routes: {
             homeLayoutScreen.routeName: (context) => homeLayoutScreen(),

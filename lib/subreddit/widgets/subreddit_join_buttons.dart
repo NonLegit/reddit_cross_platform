@@ -21,7 +21,7 @@ class JoinButtons extends StatefulWidget {
 class JoinButtonsState extends State<JoinButtons> {
     String dropDownValue = "Low";
   IconData icon = Icons.notifications;
-  var tappedIndex = 0;
+  var tappedIndex = 1;
   bool isJoinedstate = false;
   static const List<String> notifyItems = ["Off", "Low", 'Frequent'];
   static List<IconData> notifyItemsIcons = [
@@ -32,7 +32,7 @@ class JoinButtonsState extends State<JoinButtons> {
   @override
   void initState() {
     super.initState();
-    tappedIndex = 0;
+    tappedIndex = 1;
     isJoinedstate = widget.isJoined;
   }
 

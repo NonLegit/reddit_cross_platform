@@ -22,7 +22,18 @@ class _ModeratorToolsState extends State<ModeratorTools> {
   // bool returned = false;
   bool fetchingDone = false;
   String? choosenTopic;
-  didChangeDependencies() {
+
+
+  void initState() {
+    // TODO: implement initState
+
+    //DioClient.init();
+
+    DioClient.initModerationSetting();
+    super.initState();
+  }
+@override
+    void didChangeDependencies() {
     DioClient.get(path: moderationTools).then((value) {
       print(value);
       final result = json.decode(value.data);
@@ -34,15 +45,6 @@ class _ModeratorToolsState extends State<ModeratorTools> {
     setState(() {
       fetchingDone = true;
     });
-  }
-
-  void initState() {
-    // TODO: implement initState
-
-    //DioClient.init();
-
-    DioClient.initModerationSetting();
-    super.initState();
   }
 
   List<String>? topics;

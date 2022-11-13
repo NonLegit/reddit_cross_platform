@@ -13,7 +13,7 @@ class OtherProfileData {
   int? followersCount;
   int? postKarma;
   int? commentkarma;
-  bool isFollowed=false;
+  bool isFollowed = false;
   OtherProfileData(
       {required this.id,
       required this.userName,
@@ -53,12 +53,12 @@ class OtherProfileData {
     description = json['description'];
     displayName = json['displayName'];
     followersCount = json['followersCount'];
-   createdAt = json['toDayTime'];
+    createdAt = json['toDayTime'];
     numOfDaysInReddit = json['numOfDaysInReddit'];
     postKarma = json['postKarma'];
     displayName = json['displayName'];
     commentkarma = json['commentkarma'];
-    isFollowed = json['isFollowed'];
+    isFollowed = false;
   }
 
   Map<String, dynamic> toJson() {

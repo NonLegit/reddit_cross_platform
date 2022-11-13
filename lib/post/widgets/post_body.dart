@@ -111,7 +111,8 @@ class _PostBodyState extends State<PostBody> {
                 children: [
                   if (widget.nsfw || widget.spoiler)
                     Container(
-                      padding: const EdgeInsetsDirectional.only(bottom: 10),
+                      padding: const EdgeInsetsDirectional.only(
+                          bottom: 10, start: 10),
                       child: Row(
                         children: [
                           if (widget.nsfw)

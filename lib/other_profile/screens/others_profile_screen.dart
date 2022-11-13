@@ -84,7 +84,7 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
       });
       userName = ModalRoute.of(context)?.settings.arguments as String;
       DioClient.init();
-      DioClient.get(path: otherprofile).then((response) {
+      DioClient.get(path: myprofile).then((response) {
         loadProfile = OtherProfileData.fromJson(json.decode(response.data));
         setState(() {
           _isLoading = false;

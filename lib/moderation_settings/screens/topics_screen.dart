@@ -9,7 +9,6 @@ import '../../networks/const_endpoint_data.dart';
 class TopicsScreen extends StatefulWidget {
   TopicsScreen({super.key});
   static const routeName = '/topicsScreen';
-  String selectedBefore = '';
   @override
   State<TopicsScreen> createState() => _TopicsScreenState();
 }
@@ -19,8 +18,9 @@ class _TopicsScreenState extends State<TopicsScreen> {
   bool _pressed = false;
   Topics t1 = Topics();
   var topics = {};
+  String selectedBefore = '';
 
-  var args; //from backend
+ // var args; //from backend
 
   var _selectedIndex = -1;
   var _selectedTopic = '';
@@ -38,9 +38,9 @@ class _TopicsScreenState extends State<TopicsScreen> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    widget.selectedBefore =
-        ModalRoute.of(context)?.settings.arguments as String;
-    print(widget.selectedBefore);
+    // selectedBefore =
+    //     ModalRoute.of(context)?.settings.arguments as String;
+    print(selectedBefore);
   }
 
   //change the value of the choosen topic and remove styling from the old one
@@ -48,7 +48,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
     setState(() {
       _selectedIndex = index;
       _iselected = true;
-      widget.selectedBefore = topics.keys.elementAt(_selectedIndex);
+      selectedBefore = topics.keys.elementAt(_selectedIndex);
     });
   }
 
@@ -87,6 +87,6 @@ class _TopicsScreenState extends State<TopicsScreen> {
             pressed: _pressed,
             selectedIndex: _selectedIndex,
             topic: topics,
-            selectedBefore: widget.selectedBefore));
+            selectedBefore: selectedBefore));
   }
 }
