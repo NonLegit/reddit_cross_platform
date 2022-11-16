@@ -21,6 +21,8 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
+# environment:
+#   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -41,6 +43,9 @@ dependencies:
   fluttericon: ^2.0.0
   http: ^0.13.5
   html: ^0.15.1
+  blur: ^3.0.0
+  flutter_image_slideshow: any
+  dots_indicator: ^2.1.0
   conditional_builder: ^1.0.2
   bloc: ^7.0.0
   flutter_bloc: ^7.0.0
@@ -55,6 +60,9 @@ dependencies:
   badges: ^2.0.3
 
 dev_dependencies:
+  test_cov_console: ^0.2.2
+
+  # test_coverage: any
   flutter_test:
     sdk: flutter
   flutter_code_style: ^2.1.0
@@ -141,3 +149,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

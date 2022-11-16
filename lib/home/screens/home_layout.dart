@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:post/create_community/screens/create_community.dart';
 import 'package:post/myprofile/screens/myprofile_screen.dart';
 import 'package:post/networks/const_endpoint_data.dart';
+
+import 'package:post/other_profile/screens/others_profile_screen.dart';
 import 'package:post/subreddit/screens/subreddit_screen.dart';
 import '../providers/cubit/states.dart';
 import '../../chat/chat.dart';
@@ -76,7 +78,8 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
           var cubit = layoutCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              // To make style for status bar
+
+                // To make style for status bar
                 systemOverlayStyle: SystemUiOverlayStyle(
                   statusBarColor: Colors.white,
                   statusBarIconBrightness: Brightness.dark,
@@ -189,6 +192,55 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
   }
 
   Drawer drawerHome(context) {
+
+    List<ListTile> Following = [
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(OthersProfileScreen.routeName, arguments: 'ahmed sayed'),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("u/" + "ahmed sayed"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(OthersProfileScreen.routeName, arguments: 'ahmed '),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("u/" + "ahmed"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(OthersProfileScreen.routeName, arguments: 'zienab'),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("u/" + "zienab"),
+        horizontalTitleGap: 0,
+      ),
+    ];
+
     List<ListTile> Communoties = [
       ListTile(
         onTap: () => Navigator.of(context).pushNamed(
@@ -443,6 +495,45 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
                 ),
               ],
             ),
+
+            ExpansionTile(
+              onExpansionChanged: (isRecentlyVisitedPannelExpanded) {
+                setState(() {
+                  if (isRecentlyVisitedPannelExpanded) {
+                    icYourCommunities = Icon(
+                      IconBroken.Arrow___Down_2,
+                      color: Colors.black,
+                    );
+                  } else {
+                    icYourCommunities = IconButton(
+                        onPressed: () {},
+                        icon: Icon(IconBroken.Arrow___Right_2));
+                  }
+                });
+              },
+              initiallyExpanded: isRecentlyVisitedPannelExpanded,
+              expandedAlignment: Alignment.bottomRight,
+              trailing: icModerating,
+              title: Text(
+                "Floowing ",
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: Colors.black),
+              ),
+              children: [
+                Container(
+                  height: Following.length * 70,
+                  child: ListView.builder(
+                    itemCount: Following.length,
+                    itemBuilder: (context, index) {
+                      return Following[index];
+                    },
+                  ),
+                ),
+              ],
+            ),
+
             ListTile(
                 onTap: () {},
                 horizontalTitleGap: 0.0,
@@ -552,7 +643,8 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
               ),
               onTap: () {
                 Navigator.of(context)
-                    .pushNamed(MyProfileScreen.routeName, arguments: userName);
+                    .pushNamed(MyProfileScreen.routeName, arguments: 'ahmed');
+
               },
             ),
             ListTile(

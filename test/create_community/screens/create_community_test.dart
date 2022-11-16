@@ -2,14 +2,17 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../lib/create_community/screens/create_community.dart';
 
 void main() {
+
+      final createCommunityState = CreateCommunityState();
+
   group(
     'Create Community',
     () {
       // final createCommunity = CreateCommunity();
-      final createCommunityState = CreateCommunityState();
+
+      
       test('create community ', () {
         // TODO: Implement test
-        createCommunityState.choosenCommunityType = 'private';
         String? result = createCommunityState.validateTextField('ddsdfs');
         expect(result, null);
       });
@@ -28,4 +31,16 @@ void main() {
       });
     },
   );
+
+
+
+  test('Test how many remaining characters left and test clearing', () {
+    createCommunityState.changeCounterValue('asdadczxc');
+    expect(12, createCommunityState.count); 
+    
+    createCommunityState.clearTextField();
+    expect(21, createCommunityState.count);
+  },);
+
+
 }

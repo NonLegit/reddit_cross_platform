@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:post/home/screens/home_layout.dart';
+
+import 'package:post/networks/const_endpoint_data.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:dartdoc/dartdoc.dart';
@@ -74,6 +76,8 @@ class MyApp extends StatelessWidget {
       builder: (cntx, orientation, Screentype) {
         Device.deviceType == DeviceType.web;
         return MaterialApp(
+
+          debugShowCheckedModeBanner: false,
           title: 'Logins',
           theme: theme.copyWith(
             primaryColor: Colors.red,
@@ -85,10 +89,11 @@ class MyApp extends StatelessWidget {
                 surface: Colors.black87,
                 onSurface: Colors.white),
           ),
-          debugShowCheckedModeBanner: false,
-          home: homeLayoutScreen(),
+
+          // home: homeLayoutScreen(),
           // home: HomeScreen(),
-          // home: Login(),
+          home: Login(),
+          // home: ModeratorTools(),
           routes: {
             homeLayoutScreen.routeName: (context) => homeLayoutScreen(),
             EmptyScreen.routeName: (context) => EmptyScreen(),
