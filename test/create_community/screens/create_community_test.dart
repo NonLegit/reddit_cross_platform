@@ -2,12 +2,14 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../lib/create_community/screens/create_community.dart';
 
 void main() {
+
       final createCommunityState = CreateCommunityState();
 
   group(
     'Create Community',
     () {
       // final createCommunity = CreateCommunity();
+
       
       test('create community ', () {
         // TODO: Implement test
@@ -29,6 +31,7 @@ void main() {
       });
     },
   );
+
 
 
   test('Test how many remaining characters left and test clearing', () {

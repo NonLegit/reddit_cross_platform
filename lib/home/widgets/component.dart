@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../../icons/icon_broken.dart';
 
 void navigateTo(context,Widget)=>Navigator.push(context,
     MaterialPageRoute(builder: (context)=>Widget)
 );
-
 List<BottomNavigationBarItem>buttNavBar()
 {
   

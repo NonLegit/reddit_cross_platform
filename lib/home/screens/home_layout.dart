@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:post/create_community/screens/create_community.dart';
 import 'package:post/myprofile/screens/myprofile_screen.dart';
 import 'package:post/networks/const_endpoint_data.dart';
+
 import 'package:post/other_profile/screens/others_profile_screen.dart';
 import 'package:post/subreddit/screens/subreddit_screen.dart';
 import '../providers/cubit/states.dart';
@@ -30,6 +31,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
 // Value for DropDownButton
   String dropDownButtonValue = "Home";
   List<String> list = ["Home", "Popular"];
+
 
   // Icons when expansionlist at the drawer
   dynamic icRecent = Icon(IconBroken.Arrow___Right_2);
@@ -76,6 +78,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
           var cubit = layoutCubit.get(context);
           return Scaffold(
             appBar: AppBar(
+
                 // To make style for status bar
                 systemOverlayStyle: SystemUiOverlayStyle(
                   statusBarColor: Colors.white,
@@ -189,6 +192,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
   }
 
   Drawer drawerHome(context) {
+
     List<ListTile> Following = [
       ListTile(
         onTap: () => Navigator.of(context)
@@ -491,6 +495,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
                 ),
               ],
             ),
+
             ExpansionTile(
               onExpansionChanged: (isRecentlyVisitedPannelExpanded) {
                 setState(() {
@@ -528,6 +533,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
                 ),
               ],
             ),
+
             ListTile(
                 onTap: () {},
                 horizontalTitleGap: 0.0,
@@ -638,6 +644,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
               onTap: () {
                 Navigator.of(context)
                     .pushNamed(MyProfileScreen.routeName, arguments: 'ahmed');
+
               },
             ),
             ListTile(
