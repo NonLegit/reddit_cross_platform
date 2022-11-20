@@ -20,29 +20,23 @@ class ModeratorTools extends StatefulWidget {
 class _ModeratorToolsState extends State<ModeratorTools> {
   @override
   // bool returned = false;
-  bool fetchingDone = false;
-  String? choosenTopic;
+
+
+
   void initState() {
     // TODO: implement initState
 
     //DioClient.init();
-    DioClient.initModerationSetting();
+
+   // DioClient.initModerationSetting();
     super.initState();
-        DioClient.get(path: moderationTools).then((value) {
-      print(value);
-      final result = json.decode(value.data);
-      choosenTopic = result['primaryTopic'];
-      print(choosenTopic);
-    }).onError((error, stackTrace){
-      print(error);
-    } );
-    setState(() {
-      fetchingDone = true;
-    });
+  }
+@override
+    void didChangeDependencies() {
+    
   }
 
   List<String>? topics;
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,37 +56,38 @@ class _ModeratorToolsState extends State<ModeratorTools> {
           shadowColor: Colors.white,
         ),
       ),
-      body:(!fetchingDone) ? LoadingReddit(): Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            color: Colors.grey.shade300,
-            width: 100.h,
-            padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
-            child: const Text(
-              'GENERAL',
-              style: TextStyle(
-                  color: Colors.black38,
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold),
+      body:  Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  color: Colors.grey.shade300,
+                  width: 100.h,
+                  padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                  child: const Text(
+                    'GENERAL',
+                    style: TextStyle(
+                        color: Colors.black38,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  height: 1.h,
+                ),
+                ListView(
+                  shrinkWrap: true,
+                  children: [
+                    //call buildGeneralOptions to create the widget of each option under general in settings
+                    buildGeneralOptions(
+                        context,
+                        () => Navigator.of(context).pushNamed(
+                            TopicsScreen.routeName),
+                        'Topics',
+                        Icons.topic),
+                  ],
+                )
+              ],
             ),
-          ),
-          SizedBox(
-            height: 1.h,
-          ),
-          ListView(
-            shrinkWrap: true,
-            children: [
-              //call buildGeneralOptions to create the widget of each option under general in settings
-              buildGeneralOptions(
-                  context,
-                  () => Navigator.of(context).pushNamed(TopicsScreen.routeName,arguments: choosenTopic),
-                  'Topics',
-                  Icons.topic),
-            ],
-          )
-        ],
-      ),
     );
   }
 

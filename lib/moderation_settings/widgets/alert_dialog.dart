@@ -57,7 +57,10 @@ class AlertDialog1 extends StatelessWidget {
               primary: Colors.blue[800],
               // backgroundColor: Colors.blue[800],
             ),
-            child: const Text('Leave'),
+            child: const Text(
+              'Leave',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         )
       ],
