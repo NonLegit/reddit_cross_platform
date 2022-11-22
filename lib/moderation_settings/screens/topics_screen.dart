@@ -1,15 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:post/moderation_settings/provider/moderation_settings_provider.dart';
 import 'package:post/networks/dio_client.dart';
+import 'package:provider/provider.dart';
 
+import '../models/moderator_tools.dart';
 import '../widgets/alert_dialog.dart';
 import '../constants/topics.dart';
 import '../widgets/topic_main_body.dart';
-import '../../networks/const_endpoint_data.dart';
 import '../../widgets/loading_reddit.dart';
 
 class TopicsScreen extends StatefulWidget {
-  TopicsScreen({super.key});
+  const TopicsScreen({super.key});
   static const routeName = '/topicsScreen';
   @override
   State<TopicsScreen> createState() => _TopicsScreenState();
@@ -24,35 +26,48 @@ class _TopicsScreenState extends State<TopicsScreen> {
 
   var _selectedIndex = -1;
   bool fetchingDone = false;
-  String choosenTopic = '';
+  bool _isInit = true;
+  String? choosenTopic;
+  ModeratorToolsModel? moderatorToolsModel;
 
   @override
   void initState() {
     // TODO: implement initState
-    DioClient.initModerationSetting();
+    DioClient.initCreateCoumunity();
+    //return hardcoded topics from constant folder
     topics = t1.topic;
-    DioClient.get(path: moderationTools).then((value) {
-      print(value);
-      final result = json.decode(value.data);
-      choosenTopic = result['primaryTopic'];
-      print(choosenTopic);
-    }).onError((error, stackTrace) {
-      print(error);
-    });
-    setState(() {
-      fetchingDone = true;
-    });
 
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['subredditName'] = 'hello';
+    if (_isInit) {
+      setState(() {
+        fetchingDone = false;
+      });
+      Provider.of<ModerationSettingProvider>(context, listen: false)
+          .getCommunity(data)
+          .then((_) {
+        moderatorToolsModel =
+            Provider.of<ModerationSettingProvider>(context, listen: false)
+                .moderatorToolsModel;
+
+        choosenTopic = moderatorToolsModel!.choosenTopic1;
+        setState(() {
+          fetchingDone = true;
+        });
+      });
+    }
+    _isInit = false;
     super.didChangeDependencies();
   }
 
   //change the value of the choosen topic and remove styling from the old one
+  //return value void
+  //Parameters index of choosen topic to update selected index
   onClick(index, topic) {
     setState(() {
       _selectedIndex = index;
@@ -62,15 +77,15 @@ class _TopicsScreenState extends State<TopicsScreen> {
   }
 
   //enabling the save button to save the new topic chosen
+  //return type void
   makeButtonEnable() async {
     setState(() {
       _pressed = true;
     });
-    print(topics.keys.elementAt(_selectedIndex));
-    await DioClient.patch(
-        path: moderationTools,
-        data: {"primaryTopic": '${topics.keys.elementAt(_selectedIndex)}'});
-    Navigator.of(context).pop();
+    Provider.of<ModerationSettingProvider>(context, listen: false)
+        .patchCommunity({
+      "primaryTopic": '${topics.keys.elementAt(_selectedIndex)}'
+    }).then((_) => Navigator.of(context).pop());
   }
 
   @override
@@ -90,7 +105,8 @@ class _TopicsScreenState extends State<TopicsScreen> {
           return shouldPop!;
         },
         child: (!fetchingDone)
-            ? LoadingReddit()
+            ? const LoadingReddit()
+            //Calls TopicMainScreen widget to build Topics Screen
             : TopicMainScreen(
                 iselected: _iselected,
                 onClick: onClick,
@@ -98,6 +114,6 @@ class _TopicsScreenState extends State<TopicsScreen> {
                 pressed: _pressed,
                 selectedIndex: _selectedIndex,
                 topic: topics,
-                selectedBefore: choosenTopic));
+                selectedBefore: choosenTopic!));
   }
 }

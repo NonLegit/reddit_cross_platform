@@ -2,7 +2,7 @@
 const baseUrl = String.fromEnvironment('baseUrl',
     defaultValue: 'https://4519073e-15ed-4c6b-a7bf-feca7c0404ad.mock.pstmn.io');
 const createcommunity_baseUrl2 = String.fromEnvironment('baseUrl',
-    defaultValue: 'https://f08f9cea-336a-4f46-a446-fb46dd70ea6c.mock.pstmn.io');
+    defaultValue: 'https://0842618a-8a79-41dd-9203-5bb88803cd97.mock.pstmn.io');
 const notification_baseUrl3 = String.fromEnvironment('baseUrl',
     defaultValue: 'https://8e216deb-cc2c-4b7b-86a7-8327d15eae0f.mock.pstmn.io');
 const moderationsSetting_baseUrl4 = String.fromEnvironment('baseUrl',
@@ -11,7 +11,7 @@ const moderationsSetting_baseUrl4 = String.fromEnvironment('baseUrl',
 //=========================Subreddit======================//
 var subredditName;
 const createCommunity = '/subreddits';
-var getCommunity = '/subreddits/{subredditName}';
+//var getCommunity = '/subreddits';
 const notificationResults = '/users/notifications';
 const moderationTools = '/subreddits/{subredditName}';
 //const subredditPath = '/subreddits/{subredditName}';

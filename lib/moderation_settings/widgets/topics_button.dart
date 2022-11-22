@@ -37,7 +37,10 @@ class TopicButton extends StatelessWidget {
               shadowColor: Colors.grey.shade50,
               side: const BorderSide(width: 1, color: Colors.transparent)),
           child: ListTile(
-            leading: Image.asset(selectedIcon),
+            leading: Image.asset(
+              selectedIcon,
+              width: 10.w,
+            ),
             title: Text(keyAns),
             trailing: Icon(
               Icons.check,

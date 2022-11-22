@@ -3,9 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:post/home/screens/home_layout.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+import '../../home/screens/home_layout.dart';
 import '../../icons/icon_broken.dart';
 import '../widgets/list_tile_widget.dart';
 import '../../networks/dio_client.dart';
@@ -13,12 +14,12 @@ import '../widgets/three_dots_widget.dart';
 import './messages_main_screen.dart';
 import './notifications_main_screen.dart';
 import '../../networks/const_endpoint_data.dart';
-import '../../home/providers/cubit/cubit.dart';
-import '../../home/providers/cubit/states.dart';
 import '../../home/widgets/component.dart';
 import '../../widgets/loading_reddit.dart';
 import '../../myprofile/screens/myprofile_screen.dart';
 import '../../create_community/screens/create_community.dart';
+import '../../subreddit/screens/subreddit_screen.dart';
+import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -38,6 +39,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   bool isRecentlyVisitedPannelExpanded = true;
   bool isModeratingPannelExpanded = false;
   bool isOnline = true;
+  bool hover = false;
+  bool markAsRead = false;
   //Keys
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var formKey = GlobalKey<FormState>();
@@ -155,121 +158,326 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     //var cubit =layoutCubit.get(context);
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            ThreeDotsWidget(listOfWidgets: [
-              ListTileWidget(icon: Icons.create_outlined, title: 'New message'),
-              ListTileWidget(
-                  icon: Icons.drafts_outlined,
-                  title: 'Mark all inbox tabs as read')
-            ], height: 16),
-            Builder(builder: (context) {
-              return IconButton(
-                onPressed: () => showEndDrawer(context),
-                icon: Stack(
-                  alignment: AlignmentDirectional.bottomEnd,
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
-                      radius: 30.0,
-                    ),
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 6,
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.only(end: 2, bottom: 2),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.green,
-                        radius: 4,
+    return (!kIsWeb)
+        ? DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              appBar: AppBar(
+                actions: [
+                  ThreeDotsWidget(listOfWidgets: [
+                    ListTileWidget(
+                        icon: Icons.create_outlined, title: 'New message'),
+                    ListTileWidget(
+                        icon: Icons.drafts_outlined,
+                        title: 'Mark all inbox tabs as read')
+                  ], height: 16),
+                  Builder(builder: (context) {
+                    return IconButton(
+                      onPressed: () => showEndDrawer(context),
+                      icon: Stack(
+                        alignment: AlignmentDirectional.bottomEnd,
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
+                            radius: 30.0,
+                          ),
+                          CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 6,
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.only(
+                                end: 2, bottom: 2),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.green,
+                              radius: 4,
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              );
-            }),
-          ],
-          backgroundColor: Colors.grey[50],
-          titleSpacing: 0,
-          elevation: 2,
-          titleTextStyle: const TextStyle(
-              color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
-          shadowColor: Colors.white,
-          title: const Text('Inbox'),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(40),
-            child: TabBar(
-              indicatorWeight: 3,
-              indicatorColor: Colors.blue,
-              indicatorSize: TabBarIndicatorSize.tab,
-              labelPadding: const EdgeInsets.symmetric(horizontal: 60),
-              isScrollable: true,
-              labelStyle:
-                  const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey,
-              tabs: [
-                Badge(
-                  toAnimate: false,
-                  position: BadgePosition.topEnd(end: -10, top: -23),
-                  shape: BadgeShape.circle,
-                  borderRadius: BorderRadius.circular(4),
-                  showBadge: unreadNotification != 0 ? true : false,
-                  badgeContent: const Text(
-                    '3',
-                    style: TextStyle(color: Colors.white),
+                    );
+                  }),
+                ],
+                backgroundColor: Colors.grey[50],
+                titleSpacing: 0,
+                elevation: 2,
+                titleTextStyle: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18),
+                shadowColor: Colors.white,
+                title: const Text('Inbox'),
+                bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(40),
+                  child: TabBar(
+                    indicatorWeight: 3,
+                    indicatorColor: Colors.blue,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 60),
+                    isScrollable: true,
+                    labelStyle: const TextStyle(
+                        fontWeight: FontWeight.w700, fontSize: 14),
+                    labelColor: Colors.black,
+                    unselectedLabelColor: Colors.grey,
+                    tabs: [
+                      Badge(
+                        toAnimate: false,
+                        position: BadgePosition.topEnd(end: -10, top: -23),
+                        shape: BadgeShape.circle,
+                        borderRadius: BorderRadius.circular(4),
+                        showBadge: unreadNotification != 0 ? true : false,
+                        badgeContent: const Text(
+                          '3',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.only(bottom: 6),
+                          child: Text(
+                            'Notifications',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 6),
+                        child: Text(
+                          'Messages',
+                        ),
+                      ),
+                    ],
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(bottom: 6),
-                    child: Text(
-                      'Notifications',
-                      style: TextStyle(fontSize: 15),
+                ),
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                items: buttNavBar(),
+                elevation: 0,
+                selectedItemColor: Colors.black,
+                type: BottomNavigationBarType.fixed,
+                currentIndex: currentIndex,
+                onTap: (index) {
+                  if (index == 0) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => homeLayoutScreen()));
+                  }
+                },
+              ),
+              endDrawer: endDrawerHome(context),
+              drawer: drawerHome(context),
+              body: TabBarView(children: [
+                !returned
+                    ? LoadingReddit()
+                    : NotificationsMainScreen(
+                        usersAllNotificatiion: usersAllNotificatiion,
+                        changeNumOfNotification: _changeNumOfNotification),
+                const MessagesMainScreen(),
+              ]),
+            ),
+          )
+        : Scaffold(
+            appBar: AppBar(title: Text('Hello')),
+            body: Container(
+              color: Colors.indigo[50],
+              child: Container(
+                width: double.infinity,
+                margin: EdgeInsets.only(left: 25.w, right: 25.w),
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Divider(
+                          color: Colors.transparent,
+                          height: 6.h,
+                        ),
+                        const Text(
+                          'Notifications',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        Divider(
+                          color: Colors.transparent,
+                          height: 4.h,
+                        ),
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(NotificationScreen.routeName);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.blue, width: 0.2.h))),
+                                child: const Text(
+                                  'Activity',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 6.h,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(MessagesMainScreen.routeName);
+                              },
+                              onHover: (value) {
+                                setState(() {
+                                  hover = value;
+                                });
+                              },
+                              child: Text(
+                                'Messages',
+                                style: TextStyle(
+                                    color: hover ? Colors.black : Colors.grey,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Spacer(
+                              flex: 1,
+                            ),
+                            InkWell(
+                                onTap: () {
+                                  //TO DO MARK ALL AS READ
+                                },
+                                onHover: (value) {
+                                  setState(() {
+                                    markAsRead = value;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/envelope.png',
+                                      color: Colors.grey,
+                                      height: 3.h,
+                                    ),
+                                    Text(
+                                      'Mark as read',
+                                      style: TextStyle(
+                                          color: markAsRead
+                                              ? Colors.black
+                                              : Colors.grey,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ))
+                          ],
+                        ),
+                        Divider(
+                          color: Colors.transparent,
+                          height: 4.h,
+                        ),
+                        Container(
+                          color: Colors.white,
+                          child: NotificationsMainScreen(
+                              usersAllNotificatiion: usersAllNotificatiion,
+                              changeNumOfNotification:
+                                  _changeNumOfNotification),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 6),
-                  child: Text(
-                    'Messages',
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: buttNavBar(),
-          elevation: 0,
-          selectedItemColor: Colors.black,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: currentIndex,
-          onTap: (index) {
-            if (index == 0) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => homeLayoutScreen()));
-            }
-          },
-        ),
-        endDrawer: endDrawerHome(context),
-        drawer: drawerHome(),
-        body: TabBarView(children: [
-          !returned
-              ? LoadingReddit()
-              : NotificationsMainScreen(
-                  usersAllNotificatiion: usersAllNotificatiion,
-                  changeNumOfNotification: _changeNumOfNotification),
-          const MessagesMainScreen(),
-        ]),
-      ),
-    );
+          );
   }
 
-  Drawer drawerHome() {
+  Drawer drawerHome(context) {
+    List<ListTile> Communoties = [
+      ListTile(
+        onTap: () => Navigator.of(context).pushNamed(
+            ModeratedSubredditScreen.routeName,
+            arguments: 'Cross_platform'),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Cross_platform"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context).pushNamed(
+            ModeratedSubredditScreen.routeName,
+            arguments: 'Cross_platform'),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Egypt"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context).pushNamed(
+            ModeratedSubredditScreen.routeName,
+            arguments: 'Cross_platform'),
+        trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              IconBroken.Star,
+            )),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "memes"),
+        horizontalTitleGap: 0,
+      ),
+    ];
+    List<ListTile> recentlyVisited = [
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(SubredditScreen.routeName, arguments: 'Cross_platform'),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Cross_platform"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(SubredditScreen.routeName, arguments: 'Cross_platform'),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "Egypt"),
+        horizontalTitleGap: 0,
+      ),
+      ListTile(
+        onTap: () => Navigator.of(context)
+            .pushNamed(SubredditScreen.routeName, arguments: 'Cross_platform'),
+        leading: CircleAvatar(
+          radius: 10,
+          backgroundColor: Colors.blue,
+        ),
+        title: Text("r/" + "memes"),
+        horizontalTitleGap: 0,
+      ),
+    ];
     return Drawer(
       key: drawerKey,
       elevation: 20.0,
@@ -424,7 +632,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     onTap: () {
                       Navigator.of(context)
                           .pushNamed(CreateCommunity.routeName);
-                      // Navigator.pop(context);
                     },
                     horizontalTitleGap: 0.0,
                     leading: Icon(

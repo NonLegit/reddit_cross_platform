@@ -41,7 +41,12 @@ class CommunityType extends StatelessWidget {
             itemBuilder: (context, index) {
               var key2 = communityType.keys.elementAt(index);
               return GestureDetector(
+                //Calls getCommunityType to change choosen community
                 onTap: () => getCommunityType(key2),
+                //Calls widget ModalBottomSheetContent to build modal bottom sheet UI
+                // key2 : Type of community
+                // communityTypeIcon : Icon of community type
+                // community type :Definition of each community
                 child: ModalBottomSheetContent(
                     key2: key2,
                     communityTypeIcon: communityTypeIcon,

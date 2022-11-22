@@ -2,15 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
-import 'package:post/create_community/screens/login_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:footer/footer.dart';
-import 'package:footer/footer_view.dart';
 
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
-import '../widgets/radio_button_widget.dart';
+import '../provider/create_community_provider.dart';
 import '../models/create_community_model.dart';
-import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../widgets/clear_text_field.dart';
 import '../widgets/app_bar.dart';
@@ -44,11 +41,11 @@ class CreateCommunityState extends State<CreateCommunity> {
   bool uniqueCommunityName = false;
   final _formKey = GlobalKey<FormState>();
 
-  bool mock = false;
   bool done = false;
 
   _onChangeHandler(value) {
     //Used to detect if the user finished typing or not so it is called on changing the text field input
+    // return type : void
     const duration = Duration(
         milliseconds:
             300); // set the duration that you want call search() after that.
@@ -59,6 +56,9 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   changeCounterValue(String value) {
+    //called when text field is changing to reload the counter
+    //return type void
+    //input the text written in textField
     count = 21 - value.length;
     if (value.isEmpty) {
       _typed = false;
@@ -69,6 +69,8 @@ class CreateCommunityState extends State<CreateCommunity> {
 
   _onChangeTextField(value) {
     //called when changing the input field
+    //return type void
+    //input the text written in textField
     setState(() {
       changeCounterValue(value);
     });
@@ -78,6 +80,8 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   clearTextField() {
+    //Clearing the text field after clicking clear icon
+    //return type void
     _communityNameController.text = '';
     count = 21;
     _typed = false;
@@ -91,6 +95,8 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   _toggleSwitch(value) {
+    //used to toggle the switch of 18+ to true or false
+    //return type void
     setState(() {
       plus18Community = value;
     });
@@ -98,6 +104,8 @@ class CreateCommunityState extends State<CreateCommunity> {
 
   _changeCommunityType(key2) {
     //changing the type of commmunity chosen
+    //return type void
+    //input takes the choosen community the either(private-public-restricted)
     if (!kIsWeb) Navigator.of(context).pop();
     setState(() {
       choosenCommunityType = key2;
@@ -106,6 +114,9 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   String? validateTextField(value) {
+    //used to validate the text field check if not empty and check if it only contains (A to Z or a to z or _)
+    //return type Strung: error message if not validated or null if validated
+    //input the text written in textField
     if ((value!.length < 3 && value.isNotEmpty) ||
         !RegExp(r'^[A-Za-z0-9_.]+$').hasMatch(value)) {
       return 'Community names must be between 3-21 characters,and\n only contain letters,numbers or underscores';
@@ -217,6 +228,8 @@ class CreateCommunityState extends State<CreateCommunity> {
                     Container(
                       height: 6.h,
                       child: TextButton(
+                        //Calls the widget ListOfCommunityType(choosen community type by default Public ,community definition by default Public definition) 
+                        //To show UI of changing community type
                         child: ListOfCommunityType(
                             choosenCommunityType: (choosenCommunityType == null)
                                 ? communityType.keys.elementAt(0)
@@ -234,6 +247,8 @@ class CreateCommunityState extends State<CreateCommunity> {
                               ),
                             ),
                             builder: (context) {
+                              //Calls CommunityType widget that takes list of commmunity type to build the modal bottom sheet to change the type of community
+                              //calls function _changeCommunityType
                               return CommunityType(
                                 communityType: communityType,
                                 communityTypeIcon: communityTypeIcon,
@@ -311,64 +326,54 @@ class CreateCommunityState extends State<CreateCommunity> {
     ;
   }
 
-  Future<bool> _validateCommunityName() async {
-    //Called to check if the choosen community name is unique or not
+  _validateCommunityName() async {
+    //function called after waiting for 3 milliseconds to check uniqueness of the community name type
+    // return type void
+    // found takes returned value after calling backend 
     if (_communityNameController.text.length >= 3) {
       setState(() {
         validating = true;
       });
-      subredditName = _communityNameController.text;
-      String pathMock = (mock) ? '1' : '2';
-      DioClient.get(path: getCommunity + pathMock).then((value) {
-       // if (!kIsWeb) {
+      final Map<String, dynamic> data = <String, dynamic>{};
+      data['subredditName'] = _communityNameController.text;
+      try {
+        bool found =
+            await Provider.of<CreateCommunityProvider>(context, listen: false)
+                .getCommunity(data);
+        if (found) {
           setState(() {
             uniqueCommunityName = false;
             errorMessage =
                 'Sorry,${_communityNameController.text} is taken.Try another.';
             validating = false;
-            mock = !mock;
           });
-      //  }
-        return true;
-      }).catchError((error) {
-       // if (!kIsWeb) {
-          //&& error['status'] == 404) {
+        } else {
           setState(() {
             uniqueCommunityName = true;
             errorMessage = '';
             validating = false;
-            mock = !mock;
           });
-       // } else if (error['status'] == 401) {
-     //     Navigator.of(context).pushNamed(LoginPage.routeName);
-      //  } else {
-          print(error);
-      //  }
-        return false;
-      });
+        }
+      } catch (error) {
+        //print(error);
+      }
     }
-    return false;
   }
 
   _saveCommunity() async {
+    //called to save the commmunity 
+    //return value void
     final createCommunityModel = CreateCommunityModel(
         nSFW: plus18Community,
         name: _communityNameController.text,
         type: choosenCommunityType);
-    DioClient.post(
-      path: createCommunity,
-      data: createCommunityModel.toJson(),
-    ).then((value) {
-      print(value.toString());
-      print(createCommunityModel.nSFW);
-      print(createCommunityModel.type);
-      print(createCommunityModel.name);
+    bool postCommunity =
+        await Provider.of<CreateCommunityProvider>(context, listen: false)
+            .postCommunity(createCommunityModel.toJson());
+    if (postCommunity) {
       setState(() {
         done = true;
       });
-    }).catchError((error) {
-      print(error);
-      // return 'Sorry, r/${createCommunityModel.name} is taken. try another.';
-    });
+    }
   }
 }

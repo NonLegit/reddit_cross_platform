@@ -19,16 +19,9 @@ class ModeratorTools extends StatefulWidget {
 
 class _ModeratorToolsState extends State<ModeratorTools> {
   @override
-  // bool returned = false;
-
-
-
   void initState() {
     // TODO: implement initState
 
-    //DioClient.init();
-
-   // DioClient.initModerationSetting();
     super.initState();
   }
 @override
@@ -77,7 +70,7 @@ class _ModeratorToolsState extends State<ModeratorTools> {
                 ListView(
                   shrinkWrap: true,
                   children: [
-                    //call buildGeneralOptions to create the widget of each option under general in settings
+
                     buildGeneralOptions(
                         context,
                         () => Navigator.of(context).pushNamed(
@@ -90,7 +83,9 @@ class _ModeratorToolsState extends State<ModeratorTools> {
             ),
     );
   }
-
+  //call buildGeneralOptions to create the widget of each option in moderation setting
+  //return value is Gesture Detector
+  //Inputs : context of widget , function to call on tapping gesture, header of settings e.g Topics,Description,.. , next:Icon of each setting
   GestureDetector buildGeneralOptions(
       BuildContext context, VoidCallback onTap, String text, IconData next) {
     return GestureDetector(
