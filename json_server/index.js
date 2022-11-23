@@ -94,8 +94,19 @@ router.render = (req, res) => {
 			if (req.method === 'GET') {
 				if (req.originalUrl.includes('/subreddits?name=')) {
 					return subredditGET(req, res);
-				} else
-					return res.jsonp({ status: 'success', data: res.locals.data[0] });
+				} else {
+					return defaultGET(req, res);
+				}
+
+				// return res.locals.data.length > 1
+				// 	? res.jsonp({
+				// 			status: 'success',
+				// 			data: res.locals.data,
+				// 	  })
+				// 	: res.jsonp({
+				// 			status: 'success',
+				// 			data: res.locals.data[0],
+				// 	  });
 			} else if (req.method === 'POST') {
 				if (req.originalUrl.includes('/subreddits')) {
 					return subredditPOST(req, res);
@@ -105,13 +116,20 @@ router.render = (req, res) => {
 	);
 };
 
+const defaultGET = (req, res) => {
+	return {
+		status: 'success',
+		data: res.locals.data.length > 1 ? res.locals.data : res.locals.data[0],
+	};
+};
+
 const subredditGET = (req, res) => {
 	if (res.locals.data.length == 0)
 		return res.status(404).jsonp({
 			status: 'Not found',
 			errorMessage: 'subreddit Not found',
 		});
-	else return res.locals.data;
+	else return defaultGET(req, res);
 };
 
 const subredditPOST = (req, res) => {
