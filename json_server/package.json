@@ -1,0 +1,17 @@
+{
+	"name": "json_server",
+	"version": "1.0.0",
+	"main": "index.js",
+	"type": "commonjs",
+	"scripts": {
+		"start": "node index.js",
+		"start-dev": "node-dev index.js"
+	},
+	"author": "Amr",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"json-server": "^0.17.1",
+		"node-dev": "^7.4.3"
+	}
+}

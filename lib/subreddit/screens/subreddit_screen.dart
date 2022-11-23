@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:post/post/test_data.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 // import 'package:test_app/models/subreddit_about%20_rules.dart';
 import '../../models/subreddit_about _rules.dart';
@@ -120,6 +121,8 @@ class _SubredditScreenState extends State<SubredditScreen>
 
   @override
   Widget build(BuildContext context) {
+    TestData.fetchAlbum().then((value) => print(value));
+    print('1');
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: _scaffoldKey,
@@ -156,7 +159,7 @@ class _SubredditScreenState extends State<SubredditScreen>
                           ),
                           width: 60.w,
                           height: 4.h,
-                      // to Go to Search in Subreddit
+                          // to Go to Search in Subreddit
                           child: InkWell(
                             onTap: () {
                               Navigator.of(context)
@@ -178,7 +181,6 @@ class _SubredditScreenState extends State<SubredditScreen>
                             ),
                           ),
                         ),
-                      
                         actions: [
                           SubredditPopupMenuButton(
                               loadedSubreddit!.subredditLink.toString(),
@@ -192,7 +194,7 @@ class _SubredditScreenState extends State<SubredditScreen>
                                 children: [
                                   CircleAvatar(
                                     backgroundImage: NetworkImage(
-                                         'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4'),
+                                        'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4'),
                                     radius: 30.0,
                                   ),
                                   CircleAvatar(
@@ -287,7 +289,7 @@ class _SubredditScreenState extends State<SubredditScreen>
                                               trailing: JoinButtons(
                                                   isJoined: loadedSubreddit!
                                                       .isJoined as bool,
-                                                 // icon: icon,
+                                                  // icon: icon,
                                                   //dropDownValue: dropDownValue,
                                                   communityName:
                                                       loadedSubreddit!.name
@@ -382,7 +384,7 @@ class _SubredditScreenState extends State<SubredditScreen>
                       CircleAvatar(
                         radius: 60.0,
                         backgroundImage: NetworkImage(
-                           'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4'),
+                            'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4'),
                       ),
                       SizedBox(
                         height: 10.0,
