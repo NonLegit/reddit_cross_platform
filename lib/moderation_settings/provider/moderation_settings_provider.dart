@@ -1,6 +1,4 @@
-import 'dart:convert';
 
-import 'package:dartdoc/dartdoc.dart';
 import 'package:flutter/material.dart';
 
 import '../../networks/dio_client.dart';
@@ -22,17 +20,18 @@ class ModerationSettingProvider with ChangeNotifier {
       moderatorToolsModel1 = ModeratorToolsModel.fromJson(response.data);
       notifyListeners();
     } catch (error) {
-      print(error);
+      //print(error);
     }
   }
 
   Future<void> patchCommunity(Map<String, dynamic> data) async {
     //If the topic changed call patch to update the community topic
     try {
-      final response = await DioClient.patch(path: createCommunity, data: data);
+    //  final response = 
+      await DioClient.patch(path: createCommunity, data: data);
       notifyListeners();
     } catch (error) {
-      print(error);
+      //print(error);
     }
   }
 }

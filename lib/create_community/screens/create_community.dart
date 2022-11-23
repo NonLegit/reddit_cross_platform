@@ -126,14 +126,14 @@ class CreateCommunityState extends State<CreateCommunity> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     super.dispose();
     _communityNameController.dispose();
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     DioClient.initCreateCoumunity();
     choosenCommunityType = communityType.keys.elementAt(0);
@@ -145,9 +145,9 @@ class CreateCommunityState extends State<CreateCommunity> {
   Widget build(BuildContext context) {
     return (!kIsWeb)
         ? Scaffold(
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(60),
-              child: appBar(),
+            appBar: const PreferredSize(
+              preferredSize: Size.fromHeight(60),
+              child: AppBar2(),
             ),
             body: Container(
                 height: 55.h,
@@ -160,7 +160,7 @@ class CreateCommunityState extends State<CreateCommunity> {
                     ),
                     Text(
                       'Community name',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     SizedBox(
                       height: 2.h,
@@ -171,52 +171,50 @@ class CreateCommunityState extends State<CreateCommunity> {
                       child: Form(
                         //key:Key('Create-Community'),
                         key: _textFieldKey,
-                        child: Container(
-                          child: TextFormField(
-                            textAlignVertical: TextAlignVertical.center,
-                            controller: _communityNameController,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            validator: validateTextField,
-                            cursorColor: Colors.black,
-                            onChanged: (value) {
-                              _onChangeTextField(value);
-                            },
-                            decoration: InputDecoration(
-                                prefixText: 'r/',
-                                isDense: true,
-                                contentPadding: const EdgeInsets.all(16),
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.never,
-                                labelText: 'r/Community_name',
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none),
-                                counterText: "",
-                                labelStyle: const TextStyle(
-                                  fontSize: 15,
-                                ),
-                                filled: true,
-                                errorText: (errorMessage == '')
-                                    ? null
-                                    : (!uniqueCommunityName)
-                                        ? errorMessage
-                                        : null,
-                                errorStyle: const TextStyle(
-                                    color: Colors.grey, fontSize: 10),
-                                suffixIcon: ClearTextField(
-                                    typed: _typed,
-                                    clearTextField: clearTextField,
-                                    count: count)),
-                            maxLength: 21,
-                            maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                          ),
+                        child: TextFormField(
+                          textAlignVertical: TextAlignVertical.center,
+                          controller: _communityNameController,
+                          autovalidateMode:
+                              AutovalidateMode.onUserInteraction,
+                          validator: validateTextField,
+                          cursorColor: Colors.black,
+                          onChanged: (value) {
+                            _onChangeTextField(value);
+                          },
+                          decoration: InputDecoration(
+                              prefixText: 'r/',
+                              isDense: true,
+                              contentPadding: const EdgeInsets.all(16),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              labelText: 'r/Community_name',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none),
+                              counterText: "",
+                              labelStyle: const TextStyle(
+                                fontSize: 15,
+                              ),
+                              filled: true,
+                              errorText: (errorMessage == '')
+                                  ? null
+                                  : (!uniqueCommunityName)
+                                      ? errorMessage
+                                      : null,
+                              errorStyle: const TextStyle(
+                                  color: Colors.grey, fontSize: 10),
+                              suffixIcon: ClearTextField(
+                                  typed: _typed,
+                                  clearTextField: _clearTextField,
+                                  count: count)),
+                          maxLength: 21,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
                         ),
                       ),
                     ),
@@ -224,8 +222,8 @@ class CreateCommunityState extends State<CreateCommunity> {
                       height: 1.h,
                     ),
                     Text('Community type',
-                        style: Theme.of(context).textTheme.bodyText1),
-                    Container(
+                        style: Theme.of(context).textTheme.bodyLarge),
+                    SizedBox(
                       height: 6.h,
                       child: TextButton(
                         //Calls the widget ListOfCommunityType(choosen community type by default Public ,community definition by default Public definition) 
@@ -270,7 +268,7 @@ class CreateCommunityState extends State<CreateCommunity> {
                       height: 1.5.h,
                     ),
                     Center(
-                      child: Container(
+                      child: SizedBox(
                         width: 60.h,
                         height: 5.5.h,
                         child: ElevatedButton(
@@ -323,7 +321,7 @@ class CreateCommunityState extends State<CreateCommunity> {
             validateCommunity: _validateCommunityName,
             validateTextField: validateTextField,
           );
-    ;
+    
   }
 
   _validateCommunityName() async {

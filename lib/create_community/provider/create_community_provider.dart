@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
@@ -12,15 +11,16 @@ class CreateCommunityProvider with ChangeNotifier {
   CreateCommunityModel? createCommunityModel;
 //Get community using name the user typed to check if it existed before or not
 // return true if existed 
-// false if it doesn't existt before
+// false if it doesn't exist before
   Future<bool> getCommunity( Map<String, dynamic> query) async {
     try{
-        final response = await DioClient.get(path: createCommunity, query:query );
+       
+        await DioClient.get(path: createCommunity, query:query );
         notifyListeners();
         return true;
     } catch(error){
-      print(error);
-      notifyListeners();
+     // print(error);
+     // notifyListeners();
       return false;
     }
   }
@@ -29,12 +29,13 @@ class CreateCommunityProvider with ChangeNotifier {
   //return false if error occured
   Future<bool> postCommunity(Map<String, dynamic> data) async {
     try{
-        final response = await DioClient.post(path: createCommunity,data: data);
+        //final response = 
+        await DioClient.post(path: createCommunity,data: data);
         notifyListeners();
         return true;
     } catch(error){
-      print(error);
-      notifyListeners();
+     // print(error);
+      //notifyListeners();
       return false;
     }
   }

@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:post/moderation_settings/provider/moderation_settings_provider.dart';
 import 'package:post/networks/dio_client.dart';
@@ -32,7 +32,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    
     DioClient.initCreateCoumunity();
     //return hardcoded topics from constant folder
     topics = t1.topic;

@@ -1,13 +1,15 @@
-// ignore_for_file: sort_child_properties_last
-
 import 'package:flutter/material.dart';
-import 'package:post/notification/constants/types_of_notification.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:responsive_sizer/responsive_sizer.dart';
+
+import '../constants/types_of_notification.dart';
 import '../../create_community/widgets/bar_widget.dart';
+import '../widgets/notification_text.dart';
+import '../widgets/reply_back.dart';
 import './navigate_to_correct_screen.dart';
 import '../widgets/list_tile_widget.dart';
 import '../widgets/three_dots_widget.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import '../widgets/notification_image.dart';
 
 class NotificationsMainScreen extends StatelessWidget {
   NotificationsMainScreen(
@@ -24,6 +26,24 @@ class NotificationsMainScreen extends StatelessWidget {
 
   _navigateToCorrectScreen(index, context) {
     Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
+  }
+
+  String getTimeOfNotification(date) {
+    String howOld;
+    final difference = DateTime.now().difference(DateTime.parse(date));
+    print(DateTime.parse(date));
+    if (difference.inDays >= 30) {
+      howOld = '${DateTime.parse(date).month}';
+    } else if (difference.inDays >= 1) {
+      howOld = '${difference.inDays}d';
+    } else if (difference.inMinutes >= 60) {
+      howOld = '${difference.inHours}h';
+    } else if (difference.inSeconds >= 60) {
+      howOld = '${difference.inMinutes}m';
+    } else {
+      howOld = 'Now';
+    }
+    return howOld;
   }
 
   @override
@@ -46,80 +66,59 @@ class NotificationsMainScreen extends StatelessWidget {
               ],
             )),
           )
-        : Container(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  if (!kIsWeb)
-                    Flexible(
-                      child: SingleChildScrollView(
-                        child: NotificationBody(),
-                      ),
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+                if (!kIsWeb)
+                  Flexible(
+                    child: SingleChildScrollView(
+                      child: notificationBody(),
                     ),
-                  if (kIsWeb) NotificationBody(),
-                ]),
-          );
+                  ),
+                if (kIsWeb) notificationBody(),
+              ]);
   }
 
-  ListView NotificationBody() {
+  ListView notificationBody() {
     return ListView.builder(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       itemBuilder: (context, index) {
         return Column(
           children: [
-            ListTile(
-                onTap: () => _navigateToCorrectScreen(index, context),
-                tileColor: (!usersAllNotificatiion[index]['seen'])
+            GestureDetector(
+              onTap: () => _navigateToCorrectScreen(index, context),
+              child: Container(
+                color: (!usersAllNotificatiion[index]['seen'])
                     ? Colors.lightBlue[50]
                     : Colors.white,
-                leading: Container(
-                  padding: const EdgeInsets.only(top: 4),
-                  width: 40,
-                  child: Stack(children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/img.jpg'),
-                        radius: 17,
-                      ),
-                    ),
-                    Positioned(
-                      left: 20,
-                      top: 20,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          //minRadius: 2,
-                          backgroundColor: Colors.white,
-                          backgroundImage: AssetImage(TypeOfNotification[
-                              usersAllNotificatiion[index]['type']]!),
-                          radius: 7,
-                        ),
-                        radius: 10,
-                      ),
-                    ),
-                  ]),
-                ),
-                title: Row(
+                // width: double.infinity,
+                child: Row(
                   children: [
-                    Text(usersAllNotificatiion[index]['type']),
-                    Text(
-                      ' .${usersAllNotificatiion[index]['createdAt']}',
-                      style: const TextStyle(color: Colors.grey, fontSize: 12),
-                    )
-                  ],
-                ),
-                subtitle: Text(
-                  usersAllNotificatiion[index]['postId'],
-                  // maxLines: 1,
-                ),
-                //according to the type of notifications the options is shown or not shown
-                trailing: (usersAllNotificatiion[index]['type'] !=
-                        'userMention')
-                    ? (!kIsWeb)
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            notificationMain(
+                              'r/Hunter',
+                              'u/Basma',
+                              usersAllNotificatiion[index]['postId'],
+                              usersAllNotificatiion[index]['type'],
+                              getTimeOfNotification(usersAllNotificatiion[index]
+                                      ['createdAt']
+                                  .toString()),
+                              NotificationImage(
+                                  usersAllNotificatiion: typeOfNotification[
+                                      usersAllNotificatiion[index]['type']]!),
+                            )!,
+                          ],
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    (!kIsWeb)
                         ? ThreeDotsWidget(
                             optional: const BarWidget(),
                             listOfWidgets: [
@@ -188,13 +187,105 @@ class NotificationsMainScreen extends StatelessWidget {
                                   )),
                               ];
                             },
-                          )
-                    : null),
-            if (kIsWeb) const Divider(),
+                          ),
+                    if (kIsWeb) const Divider(),
+                  ],
+                ),
+              ),
+            ),
           ],
         );
       },
       itemCount: usersAllNotificatiion.length,
     );
   }
+}
+
+Widget? notificationMain(me, user, description, type, time, Widget image) {
+  if (type == 'firstCommentUpVote' || type == 'firstPostUpVote') {
+    return Row(
+      children: [
+        image,
+        SizedBox(
+          width: 2.w,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Image.asset(
+                  'assets/images/up-arrow.png',
+                  width: (kIsWeb) ? 1.w : 3.w,
+                ),
+                const Text(
+                  '1st upvote!',
+                  style: TextStyle(fontSize: 13, color: Colors.black),
+                  maxLines: 2,
+                ),
+                SizedBox(
+                  width: 2.w,
+                ),
+                const Icon(
+                  Icons.circle,
+                  color: Colors.grey,
+                  size: 4,
+                ),
+                SizedBox(
+                  width: 1.w,
+                ),
+                Text(
+                  time,
+                  style: const TextStyle(color: Colors.grey, fontSize: 10),
+                )
+              ],
+            ),
+            SizedBox(
+              width: (kIsWeb) ? 20.w : 76.w,
+              child: Text(description,
+                  maxLines: 2,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.grey, fontSize: 10)),
+            ),
+          ],
+        ),
+      ],
+    );
+  } else if (type == 'userMention') {
+    return NotificationText(
+      description: description,
+      text: '$user mentioned you in $me',
+      time: time,
+      image: image,
+    );
+  } else if (type == 'follow') {
+    return NotificationText(
+        description: description,
+        text: 'New follower!',
+        time: time,
+        image: image);
+  } else if (type == 'postReply') {
+    return NotificationText(
+        description: description,
+        text: '$user replied to your post in  $me',
+        time: time,
+        image: image);
+  } else if (type == 'commentReply') {
+    return Column(
+      children: [
+        NotificationText(
+          description: description,
+          text: '$user replied to your comment in  $me',
+          time: time,
+          image: image,
+          button: const ReplyBack(),
+          index: 1,
+        ),
+        // const ReplyBack(),
+      ],
+    );
+  }
+  return null;
 }

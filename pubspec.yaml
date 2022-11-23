@@ -58,7 +58,6 @@ dependencies:
   dartdoc: ^6.1.2
   flutter_switch: ^0.3.2
   badges: ^2.0.3
-  footer: ^0.0.4
 
 dev_dependencies:
   test_cov_console: ^0.2.2

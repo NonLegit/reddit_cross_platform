@@ -1,12 +1,10 @@
-import 'dart:convert';
+
 
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../networks/dio_client.dart';
-import '../../widgets/loading_reddit.dart';
-import '../models/moderator_tools.dart';
+
 import './topics_screen.dart';
-import '../../networks/const_endpoint_data.dart';
+
 
 class ModeratorTools extends StatefulWidget {
   static const routeName = '/moderatortools';
@@ -18,16 +16,6 @@ class ModeratorTools extends StatefulWidget {
 }
 
 class _ModeratorToolsState extends State<ModeratorTools> {
-  @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-  }
-@override
-    void didChangeDependencies() {
-    
-  }
 
   List<String>? topics;
 
@@ -55,7 +43,7 @@ class _ModeratorToolsState extends State<ModeratorTools> {
                 Container(
                   color: Colors.grey.shade300,
                   width: 100.h,
-                  padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                  padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
                   child: const Text(
                     'GENERAL',
                     style: TextStyle(

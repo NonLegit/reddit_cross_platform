@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:post/notification/provider/notification_provider.dart';
 
 import 'package:post/notification/screens/messages_main_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:dartdoc/dartdoc.dart';
 import 'package:flutter/services.dart';
-
+import 'package:responsive_framework/responsive_framework.dart';
 
 import './home/screens/home_layout.dart';
 import './screens/home_screen.dart';
@@ -45,7 +45,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final ThemeData theme = ThemeData();
 
     SystemChrome.setPreferredOrientations([
@@ -60,6 +59,7 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider.value(value: CreateCommunityProvider()),
             ChangeNotifierProvider.value(value: ModerationSettingProvider()),
+            ChangeNotifierProvider.value(value: NotificationProvider()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
                   onSurface: Colors.white),
             ),
              home: homeLayoutScreen(),
-         
+           
             routes: {
               homeLayoutScreen.routeName: (context) => homeLayoutScreen(),
               EmptyScreen.routeName: (context) => EmptyScreen(),
@@ -113,7 +113,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 
 class _MyHomeApp extends StatelessWidget {
   // This widget is the root of your application.

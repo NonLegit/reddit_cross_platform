@@ -188,7 +188,7 @@ class ModeratorToolsModel {
     primaryTopic = json['primaryTopic'];
     backgroundImage = json['backgroundImage'];
     icon = json['icon'];
-    rules = json['rules'] != null ? new Rules.fromJson(json['rules']) : null;
+    rules = json['rules'] != null ? Rules.fromJson(json['rules']) : null;
     name = json['name'];
     description = json['description'];
     // if (json['topics'] != null) {
@@ -211,30 +211,30 @@ class ModeratorToolsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['createdAt'] = this.createdAt;
-    data['primaryTopic'] = this.primaryTopic;
-    data['backgroundImage'] = this.backgroundImage;
-    data['icon'] = this.icon;
-    if (this.rules != null) {
-      data['rules'] = this.rules!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['createdAt'] = createdAt;
+    data['primaryTopic'] = primaryTopic;
+    data['backgroundImage'] = backgroundImage;
+    data['icon'] = icon;
+    if (rules != null) {
+      data['rules'] = rules!.toJson();
     }
-    data['name'] = this.name;
-    data['description'] = this.description;
+    data['name'] = name;
+    data['description'] = description;
     // if (this.topics != null) {
     //   data['topics'] = topics!.map((v) => v.toJson()).toList();
     // }
-    data['language'] = this.language;
-    data['region'] = this.region;
-    data['type'] = this.type;
-    data['nsfw'] = this.nsfw;
-    data['postType'] = this.postType;
-    data['allowCrossposting'] = this.allowCrossposting;
-    data['allowArchivePosts'] = this.allowArchivePosts;
-    data['allowSpoilerTag'] = this.allowSpoilerTag;
-    data['allowGif'] = this.allowGif;
-    data['allowImageUploads'] = this.allowImageUploads;
-    data['allowMultipleImage'] = this.allowMultipleImage;
+    data['language'] = language;
+    data['region'] = region;
+    data['type'] = type;
+    data['nsfw'] = nsfw;
+    data['postType'] = postType;
+    data['allowCrossposting'] = allowCrossposting;
+    data['allowArchivePosts'] = allowArchivePosts;
+    data['allowSpoilerTag'] = allowSpoilerTag;
+    data['allowGif'] = allowGif;
+    data['allowImageUploads'] = allowImageUploads;
+    data['allowMultipleImage'] = allowMultipleImage;
     return data;
   }
 }
@@ -255,11 +255,11 @@ class Rules {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['defaultName'] = this.defaultName;
-    data['appliesTo'] = this.appliesTo;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    data['description'] = description;
+    data['defaultName'] = defaultName;
+    data['appliesTo'] = appliesTo;
     return data;
   }
 }

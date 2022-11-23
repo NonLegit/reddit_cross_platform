@@ -13,7 +13,7 @@ class TopicMainScreen extends StatelessWidget {
   final String selectedBefore;
 
   TopicMainScreen(
-      {required this.iselected,
+      {super.key, required this.iselected,
       required this.pressed,
       required this.makeButtonEnable,
       required this.topic,

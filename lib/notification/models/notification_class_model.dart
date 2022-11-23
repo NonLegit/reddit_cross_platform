@@ -43,15 +43,15 @@ class NotificationsClassModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['folowerId'] = this.folowerId;
-    data['postId'] = this.postId;
-    data['commentId'] = this.commentId;
-    data['followedId'] = this.followedId;
-    data['createdAt'] = this.createdAt;
-    data['seen'] = this.seen;
-    data['isHidden'] = this.isHidden;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['folowerId'] = folowerId;
+    data['postId'] = postId;
+    data['commentId'] = commentId;
+    data['followedId'] = followedId;
+    data['createdAt'] = createdAt;
+    data['seen'] = seen;
+    data['isHidden'] = isHidden;
     return data;
   }
 }

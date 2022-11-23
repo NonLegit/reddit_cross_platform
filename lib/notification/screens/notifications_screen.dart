@@ -3,11 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../home/screens/home_layout.dart';
 import '../../icons/icon_broken.dart';
+import '../provider/notification_provider.dart';
 import '../widgets/list_tile_widget.dart';
 import '../../networks/dio_client.dart';
 import '../widgets/three_dots_widget.dart';
@@ -127,24 +129,39 @@ class _NotificationScreenState extends State<NotificationScreen> {
   bool returned = false;
   List<Map> usersAllNotificatiion = [];
   var currentIndex = 4;
+  bool _isInit = true;
   @override
   void initState() {
-    // TODO: implement initState
-    DioClient.initNotification();
-
+    DioClient.initCreateCoumunity();
     super.initState();
   }
 
   @override
   void didChangeDependencies() async {
-    await DioClient.get(path: notificationResults).then((value) {
-      json.decode(value.data).forEach((value) {
-        usersAllNotificatiion.add(HashMap.from(value));
+    if (_isInit) {
+      setState(() {
+          returned = false;
+        });
+      Provider.of<NotificationProvider>(context, listen: false)
+          .getNotification()
+          .then((value) {
+        usersAllNotificatiion =
+            Provider.of<NotificationProvider>(context, listen: false).list;
+        setState(() {
+          returned = true;
+        });
       });
-    });
-    setState(() {
-      returned = true;
-    });
+      // await DioClient.get(path: notificationResults).then((value) {
+      //   print(value.data);
+      //   value.data.forEach((value1) {
+      //     usersAllNotificatiion.add(HashMap.from(value1));
+      //   });
+      // });
+      // setState(() {
+      //   returned = true;
+      // });
+    }
+    _isInit = false;
 
     super.didChangeDependencies();
   }
@@ -177,11 +194,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       icon: Stack(
                         alignment: AlignmentDirectional.bottomEnd,
                         children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
-                            radius: 30.0,
-                          ),
+                          // CircleAvatar(
+                          //   backgroundImage: NetworkImage(
+                          //       'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
+                          //   radius: 30.0,
+                          // ),
                           CircleAvatar(
                             backgroundColor: Colors.white,
                             radius: 6,
@@ -684,11 +701,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        radius: 60.0,
-                        backgroundImage: NetworkImage(
-                            'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4'),
-                      ),
+                      // CircleAvatar(
+                      //   radius: 60.0,
+                      //   backgroundImage: NetworkImage(
+                      //       'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4'),
+                      // ),
                       SizedBox(
                         height: 10.0,
                       ),

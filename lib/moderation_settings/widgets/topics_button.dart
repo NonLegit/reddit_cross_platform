@@ -12,8 +12,8 @@ class TopicButton extends StatelessWidget {
   final String keyAns;
   final String selectedBefore;
 
-  TopicButton(
-      {required this.selectedIndex,
+  const TopicButton(
+      {super.key, required this.selectedIndex,
       required this.myIndex,
       required this.onClick,
       required this.selectedIcon,
@@ -53,6 +53,6 @@ class TopicButton extends StatelessWidget {
         ),
       ),
     );
-    ;
+    
   }
 }

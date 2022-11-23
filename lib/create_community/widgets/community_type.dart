@@ -17,7 +17,7 @@ class CommunityType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       ///extract this to widget
       height: 40.h,
       child: Column(
@@ -31,7 +31,7 @@ class CommunityType extends StatelessWidget {
           ),
           const Text(
             'Community type',
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           const Divider(
             color: Colors.transparent,
