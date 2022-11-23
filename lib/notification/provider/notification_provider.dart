@@ -14,9 +14,7 @@ class NotificationProvider with ChangeNotifier {
     return [...list];
   }
 
-//Get community using name the user typed to check if it existed before or not
-// return true if existed
-// false if it doesn't exist before
+//Get notification 
   Future<bool> getNotification() async {
     try {
       final response =

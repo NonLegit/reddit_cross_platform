@@ -28,6 +28,7 @@ class NotificationsMainScreen extends StatelessWidget {
     Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
   }
 
+//return time in terms of month or week or day or seconds
   String getTimeOfNotification(date) {
     String howOld;
     final difference = DateTime.now().difference(DateTime.parse(date));
@@ -80,6 +81,7 @@ class NotificationsMainScreen extends StatelessWidget {
               ]);
   }
 
+  //Widget return the main body of each notification
   ListView notificationBody() {
     return ListView.builder(
       shrinkWrap: true,
@@ -200,7 +202,11 @@ class NotificationsMainScreen extends StatelessWidget {
     );
   }
 }
+//used to return widget of each type of notification
+//Input : description of notification , type of notification, time of notification,Image of notification
 
+//Notification Text : To build the header and the description body of notification
+//Reply back : Button reply back that appears to reply on a comment
 Widget? notificationMain(me, user, description, type, time, Widget image) {
   if (type == 'firstCommentUpVote' || type == 'firstPostUpVote') {
     return Row(

@@ -8,19 +8,6 @@ class NotificationsClassModel {
   bool? seen;
   bool? isHidden;
 
-
-// [
-//   {
-//     "type": "post_reply",
-//     "folowerId": "string",
-//     "postId": "string",
-//     "commentId": "string",
-//     "followedId": "2017-07-21T17:32:28.000Z",
-//     "createdAt": "string",
-//     "seen": true,
-//     "isHidden": true
-//   }
-// ]
   NotificationsClassModel(
       {this.type,
       this.folowerId,
