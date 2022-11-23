@@ -94,7 +94,8 @@ router.render = (req, res) => {
 			if (req.method === 'GET') {
 				if (req.originalUrl.includes('/subreddits?name=')) {
 					return subredditGET(req, res);
-				} else return res.locals.data;
+				} else
+					return res.jsonp({ status: 'success', data: res.locals.data[0] });
 			} else if (req.method === 'POST') {
 				if (req.originalUrl.includes('/subreddits')) {
 					return subredditPOST(req, res);
