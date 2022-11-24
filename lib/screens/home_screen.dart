@@ -16,12 +16,14 @@ class HomeScreen extends StatelessWidget {
             IconButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(
-                   // MyProfileScreen.routeName
-                     SubredditScreen.routeName
-                     //ModeratedSubredditScreen.routeName
+                  //MyProfileScreen.routeName
+                    SubredditScreen.routeName
+                    //ModeratedSubredditScreen.routeName
                     // OthersProfileScreen.routeName
                       ,
-                      arguments: 'ZeinabMoawad');
+                      //arguments: 'Zeinab_maoawad'
+                     arguments: 'Cooking'         
+                     );
                 },
                 icon: Icon(Icons.add))
           ],

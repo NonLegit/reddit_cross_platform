@@ -46,13 +46,9 @@ class PostSortBottomState extends State<PostSortBottom> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        // height: MediaQuery.of(context).size.height * 0.23,
-        // width: MediaQuery.of(context).size.width * 1,
         height: 23.h,
         width: 100.w,
         color: const Color.fromARGB(255, 240, 240, 240),
-        //padding: const EdgeInsets.all(20),
-        //color: Colors.black54,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,

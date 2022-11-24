@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import './list_tile_widget.dart';
 
 class MainModalBottomSheet extends StatelessWidget {
   MainModalBottomSheet({super.key, required this.listOfWidgets});

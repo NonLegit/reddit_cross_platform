@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:responsive_sizer/responsive_sizer.dart';
+
+import '../constants/types_of_notification.dart';
 import '../../create_community/widgets/bar_widget.dart';
+import '../widgets/notification_text.dart';
+import '../widgets/reply_back.dart';
 import './navigate_to_correct_screen.dart';
 import '../widgets/list_tile_widget.dart';
 import '../widgets/three_dots_widget.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import '../widgets/notification_image.dart';
 
 class NotificationsMainScreen extends StatelessWidget {
   NotificationsMainScreen(
@@ -12,9 +18,33 @@ class NotificationsMainScreen extends StatelessWidget {
       required this.usersAllNotificatiion});
   final List<Map> usersAllNotificatiion;
   Function? changeNumOfNotification;
+  String dropDownValue = '';
+  List<String> list = [
+    'Hide this notification',
+    'Disable updates from this community'
+  ];
 
   _navigateToCorrectScreen(index, context) {
     Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
+  }
+
+//return time in terms of month or week or day or seconds
+  String getTimeOfNotification(date) {
+    String howOld;
+    final difference = DateTime.now().difference(DateTime.parse(date));
+    print(DateTime.parse(date));
+    if (difference.inDays >= 30) {
+      howOld = '${DateTime.parse(date).month}';
+    } else if (difference.inDays >= 1) {
+      howOld = '${difference.inDays}d';
+    } else if (difference.inMinutes >= 60) {
+      howOld = '${difference.inHours}h';
+    } else if (difference.inSeconds >= 60) {
+      howOld = '${difference.inMinutes}m';
+    } else {
+      howOld = 'Now';
+    }
+    return howOld;
   }
 
   @override
@@ -37,122 +67,231 @@ class NotificationsMainScreen extends StatelessWidget {
               ],
             )),
           )
-        : Container(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+                if (!kIsWeb)
                   Flexible(
                     child: SingleChildScrollView(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                              onTap: () =>
-                                  _navigateToCorrectScreen(index, context),
-                              tileColor: (!usersAllNotificatiion[index]['seen'])
-                                  ? Colors.lightBlue[50]
-                                  : Colors.white,
-                              leading: Container(
-                                padding: const EdgeInsets.only(top: 4),
-                                width: 40,
-                                child: Stack(children: const [
-                                  Positioned(
-                                    left: 0,
-                                    top: 0,
-                                    child: CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage('assets/images/img.jpg'),
-                                      radius: 17,
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 20,
-                                    top: 20,
-                                    child: CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          'assets/images/upvote.png'),
-                                      radius: 9,
-                                    ),
-                                  ),
-                                ]),
-                              ),
-                              title: Row(
-                                children: [
-                                  Text(usersAllNotificatiion[index]['type']),
-                                  Text(
-                                    ' .${usersAllNotificatiion[index]['createdAt']}',
-                                    style: const TextStyle(
-                                        color: Colors.grey, fontSize: 12),
-                                  )
-                                ],
-                              ),
-                              subtitle: Text(
-                                usersAllNotificatiion[index]['postId'],
-                                // maxLines: 1,
-                              ),
-                              //according to the type of notifications the options is shown or not shown
-                              trailing: (usersAllNotificatiion[index]['type'] !=
-                                      'userMention')
-                                  ? ThreeDotsWidget(
-                                      optional: const BarWidget(),
-                                      listOfWidgets: [
-                                        const Divider(
-                                          color: Colors.transparent,
-                                        ),
-                                        const Text(
-                                          'Manage Notification',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        const Divider(
-                                          color: Colors.transparent,
-                                        ),
-                                        const Divider(),
-                                        ListTileWidget(
-                                            icon: Icons.visibility_off_outlined,
-                                            title: 'Hide this notification'),
-                                            //only in community notifications this option is shown
-                                        if (usersAllNotificatiion[index]
-                                                ['type'] ==
-                                            'community')
-                                          ListTileWidget(
-                                              icon: Icons.cancel_outlined,
-                                              title:
-                                                  'Disable updates from this community'),
-                                        SizedBox(
-                                          height: 5.h,
-                                          child: ElevatedButton(
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(),
-                                            style: ElevatedButton.styleFrom(
-                                              shape: const StadiumBorder(),
-                                              onPrimary: Colors.grey[200],
-                                            ),
-                                            child: const Text(
-                                              'Close',
-                                              style: TextStyle(
-                                                  color: Colors.black),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                      height: (usersAllNotificatiion[index]
-                                                  ['type'] ==
-                                              'community')
-                                          ? 31
-                                          : 25)
-                                  : null);
-                        },
-                        itemCount: usersAllNotificatiion.length,
-                      ),
+                      child: notificationBody(),
                     ),
-                  )
-                ]),
-          );
+                  ),
+                if (kIsWeb) notificationBody(),
+              ]);
   }
+
+  //Widget return the main body of each notification
+  ListView notificationBody() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+      itemBuilder: (context, index) {
+        return Column(
+          children: [
+            GestureDetector(
+              onTap: () => _navigateToCorrectScreen(index, context),
+              child: Container(
+                color: (!usersAllNotificatiion[index]['seen'])
+                    ? Colors.lightBlue[50]
+                    : Colors.white,
+                // width: double.infinity,
+                child: Row(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            notificationMain(
+                              'r/Hunter',
+                              'u/Basma',
+                              usersAllNotificatiion[index]['postId'],
+                              usersAllNotificatiion[index]['type'],
+                              getTimeOfNotification(usersAllNotificatiion[index]
+                                      ['createdAt']
+                                  .toString()),
+                              NotificationImage(
+                                  usersAllNotificatiion: typeOfNotification[
+                                      usersAllNotificatiion[index]['type']]!),
+                            )!,
+                          ],
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    (!kIsWeb)
+                        ? ThreeDotsWidget(
+                            optional: const BarWidget(),
+                            listOfWidgets: [
+                              const Divider(
+                                color: Colors.transparent,
+                              ),
+                              const Text(
+                                'Manage Notification',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const Divider(
+                                color: Colors.transparent,
+                              ),
+                              const Divider(),
+                              ListTileWidget(
+                                  icon: Icons.visibility_off_outlined,
+                                  title: 'Hide this notification'),
+                              //only in community notifications this option is shown
+                              if (usersAllNotificatiion[index]['type'] ==
+                                  'community')
+                                ListTileWidget(
+                                    icon: Icons.cancel_outlined,
+                                    title:
+                                        'Disable updates from this community'),
+                              SizedBox(
+                                height: 5.h,
+                                child: ElevatedButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  style: ElevatedButton.styleFrom(
+                                    shape: const StadiumBorder(),
+                                    onPrimary: Colors.grey[200],
+                                  ),
+                                  child: const Text(
+                                    'Close',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              )
+                            ],
+                            height: (usersAllNotificatiion[index]['type'] ==
+                                    'community')
+                                ? 31
+                                : 25)
+                        : PopupMenuButton(
+                            // elevation: -1,
+                            position: PopupMenuPosition.under,
+                            icon: const Icon(Icons.more_horiz),
+                            itemBuilder: (context) {
+                              //return list.map((e) {
+                              return [
+                                PopupMenuItem(
+                                    child: Text(
+                                  list[0],
+                                  style: const TextStyle(fontSize: 12),
+                                )),
+                                if (usersAllNotificatiion[index]['type'] ==
+                                    'community')
+                                  PopupMenuItem(
+                                      child: Text(
+                                    list[1],
+                                    style: const TextStyle(fontSize: 12),
+                                  )),
+                              ];
+                            },
+                          ),
+                    if (kIsWeb) const Divider(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+      itemCount: usersAllNotificatiion.length,
+    );
+  }
+}
+//used to return widget of each type of notification
+//Input : description of notification , type of notification, time of notification,Image of notification
+
+//Notification Text : To build the header and the description body of notification
+//Reply back : Button reply back that appears to reply on a comment
+Widget? notificationMain(me, user, description, type, time, Widget image) {
+  if (type == 'firstCommentUpVote' || type == 'firstPostUpVote') {
+    return Row(
+      children: [
+        image,
+        SizedBox(
+          width: 2.w,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Image.asset(
+                  'assets/images/up-arrow.png',
+                  width: (kIsWeb) ? 1.w : 3.w,
+                ),
+                const Text(
+                  '1st upvote!',
+                  style: TextStyle(fontSize: 13, color: Colors.black),
+                  maxLines: 2,
+                ),
+                SizedBox(
+                  width: 2.w,
+                ),
+                const Icon(
+                  Icons.circle,
+                  color: Colors.grey,
+                  size: 4,
+                ),
+                SizedBox(
+                  width: 1.w,
+                ),
+                Text(
+                  time,
+                  style: const TextStyle(color: Colors.grey, fontSize: 10),
+                )
+              ],
+            ),
+            SizedBox(
+              width: (kIsWeb) ? 20.w : 76.w,
+              child: Text(description,
+                  maxLines: 2,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.grey, fontSize: 10)),
+            ),
+          ],
+        ),
+      ],
+    );
+  } else if (type == 'userMention') {
+    return NotificationText(
+      description: description,
+      text: '$user mentioned you in $me',
+      time: time,
+      image: image,
+    );
+  } else if (type == 'follow') {
+    return NotificationText(
+        description: description,
+        text: 'New follower!',
+        time: time,
+        image: image);
+  } else if (type == 'postReply') {
+    return NotificationText(
+        description: description,
+        text: '$user replied to your post in  $me',
+        time: time,
+        image: image);
+  } else if (type == 'commentReply') {
+    return Column(
+      children: [
+        NotificationText(
+          description: description,
+          text: '$user replied to your comment in  $me',
+          time: time,
+          image: image,
+          button: const ReplyBack(),
+          index: 1,
+        ),
+        // const ReplyBack(),
+      ],
+    );
+  }
+  return null;
 }

@@ -58,6 +58,15 @@ dependencies:
   dartdoc: ^6.1.2
   flutter_switch: ^0.3.2
   badges: ^2.0.3
+  linter: ^1.30.0
+  get: ^4.6.5
+  dotted_border: ^2.0.0+3
+  google_nav_bar: ^5.0.6
+  image_picker: ^0.8.6
+  multi_image_picker: ^4.7.14
+  
+
+
 
 dev_dependencies:
   test_cov_console: ^0.2.2
@@ -112,15 +121,70 @@ flutter:
   assets:
     - .env
     - assets/images/community_icon.png
-    - assets/images/Activism.png
-    - assets/images/Addiction Support.png
-    - assets/images/Animal and Pets.png
-    - assets/images/Anime.png
-    - assets/images/upvote.png
+    - assets/images/envelope.png
     - assets/images/img.jpg
     - assets/images/emptyNotification.png
     - assets/images/redditLoading.png
     - assets/images/loadingreddit.gif
+    - assets/images/arrow-up.png
+    - assets/images/user.png
+    - assets/images/heart.png
+    - assets/images/notification.png
+    - assets/images/rise.png
+    - assets/images/megaphone.png
+    - assets/images/pink-ribbon.png
+    - assets/images/cat.png
+    - assets/images/brush.png
+    - assets/images/nail-polish.png
+    - assets/images/stats.png
+    - assets/images/gear.png
+    - assets/images/steering-wheel.png
+    - assets/images/sun-glasses.png
+    - assets/images/paint-roller.png
+    - assets/images/baby.png
+    - assets/images/clothes-hanger.png
+    - assets/images/shoe.png
+    - assets/images/fork.png
+    - assets/images/happy-face.png
+    - assets/images/joystick.png
+    - assets/images/gender.png
+    - assets/images/waiting.png
+    - assets/images/car.png
+    - assets/images/plant.png
+    - assets/images/cursor.png
+    - assets/images/balance.png
+    - assets/images/machine-learning.png
+    - assets/images/shopping-bag.png
+    - assets/images/-18.png
+    - assets/images/molecule.png
+    - assets/images/link.png
+    - assets/images/corporate.png
+    - assets/images/first-aid-bag.png
+    - assets/images/masculine.png
+    - assets/images/alien-ship.png
+    - assets/images/rank.png
+    - assets/images/clapperboard.png
+    - assets/images/headphones.png
+    - assets/images/tree.png
+    - assets/images/pin.png
+    - assets/images/podcasts.png
+    - assets/images/court.png
+    - assets/images/keyboard.png
+    - assets/images/book.png
+    - assets/images/koran.png
+    - assets/images/flask.png
+    - assets/images/rainbow.png
+    - assets/images/ball.png
+    - assets/images/strategy.png
+    - assets/images/cpu.png
+    - assets/images/tv.png
+    - assets/images/love.png
+    - assets/images/airplane.png
+    - assets/images/femenine.png
+    - assets/images/newspaper.png
+    - assets/images/atom.png
+    - assets/images/otaku.png
+    - assets/images/up-arrow.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -149,4 +213,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
