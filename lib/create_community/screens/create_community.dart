@@ -8,6 +8,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import '../provider/create_community_provider.dart';
 import '../models/create_community_model.dart';
+
 import '../../networks/dio_client.dart';
 import '../widgets/clear_text_field.dart';
 import '../widgets/app_bar.dart';
@@ -34,6 +35,7 @@ class CreateCommunityState extends State<CreateCommunity> {
 
   final _communityNameController = TextEditingController();
 
+
   bool _typed = false;
   bool validating = false;
   Timer? validateOnStopTyping;
@@ -46,6 +48,7 @@ class CreateCommunityState extends State<CreateCommunity> {
   _onChangeHandler(value) {
     //Used to detect if the user finished typing or not so it is called on changing the text field input
     // return type : void
+
     const duration = Duration(
         milliseconds:
             300); // set the duration that you want call search() after that.
@@ -59,6 +62,7 @@ class CreateCommunityState extends State<CreateCommunity> {
     //called when text field is changing to reload the counter
     //return type void
     //input the text written in textField
+
     count = 21 - value.length;
     if (value.isEmpty) {
       _typed = false;
@@ -71,6 +75,7 @@ class CreateCommunityState extends State<CreateCommunity> {
     //called when changing the input field
     //return type void
     //input the text written in textField
+
     setState(() {
       changeCounterValue(value);
     });
@@ -82,6 +87,7 @@ class CreateCommunityState extends State<CreateCommunity> {
   clearTextField() {
     //Clearing the text field after clicking clear icon
     //return type void
+
     _communityNameController.text = '';
     count = 21;
     _typed = false;
@@ -97,6 +103,7 @@ class CreateCommunityState extends State<CreateCommunity> {
   _toggleSwitch(value) {
     //used to toggle the switch of 18+ to true or false
     //return type void
+
     setState(() {
       plus18Community = value;
     });
@@ -126,6 +133,7 @@ class CreateCommunityState extends State<CreateCommunity> {
 
   @override
   void dispose() {
+
     super.dispose();
     _communityNameController.dispose();
   }
@@ -353,12 +361,14 @@ class CreateCommunityState extends State<CreateCommunity> {
       } catch (error) {
         //print(error);
       }
+
     }
   }
 
   _saveCommunity() async {
     //called to save the commmunity
     //return value void
+
     final createCommunityModel = CreateCommunityModel(
         nSFW: plus18Community,
         name: _communityNameController.text,
@@ -371,5 +381,6 @@ class CreateCommunityState extends State<CreateCommunity> {
         done = true;
       });
     }
+
   }
 }

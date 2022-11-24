@@ -16,7 +16,6 @@ class ModeratorTools extends StatefulWidget {
 }
 
 class _ModeratorToolsState extends State<ModeratorTools> {
-  
 
   List<String>? topics;
 
@@ -59,7 +58,6 @@ class _ModeratorToolsState extends State<ModeratorTools> {
                 ListView(
                   shrinkWrap: true,
                   children: [
-
                     buildGeneralOptions(
                         context,
                         () => Navigator.of(context).pushNamed(

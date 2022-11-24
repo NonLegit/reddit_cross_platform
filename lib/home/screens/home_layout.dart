@@ -28,7 +28,6 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
 // Value for DropDownButton
   String dropDownButtonValue = "Home";
   List<String> list = ["Home", "Popular"];
-
   // Icons when expansionlist at the drawer
   dynamic icRecent = Icon(IconBroken.Arrow___Right_2);
   dynamic icModerating = Icon(IconBroken.Arrow___Right_2);

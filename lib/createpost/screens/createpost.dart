@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'dart:async';
+
 import '../../icons/icon_broken.dart';
 import '../controllers/posts_controllers.dart';
 import '../screens/posttocommunity.dart';
@@ -24,6 +25,8 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
   final postController controller = Get.put(
     postController(),
   );
+
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,6 +155,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
             )
           ],
         ),
+
       ),
     );
   }
@@ -162,6 +166,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
       controller.imageFileList!.addAll(selectedImages);
     }
   }
+
 }
 ////////////////OLDDDDDDDDDDDDDDDDDDDDDDDDD///////////////////////////////////////////////
 

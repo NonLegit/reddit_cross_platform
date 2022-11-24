@@ -30,7 +30,6 @@ void main() {
     },
   );
 
-
   test('Test how many remaining characters left and test clearing', () {
     createCommunityState.changeCounterValue('asdadczxc');
     expect(12, createCommunityState.count); 
