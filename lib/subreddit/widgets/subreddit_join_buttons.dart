@@ -31,9 +31,10 @@ class JoinButtonsState extends State<JoinButtons> {
   ];
   @override
   void initState() {
-    super.initState();
-    tappedIndex = 1;
+     tappedIndex = 1;
     isJoinedstate = widget.isJoined;
+    super.initState();
+   
   }
 
   @override
@@ -58,7 +59,7 @@ class JoinButtonsState extends State<JoinButtons> {
                     width: 10.w,
                   ),
             Container(
-              width: 21.w,
+              width: 20.w,
               height: 5.h,
               margin: EdgeInsets.only(top: 8),
               child: OutlinedButton(

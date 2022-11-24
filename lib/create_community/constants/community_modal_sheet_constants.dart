@@ -12,3 +12,9 @@ final communityTypeIcon = {
   'Restricted': Icons.task_alt_outlined,
   'Private': Icons.lock_outlined,
 };
+
+  final communityTypeIconWeb = {
+    'Public': Icons.person_rounded,
+    'Restricted': Icons.remove_red_eye,
+    'Private': Icons.lock,
+  };

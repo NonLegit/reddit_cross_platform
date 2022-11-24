@@ -12,8 +12,8 @@ class TopicButton extends StatelessWidget {
   final String keyAns;
   final String selectedBefore;
 
-  TopicButton(
-      {required this.selectedIndex,
+  const TopicButton(
+      {super.key, required this.selectedIndex,
       required this.myIndex,
       required this.onClick,
       required this.selectedIcon,
@@ -37,7 +37,10 @@ class TopicButton extends StatelessWidget {
               shadowColor: Colors.grey.shade50,
               side: const BorderSide(width: 1, color: Colors.transparent)),
           child: ListTile(
-            leading: Image.asset(selectedIcon),
+            leading: Image.asset(
+              selectedIcon,
+              width: 10.w,
+            ),
             title: Text(keyAns),
             trailing: Icon(
               Icons.check,
@@ -50,6 +53,6 @@ class TopicButton extends StatelessWidget {
         ),
       ),
     );
-    ;
+    
   }
 }

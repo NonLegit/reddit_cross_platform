@@ -9,7 +9,7 @@ class BarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 4),
+      margin: const EdgeInsets.only(top: 4),
       width: 7.h,
       height: 0.5.h,
       decoration: const BoxDecoration(
