@@ -3,5 +3,5 @@ class IntWrapper {
 }
 
 class BoolWrapper {
-  bool b = false;
+  bool b = true;
 }

@@ -1,10 +1,15 @@
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import './main_modal_bottom_sheet.dart';
 
 class ThreeDotsWidget extends StatelessWidget {
-  ThreeDotsWidget({Key? key, required this.listOfWidgets, required this.height, this.optional})
+  ThreeDotsWidget(
+      {Key? key,
+      required this.listOfWidgets,
+      required this.height,
+      this.optional})
       : super(key: key);
   List<Widget> listOfWidgets;
   Widget? optional;
@@ -22,7 +27,7 @@ class ThreeDotsWidget extends StatelessWidget {
                 height: height.h,
                 child: Column(
                   children: [
-                    if(optional != null) optional!,
+                    if (optional != null) optional!,
                     MainModalBottomSheet(
                       listOfWidgets: listOfWidgets,
                     ),
@@ -33,7 +38,7 @@ class ThreeDotsWidget extends StatelessWidget {
           );
         },
         icon: Icon(
-          Icons.more_vert,
+          (!kIsWeb) ? Icons.more_vert : Icons.more_horiz,
           color: Colors.grey.shade600,
         ));
   }

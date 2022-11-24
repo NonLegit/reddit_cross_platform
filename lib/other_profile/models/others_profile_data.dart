@@ -1,6 +1,6 @@
 //import 'package:flutter_code_style/analysis_options.yaml';
 class OtherProfileData {
-  int? id;
+  String? id;
   String? userName;
   String? email;
   String? profilePicture;
@@ -9,7 +9,7 @@ class OtherProfileData {
   String? displayName;
   // DateTime? toDayTime;
   String? createdAt;
-  int? numOfDaysInReddit;
+  //int? numOfDaysInReddit;
   int? followersCount;
   int? postKarma;
   int? commentkarma;
@@ -23,19 +23,20 @@ class OtherProfileData {
       required this.description,
       required this.displayName,
       required this.createdAt,
-      required this.numOfDaysInReddit,
+      //required this.numOfDaysInReddit,
       required this.followersCount,
       required this.postKarma,
       required this.commentkarma,
       required this.isFollowed});
-//       {
+
+// {
 //   "id": 10,
 //   "userName": "Zeinab_maoawad",
 //   "email": "user@email.com",
 //   "profilePicture": "https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2019/10/blank-person-icon-9.jpg",
 //   "profileBackPicture": "https://preview.redd.it/vqqv5xbfezp91.jpg?width=4096&format=pjpg&auto=webp&s=54acda24af01e2de60e98603e3e29e8db381ebac",
 //   "description": "I'm Student",
-//   "createdAt": "2022-11-09",
+//   "createdAt": "2022-11-09T00:19:45.186+00:00",
 //   "followersCount": 0,
 //   "numOfDaysInReddit": 0,
 //   "displayName": "Zeinab_maoawad",
@@ -43,7 +44,6 @@ class OtherProfileData {
 //   "commentkarma": 1,
 //   "isFollowed": true
 // }
-
   OtherProfileData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userName = json['userName'];
@@ -52,12 +52,13 @@ class OtherProfileData {
     profileBackPicture = json['profileBackPicture'];
     description = json['description'];
     displayName = json['displayName'];
-    followersCount = json['followersCount'];
+    followersCount = int.parse( json['followersCount'].toString());
     createdAt = json['toDayTime'];
-    numOfDaysInReddit = json['numOfDaysInReddit'];
-    postKarma = json['postKarma'];
+    //numOfDaysInReddit = json['numOfDaysInReddit'];
+    createdAt = json['createdAt'];
+    postKarma =int.parse(json['postKarma'].toString());;
     displayName = json['displayName'];
-    commentkarma = json['commentkarma'];
+    commentkarma = int.parse(json['commentkarma'].toString());
     isFollowed = false;
   }
 
@@ -72,11 +73,12 @@ class OtherProfileData {
     data['toDayTime'] = this.createdAt;
     data['followersCount'] = this.followersCount;
     data['toDayTime'] = this.createdAt;
-    data['numOfDaysInReddit'] = this.numOfDaysInReddit;
+    //data['numOfDaysInReddit'] = this.numOfDaysInReddit;
     data['postKarma'] = this.postKarma;
     data['displayName'] = this.displayName;
     data['commentkarma'] = this.commentkarma;
     data['isFollowed'] = this.isFollowed;
+    data['createdAt'] = this.createdAt;
     return data;
   }
 }

@@ -5,9 +5,8 @@ import 'package:flutter/gestures.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../icons/redditIcons.dart';
-import '../../icons/GoogleFacebookIcons.dart';
-import '../../icons/closeIcons.dart';
+import '../../icons/reddit_icons.dart';
+import '../../icons/google_facebook_icons.dart';
 import '../screens/signup.dart';
 import '../screens/login.dart';
 import '../models/status.dart';
