@@ -1,406 +1,339 @@
 {
-  "users": [
-    {
-      "id": "rjvMUnl",
-      "userName": "Zeinab_maoawad",
-      "email": "user@email.com",
-      "profilePicture": "https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2019/10/blank-person-icon-9.jpg",
-      "profileBackPicture": "https://preview.redd.it/vqqv5xbfezp91.jpg?width=4096&format=pjpg&auto=webp&s=54acda24af01e2de60e98603e3e29e8db381ebac",
-      "description": "I'm Student",
-      "createdAt": "2022-11-09T00:19:45.186+00:00",
-      "followersCount": 0,
-      "numOfDaysInReddit": 0,
-      "displayName": "Zeinab_maoawad",
-      "postKarma": 1,
-      "commentkarma": 1
-    },
-    {
-      "id": "rjvlUUl",
-      "userName": "Amr_Ahmed",
-      "email": "user@email.com",
-      "profilePicture": "https://opgg-static.akamaized.net/meta/images/lol/champion/Vex.png",
-      "profileBackPicture": "https://images2.alphacoders.com/117/thumb-1920-1170991.jpg",
-      "description": "I'm Student",
-      "createdAt": "2022-11-01T00:19:45.186+00:00",
-      "followersCount": 5,
-      "numOfDaysInReddit": 22,
-      "displayName": "Amr49",
-      "postKarma": 4,
-      "commentkarma": 3
-    }
-  ],
-  "subreddits": [
-    {
-      "id": "rjdMUUl",
-      "name": "vexmains",
-      "displayName": "stomp mid",
-      "subredditPicture": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
-      "subredditBackPicture": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fassets.marthastewart.com%2Fstyles%2Fwmax-750%2Fd30%2Feasy-basic-pancakes-horiz-1022%2Feasy-basic-pancakes-horiz-1022_0.jpg%3Fitok%3DXQMZkp_j",
-      "description": "Iam Chef",
-      "subredditLink": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
-      "numOfMembers": 10398,
-      "numOfOnlines": 1789,
-      "rules": [
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        },
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        },
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        }
-      ],
-      "moderators": [
-        {
-          "userName": "Ali"
-        },
-        {
-          "userName": "omer"
-        },
-        {
-          "userName": "zeinab"
-        },
-        {
-          "userName": "mazen"
-        }
-      ],
-      "isJoined": true
-    },
-    {
-      "id": "rjvAUUl",
-      "name": "Cooking",
-      "displayName": "Cooking Good",
-      "subredditPicture": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
-      "subredditBackPicture": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fassets.marthastewart.com%2Fstyles%2Fwmax-750%2Fd30%2Feasy-basic-pancakes-horiz-1022%2Feasy-basic-pancakes-horiz-1022_0.jpg%3Fitok%3DXQMZkp_j",
-      "description": "Iam Chef",
-      "subredditLink": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
-      "numOfMembers": 10398,
-      "numOfOnlines": 1789,
-      "rules": [
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        },
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        },
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        }
-      ],
-      "moderators": [
-        {
-          "userName": "Ali"
-        },
-        {
-          "userName": "omer"
-        },
-        {
-          "userName": "zeinab"
-        },
-        {
-          "userName": "mazen"
-        }
-      ],
-      "isJoined": true
-    },
-    {
-      "name": "test",
-      "type": "Public",
-      "nsfw": true,
-      "id": "IBB8wH3"
-    },
-    {
-      "name": "test2",
-      "type": "Public",
-      "nsfw": true,
-      "id": "test2"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "rjvMUUl"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "vmTgX5H"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "hFY4EK3"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "Bp1i_6Q"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "-w3GG0W"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "pFhGTpV"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "RunIv3_"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "8hv51P2"
-    },
-    {
-      "name": "test11",
-      "type": "Public",
-      "nsfw": true,
-      "id": "XmKWHC_"
-    },
-    {
-      "name": "test12",
-      "type": "Public",
-      "nsfw": true,
-      "id": "o0lLNiu"
-    },
-    {
-      "name": "test12",
-      "type": "Public",
-      "nsfw": true,
-      "id": "4IC1v4y"
-    },
-    {
-      "name": "test12",
-      "type": "Public",
-      "nsfw": true,
-      "id": "lYle3R4"
-    }
-  ],
-  "posts": [
-    {
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2018-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "text",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": false,
-      "url": "github.com",
-      "votes": 11,
-      "comments": 6
-    },
-    {
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2018-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "link",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": false,
-      "url": "github.com",
-      "votes": 0,
-      "comments": 0
-    },
-    {
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2017-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "image",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": false,
-      "url": "github.com",
-      "votes": 5,
-      "comments": 6
-    },
-    {
-      "userName": "Amr",
-      "communityName": "Cooking",
-      "createDate": "2017-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "text",
-      "text": "Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": false,
-      "url": "github.com",
-      "votes": 0,
-      "comments": 6
-    },
-    {
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2017-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "link",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": true,
-      "spoiler": false,
-      "url": "github.com",
-      "votes": 0,
-      "comments": 0
-    },
-    {
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2018-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "image",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": true,
-      "url": "github.com",
-      "votes": 5,
-      "comments": 6
-    },
-    {
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2017-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "link",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": true,
-      "url": "github.com",
-      "votes": 0,
-      "comments": 0
-    },
-    {
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2017-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "image",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": true,
-      "spoiler": true,
-      "url": "github.com",
-      "votes": 5,
-      "comments": 6
-    }
-  ],
-  "notifications": [
-    {
-      "type": "postReply",
-      "folowerId": "not used",
-      "postId": "Yes that is true",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    },
-    {
-      "type": "commentReply",
-      "folowerId": "not used",
-      "postId": "No",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    },
-    {
-      "type": "userMention",
-      "folowerId": "not used",
-      "postId": "u/EmanShahda",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    },
-    {
-      "type": "follower",
-      "folowerId": "not used",
-      "postId": "BasmaElhoseny01 followed you back.",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    },
-    {
-      "type": "firstCommentUpVote",
-      "folowerId": "not used",
-      "postId": "Go see your comment on r/aww:\"Huskies were probably humans in their past lives\"",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    },
-    {
-      "type": "firstPostUpVote",
-      "folowerId": "not used",
-      "postId": "Go see your post on",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    }
-  ]
+	"users": [
+		{
+			"id": "rjvMUnl",
+			"userName": "Zeinab_maoawad",
+			"email": "user@email.com",
+			"profilePicture": "https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2019/10/blank-person-icon-9.jpg",
+			"profileBackPicture": "https://preview.redd.it/vqqv5xbfezp91.jpg?width=4096&format=pjpg&auto=webp&s=54acda24af01e2de60e98603e3e29e8db381ebac",
+			"description": "I'm Student",
+			"createdAt": "2022-11-09T00:19:45.186+00:00",
+			"followersCount": 0,
+			"numOfDaysInReddit": 0,
+			"displayName": "Zeinab_maoawad",
+			"postKarma": 1,
+			"commentkarma": 1
+		},
+		{
+			"id": "rjvlUUl",
+			"userName": "Amr_Ahmed",
+			"email": "user@email.com",
+			"profilePicture": "https://opgg-static.akamaized.net/meta/images/lol/champion/Vex.png",
+			"profileBackPicture": "https://images2.alphacoders.com/117/thumb-1920-1170991.jpg",
+			"description": "I'm Student",
+			"createdAt": "2022-11-01T00:19:45.186+00:00",
+			"followersCount": 5,
+			"numOfDaysInReddit": 22,
+			"displayName": "Amr49",
+			"postKarma": 4,
+			"commentkarma": 3
+		}
+	],
+	"subreddits": [
+		{
+			"id": "rjvAUUl",
+			"name": "Cooking",
+			"primaryTopic": "Activisim",
+			"displayName": "Cooking Good",
+			"icon": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
+			"backgroundImage": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fassets.marthastewart.com%2Fstyles%2Fwmax-750%2Fd30%2Feasy-basic-pancakes-horiz-1022%2Feasy-basic-pancakes-horiz-1022_0.jpg%3Fitok%3DXQMZkp_j",
+			"description": "Iam Chef",
+			"subredditLink": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
+			"numOfMembers": 10398,
+			"numOfOnlines": 1789,
+			"rules": [
+				{
+					"title": "no codeing",
+					"description": "i hate coding"
+				},
+				{
+					"title": "no codeing",
+					"description": "i hate coding"
+				},
+				{
+					"title": "no codeing",
+					"description": "i hate coding"
+				}
+			],
+			"topics": [],
+			"language": "not used",
+			"region": "not used",
+			"type": "Public",
+			"nsfw": true,
+			"postType": "Any",
+			"allowCrossposting": true,
+			"allowArchivePosts": true,
+			"allowSpoilerTag": true,
+			"allowGif": true,
+			"allowImageUploads": true,
+			"allowMultipleImage": true,
+			"moderators": [
+				{
+					"userName": "Ali",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				},
+				{
+					"userName": "omer",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				},
+				{
+					"userName": "zeinab",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				},
+				{
+					"userName": "mazen",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				}
+			],
+			"isJoined": true
+		}
+	],
+	"posts": [
+		{
+			"id": "pFhGTaV",
+			"userName": "Amr",
+			"communityName": "vexmains",
+			"createDate": "2018-07-21T17:32:28Z",
+			"title": "hello world",
+			"type": "text",
+			"text": "Nice!",
+			"images": [
+				"https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
+				"https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
+				"https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
+			],
+			"nsfw": false,
+			"spoiler": false,
+			"url": "github.com",
+			"votes": 11,
+			"comments": 6
+		},
+		{
+			"id": "aFhGTaV",
+			"userName": "Amr",
+			"communityName": "vexmains",
+			"createDate": "2018-07-21T17:32:28Z",
+			"title": "hello world",
+			"type": "link",
+			"text": "Nice!",
+			"images": [
+				"https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
+				"https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
+				"https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
+			],
+			"nsfw": false,
+			"spoiler": false,
+			"url": "github.com",
+			"votes": 0,
+			"comments": 0
+		},
+		{
+			"id": "pFhaTaV",
+			"userName": "Amr",
+			"communityName": "vexmains",
+			"createDate": "2017-07-21T17:32:28Z",
+			"title": "hello world",
+			"type": "image",
+			"text": "Nice!",
+			"images": [
+				"https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
+				"https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
+				"https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
+			],
+			"nsfw": false,
+			"spoiler": false,
+			"url": "github.com",
+			"votes": 5,
+			"comments": 6
+		},
+		{
+			"id": "pFhGqV",
+			"userName": "Amr",
+			"communityName": "Cooking",
+			"createDate": "2017-07-21T17:32:28Z",
+			"title": "hello world",
+			"type": "text",
+			"text": "Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!",
+			"images": [
+				"https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
+				"https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
+				"https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
+			],
+			"nsfw": false,
+			"spoiler": false,
+			"url": "github.com",
+			"votes": 0,
+			"comments": 6
+		},
+		{
+			"id": "pFhGTaq",
+			"userName": "Amr",
+			"communityName": "vexmains",
+			"createDate": "2017-07-21T17:32:28Z",
+			"title": "hello world",
+			"type": "link",
+			"text": "Nice!",
+			"images": [
+				"https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
+				"https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
+				"https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
+			],
+			"nsfw": true,
+			"spoiler": false,
+			"url": "github.com",
+			"votes": 0,
+			"comments": 0
+		},
+		{
+			"id": "pFhlTaV",
+			"userName": "Amr",
+			"communityName": "vexmains",
+			"createDate": "2018-07-21T17:32:28Z",
+			"title": "hello world",
+			"type": "image",
+			"text": "Nice!",
+			"images": [
+				"https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
+				"https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
+				"https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
+			],
+			"nsfw": false,
+			"spoiler": true,
+			"url": "github.com",
+			"votes": 5,
+			"comments": 6
+		},
+		{
+			"id": "pFhGiaV",
+			"userName": "Amr",
+			"communityName": "vexmains",
+			"createDate": "2017-07-21T17:32:28Z",
+			"title": "hello world",
+			"type": "link",
+			"text": "Nice!",
+			"images": [
+				"https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
+				"https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
+				"https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
+			],
+			"nsfw": false,
+			"spoiler": true,
+			"url": "github.com",
+			"votes": 0,
+			"comments": 0
+		},
+		{
+			"id": "pFhGoaV",
+			"userName": "Amr",
+			"communityName": "vexmains",
+			"createDate": "2017-07-21T17:32:28Z",
+			"title": "hello world",
+			"type": "image",
+			"text": "Nice!",
+			"images": [
+				"https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
+				"https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
+				"https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
+			],
+			"nsfw": true,
+			"spoiler": true,
+			"url": "github.com",
+			"votes": 5,
+			"comments": 6
+		}
+	],
+	"notifications": [
+		{
+			"type": "postReply",
+			"folowerId": "not used",
+			"postId": "Yes that is true",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		},
+		{
+			"type": "commentReply",
+			"folowerId": "not used",
+			"postId": "No",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		},
+		{
+			"type": "userMention",
+			"folowerId": "not used",
+			"postId": "u/EmanShahda",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		},
+		{
+			"type": "follower",
+			"folowerId": "not used",
+			"postId": "BasmaElhoseny01 followed you back.",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		},
+		{
+			"type": "firstCommentUpVote",
+			"folowerId": "not used",
+			"postId": "Go see your comment on r/aww:\"Huskies were probably humans in their past lives\"",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		},
+		{
+			"type": "firstPostUpVote",
+			"folowerId": "not used",
+			"postId": "Go see your post on",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		}
+	]
 }
