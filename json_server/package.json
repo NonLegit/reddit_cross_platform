@@ -4,8 +4,8 @@
 	"main": "index.js",
 	"type": "commonjs",
 	"scripts": {
-		"start": "node index.js",
-		"start-dev": "node-dev index.js"
+		"start": "node-dev index.js",
+		"start-normal": "node index.js"
 	},
 	"author": "Amr",
 	"license": "ISC",

@@ -31,51 +31,12 @@
   ],
   "subreddits": [
     {
-      "id": "rjdMUUl",
-      "name": "vexmains",
-      "displayName": "stomp mid",
-      "subredditPicture": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
-      "subredditBackPicture": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fassets.marthastewart.com%2Fstyles%2Fwmax-750%2Fd30%2Feasy-basic-pancakes-horiz-1022%2Feasy-basic-pancakes-horiz-1022_0.jpg%3Fitok%3DXQMZkp_j",
-      "description": "Iam Chef",
-      "subredditLink": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
-      "numOfMembers": 10398,
-      "numOfOnlines": 1789,
-      "rules": [
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        },
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        },
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        }
-      ],
-      "moderators": [
-        {
-          "userName": "Ali"
-        },
-        {
-          "userName": "omer"
-        },
-        {
-          "userName": "zeinab"
-        },
-        {
-          "userName": "mazen"
-        }
-      ],
-      "isJoined": true
-    },
-    {
       "id": "rjvAUUl",
       "name": "Cooking",
+      "primaryTopic": "Activisim",
       "displayName": "Cooking Good",
-      "subredditPicture": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
-      "subredditBackPicture": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fassets.marthastewart.com%2Fstyles%2Fwmax-750%2Fd30%2Feasy-basic-pancakes-horiz-1022%2Feasy-basic-pancakes-horiz-1022_0.jpg%3Fitok%3DXQMZkp_j",
+      "icon": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
+      "backgroundImage": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fassets.marthastewart.com%2Fstyles%2Fwmax-750%2Fd30%2Feasy-basic-pancakes-horiz-1022%2Feasy-basic-pancakes-horiz-1022_0.jpg%3Fitok%3DXQMZkp_j",
       "description": "Iam Chef",
       "subredditLink": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
       "numOfMembers": 10398,
@@ -94,109 +55,74 @@
           "description": "i hate coding"
         }
       ],
+      "topics": [],
+      "language": "not used",
+      "region": "not used",
+      "type": "Public",
+      "nsfw": true,
+      "postType": "Any",
+      "allowCrossposting": true,
+      "allowArchivePosts": true,
+      "allowSpoilerTag": true,
+      "allowGif": true,
+      "allowImageUploads": true,
+      "allowMultipleImage": true,
       "moderators": [
         {
-          "userName": "Ali"
+          "userName": "Ali",
+          "joiningDate": "2019-08-24T14:15:22Z",
+          "profilePicture": "not used",
+          "moderatorPermissions": {
+            "all": true,
+            "access": true,
+            "config": true,
+            "flair": true,
+            "posts": true
+          }
         },
         {
-          "userName": "omer"
+          "userName": "omer",
+          "joiningDate": "2019-08-24T14:15:22Z",
+          "profilePicture": "not used",
+          "moderatorPermissions": {
+            "all": true,
+            "access": true,
+            "config": true,
+            "flair": true,
+            "posts": true
+          }
         },
         {
-          "userName": "zeinab"
+          "userName": "zeinab",
+          "joiningDate": "2019-08-24T14:15:22Z",
+          "profilePicture": "not used",
+          "moderatorPermissions": {
+            "all": true,
+            "access": true,
+            "config": true,
+            "flair": true,
+            "posts": true
+          }
         },
         {
-          "userName": "mazen"
+          "userName": "mazen",
+          "joiningDate": "2019-08-24T14:15:22Z",
+          "profilePicture": "not used",
+          "moderatorPermissions": {
+            "all": true,
+            "access": true,
+            "config": true,
+            "flair": true,
+            "posts": true
+          }
         }
       ],
       "isJoined": true
-    },
-    {
-      "name": "test",
-      "type": "Public",
-      "nsfw": true,
-      "id": "IBB8wH3"
-    },
-    {
-      "name": "test2",
-      "type": "Public",
-      "nsfw": true,
-      "id": "test2"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "rjvMUUl"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "vmTgX5H"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "hFY4EK3"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "Bp1i_6Q"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "-w3GG0W"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "pFhGTpV"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "RunIv3_"
-    },
-    {
-      "name": "test3",
-      "type": "Public",
-      "nsfw": true,
-      "id": "8hv51P2"
-    },
-    {
-      "name": "test11",
-      "type": "Public",
-      "nsfw": true,
-      "id": "XmKWHC_"
-    },
-    {
-      "name": "test12",
-      "type": "Public",
-      "nsfw": true,
-      "id": "o0lLNiu"
-    },
-    {
-      "name": "test12",
-      "type": "Public",
-      "nsfw": true,
-      "id": "4IC1v4y"
-    },
-    {
-      "name": "test12",
-      "type": "Public",
-      "nsfw": true,
-      "id": "lYle3R4"
     }
   ],
   "posts": [
     {
+      "id": "pFhGTaV",
       "userName": "Amr",
       "communityName": "vexmains",
       "createDate": "2018-07-21T17:32:28Z",
@@ -215,6 +141,7 @@
       "comments": 6
     },
     {
+      "id": "aFhGTaV",
       "userName": "Amr",
       "communityName": "vexmains",
       "createDate": "2018-07-21T17:32:28Z",
@@ -233,6 +160,7 @@
       "comments": 0
     },
     {
+      "id": "pFhaTaV",
       "userName": "Amr",
       "communityName": "vexmains",
       "createDate": "2017-07-21T17:32:28Z",
@@ -251,6 +179,7 @@
       "comments": 6
     },
     {
+      "id": "pFhGqV",
       "userName": "Amr",
       "communityName": "Cooking",
       "createDate": "2017-07-21T17:32:28Z",
@@ -269,6 +198,7 @@
       "comments": 6
     },
     {
+      "id": "pFhGTaq",
       "userName": "Amr",
       "communityName": "vexmains",
       "createDate": "2017-07-21T17:32:28Z",
@@ -287,6 +217,7 @@
       "comments": 0
     },
     {
+      "id": "pFhlTaV",
       "userName": "Amr",
       "communityName": "vexmains",
       "createDate": "2018-07-21T17:32:28Z",
@@ -305,6 +236,7 @@
       "comments": 6
     },
     {
+      "id": "pFhGiaV",
       "userName": "Amr",
       "communityName": "vexmains",
       "createDate": "2017-07-21T17:32:28Z",
@@ -323,6 +255,7 @@
       "comments": 0
     },
     {
+      "id": "pFhGoaV",
       "userName": "Amr",
       "communityName": "vexmains",
       "createDate": "2017-07-21T17:32:28Z",
@@ -339,6 +272,23 @@
       "url": "github.com",
       "votes": 5,
       "comments": 6
+    },
+    {
+      "title": "test",
+      "kind": "",
+      "text": "Test ",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": "",
+      "spoiler": "",
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "3J3vBBM"
     }
   ],
   "notifications": [
@@ -373,7 +323,7 @@
       "isHidden": true
     },
     {
-      "type": "follower",
+      "type": "follow",
       "folowerId": "not used",
       "postId": "BasmaElhoseny01 followed you back.",
       "commentId": "not used",
