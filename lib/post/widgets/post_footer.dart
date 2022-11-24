@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/typicons_icons.dart';
 
-class PostFooter extends StatelessWidget {
-  const PostFooter({super.key});
+/// This Widget is responsible for the footer of the post.
 
+class PostFooter extends StatefulWidget {
+  /// the number of votes on the post;
+  final int votes;
+  /// the number of comments on the post
+  final int comments;
+  const PostFooter({super.key, required this.votes, required this.comments});
+  @override
+  State<PostFooter> createState() => _PostFooterState();
+}
+
+class _PostFooterState extends State<PostFooter> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +34,7 @@ class PostFooter extends StatelessWidget {
                   color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
-              Text('Vote',
+              Text((widget.votes > 0) ? widget.votes.toString() : 'Vote',
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary)),
               IconButton(
@@ -37,14 +47,13 @@ class PostFooter extends StatelessWidget {
             ],
           ),
           TextButton.icon(
-            // ignore: avoid_print
-            onPressed: () => print('hi'),
+            onPressed: null,
             icon: Icon(
               FontAwesome.comment_empty,
               color: Theme.of(context).colorScheme.secondary,
             ),
             label: Text(
-              'Comment',
+              (widget.comments > 0) ? widget.comments.toString() : 'Comment',
               style: TextStyle(color: Theme.of(context).colorScheme.secondary),
             ),
           ),

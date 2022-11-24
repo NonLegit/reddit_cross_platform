@@ -12,6 +12,7 @@ import '../screens/signup.dart';
 import '../screens/login.dart';
 import '../models/status.dart';
 import '../../screens/emptyscreen.dart';
+import '../../home/screens/home_layout.dart';
 
 class UpperBar extends StatelessWidget {
   //  UpperBar({Key? key}) : super(key: key);
@@ -20,6 +21,8 @@ class UpperBar extends StatelessWidget {
   UpperBar(this.currentStatus);
   void _pushScreen(context) {
     Navigator.of(context).pop(context);
+    // Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
+
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -32,7 +35,7 @@ class UpperBar extends StatelessWidget {
                     : currentStatus == UpperbarStatus.signup
                         ? SignUp()
                         : currentStatus == UpperbarStatus.skip
-                            ? EmptyScreen()
+                            ? homeLayoutScreen()
                             : EmptyScreen(),
               );
             },

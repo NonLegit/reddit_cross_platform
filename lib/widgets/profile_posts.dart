@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import './post_sort_bottom.dart';
 import '../post/widgets/post.dart';
+import '../post/test_data.dart';
 
 class ProfilePosts extends StatefulWidget {
   final String routeNamePop;
@@ -10,17 +11,18 @@ class ProfilePosts extends StatefulWidget {
     Key? key,
     required this.routeNamePop,
   }) : super(key: key);
-  final List posts = [
-    {'username': 'ahmed', 'title': 'hello world1'},
-    {'username': 'sayed', 'title': 'hello world2'},
-    {'username': 'sayed', 'title': 'hello world3'},
-    {'username': 'ahmed', 'title': 'hello world1'},
-    {'username': 'sayed', 'title': 'hello world2'},
-    {'username': 'sayed', 'title': 'hello world3'},
-    {'username': 'ahmed', 'title': 'hello world1'},
-    {'username': 'sayed', 'title': 'hello world2'},
-    {'username': 'sayed', 'title': 'hello world3'}
-  ];
+  final List posts = TestData.testData;
+  // [
+  //   {'username': 'ahmed', 'title': 'hello world1'},
+  //   {'username': 'sayed', 'title': 'hello world2'},
+  //   {'username': 'sayed', 'title': 'hello world3'},
+  //   {'username': 'ahmed', 'title': 'hello world1'},
+  //   {'username': 'sayed', 'title': 'hello world2'},
+  //   {'username': 'sayed', 'title': 'hello world3'},
+  //   {'username': 'ahmed', 'title': 'hello world1'},
+  //   {'username': 'sayed', 'title': 'hello world2'},
+  //   {'username': 'sayed', 'title': 'hello world3'}
+  // ];
   // Posts(this.routeNamePop);
   @override
   State<ProfilePosts> createState() => _ProfilePosts();
@@ -36,8 +38,9 @@ class _ProfilePosts extends State<ProfilePosts> {
     return ListView(
       scrollDirection: Axis.vertical,
       children: [
-        PostSortBottom(widget.routeNamePop, 
-        //_dropDownValue, _icon
+        PostSortBottom(
+          widget.routeNamePop,
+          //_dropDownValue, _icon
         ),
         SingleChildScrollView(
           child: ListView.builder(

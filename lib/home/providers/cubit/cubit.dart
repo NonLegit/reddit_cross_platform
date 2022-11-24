@@ -74,7 +74,7 @@ class layoutCubit extends Cubit<layoutStates> {
   List<Widget> screens = [
     homeLayoutScreen(),
     discoverScreen(),
-    createPostScreen(),
+   // createPostScreen(),
     chatScreen(),
     NotificationScreen(),
     // notificationsScreen(),

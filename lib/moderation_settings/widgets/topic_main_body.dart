@@ -13,7 +13,7 @@ class TopicMainScreen extends StatelessWidget {
   final String selectedBefore;
 
   TopicMainScreen(
-      {required this.iselected,
+      {super.key, required this.iselected,
       required this.pressed,
       required this.makeButtonEnable,
       required this.topic,
@@ -35,6 +35,8 @@ class TopicMainScreen extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (context, index) {
               var key = topic.keys.elementAt(index);
+              //Calls TopicButton widget to create entity of each topic
+              //key Ans is the text of the current topic being build
               return TopicButton(
                   selectedIndex: selectedIndex,
                   myIndex: index,
