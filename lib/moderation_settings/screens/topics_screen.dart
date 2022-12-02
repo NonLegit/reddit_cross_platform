@@ -31,7 +31,6 @@ class _TopicsScreenState extends State<TopicsScreen> {
 
   @override
   void initState() {
-    
     DioClient.init();
     //return hardcoded topics from constant folder
     topics = t1.topic;
@@ -48,16 +47,16 @@ class _TopicsScreenState extends State<TopicsScreen> {
         fetchingDone = false;
       });
       Provider.of<ModerationSettingProvider>(context, listen: false)
-          .getCommunity(
-           // ModalRoute.of(context)?.settings.arguments as String
-           'Cooking'
-            )
+          .getCommunity(ModalRoute.of(context)?.settings.arguments as String
+              // 'Cooking'
+              )
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)
                 .moderatorToolsModel;
 
         choosenTopic = moderatorToolsModel!.choosenTopic1;
+        print(choosenTopic);
         setState(() {
           fetchingDone = true;
         });

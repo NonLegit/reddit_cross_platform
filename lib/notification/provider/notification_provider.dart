@@ -27,7 +27,7 @@ class NotificationProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (error) {
-      // print(error);
+      print(error);
       // notifyListeners();
       return false;
     }

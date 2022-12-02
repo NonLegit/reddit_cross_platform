@@ -112,7 +112,7 @@ class _endDrawerState extends State<endDrawer> {
               ),
               onTap: () {
                 Navigator.of(context)
-                    .pushNamed(MyProfileScreen.routeName, arguments: 'ahmed');
+                    .pushNamed(MyProfileScreen.routeName, arguments: 'Zeinab_maoawad');
               },
             ),
             ListTile(

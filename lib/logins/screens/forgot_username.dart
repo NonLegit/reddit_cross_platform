@@ -88,6 +88,7 @@ class ForgotUserNameState extends State<ForgotUserName> {
   /// take the data from inputs listener and sent it to the server
   /// if the server return failed response then there is error message will appare
   /// other show sucess message
+
   void submitForgorUserName() async {
     final provider = Provider.of<Auth>(context, listen: false);
     await provider.forgetUserName({

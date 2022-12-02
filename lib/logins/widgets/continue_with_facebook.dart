@@ -19,6 +19,7 @@ class ContinueWithFacebook extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+
               Icon(color: Colors.black, GoogleFacebookIcons.facebook),
               Text(
                   style: TextStyle(color: Color.fromARGB(255, 56, 93, 164)),
