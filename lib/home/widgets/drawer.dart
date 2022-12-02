@@ -16,6 +16,7 @@ class drawer extends StatefulWidget {
 
 class _drawerState extends State<drawer> {
   var drawerKey = GlobalKey<DrawerControllerState>();
+
   dynamic icRecent = Icon(IconBroken.Arrow___Right_2);
   dynamic icModerating = Icon(IconBroken.Arrow___Right_2);
   dynamic icYourCommunities = Icon(IconBroken.Arrow___Right_2);
@@ -33,6 +34,7 @@ class _drawerState extends State<drawer> {
       ListTile(
         onTap: () => Navigator.of(context)
             .pushNamed(OthersProfileScreen.routeName, arguments: 'Zeinab_maoawad'),
+
         trailing: IconButton(
             onPressed: () {},
             icon: Icon(
@@ -49,6 +51,7 @@ class _drawerState extends State<drawer> {
         onTap: () => Navigator.of(context).pushNamed(
             OthersProfileScreen.routeName,
             arguments: 'Zeinab_maoawad'),
+
         trailing: IconButton(
             onPressed: () {},
             icon: Icon(
@@ -65,6 +68,7 @@ class _drawerState extends State<drawer> {
         onTap: () => Navigator.of(context).pushNamed(
             OthersProfileScreen.routeName,
             arguments: 'Zeinab_maoawad'),
+
         trailing: IconButton(
             onPressed: () {},
             icon: Icon(
@@ -84,6 +88,7 @@ class _drawerState extends State<drawer> {
         onTap: () => Navigator.of(context).pushNamed(
             ModeratedSubredditScreen.routeName,
             arguments: 'Cooking'),
+
         trailing: IconButton(
             onPressed: () {},
             icon: Icon(
@@ -100,6 +105,7 @@ class _drawerState extends State<drawer> {
         onTap: () => Navigator.of(context).pushNamed(
             ModeratedSubredditScreen.routeName,
             arguments: 'Cooking'),
+
         trailing: IconButton(
             onPressed: () {},
             icon: Icon(
@@ -116,6 +122,7 @@ class _drawerState extends State<drawer> {
         onTap: () => Navigator.of(context).pushNamed(
             ModeratedSubredditScreen.routeName,
             arguments: 'Cooking'),
+
         trailing: IconButton(
             onPressed: () {},
             icon: Icon(
@@ -133,6 +140,7 @@ class _drawerState extends State<drawer> {
       ListTile(
         onTap: () => Navigator.of(context)
             .pushNamed(SubredditScreen.routeName, arguments: 'Cooking'),
+
         leading: CircleAvatar(
           radius: 10,
           backgroundColor: Colors.blue,
@@ -143,6 +151,7 @@ class _drawerState extends State<drawer> {
       ListTile(
         onTap: () => Navigator.of(context)
             .pushNamed(SubredditScreen.routeName, arguments: 'Cooking'),
+
         leading: CircleAvatar(
           radius: 10,
           backgroundColor: Colors.blue,
@@ -153,6 +162,7 @@ class _drawerState extends State<drawer> {
       ListTile(
         onTap: () => Navigator.of(context)
             .pushNamed(SubredditScreen.routeName, arguments: 'Cooking'),
+
         leading: CircleAvatar(
           radius: 10,
           backgroundColor: Colors.blue,

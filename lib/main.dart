@@ -88,6 +88,7 @@ class MyApp extends StatelessWidget {
             //home: CreatePostSCreen(),
             home: homeLayoutScreen(),
             //  home: NotificationScreen(),
+
             routes: {
               homeLayoutScreen.routeName: (context) => homeLayoutScreen(),
               EmptyScreen.routeName: (context) => EmptyScreen(),
