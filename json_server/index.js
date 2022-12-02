@@ -26,12 +26,14 @@ server.get('/subreddits/mine/where', (req, res) => {
 });
 
 server.get('/users/me/', (req, res) => {
+	console.log(req);
 	res.redirect('/users?userName=Zeinab_maoawad');
 });
 server.get('/users/:userName/about', (req, res) => {
 	res.redirect(`/users?userName=${req.params.userName}`);
 });
 server.get('/subreddits/:subredditName', (req, res) => {
+	console.log(req);
 	res.redirect(`/subreddits?name=${req.params.subredditName}`);
 });
 server.get('/users/notifications', (req, res) => {

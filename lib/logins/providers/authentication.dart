@@ -38,6 +38,7 @@ class Auth with ChangeNotifier {
     } catch (error) {
       print('error');
     }
+    print(token);
   }
 
   Future<void> login(Map<String, String> query) async {
@@ -85,22 +86,41 @@ class Auth with ChangeNotifier {
     http.Response? response = null;
 
     try {
-      response = await http.patch(
-          Uri.parse(
+      final prefs = await SharedPreferences.getInstance();
+      token = prefs.getString('token') as String;
+      print(token);
 
-              /// change geneder need cookies
-              'https://e27efd15-66e0-401a-9dd5-ad8cb7607c60.mock.pstmn.io' +
-                  '/users/me/prefs'),
+      /// change geneder need cookies
+      response = await http.patch(Uri.parse(url + '/users/me/prefs'),
           body: json.encode({"gender": Gender}),
           headers: {
             'Content-type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token,
           });
       notifyListeners();
     } catch (error) {
       print('error');
     }
-    return response!.statusCode == 200;
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      token = prefs.getString('token') as String;
+      print(token);
+
+      /// change geneder need cookies
+      response = await http.get(Uri.parse(url + '/users/me/prefs'), headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + token,
+      });
+      notifyListeners();
+    } catch (error) {
+      print('error');
+    }
+
+    print(json.decode(response!.body)['errorMessage']);
+    return response.statusCode == 200;
   }
 
   Future<void> forgetUserName(Map<String, String> query) async {

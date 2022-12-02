@@ -86,7 +86,6 @@ import './notification/provider/notification_provider.dart';
 import 'logins/providers/authentication.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   final prefs = await SharedPreferences.getInstance();
@@ -134,11 +133,12 @@ class MyApp extends StatelessWidget {
                   onSurface: Colors.white),
             ),
 
-            // home: homeLayoutScreen(),
+            home: homeLayoutScreen(),
             // home: HomeScreen(),
-            home: Login(),
+            // home: Login(),
             // home: ForgotUserName(),
             // home: SignUp(),
+            // home: Gender(),
             // home: ModeratorTools(),
             // home: Settings(),
             routes: {
@@ -180,6 +180,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class _MyHomeApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
