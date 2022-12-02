@@ -16,6 +16,7 @@ class InviteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
+      // On Click invite to Community which is modertated in
       onPressed: () {
         showModalBottomSheet<void>(
           backgroundColor: Colors.transparent,

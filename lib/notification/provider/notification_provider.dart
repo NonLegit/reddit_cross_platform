@@ -14,19 +14,20 @@ class NotificationProvider with ChangeNotifier {
     return [...list];
   }
 
-//Get notification 
+//Get notification
   Future<bool> getNotification() async {
     try {
       final response =
           await DioClient.get(path: notificationResults).then((value) {
-        value.data.forEach((value1) {
+       print(value.data['data']);
+        value.data['data'].forEach((value1) {
           list.add(HashMap.from(value1));
         });
       });
       notifyListeners();
       return true;
     } catch (error) {
-      // print(error);
+      print(error);
       // notifyListeners();
       return false;
     }

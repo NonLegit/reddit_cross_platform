@@ -8,6 +8,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import '../provider/create_community_provider.dart';
 import '../models/create_community_model.dart';
+
 import '../../networks/dio_client.dart';
 import '../widgets/clear_text_field.dart';
 import '../widgets/app_bar.dart';
@@ -34,6 +35,7 @@ class CreateCommunityState extends State<CreateCommunity> {
 
   final _communityNameController = TextEditingController();
 
+
   bool _typed = false;
   bool validating = false;
   Timer? validateOnStopTyping;
@@ -46,6 +48,7 @@ class CreateCommunityState extends State<CreateCommunity> {
   _onChangeHandler(value) {
     //Used to detect if the user finished typing or not so it is called on changing the text field input
     // return type : void
+
     const duration = Duration(
         milliseconds:
             300); // set the duration that you want call search() after that.
@@ -59,6 +62,7 @@ class CreateCommunityState extends State<CreateCommunity> {
     //called when text field is changing to reload the counter
     //return type void
     //input the text written in textField
+
     count = 21 - value.length;
     if (value.isEmpty) {
       _typed = false;
@@ -71,6 +75,7 @@ class CreateCommunityState extends State<CreateCommunity> {
     //called when changing the input field
     //return type void
     //input the text written in textField
+
     setState(() {
       changeCounterValue(value);
     });
@@ -82,6 +87,7 @@ class CreateCommunityState extends State<CreateCommunity> {
   clearTextField() {
     //Clearing the text field after clicking clear icon
     //return type void
+
     _communityNameController.text = '';
     count = 21;
     _typed = false;
@@ -97,6 +103,7 @@ class CreateCommunityState extends State<CreateCommunity> {
   _toggleSwitch(value) {
     //used to toggle the switch of 18+ to true or false
     //return type void
+
     setState(() {
       plus18Community = value;
     });
@@ -133,9 +140,8 @@ class CreateCommunityState extends State<CreateCommunity> {
 
   @override
   void initState() {
-    
     super.initState();
-    DioClient.initCreateCoumunity();
+    DioClient.init();
     choosenCommunityType = communityType.keys.elementAt(0);
   }
 
@@ -174,8 +180,7 @@ class CreateCommunityState extends State<CreateCommunity> {
                         child: TextFormField(
                           textAlignVertical: TextAlignVertical.center,
                           controller: _communityNameController,
-                          autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: validateTextField,
                           cursorColor: Colors.black,
                           onChanged: (value) {
@@ -226,7 +231,7 @@ class CreateCommunityState extends State<CreateCommunity> {
                     SizedBox(
                       height: 6.h,
                       child: TextButton(
-                        //Calls the widget ListOfCommunityType(choosen community type by default Public ,community definition by default Public definition) 
+                        //Calls the widget ListOfCommunityType(choosen community type by default Public ,community definition by default Public definition)
                         //To show UI of changing community type
                         child: ListOfCommunityType(
                             choosenCommunityType: (choosenCommunityType == null)
@@ -284,7 +289,9 @@ class CreateCommunityState extends State<CreateCommunity> {
                                   await _saveCommunity();
                                   Navigator.of(context).pushNamed(
                                       ModeratedSubredditScreen.routeName,
-                                      arguments: _communityNameController.text);
+                                       arguments: 'Cooking'       
+                                      //arguments: _communityNameController.text
+                                      );
                                 },
                           style: ElevatedButton.styleFrom(
                             onSurface: Colors.grey[900],
@@ -321,23 +328,22 @@ class CreateCommunityState extends State<CreateCommunity> {
             validateCommunity: _validateCommunityName,
             validateTextField: validateTextField,
           );
-    
   }
 
   _validateCommunityName() async {
     //function called after waiting for 3 milliseconds to check uniqueness of the community name type
     // return type void
-    // found takes returned value after calling backend 
+    // found takes returned value after calling backend
     if (_communityNameController.text.length >= 3) {
       setState(() {
         validating = true;
       });
       final Map<String, dynamic> data = <String, dynamic>{};
-      data['subredditName'] = _communityNameController.text;
+      //data['subredditName'] = _communityNameController.text;
       try {
         bool found =
             await Provider.of<CreateCommunityProvider>(context, listen: false)
-                .getCommunity(data);
+                .getCommunity( _communityNameController.text);
         if (found) {
           setState(() {
             uniqueCommunityName = false;
@@ -355,12 +361,14 @@ class CreateCommunityState extends State<CreateCommunity> {
       } catch (error) {
         //print(error);
       }
+
     }
   }
 
   _saveCommunity() async {
-    //called to save the commmunity 
+    //called to save the commmunity
     //return value void
+
     final createCommunityModel = CreateCommunityModel(
         nSFW: plus18Community,
         name: _communityNameController.text,
@@ -373,5 +381,6 @@ class CreateCommunityState extends State<CreateCommunity> {
         done = true;
       });
     }
+
   }
 }

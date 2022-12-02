@@ -43,7 +43,7 @@ class CopyShare extends StatelessWidget {
                     color: Colors.blue,
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 10.h,
                   ),
                   Text(
                     link,
@@ -53,7 +53,7 @@ class CopyShare extends StatelessWidget {
                       onPressed: () {
                         Clipboard.setData(ClipboardData(text: link));
                       },
-                      child: Text("Copy")),
+                      child: Text("Copy",style: TextStyle(color: Colors.blue),)),
                 ],
               ),
             ),

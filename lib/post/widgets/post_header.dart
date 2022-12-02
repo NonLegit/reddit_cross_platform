@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
+/// This Widget is responsible for the header of the post.
+
 class PostHeader extends StatelessWidget {
   final bool inProfile;
   final bool inHome;
+
+  /// The user name.
   final String userName;
+
+  /// The community name.
   final String communityName;
+
+  /// The create date of the post.
   final String createDate;
   const PostHeader(
       {super.key,
@@ -29,7 +37,7 @@ class PostHeader extends StatelessWidget {
                   communityName: communityName,
                   createDate: createDate,
                 )
-              : _PostHeaderBasic(
+              : PostHeaderBasic(
                   inProfile: inProfile,
                   userName: userName,
                   communityName: communityName,
@@ -48,20 +56,22 @@ class PostHeader extends StatelessWidget {
   }
 }
 
-class _PostHeaderBasic extends StatelessWidget {
+/// This is a class for the basic info in the header.
+class PostHeaderBasic extends StatelessWidget {
   final bool inProfile;
   final String userName;
   final String communityName;
   final String createDate;
-  const _PostHeaderBasic(
+  const PostHeaderBasic(
       {this.inProfile = false,
       required this.userName,
       required this.communityName,
       required this.createDate});
-  @override
-  Widget build(BuildContext context) {
+
+  /// This function is used to get how far time passed from a given date.
+  static String calculateHowOld(date) {
     String howOld;
-    final difference = DateTime.now().difference(DateTime.parse(createDate));
+    final difference = DateTime.now().difference(DateTime.parse(date));
     if (difference.inDays >= 365) {
       howOld = '${difference.inDays ~/ 365}y';
     } else if (difference.inDays >= 30) {
@@ -75,6 +85,12 @@ class _PostHeaderBasic extends StatelessWidget {
     } else {
       howOld = '${difference.inSeconds}s';
     }
+    return howOld;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String howOld = calculateHowOld(createDate);
     return Row(
       children: [
         if (inProfile)
@@ -104,6 +120,8 @@ class _PostHeaderBasic extends StatelessWidget {
     );
   }
 }
+
+/// This is class is called to make the header post widget for the home page.
 
 class _PostHeaderHome extends StatelessWidget {
   final String userName;
@@ -139,7 +157,7 @@ class _PostHeaderHome extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
-            _PostHeaderBasic(
+            PostHeaderBasic(
               userName: userName,
               communityName: communityName,
               createDate: createDate,

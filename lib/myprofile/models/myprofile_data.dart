@@ -1,6 +1,6 @@
 //import 'package:flutter_code_style/analysis_options.yaml';
 class MyProfileData {
-  int? id;
+  String? id;
   String? userName;
   String? email;
   String? profilePicture;
@@ -9,7 +9,7 @@ class MyProfileData {
   String? displayName;
   // DateTime? toDayTime;
   String? createdAt;
-  int? numOfDaysInReddit;
+  //int? numOfDaysInReddit;
   int? followersCount;
   int? postKarma;
   int? commentkarma;
@@ -22,12 +22,12 @@ class MyProfileData {
       required this.description,
       required this.displayName,
       required this.createdAt,
-      required this.numOfDaysInReddit,
+     // required this.numOfDaysInReddit,
       required this.followersCount,
       required this.postKarma,
       required this.commentkarma});
 
-  MyProfileData.fromJson(Map<String, dynamic> json) {
+  MyProfileData.fromJson(Map<String,dynamic> json) {
     id = json['id'];
     userName = json['userName'];
     email = json['email'];
@@ -35,12 +35,12 @@ class MyProfileData {
     profileBackPicture = json['profileBackPicture'];
     description = json['description'];
     displayName = json['displayName'];
-    followersCount = json['followersCount'];
+    followersCount = int.parse( json['followersCount'].toString());
     createdAt = json['createdAt'];
-    numOfDaysInReddit = json['numOfDaysInReddit'];
-    postKarma = json['postKarma'];
+   // numOfDaysInReddit = int.parse(json['numOfDaysInReddit'].toString());
+    postKarma = int.parse(json['postKarma'].toString());
     displayName = json['displayName'];
-    commentkarma = json['commentkarma'];
+    commentkarma = int.parse(json['commentkarma'].toString());
   }
 
   Map<String, dynamic> toJson() {
@@ -53,7 +53,7 @@ class MyProfileData {
     data['description'] = this.description;
     data['followersCount'] = this.followersCount;
     data['createdAt'] = this.createdAt;
-    data['numOfDaysInReddit'] = this.numOfDaysInReddit;
+   // data['numOfDaysInReddit'] = this.numOfDaysInReddit;
     data['postKarma'] = this.postKarma;
     data['displayName'] = this.displayName;
     data['commentkarma'] = this.commentkarma;

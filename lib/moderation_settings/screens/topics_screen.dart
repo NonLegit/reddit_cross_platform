@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:post/moderation_settings/provider/moderation_settings_provider.dart';
+import '../provider/moderation_settings_provider.dart';
 import 'package:post/networks/dio_client.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +11,7 @@ import '../../widgets/loading_reddit.dart';
 
 class TopicsScreen extends StatefulWidget {
   const TopicsScreen({super.key});
-  static const routeName = '/topicsScreen';
+  static const routeName = './topicsScreen';
   @override
   State<TopicsScreen> createState() => _TopicsScreenState();
 }
@@ -32,8 +31,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
 
   @override
   void initState() {
-    
-    DioClient.initCreateCoumunity();
+    DioClient.init();
     //return hardcoded topics from constant folder
     topics = t1.topic;
 
@@ -49,13 +47,16 @@ class _TopicsScreenState extends State<TopicsScreen> {
         fetchingDone = false;
       });
       Provider.of<ModerationSettingProvider>(context, listen: false)
-          .getCommunity(data)
+          .getCommunity(ModalRoute.of(context)?.settings.arguments as String
+              // 'Cooking'
+              )
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)
                 .moderatorToolsModel;
 
         choosenTopic = moderatorToolsModel!.choosenTopic1;
+        print(choosenTopic);
         setState(() {
           fetchingDone = true;
         });

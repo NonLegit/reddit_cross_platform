@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:post/notification/provider/notification_provider.dart';
-
+import 'package:get/get.dart';
+import 'package:post/createpost/screens/createpost.dart';
+import 'package:post/moderation_settings/models/moderator_tools.dart';
 import 'package:post/notification/screens/messages_main_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:dartdoc/dartdoc.dart';
 import 'package:flutter/services.dart';
-import 'package:responsive_framework/responsive_framework.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import './home/screens/home_layout.dart';
 import './screens/home_screen.dart';
-import './moderation_settings/provider/moderation_settings_provider.dart';
 import './myprofile/screens/myprofile_screen.dart';
 import './other_profile/screens/others_profile_screen.dart';
 import './myprofile/screens/edit_profile_screen.dart';
@@ -19,11 +18,8 @@ import './subreddit/screens/subreddit_screen.dart';
 import './screens/subreddit_search_screen.dart';
 import './subreddit/screens/community_info_screen.dart';
 import './screens/contact_mod_message_screen.dart';
-import './other_profile/providers/other_profile_provider.dart';
-import './myprofile/providers/myprofile_provider.dart';
 import './moderated_subreddit/screens/mod_notification_screen.dart';
 import './moderated_subreddit/screens/moderated_subreddit_screen.dart';
-import './create_community/provider/create_community_provider.dart';
 import './create_community/screens/create_community.dart';
 import './moderation_settings/screens/topics_screen.dart';
 import './moderation_settings/screens/moderator_tools_screen.dart';
@@ -35,8 +31,17 @@ import './logins/screens/signup.dart';
 import './logins/screens/forgot_password.dart';
 import './logins/screens/forgot_username.dart';
 import './screens/emptyscreen.dart';
+//=====================================Providers====================================================//
+import './myprofile/providers/myprofile_provider.dart';
+import './other_profile/providers/other_profile_provider.dart';
+import './subreddit/providers/subreddit_provider.dart';
+import './moderated_subreddit/providers/moderated_subreddit_provider.dart';
+import './create_community/provider/create_community_provider.dart';
+import './moderation_settings/provider/moderation_settings_provider.dart';
+import './notification/provider/notification_provider.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(MyApp());
 }
 
@@ -57,11 +62,15 @@ class MyApp extends StatelessWidget {
         Device.deviceType == DeviceType.web;
         return MultiProvider(
           providers: [
+            ChangeNotifierProvider.value(value: MyProfileProvider()),
+            ChangeNotifierProvider.value(value: OtherProfileprovider()),
+            ChangeNotifierProvider.value(value: SubredditProvider()),
+            ChangeNotifierProvider.value(value: ModeratedSubredditProvider()),
             ChangeNotifierProvider.value(value: CreateCommunityProvider()),
             ChangeNotifierProvider.value(value: ModerationSettingProvider()),
             ChangeNotifierProvider.value(value: NotificationProvider()),
           ],
-          child: MaterialApp(
+          child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Logins',
             theme: theme.copyWith(
@@ -74,8 +83,11 @@ class MyApp extends StatelessWidget {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-             home: homeLayoutScreen(),
-           
+            //  home: CreateCommunity(),
+            //home: ModeratorTools(),
+            //home: CreatePostSCreen(),
+            home: homeLayoutScreen(),
+            //  home: NotificationScreen(),
             routes: {
               homeLayoutScreen.routeName: (context) => homeLayoutScreen(),
               EmptyScreen.routeName: (context) => EmptyScreen(),
@@ -88,7 +100,7 @@ class MyApp extends StatelessWidget {
               ModeratorTools.routeName: (context) => ModeratorTools(),
               TopicsScreen.routeName: (context) => TopicsScreen(),
               NotificationScreen.routeName: (context) => NotificationScreen(),
-              MessagesMainScreen.routeName: (context) => MessagesMainScreen(),
+              //  MessagesMainScreen.routeName: (context) => MessagesMainScreen(),
               NavigateToCorrectScreen.routeName: (context) =>
                   NavigateToCorrectScreen(),
               MyProfileScreen.routeName: (ctx) => MyProfileScreen(),

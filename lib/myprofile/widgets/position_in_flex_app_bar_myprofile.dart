@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../models/myprofile_data.dart';
 import '../screens/edit_profile_screen.dart';
 import '../screens/user_followers_screen.dart';
+
 class PositionInFlexAppBarMyProfile extends StatelessWidget {
   const PositionInFlexAppBarMyProfile({
     Key? key,
@@ -47,6 +48,7 @@ class PositionInFlexAppBarMyProfile extends StatelessWidget {
             Container(
                 width: 23.w,
                 height: 6.h,
+                //Edit Button used to Edit User information
                 child: OutlinedButton(
                   onPressed: () => Navigator.of(context)
                       .pushNamed(EditProfileScreen.routeName),
@@ -80,7 +82,7 @@ class PositionInFlexAppBarMyProfile extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 22),
             ),
-            //followers
+            // On Click Display all followers of users
             Container(
                 padding: const EdgeInsets.all(0),
                 alignment: Alignment.bottomLeft,
@@ -112,7 +114,7 @@ class PositionInFlexAppBarMyProfile extends StatelessWidget {
                         ]))),
             //name and discibtions
             Text(
-                'u/${loadProfile.displayName} . ${loadProfile.numOfDaysInReddit} .${int.parse(loadProfile.postKarma.toString()) + int.parse(loadProfile.commentkarma.toString())}.${loadProfile.createdAt.toString()}',
+                'u/${loadProfile.displayName} .${int.parse(loadProfile.postKarma.toString()) + int.parse(loadProfile.commentkarma.toString())}.${DateFormat.yMMMMd('en_US').format(DateTime.parse(loadProfile.createdAt.toString()))}',
                 style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
@@ -122,7 +124,8 @@ class PositionInFlexAppBarMyProfile extends StatelessWidget {
             ),
             Container(
               width: 100.w,
-              height: (loadProfile.description==null||loadProfile.description == '')
+              height: (loadProfile.description == null ||
+                      loadProfile.description == '')
                   ? 0.h
                   : (0 + (loadProfile.description.toString().length / 42) + 7)
                       .h,
@@ -132,34 +135,6 @@ class PositionInFlexAppBarMyProfile extends StatelessWidget {
                       fontWeight: FontWeight.normal,
                       fontSize: 13)),
             ),
-
-            //sotial links
-            // ElevatedButton.icon(
-            //   icon: const Icon(
-            //     Icons.add,
-            //     size: 28,
-            //     color: Colors.white,
-            //   ),
-            //   onPressed: () => Navigator.of(context)
-            //       .pushNamed(EditProfileScreen.routeName),
-            //   label: const Text(
-            //     'Add social link',
-            //     style: TextStyle(
-            //         color: Colors.white, fontSize: 15),
-            //   ),
-            //   style: ButtonStyle(
-            //       shape: MaterialStateProperty.all(
-            //           const RoundedRectangleBorder(
-            //               borderRadius: BorderRadius.all(
-            //                   Radius.circular(20)))),
-            //       foregroundColor:
-            //           MaterialStateProperty.all(
-            //               Colors.grey),
-            //       backgroundColor:
-            //           MaterialStateProperty.all(
-            //               const Color.fromARGB(
-            //                   255, 44, 44, 44))),
-            // ),
           ],
         ),
       ),

@@ -11,6 +11,7 @@ class BasicBottom extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 2.h, vertical: .5.h),
       child: ElevatedButton(
+        key: Key(lable),
         onPressed: () {
           handler();
         },

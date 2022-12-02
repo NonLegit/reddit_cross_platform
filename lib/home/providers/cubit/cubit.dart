@@ -27,6 +27,7 @@ class layoutCubit extends Cubit<layoutStates> {
     ),
     BottomNavigationBarItem(
       icon: IconButton(
+
         icon: Icon(
           IconBroken.Discovery,
           color: Colors.black,
@@ -38,6 +39,7 @@ class layoutCubit extends Cubit<layoutStates> {
     BottomNavigationBarItem(
       icon: IconButton(
         focusColor: Colors.black,
+
         icon: Icon(
           Icons.add,
           size: 30.0,
@@ -50,6 +52,7 @@ class layoutCubit extends Cubit<layoutStates> {
     BottomNavigationBarItem(
       icon: IconButton(
         focusColor: Colors.black,
+
         icon: Icon(IconBroken.Chat, color: Colors.black),
         onPressed: () {},
       ),
@@ -57,16 +60,20 @@ class layoutCubit extends Cubit<layoutStates> {
     ),
     BottomNavigationBarItem(
       icon: IconButton(
+
         icon: Icon(IconBroken.Notification, color: Colors.black),
         onPressed: () {
           // Navigator.of(context).pushNamed(NotificationScreen.routeName);
         },
+
       ),
       label: 'notifications',
     ),
   ];
+
   void changeButtomNavigationBar(int index) {
     currentIndex = index;
+
     emit(bottomNavBar());
   }
 
@@ -74,7 +81,7 @@ class layoutCubit extends Cubit<layoutStates> {
   List<Widget> screens = [
     homeLayoutScreen(),
     discoverScreen(),
-    createPostScreen(),
+   // createPostScreen(),
     chatScreen(),
     NotificationScreen(),
     // notificationsScreen(),

@@ -27,39 +27,60 @@ class Login extends StatefulWidget {
   // Login({Key? key}) : super(key: key);
   static const routeName = '/Login';
 
+  @override
+  State<Login> createState() => LoginState();
+}
+
+class LoginState extends State<Login> {
+  /// listener to the Username input field
+  final inputUserNameController = TextEditingController();
+
+  /// listener to the password input field
+  final inputPasswardController = TextEditingController();
+
+  /// Whether the user finish enter the 3 inputs
+  bool isFinished = false;
+
+  ///Whether the password is visiable or not
+  BoolWrapper isVisable = BoolWrapper();
+
+  ///controlling the finish flag
+  ///
+  ///when user typing in any input field ->
+  ///check the changes and detect when the finish flag is true
+  ///and then activate the continue bottom
+  void changeInput() {
+    isFinished = (!inputUserNameController.text.isEmpty) &
+        (!inputPasswardController.text.isEmpty);
+  }
+
+  /// Whether there is an error in the fields or not
+  bool isError = false;
+
+  /// Whether the user tring to submit or not
+  bool isSubmit = false;
+
+  ///saving the authontigation from the back
+  String token = '';
+  String expiresIn = '';
+
+  /// error message to view when the log in is failed
+  String errorMessage = '';
+
   /// variable to contain the url of the server
   final String url =
       'https://abf8b3a8-af00-46a9-ba71-d2c4eac785ce.mock.pstmn.io';
 
   /// variable to check if the backend finish the actual server of work with the mock
   final bool isMock = true;
-  @override
-  State<Login> createState() => _LoginState();
-}
 
-class _LoginState extends State<Login> {
-  final inputUserNameController = TextEditingController();
-  final inputPasswardController = TextEditingController();
-  bool isFinished = false;
-
-  BoolWrapper isVisable = BoolWrapper();
-  void changeInput() {
-    setState(() {
-      isFinished = (!inputUserNameController.text.isEmpty) &
-          (!inputPasswardController.text.isEmpty);
-    });
-  }
-
-  bool isError = false;
-  bool isSubmit = false;
-  String token = '';
-  String expiresIn = '';
-  String errorMessage = '';
+  ///post the login info to the backend server
+  ///
+  /// take the data from inputs listener and sent it to the server
+  /// if the server return failed response then there is error message will appare
+  /// other wise jump on the homeScreen
   void checkLogin() {
-    // print('the user name is: ' + inputUserNameController.text);
-    // print('the password is: ' + inputPasswardController.text);
-    Uri URL =
-        Uri.parse(widget.url + '/users/login' + ((widget.isMock) ? '/1' : ''));
+    Uri URL = Uri.parse(url + '/users/login' + ((isMock) ? '/1' : ''));
     http
         .post(URL,
             body: json.encode({
@@ -67,26 +88,21 @@ class _LoginState extends State<Login> {
               'password': inputPasswardController.text
             }))
         .then((response) {
-      // print('inside post' + response.statusCode.toString());
       if (response.statusCode == 200) {
-        // print('sucess');
         isError = false;
         token = json.decode(response.body)['token'];
         expiresIn = json.decode(response.body)['expiresIn'];
         Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
       } else if (response.statusCode == 400) {
-        // print('bad request');
         isError = true;
         errorMessage = json.decode(response.body)['errorMessage'];
       } else if (response.statusCode == 404) {
-        // print('incorrect userName or password');
         isError = true;
         errorMessage = json.decode(response.body)['errorMessage'];
       }
       isSubmit = true;
       setState(() {});
     });
-    // print('finish post');
   }
 
   @override
@@ -140,13 +156,21 @@ class _LoginState extends State<Login> {
                   TextInput(
                       lable: 'Username',
                       ontap: (hasfocus) {},
-                      changeInput: changeInput,
+                      changeInput: () {
+                        setState(() {
+                          changeInput();
+                        });
+                      },
                       inputController: inputUserNameController),
                   PasswordInput(
                       isVisable: isVisable,
                       lable: 'Password',
                       ontap: (hasfocus) {},
-                      changeInput: changeInput,
+                      changeInput: () {
+                        setState(() {
+                          changeInput();
+                        });
+                      },
                       inputController: inputPasswardController),
                   SizedBox(
                     height: 2.h,

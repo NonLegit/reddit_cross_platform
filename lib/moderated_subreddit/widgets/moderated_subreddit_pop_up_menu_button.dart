@@ -8,6 +8,19 @@ class ModeratedSubredditPopupMenuButton extends StatefulWidget {
   final String linkOfCommuinty;
   final String communityName;
   final String userName;
+  final bool isJoined;
+  ModeratedSubredditPopupMenuButton(
+      {required this.linkOfCommuinty,
+      required this.communityName,
+      required this.userName,
+      required this.isJoined});
+  @override
+  State<ModeratedSubredditPopupMenuButton> createState() =>
+      ModeratedSubredditPopupMenuButtonState();
+}
+
+class ModeratedSubredditPopupMenuButtonState
+    extends State<ModeratedSubredditPopupMenuButton> {
   int? tappedIndex;
   List<String> notifyItems = ["Off", "Low", 'Frequent'];
   List<IconData?> notifyItemsIcons = [
@@ -15,83 +28,84 @@ class ModeratedSubredditPopupMenuButton extends StatefulWidget {
     Icons.notifications,
     Icons.notifications_active
   ];
-  bool? isJoined;
-  String? dropDownValue;
-  IconData? icon;
-  ModeratedSubredditPopupMenuButton(
-      {required this.linkOfCommuinty,
-      required this.communityName,
-      required this.userName});
-  @override
-  State<ModeratedSubredditPopupMenuButton> createState() =>
-      _ModeratedSubredditPopupMenuButtonState();
-}
-
-class _ModeratedSubredditPopupMenuButtonState
-    extends State<ModeratedSubredditPopupMenuButton> {
+  bool isJoinedstate = false;
+  String? dropDownValue = 'Low';
+  IconData? icon = Icons.notifications;
   void initState() {
+    tappedIndex = 1;
+    isJoinedstate = widget.isJoined;
     super.initState();
-    widget.tappedIndex = 0;
   }
 
   // var selectedItem = '';
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(onSelected: (value) {
-      // your logic
-      // setState(() {
-      //   selectedItem = value.toString();
-      // });
-      if (value.toString() == '/communitymodmessage' ||
-          value.toString() == '/ModNotification')
-        Navigator.pushNamed(context, value.toString());
-      else if (value.toString() == 'Share')
-        shareCommunitySheetButton(context);
-      else if (value.toString() == 'Leave')
-        _showLeaveDialog();
-      else
-        _bellBottomSheet(context);
-    }, itemBuilder: (BuildContext bc) {
-      return const [
-        PopupMenuItem(
-          child: ListTile(
-            leading: Icon(Icons.share_outlined),
-            title: Text('Share community'),
+    return PopupMenuButton(
+      onSelected: (value) {
+        // your logic
+        // setState(() {
+        //   selectedItem = value.toString();
+        // });
+        if (value.toString() == '/communitymodmessage' ||
+            value.toString() == '/ModNotification')
+          Navigator.pushNamed(context, value.toString());
+        else if (value.toString() == 'Share')
+          shareCommunitySheetButton(context);
+        else if (value.toString() == 'Leave')
+          _showLeaveDialog();
+        else if (value.toString() == 'join') {
+          _join();
+        } else
+          _bellBottomSheet(context);
+      },
+      itemBuilder: (BuildContext bc) {
+        return [
+          PopupMenuItem(
+            child: ListTile(
+              leading: Icon(Icons.share_outlined),
+              title: Text('Share community'),
+            ),
+            value: 'Share',
           ),
-          value: 'Share',
-        ),
-        PopupMenuItem(
-          child: ListTile(
-            leading: Icon(Icons.fast_rewind),
-            title: Text('Leave'),
+          PopupMenuItem(
+            child: ListTile(
+              leading: Icon(
+                  (!isJoinedstate) ? Icons.add_box_rounded : Icons.fast_rewind),
+              title: Text((!isJoinedstate) ? 'join' : 'Leave'),
+            ),
+            value: (!isJoinedstate) ? 'join' : 'Leave',
           ),
-          value: 'Leave',
-        ),
-        PopupMenuItem(
-          child: ListTile(
-            leading: Icon(Icons.mail_outline),
-            title: Text('Contact mods'),
+          PopupMenuItem(
+            child: ListTile(
+              leading: Icon(Icons.mail_outline),
+              title: Text('Contact mods'),
+            ),
+            value: '/communitymodmessage',
           ),
-          value: '/communitymodmessage',
-        ),
-        PopupMenuItem(
-          child: ListTile(
-            leading: Icon(Icons.notifications_none_outlined),
-            title: Text('Community notifications'),
+          PopupMenuItem(
+            child: ListTile(
+              leading: Icon(icon),
+              title: Text('Community notifications'),
+            ),
+            value: 'Community notifications',
           ),
-          value: 'Community notifications',
-        ),
-        PopupMenuItem(
-          child: ListTile(
-            leading: Icon(Icons.notifications_none_outlined),
-            title: Text('Manage mod notifications'),
-          ),
-          value: '/ModNotification',
-        )
-      ];
-    });
+          PopupMenuItem(
+            child: ListTile(
+              leading: Icon(Icons.notifications_none_outlined),
+              title: Text('Manage mod notifications'),
+            ),
+            value: '/ModNotification',
+          )
+        ];
+      },
+      icon: Icon(
+        Icons.more_vert,
+        color: Colors.white,
+      ),
+    );
   }
 
+// To copy Link of Moderated Subreddit
   Future<void> shareCommunitySheetButton(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -105,6 +119,7 @@ class _ModeratedSubredditPopupMenuButtonState
     );
   }
 
+// to disjoin of subreddit
   void _showLeaveDialog() {
     showDialog(
       context: context,
@@ -144,12 +159,9 @@ class _ModeratedSubredditPopupMenuButtonState
               child: Text('Leave'),
               onPressed: () {
                 setState(() {
-                  widget.isJoined = false;
+                  disJoin();
                 });
-                Navigator.pushNamed(
-                    context, SubredditScreen.routeName,
-                    arguments:widget.userName);
-                //Navigator.of(ctx).pop();
+                Navigator.of(ctx).pop();
               },
             ),
           )
@@ -158,6 +170,18 @@ class _ModeratedSubredditPopupMenuButtonState
     );
   }
 
+  bool disJoin() {
+    isJoinedstate = false;
+    return isJoinedstate;
+  }
+
+  void _join() {
+    setState(() {
+      isJoinedstate = true;
+    });
+  }
+
+//to change Notification mode
   Future<void> _bellBottomSheet(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -186,38 +210,34 @@ class _ModeratedSubredditPopupMenuButtonState
                 const Divider(),
                 ListView.builder(
                     shrinkWrap: true,
-                    itemCount: widget.notifyItems.length,
+                    itemCount: notifyItems.length,
                     itemBuilder: (context, index) {
                       return Container(
                           child: ListTile(
                         leading: Icon(
                           size: 25,
-                          widget.notifyItemsIcons[index],
-                          color: widget.tappedIndex == index
-                              ? Colors.black
-                              : Colors.grey,
+                          notifyItemsIcons[index],
+                          color:
+                              tappedIndex == index ? Colors.black : Colors.grey,
                         ),
                         trailing: Visibility(
-                          visible: widget.tappedIndex == index,
+                          visible: tappedIndex == index,
                           child: const Icon(
                             Icons.done,
                             color: Colors.blue,
                           ),
                         ),
                         title: Text(
-                          widget.notifyItems[index],
+                          notifyItems[index],
                           style: TextStyle(
-                              color: widget.tappedIndex == index
+                              color: tappedIndex == index
                                   ? Colors.black
                                   : Colors.grey,
                               fontWeight: FontWeight.bold),
                         ),
                         onTap: () {
                           setState(() {
-                            widget.dropDownValue = widget.notifyItems[index];
-                            widget.tappedIndex = index;
-                            widget.icon =
-                                widget.notifyItemsIcons[index] as IconData;
+                            chooseNotificationType(index);
                           });
                           return Navigator.pop(context);
                         },
@@ -229,5 +249,12 @@ class _ModeratedSubredditPopupMenuButtonState
         );
       },
     );
+  }
+
+  int chooseNotificationType(int index) {
+    dropDownValue = notifyItems[index];
+    tappedIndex = index;
+    icon = notifyItemsIcons[index] as IconData;
+    return tappedIndex as int;
   }
 }

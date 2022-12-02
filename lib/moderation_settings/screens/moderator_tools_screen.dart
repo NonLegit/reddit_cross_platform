@@ -58,11 +58,14 @@ class _ModeratorToolsState extends State<ModeratorTools> {
                 ListView(
                   shrinkWrap: true,
                   children: [
-
                     buildGeneralOptions(
                         context,
                         () => Navigator.of(context).pushNamed(
-                            TopicsScreen.routeName),
+                            TopicsScreen.routeName,
+                             arguments:
+                             //'Cooking'
+                             ModalRoute.of(context)?.settings.arguments as String
+                             ),
                         'Topics',
                         Icons.topic),
                   ],

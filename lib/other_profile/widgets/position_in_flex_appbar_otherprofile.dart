@@ -128,7 +128,7 @@ class PositionInFlexAppBarOtherProfile extends StatelessWidget {
             ),
             //name and discibtions
            Text(
-               'u/${loadProfile.displayName} . ${loadProfile.numOfDaysInReddit} .${int.parse(loadProfile.postKarma.toString()) + int.parse(loadProfile.commentkarma.toString())}.${loadProfile.createdAt.toString()}',
+               'u/${loadProfile.displayName} .${int.parse(loadProfile.postKarma.toString()) + int.parse(loadProfile.commentkarma.toString())}.${DateFormat.yMMMMd('en_US').format(DateTime.parse(loadProfile.createdAt.toString()))}',
                 style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
