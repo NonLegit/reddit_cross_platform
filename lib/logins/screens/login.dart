@@ -4,7 +4,9 @@ import '../widgets/text_input.dart';
 import '../widgets/upper_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
+
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../icons/reddit_icons.dart';
 import '../../icons/google_facebook_icons.dart';
 import 'signup.dart';
@@ -60,19 +62,21 @@ class LoginState extends State<Login> {
   /// Whether the user tring to submit or not
   bool isSubmit = false;
 
-
   /// error message to view when the log in is failed
   String errorMessage = '';
 
   /// variable to contain the url of the server
+  // final String url = 'https://api.nonlegit.click/api/v1';
 
+  /// variable to check if the backend finish the actual server of work with the mock
+  // final bool isMock = true;
 
   ///post the login info to the backend server
   ///
   /// take the data from inputs listener and sent it to the server
   /// if the server return failed response then there is error message will appare
   /// other wise jump on the homeScreen
-  
+
   // Auth authentication = Auth();
   void checkLogin(context) async {
     final provider = Provider.of<Auth>(context, listen: false);
