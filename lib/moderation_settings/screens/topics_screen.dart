@@ -8,6 +8,7 @@ import '../widgets/alert_dialog.dart';
 import '../constants/topics.dart';
 import '../widgets/topic_main_body.dart';
 import '../../widgets/loading_reddit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TopicsScreen extends StatefulWidget {
   const TopicsScreen({super.key});
@@ -30,8 +31,9 @@ class _TopicsScreenState extends State<TopicsScreen> {
   ModeratorToolsModel? moderatorToolsModel;
 
   @override
-  void initState() {
-    DioClient.init();
+  void initState() async {
+    final prefs = await SharedPreferences.getInstance();
+    DioClient.init(prefs);
     //return hardcoded topics from constant folder
     topics = t1.topic;
 

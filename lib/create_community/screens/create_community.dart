@@ -17,6 +17,7 @@ import '../widgets/list_of_community_type.dart';
 import '../widgets/toggle_switch.dart';
 import '../widgets/create_community_web.dart';
 import '../constants/community_modal_sheet_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateCommunity extends StatefulWidget {
   static const routeName = '/createCommunity';
@@ -34,7 +35,6 @@ class CreateCommunityState extends State<CreateCommunity> {
   int count = 21;
 
   final _communityNameController = TextEditingController();
-
 
   bool _typed = false;
   bool validating = false;
@@ -133,15 +133,15 @@ class CreateCommunityState extends State<CreateCommunity> {
 
   @override
   void dispose() {
-
     super.dispose();
     _communityNameController.dispose();
   }
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
-    DioClient.init();
+    final prefs = await SharedPreferences.getInstance();
+    DioClient.init(prefs);
     choosenCommunityType = communityType.keys.elementAt(0);
   }
 
@@ -289,7 +289,7 @@ class CreateCommunityState extends State<CreateCommunity> {
                                   await _saveCommunity();
                                   Navigator.of(context).pushNamed(
                                       ModeratedSubredditScreen.routeName,
-                                       arguments: 'Cooking'       
+                                      arguments: 'Cooking'
                                       //arguments: _communityNameController.text
                                       );
                                 },
@@ -343,7 +343,7 @@ class CreateCommunityState extends State<CreateCommunity> {
       try {
         bool found =
             await Provider.of<CreateCommunityProvider>(context, listen: false)
-                .getCommunity( _communityNameController.text);
+                .getCommunity(_communityNameController.text);
         if (found) {
           setState(() {
             uniqueCommunityName = false;
@@ -361,7 +361,6 @@ class CreateCommunityState extends State<CreateCommunity> {
       } catch (error) {
         //print(error);
       }
-
     }
   }
 
@@ -381,6 +380,5 @@ class CreateCommunityState extends State<CreateCommunity> {
         done = true;
       });
     }
-
   }
 }

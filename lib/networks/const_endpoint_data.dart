@@ -2,9 +2,7 @@
 import 'package:post/other_profile/models/others_profile_data.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-var baseUrl = String.fromEnvironment('baseUrl',
-    defaultValue: dotenv.env['API'] as String);
-
+var baseUrl = dotenv.env['API'] as String;
 //=========================Subreddit======================//
 var subredditName;
 const createCommunity = '/subreddits';

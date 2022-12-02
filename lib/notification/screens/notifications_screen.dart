@@ -135,7 +135,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   bool _isInit = true;
   @override
   void initState() {
-    DioClient.init();
     super.initState();
   }
 
