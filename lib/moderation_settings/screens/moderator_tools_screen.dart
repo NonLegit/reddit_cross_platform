@@ -62,8 +62,9 @@ class _ModeratorToolsState extends State<ModeratorTools> {
                         context,
                         () => Navigator.of(context).pushNamed(
                             TopicsScreen.routeName,
-                             arguments:'Cooking'
-                             //ModalRoute.of(context)?.settings.arguments as String
+                             arguments:
+                             //'Cooking'
+                             ModalRoute.of(context)?.settings.arguments as String
                              ),
                         'Topics',
                         Icons.topic),

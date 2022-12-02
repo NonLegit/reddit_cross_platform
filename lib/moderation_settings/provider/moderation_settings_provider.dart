@@ -18,7 +18,6 @@ class ModerationSettingProvider with ChangeNotifier {
       await DioClient.get(path: subreddit).then((response) {
         print(response.data['data']);
         moderatorToolsModel1 = ModeratorToolsModel.fromJson(response.data['data']);
-        print(moderatorToolsModel!.name);
         print(moderatorToolsModel!.choosenTopic1);
       });
       notifyListeners();

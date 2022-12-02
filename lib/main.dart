@@ -83,11 +83,12 @@ class MyApp extends StatelessWidget {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-           // home: CreateCommunity(),
-           //home: ModeratorTools(),
-          //home: CreatePostSCreen(),
-            //home: HomeScreen(),
-           // home: NotificationScreen(),
+            //  home: CreateCommunity(),
+            //home: ModeratorTools(),
+            //home: CreatePostSCreen(),
+            home: homeLayoutScreen(),
+            //  home: NotificationScreen(),
+
             routes: {
               homeLayoutScreen.routeName: (context) => homeLayoutScreen(),
               EmptyScreen.routeName: (context) => EmptyScreen(),
