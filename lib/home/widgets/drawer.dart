@@ -28,13 +28,11 @@ class _drawerState extends State<drawer> {
   Widget build(BuildContext context) {
     return drawerHome(context);
   }
-
   Drawer drawerHome(context) {
     List<ListTile> Following = [
       ListTile(
         onTap: () => Navigator.of(context)
             .pushNamed(OthersProfileScreen.routeName, arguments: 'Zeinab_maoawad'),
-
         trailing: IconButton(
             onPressed: () {},
             icon: Icon(

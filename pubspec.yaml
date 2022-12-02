@@ -64,8 +64,7 @@ dependencies:
   google_nav_bar: ^5.0.6
   image_picker: ^0.8.6
   multi_image_picker: ^4.7.14
-  
-
+  shared_preferences: ^2.0.15
 
 
 dev_dependencies:
@@ -96,13 +95,13 @@ flutter:
   fonts:
     - family: closeIcons
       fonts:
-        - asset: assets/icons/closeIcons.ttf
+        - asset: assets/icons/close_icons.ttf
     - family: RedditIcons
       fonts:
-        - asset: assets/icons/RedditIcons.ttf
+        - asset: assets/icons/reddit_icons.ttf
     - family: GoogleFacebookIcons
       fonts:
-        - asset: assets/icons/GoogleFacebookIcons.ttf
+        - asset: assets/icons/google_facebook_icons.ttf
 
     - family: Verdana
       fonts:
@@ -122,6 +121,11 @@ flutter:
     - .env
     - assets/images/community_icon.png
     - assets/images/envelope.png
+    - assets/images/Activism.png
+    - assets/images/Addiction Support.png
+    - assets/images/Animal and Pets.png
+    - assets/images/Anime.png
+    - assets/images/upvote.png
     - assets/images/img.jpg
     - assets/images/emptyNotification.png
     - assets/images/redditLoading.png
