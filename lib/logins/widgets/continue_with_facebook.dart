@@ -1,4 +1,4 @@
-import '../../icons/GoogleFacebookIcons.dart';
+import '../../icons/google_facebook_icons.dart';
 import 'package:flutter/material.dart';
 
 class ContinueWithFacebook extends StatelessWidget {
@@ -9,18 +9,20 @@ class ContinueWithFacebook extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-      child: OutlinedButton(
-          style: OutlinedButton.styleFrom(
-              side: BorderSide(color: Colors.blue),
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              elevation: 0,
+              side: BorderSide(color: Color.fromARGB(255, 56, 93, 164)),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0))),
           onPressed: handler,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(color: Colors.blue, GoogleFacebookIcons.facebook),
+
+              Icon(color: Colors.black, GoogleFacebookIcons.facebook),
               Text(
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: Color.fromARGB(255, 56, 93, 164)),
                   'Continue with Face Book'),
               SizedBox(
                 width: 1,

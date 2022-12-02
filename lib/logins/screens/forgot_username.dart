@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:post/logins/screens/login.dart';
 import '../widgets/text_input.dart';
 import '../widgets/upper_bar.dart';
 import '../widgets/upper_text.dart';
@@ -13,14 +14,11 @@ import '../models/status.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../providers/authentication.dart';
+import 'package:provider/provider.dart';
 
 class ForgotUserName extends StatefulWidget {
   static const routeName = '/ForgotUserName';
-  final String url =
-      'https://abf8b3a8-af00-46a9-ba71-d2c4eac785ce.mock.pstmn.io';
-
-  /// variable to check if the backend finish the actual server of work with the mock
-  final bool isMock = true;
   @override
   State<ForgotUserName> createState() => ForgotUserNameState();
 }
@@ -90,25 +88,17 @@ class ForgotUserNameState extends State<ForgotUserName> {
   /// take the data from inputs listener and sent it to the server
   /// if the server return failed response then there is error message will appare
   /// other show sucess message
-  void submitForgorUserName() {
-    Uri URL = Uri.parse(widget.url +
-        '/users/forgot_username' +
-        ((widget.isMock) ? '/400' : ''));
-    http
-        .post(URL,
-            body: json.encode({
-              "email": inputEmailController.text,
-            }))
-        .then((response) {
-      setState(() {
-        isSubmit = true;
-        if (response.statusCode == 204) {
-          isError = false;
-        } else if (response.statusCode == 400) {
-          isError = true;
-          errorMessage = json.decode(response.body)['errorMessage'];
-        }
-      });
+
+  void submitForgorUserName() async {
+    final provider = Provider.of<Auth>(context, listen: false);
+    await provider.forgetUserName({
+      "email": inputEmailController.text,
+    });
+    setState(() {
+      isSubmit = true;
+      isError = provider.error;
+      errorMessage = provider.errorMessage;
+      if (isError == false) Navigator.of(context).pushNamed(Login.routeName);
     });
   }
 
