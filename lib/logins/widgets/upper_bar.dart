@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import '../screens/gender.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:flutter/gestures.dart';
-
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../icons/reddit_icons.dart';
-import '../../icons/google_facebook_icons.dart';
 import '../screens/signup.dart';
 import '../screens/login.dart';
 import '../models/status.dart';

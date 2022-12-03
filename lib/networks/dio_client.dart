@@ -12,31 +12,26 @@ class DioClient {
   static Dio? dio;
 
   static init(prefs) async {
-    WidgetsFlutterBinding.ensureInitialized();
     String token = '';
     try {
       token = prefs.getString('token') as String;
-      print('asd' + token);
     } catch (error) {
       print(error);
     }
-    print(1);
     dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
         receiveDataWhenStatusError: true,
-        connectTimeout: 5000,
-        receiveTimeout: 20 * 1000,
+        connectTimeout: 5000, //why ther is this here ?
+        receiveTimeout: 20 * 1000, //why ther is this here ?
         responseType: ResponseType.json,
         headers: {
-          // 'Content-type': 'text/plain',
           'Content-type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + token,
         },
       ),
     );
-    print(1);
   }
 
   // Post:----------------------------------------------------------------------

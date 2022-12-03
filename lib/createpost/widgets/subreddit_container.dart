@@ -1,22 +1,41 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:post/createpost/model/subreddits_of_user.dart';
+import '../controllers/posts_controllers.dart';
 import '../screens/finalpost.dart';
 
-class subredditContainer extends StatelessWidget {
-  const subredditContainer({Key? key}) : super(key: key);
-
+class SubredditSubscriberContainer extends StatelessWidget {
+  // const SubredditContainer({Key? key}) : super(key: key);
+  final postController controller = Get.put(
+    postController(),
+  );
+  String nameOfSubreddit = "";
+  String iconOfSubreddit = '';
+  int memberCount = 0;
+  SubredditSubscriberContainer({
+    required this.nameOfSubreddit,
+    required this.iconOfSubreddit,
+    required this.memberCount,
+  });
   @override
   Widget build(BuildContext context) {
-   return ListTile(
-     leading: CircleAvatar(radius: 22,backgroundColor: Colors.blue,),
-     title: Text("r/"+"Name of subreddits"),
-     subtitle: Text("12 "+"members . "+"subscribed"),
-     onTap: ()
-     {
-       Navigator.push(context, MaterialPageRoute(builder: (context)=>finalPostScreen()));
+    return ListTile(
+      leading: CircleAvatar(
+        radius: 22,
+        backgroundColor: Colors.blue,
+        backgroundImage: NetworkImage("$iconOfSubreddit"),
+      ),
+      title: Text("$nameOfSubreddit"),
+      subtitle: Text("$memberCount " + "members . " + "subscribed"),
+      onTap: () {
+        print(nameOfSubreddit.runtimeType);
+        controller.subredditToSubmitPost = RxString(nameOfSubreddit);
 
-     },
-   );
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => FinalPost()));
+      },
+    );
   }
 }

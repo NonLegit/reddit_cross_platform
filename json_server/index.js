@@ -71,7 +71,12 @@ server.get('/subreddits/:subredditName/new', (req, res) => {
 		`/posts?communityName=${req.params.subredditName}&_sort=createDate&_order=desc`
 	);
 });
-
+server.get('/subreddits/mine/subscriber', (req, res) => {
+	res.redirect(`/subreddits_subscriber`);
+});
+server.get('/subreddits/mine/moderator', (req, res) => {
+	res.redirect(`/subreddits_moderator`);
+});
 server.post('/users/login/', (req, res) => {
 	if (req.body.userName == 'Ahmed') {
 		res.status(400).jsonp({

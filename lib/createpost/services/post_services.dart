@@ -8,7 +8,6 @@ import '../model/post_model.dart';
 import '../model/subreddits_of_user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 class PostServices {
   // were final instead of static var
   static var dio = Dio();
