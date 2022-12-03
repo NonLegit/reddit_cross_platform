@@ -1,12 +1,17 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:post/networks/const_endpoint_data.dart';
 
+import '../../networks/const_endpoint_data.dart';
+import '../controllers/posts_controllers.dart';
+import '../widgets/container.dart';
 import '../widgets/subreddit_container.dart';
-
 class buildSubreddit extends StatelessWidget {
-  const buildSubreddit({Key? key}) : super(key: key);
-
+  final postController controller = Get.put(
+    postController(),
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,50 +20,45 @@ class buildSubreddit extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
             onPressed: () => Navigator.pop(context),
           ),
-          title: Text(
+          title: const Text(
             "Post to",
             style: TextStyle(fontSize: 15),
           ),
         ),
-        body:
-        SingleChildScrollView(
+        body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               GestureDetector(
-                onTap: (
-                ){},
+                onTap: () {},
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.only(start :5,top:12),
-                  child: Container (
+                  padding: const EdgeInsetsDirectional.only(start: 5, top: 12),
+                  child: Container(
                     alignment: AlignmentDirectional.center,
                     height: 38,
                     width: 390,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-
                       color: Colors.grey[300],
                     ),
-
                     child: Padding(
                       padding: const EdgeInsetsDirectional.only(start: 15),
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.search,
                             size: 22.0,
-
                           ),
                           SizedBox(width: 7),
-                          Text("Search",
+                          Text(
+                            "Search",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
                                 fontSize: 15.0
-
                             ),
                           )
                         ],
@@ -71,17 +71,23 @@ class buildSubreddit extends StatelessWidget {
                 children: [
                   ListView.builder(
                     scrollDirection: Axis.vertical,
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true, // عشان اسمح بال سكرول
-                    itemBuilder: (context , index) => subredditContainer() ,
-                    itemCount: 20,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context , index) => SubredditModeratorContainer(nameOfSubreddit:controller.moderatedSubreddits[index].subredditName!,memberCount: controller.moderatedSubreddits[index].membersCount!,iconOfSubreddit:controller.moderatedSubreddits[index].icon!,) ,
+                    itemCount: controller.moderatedSubreddits.length,
+                  ),
+                  ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context , index) => SubredditSubscriberContainer(nameOfSubreddit:controller.subscribedSubreddits[index].subredditName!,memberCount: controller.subscribedSubreddits[index].membersCount!,iconOfSubreddit:controller.subscribedSubreddits[index].icon!,) ,
+                    itemCount: controller.subscribedSubreddits.length,
                   ),
                 ],
               ),
             ],
           ),
         )
-
     );
   }
 }

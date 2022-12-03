@@ -119,7 +119,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider.value(value: NotificationProvider()),
             ChangeNotifierProvider.value(value: Auth()),
           ],
-          child: MaterialApp(
+          child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Logins',
             theme: theme.copyWith(
@@ -133,11 +133,13 @@ class MyApp extends StatelessWidget {
                   onSurface: Colors.white),
             ),
 
-            home: homeLayoutScreen(),
+            // home: homeLayoutScreen(),
             // home: HomeScreen(),
-            // home: Login(),
+            home: Login(),
+            // home: CreateCommunity(),
+          //    home: Login(),
             // home: ForgotUserName(),
-            // home: SignUp(),
+          //   home: SignUp(),
             // home: Gender(),
             // home: ModeratorTools(),
             // home: Settings(),

@@ -17,11 +17,13 @@ class MyProfileProvider with ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
       await DioClient.get(path: myprofile).then((response) {
-        loadProfile = MyProfileData.fromJson(response.data['data']);
+        print(response.data);
+        loadProfile = MyProfileData.fromJson(response.data['user']);
         notifyListeners();
       });
     } catch (error) {
       print(error);
+      print('heelo');
       throw (error);
     }
   }

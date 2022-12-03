@@ -28,16 +28,16 @@ class SubredditData {
       required this.rules,
       required this.moderators});
   SubredditData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    displayName = json['displayName'];
+    id = json['_id'];
+    name = json['fixedName'];
+    displayName = json['name'];
     subredditPicture = json['icon'];
     subredditBackPicture = json['backgroundImage'];
     description = json['description'];
     subredditLink = json['subredditLink'];
-    numOfMembers = int.parse(json['numOfMembers'].toString());
+    numOfMembers = int.parse(json['membersCount'].toString());
     numOfOnlines = int.parse(json['numOfOnlines'].toString());
-    isJoined =(json['isJoined']);
+    isJoined = (json['isJoined']);
     final List<SubredditAboutRules> loadedrule = [];
     json['rules'].forEach((rule) {
       loadedrule.add(SubredditAboutRules(rule['title'], rule['description']));
@@ -49,7 +49,6 @@ class SubredditData {
     });
     moderators = loadedmodrator;
   }
-
 
 //   {
 // 	"id": 10,

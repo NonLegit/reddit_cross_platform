@@ -6,16 +6,16 @@ class CreateCommunityModel {
   CreateCommunityModel({this.name, this.type, this.nSFW});
 
   CreateCommunityModel.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
+    name = json['fixedName'];
     type = json['type'];
-    nSFW = json['NSFW'];
+    nSFW = json['nsfw'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
+    data['fixedName'] = name;
     data['type'] = type;
-    data['NSFW'] = nSFW;
+    data['nsfw'] = nSFW;
     return data;
   }
 }
