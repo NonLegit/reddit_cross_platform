@@ -28,18 +28,16 @@ class buildSubreddit extends StatelessWidget {
             style: TextStyle(fontSize: 15),
           ),
         ),
-        body:
-        SingleChildScrollView(
+        body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               GestureDetector(
-                onTap: (
-                ){},
+                onTap: () {},
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.only(start :5,top:12),
-                  child: Container (
+                  padding: const EdgeInsetsDirectional.only(start: 5, top: 12),
+                  child: Container(
                     alignment: AlignmentDirectional.center,
                     height: 38,
                     width: 390,
@@ -56,7 +54,8 @@ class buildSubreddit extends StatelessWidget {
                             size: 22.0,
                           ),
                           SizedBox(width: 7),
-                          Text("Search",
+                          Text(
+                            "Search",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
                                 fontSize: 15.0

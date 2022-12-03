@@ -77,6 +77,11 @@ server.get('/subreddits/mine/subscriber', (req, res) => {
 server.get('/subreddits/mine/moderator', (req, res) => {
 	res.redirect(`/subreddits_moderator`);
 });
+
+server.post('/subreddits',(req,res) => {
+	console.log(req);
+});
+
 server.post('/users/login/', (req, res) => {
 	if (req.body.userName == 'Ahmed') {
 		res.status(400).jsonp({
@@ -91,6 +96,12 @@ server.post('/users/login/', (req, res) => {
 			expiresIn: '2019-08-24T14:15:22Z',
 		});
 	}
+});
+server.get('/subreddits/mine/subscriber', (req, res) => {
+	res.redirect(`/subreddits_subscriber`);
+});
+server.get('/subreddits/mine/moderator', (req, res) => {
+	res.redirect(`/subreddits_moderator`);
 });
 
 // server.use((req, res, next) => {

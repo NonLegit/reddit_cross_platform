@@ -18,9 +18,12 @@ class ModeratedSubredditProvider with ChangeNotifier {
       String moderatedSubredditUserName) async {
     try {
       subredditName = moderatedSubredditUserName;
+      print('******************************HERE*****************************');
+      print(subredditName);
+      print(subreddit);
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-      await DioClient.get(path: subreddit).then((response) {
+      await DioClient.get(path: '/subreddits/$subredditName').then((response) {
         loadSubreddit = ModeratedSubredditData.fromJson(response.data['data']);
         notifyListeners();
       });

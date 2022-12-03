@@ -23,6 +23,7 @@ class MyProfileProvider with ChangeNotifier {
       });
     } catch (error) {
       print(error);
+      print('heelo');
       throw (error);
     }
   }

@@ -39,8 +39,8 @@ class DioClient {
       {required String path,
       required Map<String, dynamic> data,
       Map<String, dynamic>? query}) async {
-    return await dio!
-        .post(path, data: json.encode(data), queryParameters: query);
+    print(data);
+    return await dio!.post(path, data: json.encode(data));
   }
 
   static Future<Response> get(

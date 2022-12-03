@@ -58,6 +58,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                           )
                         : MaterialButton(
                             onPressed: () {
+                             
                               if (controller.postTitle.value.text != "") {
                                 Navigator.pop(context);
                                 Get.to(buildSubreddit());

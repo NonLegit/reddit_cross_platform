@@ -30,13 +30,11 @@ class postController extends GetxController {
   RxString typeOfPost = ''.obs;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   List<XFile>? imageFileList = <XFile>[].obs;
-  final videoFile = Rx<File?>(null);
-  // Rx<XFile> video=XFile("").obs;
+  Rx<XFile> video = XFile("").obs;
   @override
   void onInit() {
     getSubreddits();
     _fetchHouses();
-
     super.onInit();
   }
 
@@ -56,13 +54,13 @@ class postController extends GetxController {
                 subscribedSubreddits
                     .add(userSubredditsResponse.fromJson(value1));
               }));
+
     } catch (error) {
       print(error);
     }
   }
 
   sendPost(BuildContext context) {
-    print(isPostSpoiler.runtimeType);
     services.sendPost(
         PostModel(
           title: postTitle.value.text,
@@ -73,7 +71,6 @@ class postController extends GetxController {
           spoiler: false,
           nsfw: isPostNSFW.value,
           sendReplies: '',
-
           // title: postTitle.value.text,
           // text: textPost.value.text,
           // flairId: "",

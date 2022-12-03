@@ -49,7 +49,7 @@ class OtherProfileData {
     userName = json['userName'];
     email = json['email'];
     profilePicture = json['profilePicture'];
-    profileBackPicture = json['profileBackPicture'];
+    profileBackPicture = json['profileBackground'];
     description = json['description'];
     displayName = json['displayName'];
     followersCount = int.parse( json['followersCount'].toString());
@@ -58,7 +58,7 @@ class OtherProfileData {
     createdAt = json['createdAt'];
     postKarma =int.parse(json['postKarma'].toString());;
     displayName = json['displayName'];
-    commentkarma = int.parse(json['commentkarma'].toString());
+    commentkarma = int.parse(json['commentKarma'].toString());
     isFollowed = false;
   }
 

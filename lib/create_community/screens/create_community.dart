@@ -138,10 +138,8 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    final prefs = await SharedPreferences.getInstance();
-    DioClient.init(prefs);
     choosenCommunityType = communityType.keys.elementAt(0);
   }
 
@@ -287,11 +285,6 @@ class CreateCommunityState extends State<CreateCommunity> {
                               : () async {
                                   //GOTO POST IN COMMUNITY & SAVE THE CREATED COMMUNITY
                                   await _saveCommunity();
-                                  Navigator.of(context).pushNamed(
-                                      ModeratedSubredditScreen.routeName,
-                                      arguments: 'Cooking'
-                                      //arguments: _communityNameController.text
-                                      );
                                 },
                           style: ElevatedButton.styleFrom(
                             onSurface: Colors.grey[900],
@@ -334,7 +327,8 @@ class CreateCommunityState extends State<CreateCommunity> {
     //function called after waiting for 3 milliseconds to check uniqueness of the community name type
     // return type void
     // found takes returned value after calling backend
-    if (_communityNameController.text.length >= 3) {
+    if (_communityNameController.text.length >= 3 &&
+        _textFieldKey.currentState!.validate()) {
       setState(() {
         validating = true;
       });
@@ -372,13 +366,19 @@ class CreateCommunityState extends State<CreateCommunity> {
         nSFW: plus18Community,
         name: _communityNameController.text,
         type: choosenCommunityType);
-    bool postCommunity =
-        await Provider.of<CreateCommunityProvider>(context, listen: false)
-            .postCommunity(createCommunityModel.toJson());
-    if (postCommunity) {
-      setState(() {
-        done = true;
-      });
-    }
+    await Provider.of<CreateCommunityProvider>(context, listen: false)
+        .postCommunity(createCommunityModel.toJson())
+        .then((value) {
+      //if(value)
+      // print('Community $value');
+      Navigator.of(context).pushNamed(ModeratedSubredditScreen.routeName,
+          //  arguments: 'Cooking'
+          arguments: _communityNameController.text);
+    });
+    // if (postCommunity) {
+    //   setState(() {
+    //     done = true;
+    //   });
+    //}
   }
 }

@@ -23,6 +23,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
   Topics t1 = Topics();
   var topics = {};
   String selectedBefore = '';
+  String subbredditName = '';
 
   var _selectedIndex = -1;
   bool fetchingDone = false;
@@ -31,9 +32,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
   ModeratorToolsModel? moderatorToolsModel;
 
   @override
-  void initState() async {
-    final prefs = await SharedPreferences.getInstance();
-    DioClient.init(prefs);
+  void initState() {
     //return hardcoded topics from constant folder
     topics = t1.topic;
 
@@ -48,6 +47,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
       setState(() {
         fetchingDone = false;
       });
+      subbredditName = ModalRoute.of(context)?.settings.arguments as String;
       Provider.of<ModerationSettingProvider>(context, listen: false)
           .getCommunity(ModalRoute.of(context)?.settings.arguments as String
               // 'Cooking'
@@ -86,9 +86,9 @@ class _TopicsScreenState extends State<TopicsScreen> {
       _pressed = true;
     });
     Provider.of<ModerationSettingProvider>(context, listen: false)
-        .patchCommunity({
-      "primaryTopic": '${topics.keys.elementAt(_selectedIndex)}'
-    }).then((_) => Navigator.of(context).pop());
+        .patchCommunity(
+            {"primaryTopic": '${topics.keys.elementAt(_selectedIndex)}'},
+            subbredditName).then((_) => Navigator.of(context).pop());
   }
 
   @override
