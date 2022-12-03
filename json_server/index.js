@@ -71,6 +71,9 @@ server.get('/subreddits/:subredditName/new', (req, res) => {
 		`/posts?communityName=${req.params.subredditName}&_sort=createDate&_order=desc`
 	);
 });
+server.post('/subreddits',(req,res) => {
+	console.log(req);
+});
 
 server.post('/users/login/', (req, res) => {
 	if (req.body.userName == 'Ahmed') {
@@ -86,6 +89,12 @@ server.post('/users/login/', (req, res) => {
 			expiresIn: '2019-08-24T14:15:22Z',
 		});
 	}
+});
+server.get('/subreddits/mine/subscriber', (req, res) => {
+	res.redirect(`/subreddits_subscriber`);
+});
+server.get('/subreddits/mine/moderator', (req, res) => {
+	res.redirect(`/subreddits_moderator`);
 });
 
 // server.use((req, res, next) => {
@@ -185,3 +194,4 @@ const subredditPOST = (req, res) => {
 const postPOST = (req, res) => {
 	return res.jsonp({ status: 'success', id: res.locals.data.id });
 };
+

@@ -1,12 +1,17 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:post/networks/const_endpoint_data.dart';
 
+import '../../networks/const_endpoint_data.dart';
+import '../controllers/posts_controllers.dart';
 import '../widgets/subreddit_container.dart';
 
 class buildSubreddit extends StatelessWidget {
-  const buildSubreddit({Key? key}) : super(key: key);
-
+  final postController controller = Get.put(
+    postController(),
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,27 +28,23 @@ class buildSubreddit extends StatelessWidget {
             style: TextStyle(fontSize: 15),
           ),
         ),
-        body:
-        SingleChildScrollView(
+        body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
               GestureDetector(
-                onTap: (
-                ){},
+                onTap: () {},
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.only(start :5,top:12),
-                  child: Container (
+                  padding: const EdgeInsetsDirectional.only(start: 5, top: 12),
+                  child: Container(
                     alignment: AlignmentDirectional.center,
                     height: 38,
                     width: 390,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-
                       color: Colors.grey[300],
                     ),
-
                     child: Padding(
                       padding: const EdgeInsetsDirectional.only(start: 15),
                       child: Row(
@@ -51,15 +52,12 @@ class buildSubreddit extends StatelessWidget {
                           Icon(
                             Icons.search,
                             size: 22.0,
-
                           ),
                           SizedBox(width: 7),
-                          Text("Search",
+                          Text(
+                            "Search",
                             style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontSize: 15.0
-
-                            ),
+                                fontStyle: FontStyle.italic, fontSize: 15.0),
                           )
                         ],
                       ),
@@ -73,15 +71,20 @@ class buildSubreddit extends StatelessWidget {
                     scrollDirection: Axis.vertical,
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true, // عشان اسمح بال سكرول
-                    itemBuilder: (context , index) => subredditContainer() ,
-                    itemCount: 20,
+                    itemBuilder: (context, index) => SubredditContainer(
+                      nameOfSubreddit:
+                          controller.mySubredditsInPost[index].subredditName!,
+                      memberCount:
+                          controller.mySubredditsInPost[index].membersCount!,
+                      iconOfSubreddit:
+                          controller.mySubredditsInPost[index].icon!,
+                    ),
+                    itemCount: controller.mySubredditsInPost.length,
                   ),
                 ],
               ),
             ],
           ),
-        )
-
-    );
+        ));
   }
 }
