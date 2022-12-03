@@ -4,6 +4,7 @@ import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../models/others_profile_data.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //using in heighest widget to use
 class OtherProfileprovider with ChangeNotifier {
@@ -15,7 +16,8 @@ class OtherProfileprovider with ChangeNotifier {
   Future<void> fetchAndSetOtherProfile(String otherUserName) async {
     try {
       userName = otherUserName;
-      DioClient.init();
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
 
       await DioClient.get(path: otherprofile).then((response) {
         loadProfile = OtherProfileData.fromJson(response.data['data']);
