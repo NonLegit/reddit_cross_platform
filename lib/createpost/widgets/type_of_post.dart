@@ -71,7 +71,7 @@ class BuildFormType extends StatelessWidget {
                 itemCount: controller.imageFileList!.length,
               )
                 :controller.typeOfPost.value == "video"
-                  ? (controller.video.value==null )? SizedBox():
+                  ? (controller.videoFile.value==null )? SizedBox():
               Container(
                 color:Colors.black,
               ):SizedBox()

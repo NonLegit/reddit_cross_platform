@@ -71,6 +71,13 @@ server.get('/subreddits/:subredditName/new', (req, res) => {
 		`/posts?communityName=${req.params.subredditName}&_sort=createDate&_order=desc`
 	);
 });
+server.get('/subreddits/mine/subscriber', (req, res) => {
+	res.redirect(`/subreddits_subscriber`);
+});
+server.get('/subreddits/mine/moderator', (req, res) => {
+	res.redirect(`/subreddits_moderator`);
+});
+
 server.post('/subreddits',(req,res) => {
 	console.log(req);
 });
@@ -194,4 +201,3 @@ const subredditPOST = (req, res) => {
 const postPOST = (req, res) => {
 	return res.jsonp({ status: 'success', id: res.locals.data.id });
 };
-
