@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../../home/screens/home_layout.dart';
@@ -13,7 +14,8 @@ class PostServices {
   static var dio = Dio();
   //static var client =http.Client();
   sendPost(PostModel model, BuildContext context) async {
-    DioClient.init();
+     final prefs = await SharedPreferences.getInstance();
+    DioClient.init(prefs);
     try {
       final response =
           await DioClient.post(path: createPost, data: model.toJson());

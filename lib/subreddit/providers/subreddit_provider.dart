@@ -4,6 +4,7 @@ import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../models/subreddit_data.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //using in heighest widget to use
 class SubredditProvider with ChangeNotifier {
@@ -16,7 +17,8 @@ class SubredditProvider with ChangeNotifier {
   Future<void> fetchAndSetSubredddit(String subredditUserName) async {
     try {
       subredditName = subredditUserName;
-      DioClient.init();
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
       await DioClient.get(path: subreddit).then((response) {
         print('lllllllllllllllllllllllllllllllllllll');
         print(response.data['data']);
