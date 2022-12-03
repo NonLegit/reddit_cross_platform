@@ -1,19 +1,23 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
-import 'package:post/moderated_subreddit/screens/moderated_subreddit_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
+import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
+import '../provider/create_community_provider.dart';
 import '../models/create_community_model.dart';
 
-import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../widgets/clear_text_field.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/community_type.dart';
 import '../widgets/list_of_community_type.dart';
 import '../widgets/toggle_switch.dart';
-// import './post.dart';
-import '../../logins/screens/login.dart';
+import '../widgets/create_community_web.dart';
+import '../constants/community_modal_sheet_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateCommunity extends StatefulWidget {
   static const routeName = '/createCommunity';
@@ -25,22 +29,26 @@ class CreateCommunity extends StatefulWidget {
 }
 
 class CreateCommunityState extends State<CreateCommunity> {
-  String choosenCommunityType = 'Public';
-  String communityDefinition =
-      'Anyone can view,post,and comment to this community';
+  String? choosenCommunityType;
+  String? communityDefinition;
   bool plus18Community = false;
+  int count = 21;
+
   final _communityNameController = TextEditingController();
-  var count = 21;
+
   bool _typed = false;
   bool validating = false;
   Timer? validateOnStopTyping;
   String errorMessage = '';
   bool uniqueCommunityName = false;
+  final _formKey = GlobalKey<FormState>();
 
-  bool mock = false;
+  bool done = false;
 
   _onChangeHandler(value) {
     //Used to detect if the user finished typing or not so it is called on changing the text field input
+    // return type : void
+
     const duration = Duration(
         milliseconds:
             300); // set the duration that you want call search() after that.
@@ -51,6 +59,10 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   changeCounterValue(String value) {
+    //called when text field is changing to reload the counter
+    //return type void
+    //input the text written in textField
+
     count = 21 - value.length;
     if (value.isEmpty) {
       _typed = false;
@@ -61,6 +73,9 @@ class CreateCommunityState extends State<CreateCommunity> {
 
   _onChangeTextField(value) {
     //called when changing the input field
+    //return type void
+    //input the text written in textField
+
     setState(() {
       changeCounterValue(value);
     });
@@ -70,6 +85,9 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   clearTextField() {
+    //Clearing the text field after clicking clear icon
+    //return type void
+
     _communityNameController.text = '';
     count = 21;
     _typed = false;
@@ -83,6 +101,9 @@ class CreateCommunityState extends State<CreateCommunity> {
   }
 
   _toggleSwitch(value) {
+    //used to toggle the switch of 18+ to true or false
+    //return type void
+
     setState(() {
       plus18Community = value;
     });
@@ -90,197 +111,19 @@ class CreateCommunityState extends State<CreateCommunity> {
 
   _changeCommunityType(key2) {
     //changing the type of commmunity chosen
-    Navigator.of(context).pop();
+    //return type void
+    //input takes the choosen community the either(private-public-restricted)
+    if (!kIsWeb) Navigator.of(context).pop();
     setState(() {
       choosenCommunityType = key2;
       communityDefinition = communityType[key2]!;
     });
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _communityNameController.dispose();
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    DioClient.initCreateCoumunity();
-  }
-
-  final _textFieldKey = GlobalKey<FormState>();
-  final communityType = {
-    'Public': 'Anyone can view,post,and comment to this community',
-    'Restricted':
-        'Anyone can view this community,but only approved users can post',
-    'Private': 'Only approved users can view and submit to this community',
-  };
-
-  final communityTypeIcon = {
-    'Public': Icons.account_circle_outlined,
-    'Restricted': Icons.task_alt_outlined,
-    'Private': Icons.lock_outlined,
-  };
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: appBar(),
-      ),
-      body: Container(
-          height: 55.h,
-          margin: const EdgeInsets.only(left: 10, right: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 3.h,
-              ),
-              Text(
-                'Community name',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              SizedBox(
-                height: 10.h,
-                // width: 60.h,
-                child: Form(
-                  key: _textFieldKey,
-                  child: Container(
-                    child: TextFormField(
-                      textAlignVertical: TextAlignVertical.center,
-                      controller: _communityNameController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: validateTextField
-                      // _validateTextField(value)
-                      ,
-                      onChanged: (value) {
-                        _onChangeTextField(value);
-                      },
-                      decoration: InputDecoration(
-                          prefixText: 'r/',
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          labelText: 'r/Community_name',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none),
-                          counterText: "",
-                          labelStyle: const TextStyle(
-                            fontSize: 15,
-                          ),
-                          filled: true,
-                          errorText:
-                              (!uniqueCommunityName) ? errorMessage : null,
-                          errorStyle:
-                              const TextStyle(color: Colors.grey, fontSize: 10),
-                          suffixIcon: ClearTextField(
-                              typed: _typed,
-                              clearTextField: clearTextField,
-                              count: count)),
-                      maxLength: 21,
-                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 1.5.h,
-              ),
-              Text('Community type',
-                  style: Theme.of(context).textTheme.bodyText1),
-              Container(
-                height: 6.h,
-                child: TextButton(
-                  child: ListOfCommunityType(
-                      choosenCommunityType: choosenCommunityType,
-                      communityDefinition: communityDefinition),
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(20),
-                        ),
-                      ),
-                      builder: (context) {
-                        return CommunityType(
-                          communityType: communityType,
-                          communityTypeIcon: communityTypeIcon,
-                          getCommunityType: _changeCommunityType,
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 3.h,
-              ),
-              ToggleSwitch(
-                plus18Community: plus18Community,
-                toggleSwitch: _toggleSwitch,
-              ),
-              SizedBox(
-                height: 1.5.h,
-              ),
-              Center(
-                child: Container(
-                  width: 60.h,
-                  height: 5.5.h,
-                  child: ElevatedButton(
-                    onPressed: (_textFieldKey.currentState == null ||
-                                !_textFieldKey.currentState!.validate() ||
-                                validating ||
-                                !_typed) ||
-                            !uniqueCommunityName
-                        ? null
-                        : () {
-                            //GOTO POST IN COMMUNITY & SAVE THE CREATED COMMUNITY
-                            _saveCommunity();
-
-                            Navigator.of(context).pushNamed(
-                                ModeratedSubredditScreen.routeName,
-                                arguments: _communityNameController.text);
-                          },
-                    style: ElevatedButton.styleFrom(
-                      onSurface: Colors.grey[900],
-                      primary: Colors.blue[800],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      // backgroundColor: Colors.blue[800],
-                    ),
-                    child: (validating && !uniqueCommunityName)
-                        ? const CircularProgressIndicator()
-                        : const Text(
-                            'Create Community',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                  ),
-                ),
-              ),
-            ],
-          )),
-    );
-  }
-
   String? validateTextField(value) {
+    //used to validate the text field check if not empty and check if it only contains (A to Z or a to z or _)
+    //return type Strung: error message if not validated or null if validated
+    //input the text written in textField
     if ((value!.length < 3 && value.isNotEmpty) ||
         !RegExp(r'^[A-Za-z0-9_.]+$').hasMatch(value)) {
       return 'Community names must be between 3-21 characters,and\n only contain letters,numbers or underscores';
@@ -288,58 +131,254 @@ class CreateCommunityState extends State<CreateCommunity> {
     return null;
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _communityNameController.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    choosenCommunityType = communityType.keys.elementAt(0);
+  }
+
+  final _textFieldKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return (!kIsWeb)
+        ? Scaffold(
+            appBar: const PreferredSize(
+              preferredSize: Size.fromHeight(60),
+              child: AppBar2(),
+            ),
+            body: Container(
+                height: 55.h,
+                margin: const EdgeInsets.only(left: 10, right: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 3.h,
+                    ),
+                    Text(
+                      'Community name',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                      // width: 60.h,
+                      child: Form(
+                        //key:Key('Create-Community'),
+                        key: _textFieldKey,
+                        child: TextFormField(
+                          textAlignVertical: TextAlignVertical.center,
+                          controller: _communityNameController,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: validateTextField,
+                          cursorColor: Colors.black,
+                          onChanged: (value) {
+                            _onChangeTextField(value);
+                          },
+                          decoration: InputDecoration(
+                              prefixText: 'r/',
+                              isDense: true,
+                              contentPadding: const EdgeInsets.all(16),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              labelText: 'r/Community_name',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none),
+                              counterText: "",
+                              labelStyle: const TextStyle(
+                                fontSize: 15,
+                              ),
+                              filled: true,
+                              errorText: (errorMessage == '')
+                                  ? null
+                                  : (!uniqueCommunityName)
+                                      ? errorMessage
+                                      : null,
+                              errorStyle: const TextStyle(
+                                  color: Colors.grey, fontSize: 10),
+                              suffixIcon: ClearTextField(
+                                  typed: _typed,
+                                  clearTextField: _clearTextField,
+                                  count: count)),
+                          maxLength: 21,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Text('Community type',
+                        style: Theme.of(context).textTheme.bodyLarge),
+                    SizedBox(
+                      height: 6.h,
+                      child: TextButton(
+                        //Calls the widget ListOfCommunityType(choosen community type by default Public ,community definition by default Public definition)
+                        //To show UI of changing community type
+                        child: ListOfCommunityType(
+                            choosenCommunityType: (choosenCommunityType == null)
+                                ? communityType.keys.elementAt(0)
+                                : choosenCommunityType!,
+                            communityDefinition: (communityDefinition == null)
+                                ? communityType[
+                                    communityType.keys.elementAt(0)]!
+                                : communityDefinition!),
+                        onPressed: () {
+                          showModalBottomSheet<void>(
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20),
+                              ),
+                            ),
+                            builder: (context) {
+                              //Calls CommunityType widget that takes list of commmunity type to build the modal bottom sheet to change the type of community
+                              //calls function _changeCommunityType
+                              return CommunityType(
+                                communityType: communityType,
+                                communityTypeIcon: communityTypeIcon,
+                                getCommunityType: _changeCommunityType,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 3.h,
+                    ),
+                    ToggleSwitch(
+                      plus18Community: plus18Community,
+                      toggleSwitch: _toggleSwitch,
+                    ),
+                    SizedBox(
+                      height: 1.5.h,
+                    ),
+                    Center(
+                      child: SizedBox(
+                        width: 60.h,
+                        height: 5.5.h,
+                        child: ElevatedButton(
+                          key: const Key('create_community_submit_button'),
+                          onPressed: (_textFieldKey.currentState == null ||
+                                      !_textFieldKey.currentState!.validate() ||
+                                      validating ||
+                                      !_typed) ||
+                                  !uniqueCommunityName
+                              ? null
+                              : () async {
+                                  //GOTO POST IN COMMUNITY & SAVE THE CREATED COMMUNITY
+                                  await _saveCommunity();
+                                },
+                          style: ElevatedButton.styleFrom(
+                            onSurface: Colors.grey[900],
+                            primary: Colors.blue[800],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: (validating && !uniqueCommunityName)
+                              ? const CircularProgressIndicator()
+                              : const Text(
+                                  'Create Community',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+          )
+        : CreateCommunityWeb(
+            formKey: _formKey,
+            communityNameController: _communityNameController,
+            errorMessage: errorMessage,
+            count: count,
+            checked: plus18Community,
+            changeCounterValue: changeCounterValue,
+            onClick: _changeCommunityType,
+            toggleSwitch: _toggleSwitch,
+            saveCommunity: _saveCommunity,
+            validateCommunity: _validateCommunityName,
+            validateTextField: validateTextField,
+          );
+  }
+
   _validateCommunityName() async {
-    //Called to check if the choosen community name is unique or not
-    if (_communityNameController.text.length >= 3) {
+    //function called after waiting for 3 milliseconds to check uniqueness of the community name type
+    // return type void
+    // found takes returned value after calling backend
+    if (_communityNameController.text.length >= 3 &&
+        _textFieldKey.currentState!.validate()) {
       setState(() {
         validating = true;
       });
-      subredditName = _communityNameController.text;
-      String pathMock = (mock) ? '1' : '2';
-      DioClient.get(path: getCommunity + pathMock).then((value) {
-        setState(() {
-          uniqueCommunityName = false;
-          errorMessage =
-              'Sorry,${_communityNameController.text} is taken.Try another.';
-          validating = false;
-          mock = !mock;
-        });
-      }).catchError((error) {
-        // if (error['status'] == '404') {
-        setState(() {
-          uniqueCommunityName = true;
-          errorMessage = '';
-          validating = false;
-          mock = !mock;
-        });
-        //     } else if (error['status'] == '400' || error['status'] == '409') {
-        //       print('badRequest');
-        //     } else if (error['status'] == '401') {
-        //       Navigator.of(context).pushNamed(Login.routeName);
-        //     }
-      });
-      //  }
+      final Map<String, dynamic> data = <String, dynamic>{};
+      //data['subredditName'] = _communityNameController.text;
+      try {
+        bool found =
+            await Provider.of<CreateCommunityProvider>(context, listen: false)
+                .getCommunity(_communityNameController.text);
+        if (found) {
+          setState(() {
+            uniqueCommunityName = false;
+            errorMessage =
+                'Sorry,${_communityNameController.text} is taken.Try another.';
+            validating = false;
+          });
+        } else {
+          setState(() {
+            uniqueCommunityName = true;
+            errorMessage = '';
+            validating = false;
+          });
+        }
+      } catch (error) {
+        //print(error);
+      }
     }
   }
 
   _saveCommunity() async {
+    //called to save the commmunity
+    //return value void
+
     final createCommunityModel = CreateCommunityModel(
         nSFW: plus18Community,
         name: _communityNameController.text,
         type: choosenCommunityType);
-    DioClient.post(
-      path: createCommunity,
-      data: createCommunityModel.toJson(),
-    ).then((value) {
-      print(value.toString());
-    }).catchError((error) {
-      // if (error['status'] == '404') {
-      //   print('error 404');
-      // } else if (error['status'] == '400' || error['status'] == '409') {
-      //   print('badRequest');
-      // } else if (error['status'] == '401') {
-      //   Navigator.of(context).pushNamed(Login.routeName);
-      // }
+    await Provider.of<CreateCommunityProvider>(context, listen: false)
+        .postCommunity(createCommunityModel.toJson())
+        .then((value) {
+      //if(value)
+      // print('Community $value');
+      Navigator.of(context).pushNamed(ModeratedSubredditScreen.routeName,
+          //  arguments: 'Cooking'
+          arguments: _communityNameController.text);
     });
+    // if (postCommunity) {
+    //   setState(() {
+    //     done = true;
+    //   });
+    //}
   }
 }

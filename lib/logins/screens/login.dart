@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../widgets/text_input.dart';
 import '../widgets/upper_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -6,9 +7,8 @@ import 'package:flutter/gestures.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../icons/redditIcons.dart';
-import '../../icons/GoogleFacebookIcons.dart';
-import '../../icons/closeIcons.dart';
+import '../../icons/reddit_icons.dart';
+import '../../icons/google_facebook_icons.dart';
 import 'signup.dart';
 import '../widgets/upper_text.dart';
 import 'forgot_password.dart';
@@ -17,11 +17,13 @@ import '../widgets/continue_with_email.dart';
 import '../widgets/continue_with_facebook.dart';
 import '../widgets/continue_with_google.dart';
 import 'package:http/http.dart' as http;
-import '../models/wrapper.dart';
+import '../../models/wrapper.dart';
 import 'dart:convert';
 
 import '../../home/screens/home_layout.dart';
 import '../models/status.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import '../providers/authentication.dart';
 
 class Login extends StatefulWidget {
   // Login({Key? key}) : super(key: key);
@@ -55,65 +57,53 @@ class LoginState extends State<Login> {
   }
 
   /// Whether there is an error in the fields or not
-  bool isError = false;
+  bool isError = true;
 
   /// Whether the user tring to submit or not
   bool isSubmit = false;
-
-  ///saving the authontigation from the back
-  String token = '';
-  String expiresIn = '';
 
   /// error message to view when the log in is failed
   String errorMessage = '';
 
   /// variable to contain the url of the server
-  final String url =
-      'https://abf8b3a8-af00-46a9-ba71-d2c4eac785ce.mock.pstmn.io';
+  // final String url = 'https://api.nonlegit.click/api/v1';
 
   /// variable to check if the backend finish the actual server of work with the mock
-  final bool isMock = true;
+  // final bool isMock = true;
 
   ///post the login info to the backend server
   ///
   /// take the data from inputs listener and sent it to the server
   /// if the server return failed response then there is error message will appare
   /// other wise jump on the homeScreen
-  void checkLogin() {
-    Uri URL = Uri.parse(url + '/users/login' + ((isMock) ? '/1' : ''));
-    http
-        .post(URL,
-            body: json.encode({
-              'userName': inputUserNameController.text,
-              'password': inputPasswardController.text
-            }))
-        .then((response) {
-      if (response.statusCode == 200) {
-        isError = false;
-        token = json.decode(response.body)['token'];
-        expiresIn = json.decode(response.body)['expiresIn'];
-        Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
-      } else if (response.statusCode == 400) {
-        isError = true;
-        errorMessage = json.decode(response.body)['errorMessage'];
-      } else if (response.statusCode == 404) {
-        isError = true;
-        errorMessage = json.decode(response.body)['errorMessage'];
-      }
+
+  // Auth authentication = Auth();
+  void checkLogin(context) async {
+    final provider = Provider.of<Auth>(context, listen: false);
+    provider.login({
+      'userName': inputUserNameController.text,
+      'password': inputPasswardController.text
+    }).then((value) {
+      isError = provider.error;
       isSubmit = true;
+      errorMessage = provider.errorMessage;
+      if (!isError) {
+        Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
+      }
       setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    kIsWeb;
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UpperBar(UpperbarStatus.signup),
+          if (!kIsWeb) UpperBar(UpperbarStatus.signup),
           Expanded(
             child: Container(
               child: SingleChildScrollView(
@@ -290,7 +280,11 @@ class LoginState extends State<Login> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                   ),
-                  onPressed: isFinished ? checkLogin : null,
+                  onPressed: isFinished
+                      ? () {
+                          checkLogin(context);
+                        }
+                      : null,
                   child: Text('Continue'),
                 ),
               )),

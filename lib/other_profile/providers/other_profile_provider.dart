@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../../networks/const_endpoint_data.dart';
+import '../../networks/dio_client.dart';
 import '../models/others_profile_data.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //using in heighest widget to use
 class OtherProfileprovider with ChangeNotifier {
-  OtherProfileData? myProfile;
-     OtherProfileData? get gettingOtherProfileData {
-    return myProfile;
+  OtherProfileData? loadProfile;
+  OtherProfileData? get gettingOtherProfileData {
+    return loadProfile;
   }
-  Future<void> fetchAndSetOtherProfile(String myUserName, otherUserName) async {
-    var url =
-        Uri.parse('http://localhost:8000/api/v1/users/{$myUserName}/about');
+
+  Future<void> fetchAndSetOtherProfile(String otherUserName) async {
     try {
-      final response = await http.get(url);
-      final otherprofileeData = json.decode(response.body);
-      if (response.statusCode == 200) {
-        myProfile = OtherProfileData.fromJson(otherprofileeData);
-      }
-      notifyListeners();
-      return Future.delayed(Duration(seconds: 3));
+      userName = otherUserName;
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+
+      await DioClient.get(path: otherprofile).then((response) {
+        loadProfile = OtherProfileData.fromJson(response.data['data']);
+        notifyListeners();
+      });
     } catch (error) {
       print(error);
-      throw error;
+      throw (error);
     }
   }
 }

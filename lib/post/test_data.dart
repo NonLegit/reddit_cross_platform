@@ -1,4 +1,12 @@
+import 'package:http/http.dart' as http;
+
 class TestData {
+  static Future fetchAlbum() async {
+    final response =
+        await http.get(Uri.parse('http://192.168.1.6:3000/subreddits'));
+    return response.body;
+  }
+
   static final testData = [
     {
       'userName': 'Amr',

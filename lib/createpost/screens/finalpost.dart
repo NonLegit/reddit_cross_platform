@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:post/home/screens/home_layout.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import '../../home/screens/home_layout.dart';
 import '../../icons/icon_broken.dart';
+import '../controllers/posts_controllers.dart';
 import './schedulepost.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -12,13 +15,13 @@ class finalPostScreen extends StatefulWidget {
   State<finalPostScreen> createState() => _finalPostScreenState();
 }
 
-var colorOfSpoiler = Colors.grey[100];
-var colorOfNSFW = Colors.grey[100];
-
+final postController controller = Get.put(
+  postController(),
+);
 class _finalPostScreenState extends State<finalPostScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Obx(() =>  Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -42,6 +45,7 @@ class _finalPostScreenState extends State<finalPostScreen> {
                   padding: EdgeInsetsDirectional.only(end: 1.w),
                   child: MaterialButton(
                     onPressed: () {
+                      controller.sendPost(context);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -80,7 +84,11 @@ class _finalPostScreenState extends State<finalPostScreen> {
                         width: 8.0,
                       ),
                       ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                          controller.isPostNSFW.value=false;
+                          controller.isPostSpoiler.value=false;
+                        },
                         icon: Text(
                           "r/Cross-platform",
                           style: TextStyle(color: Colors.black),
@@ -92,9 +100,8 @@ class _finalPostScreenState extends State<finalPostScreen> {
                         ),
                         style: ButtonStyle(
                           elevation: MaterialStateProperty.all<double>(0),
-                          //fixedSize: MaterialStateProperty.all(Size(100.0, 20.0)),
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
+                          MaterialStateProperty.all(Colors.white),
                         ),
                       ),
                     ],
@@ -104,33 +111,33 @@ class _finalPostScreenState extends State<finalPostScreen> {
                       onPressed: () => showModalBottomSheet(
                           context: context,
                           builder: (context) => Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                        child: Center(
-                                            child:
-                                                Text("Community Standards"))),
-                                    ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                          Colors.blue[900],
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "understand",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                    child: Center(
+                                        child:
+                                        Text("Community Standards"))),
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                    MaterialStateProperty.all(
+                                      Colors.blue[900],
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    "understand",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )),
                       child: Text(
                         "Rules",
                         style: TextStyle(color: Colors.blue),
@@ -141,12 +148,17 @@ class _finalPostScreenState extends State<finalPostScreen> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextFormField(
-                enabled: false,
+                onChanged: (value){
+                  controller.postTitle.value;
+                },
+                controller: controller.postTitle.value,
+                readOnly: true,
                 style: TextStyle(fontSize: 20.0),
                 maxLines: 2,
                 decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(10.0),
                     border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
                       borderRadius: BorderRadius.circular(50.0),
                     )),
               ),
@@ -157,20 +169,26 @@ class _finalPostScreenState extends State<finalPostScreen> {
                   width: 20.0,
                 ),
                 ElevatedButton.icon(
-                    onPressed: () {
-                      setState(() {
-                        if (colorOfNSFW == Colors.grey[100]) {
-                          colorOfNSFW = Colors.black87;
-                        } else if (colorOfNSFW == Colors.black87) {
-                          colorOfNSFW = Colors.grey[100];
+                    onPressed: (){
+                      if(controller.isPostNSFW.value==false)
+                      {
+                        controller.isPostNSFW.value=true;
+                        controller.isPostNSFW.refresh();
+                      }
+                      else
+                        {
+                          controller.isPostNSFW.value=false ;
+                          controller.isPostNSFW.refresh();
                         }
-                      });
+
                     },
                     style: ButtonStyle(
                       elevation: MaterialStateProperty.all<double>(0),
                       fixedSize: MaterialStateProperty.all(Size(130.0, 20.0)),
-                      backgroundColor: MaterialStateProperty.all(
-                        colorOfNSFW,
+                      backgroundColor: (controller.isPostNSFW.value)?MaterialStateProperty.all(
+                        Colors.black87,
+                      ):MaterialStateProperty.all(
+                        Colors.grey[100],
                       ),
                     ),
                     label: Text(
@@ -189,20 +207,25 @@ class _finalPostScreenState extends State<finalPostScreen> {
                   width: 10.0,
                 ),
                 ElevatedButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      if (colorOfSpoiler == Colors.grey[100]) {
-                        colorOfSpoiler = Colors.black87;
-                      } else if (colorOfSpoiler == Colors.black87) {
-                        colorOfSpoiler = Colors.grey[100];
-                      }
-                    });
-                  },
+            onPressed: (){
+        if(controller.isPostSpoiler.value==false)
+        {
+          controller.isPostSpoiler.value=true;
+          controller.isPostSpoiler.refresh();
+        }
+        else
+        {
+          controller.isPostSpoiler.value=false ;
+          controller.isPostSpoiler.refresh();
+          }
+        },
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all<double>(0),
                     fixedSize: MaterialStateProperty.all(Size(122.0, 20.0)),
-                    backgroundColor: MaterialStateProperty.all(
-                      colorOfSpoiler,
+                    backgroundColor: (controller.isPostSpoiler.value)?MaterialStateProperty.all(
+                      Colors.black87,
+                    ):MaterialStateProperty.all(
+                      Colors.grey[100],
                     ),
                   ),
                   label: Text(
@@ -246,6 +269,6 @@ class _finalPostScreenState extends State<finalPostScreen> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

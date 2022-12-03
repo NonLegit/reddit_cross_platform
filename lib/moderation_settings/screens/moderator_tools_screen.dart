@@ -1,12 +1,10 @@
-import 'dart:convert';
+
 
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../networks/dio_client.dart';
-import '../../widgets/loading_reddit.dart';
-import '../models/moderator_tools.dart';
+
 import './topics_screen.dart';
-import '../../networks/const_endpoint_data.dart';
+
 
 class ModeratorTools extends StatefulWidget {
   static const routeName = '/moderatortools';
@@ -18,34 +16,6 @@ class ModeratorTools extends StatefulWidget {
 }
 
 class _ModeratorToolsState extends State<ModeratorTools> {
-  @override
-  // bool returned = false;
-  bool fetchingDone = false;
-  String? choosenTopic;
-
-
-  void initState() {
-    // TODO: implement initState
-
-    //DioClient.init();
-
-    DioClient.initModerationSetting();
-    super.initState();
-  }
-@override
-    void didChangeDependencies() {
-    DioClient.get(path: moderationTools).then((value) {
-      print(value);
-      final result = json.decode(value.data);
-      choosenTopic = result['primaryTopic'];
-      print(choosenTopic);
-    }).onError((error, stackTrace) {
-      print(error);
-    });
-    setState(() {
-      fetchingDone = true;
-    });
-  }
 
   List<String>? topics;
 
@@ -67,15 +37,13 @@ class _ModeratorToolsState extends State<ModeratorTools> {
           shadowColor: Colors.white,
         ),
       ),
-      body: (!fetchingDone)
-          ? LoadingReddit()
-          : Column(
+      body:  Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   color: Colors.grey.shade300,
                   width: 100.h,
-                  padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                  padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
                   child: const Text(
                     'GENERAL',
                     style: TextStyle(
@@ -90,12 +58,14 @@ class _ModeratorToolsState extends State<ModeratorTools> {
                 ListView(
                   shrinkWrap: true,
                   children: [
-                    //call buildGeneralOptions to create the widget of each option under general in settings
                     buildGeneralOptions(
                         context,
                         () => Navigator.of(context).pushNamed(
                             TopicsScreen.routeName,
-                            arguments: choosenTopic),
+                             arguments:
+                             //'Cooking'
+                             ModalRoute.of(context)?.settings.arguments as String
+                             ),
                         'Topics',
                         Icons.topic),
                   ],
@@ -104,7 +74,9 @@ class _ModeratorToolsState extends State<ModeratorTools> {
             ),
     );
   }
-
+  //call buildGeneralOptions to create the widget of each option in moderation setting
+  //return value is Gesture Detector
+  //Inputs : context of widget , function to call on tapping gesture, header of settings e.g Topics,Description,.. , next:Icon of each setting
   GestureDetector buildGeneralOptions(
       BuildContext context, VoidCallback onTap, String text, IconData next) {
     return GestureDetector(

@@ -1,15 +1,90 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:post/networks/const_endpoint_data.dart';
 
-class postToCommunity extends StatefulWidget {
-  const postToCommunity({Key? key}) : super(key: key);
+import '../../networks/const_endpoint_data.dart';
+import '../controllers/posts_controllers.dart';
+import '../widgets/subreddit_container.dart';
 
-  @override
-  State<postToCommunity> createState() => _postToCommunityState();
-}
-
-class _postToCommunityState extends State<postToCommunity> {
+class buildSubreddit extends StatelessWidget {
+  final postController controller = Get.put(
+    postController(),
+  );
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: Text(
+            "Post to",
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              GestureDetector(
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 5, top: 12),
+                  child: Container(
+                    alignment: AlignmentDirectional.center,
+                    height: 38,
+                    width: 390,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.grey[300],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.only(start: 15),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.search,
+                            size: 22.0,
+                          ),
+                          SizedBox(width: 7),
+                          Text(
+                            "Search",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic, fontSize: 15.0),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Column(
+                children: [
+                  ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true, // عشان اسمح بال سكرول
+                    itemBuilder: (context, index) => SubredditContainer(
+                      nameOfSubreddit:
+                          controller.mySubredditsInPost[index].subredditName!,
+                      memberCount:
+                          controller.mySubredditsInPost[index].membersCount!,
+                      iconOfSubreddit:
+                          controller.mySubredditsInPost[index].icon!,
+                    ),
+                    itemCount: controller.mySubredditsInPost.length,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }
