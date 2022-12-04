@@ -1,9 +1,4 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-
-import '../../icons/reddit_icons.dart';
-import '../../icons/google_facebook_icons.dart';
 import '../models/status.dart';
 
 class TextInput extends StatefulWidget {

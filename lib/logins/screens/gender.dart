@@ -1,15 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/status.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../widgets/upper_bar.dart';
 import '../widgets/upper_text.dart';
 import '../widgets/basic_buttom.dart';
 import '../../home/screens/home_layout.dart';
-import 'package:http/http.dart' as http;
 import '../providers/authentication.dart';
 
 class Gender extends StatefulWidget {

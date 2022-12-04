@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:post/logins/screens/login.dart';
 import '../widgets/text_input.dart';
 import '../widgets/upper_bar.dart';
 import '../widgets/upper_text.dart';
-
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:email_validator/email_validator.dart';
 import '../models/status.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../providers/authentication.dart';
 import 'package:provider/provider.dart';
 
