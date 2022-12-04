@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../../home/screens/home_layout.dart';
@@ -8,6 +9,7 @@ import '../model/post_model.dart';
 import '../model/subreddits_of_user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class PostServices {
   // were final instead of static var
   static var dio = Dio();
@@ -16,6 +18,7 @@ class PostServices {
     final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
     try {
+      int x = 2;
       final response =
           await DioClient.post(path: createPost, data: model.toJson());
 
@@ -38,7 +41,7 @@ class PostServices {
       // }
       //);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print(response.data);
+        // print(response.data);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text("sent successfuly",
@@ -48,7 +51,8 @@ class PostServices {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => homeLayoutScreen()));
       } else {
-        print(response.statusCode);
+        // print(response.statusCode);
+        // print(json.decode(response.data)['message']);
       }
     } catch (e) {
       print(e);

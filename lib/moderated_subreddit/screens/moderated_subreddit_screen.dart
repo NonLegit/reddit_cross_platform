@@ -88,6 +88,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
         _isLoading = true;
       });
       subredditUserName = ModalRoute.of(context)?.settings.arguments as String;
+      print(subredditUserName);
       Provider.of<ModeratedSubredditProvider>(context, listen: false)
           .fetchAndSetModeratedSubredddit(subredditUserName)
           .then((value) {

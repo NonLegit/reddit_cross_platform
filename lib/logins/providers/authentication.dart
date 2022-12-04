@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
@@ -19,7 +19,7 @@ class Auth with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     print(DateTime.parse(prefs.getString('expiresIn') as String)
         .isBefore(DateTime.now()));
-    alreadyAuthed = prefs.getString('token') != null;
+    // alreadyAuthed = prefs.getString('token') != null;
   }
 
   Future<void> sinUp(Map<String, String> query) async {
@@ -78,6 +78,7 @@ class Auth with ChangeNotifier {
     } catch (error) {
       print('error: $error');
     }
+    print(token);
   }
 
   Future<bool> availableUserName(userName) async {
@@ -92,6 +93,7 @@ class Auth with ChangeNotifier {
     } catch (error) {
       print('error: $error');
     }
+    // print(response!.body);
     return jsonDecode(response!.body)['available'];
   }
 

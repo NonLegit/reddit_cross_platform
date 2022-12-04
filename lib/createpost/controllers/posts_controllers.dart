@@ -30,13 +30,11 @@ class postController extends GetxController {
   RxString typeOfPost = ''.obs;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   List<XFile>? imageFileList = <XFile>[].obs;
-  final videoFile = Rx<File?>(null);
-  // Rx<XFile> video=XFile("").obs;
+  Rx<XFile> video = XFile("").obs;
   @override
   void onInit() {
     getSubreddits();
     _fetchHouses();
-
     super.onInit();
   }
 
@@ -45,35 +43,35 @@ class postController extends GetxController {
     DioClient.init(prefs);
     try {
       print('/subreddits/mine');
-      DioClient.get(path: '/subreddits/mine/subscriber')
-          .then((value) => value.data['data'].forEach((value1) {
-                print(value);
-                subscribedSubreddits
-                    .add(userSubredditsResponse.fromJson(value1));
-              }));
-      DioClient.get(path: '/subreddits/mine/moderator')
-          .then((value) => value.data['data'].forEach((value1) {
-                subscribedSubreddits
-                    .add(userSubredditsResponse.fromJson(value1));
-              }));
+      await DioClient.get(path: '/subreddits/mine/subscriber').then((value) {
+        print(value);
+        value.data['data'].forEach((value1) {
+          subscribedSubreddits.add(userSubredditsResponse.fromJson(value1));
+        });
+      });
+
+      await DioClient.get(path: '/subreddits/mine/moderator').then((value) {
+        print(value);
+        value.data['data'].forEach((value1) {
+          moderatedSubreddits.add(userSubredditsResponse.fromJson(value1));
+        });
+      });
     } catch (error) {
       print(error);
     }
   }
 
   sendPost(BuildContext context) {
-    print(isPostSpoiler.runtimeType);
     services.sendPost(
         PostModel(
           title: postTitle.value.text,
-          text: textPost.value.text,
-          kind: 'text',
-          owner: "",
+          text: 'post text', //textPost.value.text,
+          kind: 'self',
+          owner: subredditToSubmitPost.value,
           ownerType: 'Subreddit',
           spoiler: false,
           nsfw: isPostNSFW.value,
-          sendReplies: '',
-
+          // sendReplies: '',
           // title: postTitle.value.text,
           // text: textPost.value.text,
           // flairId: "",

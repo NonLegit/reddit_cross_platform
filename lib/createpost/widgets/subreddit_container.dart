@@ -7,7 +7,6 @@ import '../controllers/posts_controllers.dart';
 import '../screens/finalpost.dart';
 
 class SubredditSubscriberContainer extends StatelessWidget {
-  // const SubredditContainer({Key? key}) : super(key: key);
   final postController controller = Get.put(
     postController(),
   );
@@ -30,9 +29,7 @@ class SubredditSubscriberContainer extends StatelessWidget {
       title: Text("$nameOfSubreddit"),
       subtitle: Text("$memberCount " + "members . " + "subscribed"),
       onTap: () {
-        print(nameOfSubreddit.runtimeType);
         controller.subredditToSubmitPost = RxString(nameOfSubreddit);
-
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => FinalPost()));
       },
