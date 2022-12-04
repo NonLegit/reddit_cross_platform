@@ -123,17 +123,18 @@ class _endDrawerState extends State<endDrawer> {
                 'Create a community',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
               ),
-              onTap: () {
-                Navigator.of(context).pushNamed(CreateCommunity.routeName);
-                // Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              horizontalTitleGap: 3,
-              leading: Icon(Icons.save),
-              title: Text(
-                'Saved',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+
+              ListTile(
+                horizontalTitleGap: 3,
+                leading: Icon(Icons.account_circle_outlined),
+                title: Text(
+                  'My profile',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                ),
+                onTap: () {
+                  Navigator.of(context).pushNamed(MyProfileScreen.routeName,
+                      arguments: userName);
+                },
               ),
               onTap: () {
                 Navigator.pop(context);

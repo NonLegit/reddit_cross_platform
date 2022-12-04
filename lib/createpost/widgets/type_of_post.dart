@@ -88,6 +88,7 @@ class BuildFormType extends StatelessWidget {
                               ),
                               itemCount: controller.imageFileList!.length,
                             )
+
                       : SizedBox()),
     );
   }
