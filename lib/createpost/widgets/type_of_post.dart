@@ -88,14 +88,8 @@ class BuildFormType extends StatelessWidget {
                               ),
                               itemCount: controller.imageFileList!.length,
                             )
-                      : controller.typeOfPost.value == "video"
-                          // ? (controller.videoFile.value==null )
-                          ? false
-                              ? SizedBox()
-                              : Container(
-                                  color: Colors.black,
-                                )
-                          : SizedBox()),
+
+                      : SizedBox()),
     );
   }
 }

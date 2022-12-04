@@ -43,18 +43,19 @@ class postController extends GetxController {
     DioClient.init(prefs);
     try {
       print('/subreddits/mine');
-      DioClient.get(path: '/subreddits/mine/subscriber')
-          .then((value) => value.data['data'].forEach((value1) {
-                print(value);
-                subscribedSubreddits
-                    .add(userSubredditsResponse.fromJson(value1));
-              }));
-      DioClient.get(path: '/subreddits/mine/moderator')
-          .then((value) => value.data['data'].forEach((value1) {
-                subscribedSubreddits
-                    .add(userSubredditsResponse.fromJson(value1));
-              }));
+      await DioClient.get(path: '/subreddits/mine/subscriber').then((value) {
+        print(value);
+        value.data['data'].forEach((value1) {
+          subscribedSubreddits.add(userSubredditsResponse.fromJson(value1));
+        });
+      });
 
+      await DioClient.get(path: '/subreddits/mine/moderator').then((value) {
+        print(value);
+        value.data['data'].forEach((value1) {
+          moderatedSubreddits.add(userSubredditsResponse.fromJson(value1));
+        });
+      });
     } catch (error) {
       print(error);
     }
@@ -65,26 +66,12 @@ class postController extends GetxController {
         PostModel(
           title: postTitle.value.text,
           text: textPost.value.text,
-          kind: 'text',
-          owner: "",
+          kind: 'self',
+          owner: "asd",
           ownerType: 'Subreddit',
           spoiler: false,
           nsfw: isPostNSFW.value,
           sendReplies: '',
-          // title: postTitle.value.text,
-          // text: textPost.value.text,
-          // flairId: "",
-          // flairText: "",
-          // kind: "",
-          // nsfw: isPostNSFW.value,
-          // owner: "",
-          // ownerType: "subreddit",
-          // scheduled: "",
-          // sendReplies: "",
-          // sharedFrom: "",
-          // spoiler: isPostSpoiler.value,
-          // suggestedSort: "",
-          // url: "",
         ),
         context);
   }
