@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:post/createpost/screens/createpost.dart';
 import 'package:post/moderation_settings/models/moderator_tools.dart';
 import 'package:post/notification/screens/messages_main_screen.dart';
+import 'package:post/providers/profile_post.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:dartdoc/dartdoc.dart';
@@ -44,6 +45,7 @@ import 'myprofile/screens/myprofile_screen.dart';
 import 'other_profile/screens/others_profile_screen.dart';
 import 'myprofile/screens/edit_profile_screen.dart';
 import 'myprofile/screens/user_followers_screen.dart';
+import 'post/provider/post_provider.dart';
 import 'subreddit/screens/subreddit_screen.dart';
 import 'screens/subreddit_search_screen.dart';
 import 'subreddit/screens/community_info_screen.dart';
@@ -118,6 +120,8 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider.value(value: ModerationSettingProvider()),
             ChangeNotifierProvider.value(value: NotificationProvider()),
             ChangeNotifierProvider.value(value: Auth()),
+            ChangeNotifierProvider.value(value: ProfilePostProvider()),
+            ChangeNotifierProvider.value(value: PostProvider()),
           ],
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,

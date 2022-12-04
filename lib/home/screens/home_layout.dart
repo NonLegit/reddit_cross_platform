@@ -3,14 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_code_style/flutter_code_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../providers/cubit/states.dart';
+import 'package:post/home/widgets/new_drawer.dart';
 import '../../chat/chat.dart';
 import '../../createpost/screens/createpost.dart';
 import '../../discover/discover.dart';
 
 import '../../icons/icon_broken.dart';
 import '../widgets/buttom_nav_bar.dart';
-import '../providers/cubit/cubit.dart';
 import '../../notification/screens/notifications_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
@@ -140,7 +139,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
           ]),
       bottomNavigationBar: buttomNavBar(),
       endDrawer: endDrawer(),
-      drawer: drawer(),
+      drawer: MyDrawer(),
     );
   }
 }
