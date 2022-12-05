@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:post/home/controller/home_controller.dart';
 import 'package:post/home/widgets/community_container.dart';
+import 'package:post/home/widgets/subscribed_community_container.dart';
 import 'package:post/networks/const_endpoint_data.dart';
 
 import '../../create_community/screens/create_community.dart';
@@ -15,8 +16,8 @@ class MyDrawer extends StatelessWidget {
   final HomeController controller = Get.put(
     HomeController(),
   );
-  final postController controllerForCreatePost = Get.put(
-    postController(),
+  final PostController controllerForCreatePost = Get.put(
+    PostController(),
   );
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class MyDrawer extends StatelessWidget {
                ()=> ExpansionTile(
                  initiallyExpanded: true,
                onExpansionChanged: (value){
-                   print(controller.controller.moderatedSubreddits);
+
                      controller.isRecentlyVisitedPannelExpanded.value=value;
                },
                title:  Text(
@@ -97,7 +98,7 @@ class MyDrawer extends StatelessWidget {
                        title: Text("Modmail",style: TextStyle(color: Colors.black)),
                      ),
                    Column(
-                      children:List.generate(controller.controller.moderatedSubreddits.length, (index) => CommunityContainer(nameOfSubreddit:controller.controller.moderatedSubreddits[index].subredditName! , iconOfSubreddit:controller.controller.moderatedSubreddits[index].icon! ),)
+                      children:List.generate(controllerForCreatePost.moderatedSubreddits.length, (index) => CommunityContainer(nameOfSubreddit:controllerForCreatePost.moderatedSubreddits[index].subredditName! , iconOfSubreddit:controllerForCreatePost.moderatedSubreddits[index].icon! ),)
                    )
                    ],
                //  children:List.generate(20, (index) => CommunityContainer(nameOfSubreddit: "as", iconOfSubreddit: "sa"))
@@ -131,7 +132,7 @@ class MyDrawer extends StatelessWidget {
                      ),
                      title: Text("Create a community")),
                  Column(
-                     children:List.generate(controller.controller.subscribedSubreddits.length, (index) => CommunityContainer(nameOfSubreddit:controller.controller.subscribedSubreddits[index].subredditName! , iconOfSubreddit:controller.controller.subscribedSubreddits[index].icon! ),)
+                     children:List.generate(controllerForCreatePost.subscribedSubreddits.length, (index) => SubScribedCommunityContainer(nameOfSubreddit:controllerForCreatePost.subscribedSubreddits[index].subredditName! , iconOfSubreddit:controllerForCreatePost.subscribedSubreddits[index].icon! ),)
                  )
                ],
                //  children:List.generate(20, (index) => CommunityContainer(nameOfSubreddit: "as", iconOfSubreddit: "sa"))
