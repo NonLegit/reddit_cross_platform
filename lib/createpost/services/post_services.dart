@@ -41,7 +41,7 @@ class PostServices {
       // }
       //);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print(response.data);
+        // print(response.data);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text("sent successfuly",
@@ -51,7 +51,8 @@ class PostServices {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => homeLayoutScreen()));
       } else {
-        print(response.statusCode);
+        // print(response.statusCode);
+        // print(json.decode(response.data)['message']);
       }
     } catch (e) {
       print(e);

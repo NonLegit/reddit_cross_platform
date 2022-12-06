@@ -124,7 +124,6 @@ class _endDrawerState extends State<endDrawer> {
                 ),
                 onTap: () {
                   Navigator.of(context).pushNamed(MyProfileScreen.routeName,
-
                       arguments: userName);
                 },
               ),
@@ -138,6 +137,7 @@ class _endDrawerState extends State<endDrawer> {
                 onTap: () {
                   Navigator.of(context).pushNamed(CreateCommunity.routeName);
                   // Navigator.pop(context);
+
                 },
               ),
               ListTile(

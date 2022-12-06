@@ -78,6 +78,7 @@ class Auth with ChangeNotifier {
     } catch (error) {
       print('error: $error');
     }
+    print(token);
   }
 
   Future<bool> availableUserName(userName) async {
