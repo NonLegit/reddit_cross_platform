@@ -82,17 +82,17 @@ class _endDrawerState extends State<endDrawer> {
                             icon: CircleAvatar(
                               radius: 4,
                               backgroundColor:
-                                  isOnline ? Colors.green : Colors.grey[200],
+                              isOnline ? Colors.green : Colors.grey[200],
                             ),
                             style: ButtonStyle(
                                 elevation: MaterialStateProperty.all(0),
                                 backgroundColor:
-                                    MaterialStateProperty.all(Colors.grey[200]),
+                                MaterialStateProperty.all(Colors.grey[200]),
                                 shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(20.0),
+                                        BorderRadius.circular(20.0),
                                         side: BorderSide(
                                             color: isOnline
                                                 ? Colors.green
@@ -101,7 +101,7 @@ class _endDrawerState extends State<endDrawer> {
                               "Online Status: " + "${isOnline ? "On" : "Off"}",
                               style: TextStyle(
                                   color:
-                                      isOnline ? Colors.green : Colors.black54),
+                                  isOnline ? Colors.green : Colors.black54),
                             ),
                           ),
                         ),
@@ -124,7 +124,7 @@ class _endDrawerState extends State<endDrawer> {
                 ),
                 onTap: () {
                   Navigator.of(context).pushNamed(MyProfileScreen.routeName,
-                      arguments: 'Zeinab_maoawad');
+                      arguments: userName);
                 },
               ),
               ListTile(
@@ -137,6 +137,7 @@ class _endDrawerState extends State<endDrawer> {
                 onTap: () {
                   Navigator.of(context).pushNamed(CreateCommunity.routeName);
                   // Navigator.pop(context);
+
                 },
               ),
               ListTile(

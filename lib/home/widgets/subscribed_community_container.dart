@@ -7,14 +7,14 @@ import 'package:post/subreddit/screens/subreddit_screen.dart';
 
 import '../../create_community/screens/create_community.dart';
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
-class CommunityContainer extends StatelessWidget {
+class SubScribedCommunityContainer extends StatelessWidget {
   // const SubredditContainer({Key? key}) : super(key: key);
   final HomeController controller = Get.put(
     HomeController(),
   );
   String nameOfSubreddit="";
   String iconOfSubreddit='';
-  CommunityContainer(
+  SubScribedCommunityContainer(
       {
         required this.nameOfSubreddit,
         required this.iconOfSubreddit,
@@ -23,17 +23,17 @@ class CommunityContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      horizontalTitleGap: 0.0,
-      leading: CircleAvatar(radius: 13,backgroundColor: Colors.blue,
-        backgroundImage: NetworkImage(
-            "$iconOfSubreddit"
+        horizontalTitleGap: 0.0,
+        leading: CircleAvatar(radius: 13,backgroundColor: Colors.blue,
+          backgroundImage: NetworkImage(
+              "$iconOfSubreddit"
+          ),
         ),
-      ),
-      title: Text("$nameOfSubreddit"),
-      onTap: () =>
-        Navigator.of(context).pushNamed(
-            ModeratedSubredditScreen.routeName,
-            arguments: nameOfSubreddit)
+        title: Text("$nameOfSubreddit"),
+        onTap: () =>
+            Navigator.of(context).pushNamed(
+                SubredditScreen.routeName,
+                arguments: nameOfSubreddit)
 
 
     );
