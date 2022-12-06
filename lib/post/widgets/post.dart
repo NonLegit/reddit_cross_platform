@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/post_model.dart';
 import './post_header.dart';
 import './post_footer.dart';
 import './post_body.dart';
+import '../provider/post_provider.dart';
 
 /// This is the main post Widget.
 ///
 /// It takes a map of the post data.
 class Post extends StatelessWidget {
-  final Map<String, Object> data;
+  final PostModel data;
   bool _inHome = false, _inProfile = false;
 
   /// This is the constructor for home page.
@@ -16,7 +19,7 @@ class Post extends StatelessWidget {
   }
 
   /// This is the constructor for community page.
-  Post.community({super.key, required this.data});
+  Post.community({super.key, required this.data}) {}
 
   /// This is the constructor for profile page.
   Post.profile({super.key, required this.data}) {
@@ -25,25 +28,29 @@ class Post extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(data);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         PostHeader(
             inHome: _inHome,
             inProfile: _inProfile,
-            userName: data['userName'].toString(),
-            communityName: data['communityName'].toString(),
-            createDate: data['createDate'].toString()),
+            userName: data.owner?.name as String,
+            communityName: data.owner?.name as String,
+            createDate: data.createdAt as String),
         PostBody(
-            title: data['title'].toString(),
-            type: data['type'].toString(),
-            images: data['images'] as List<String>,
-            text: data['text'].toString(),
-            nsfw: data['nsfw'] as bool,
-            spoiler: data['spoiler'] as bool,
-            url: data['url'].toString()),
+            title: data.title as String,
+            type: data.kind as String,
+            images: data.images!.cast<String>(),
+            text: data.text as String,
+            nsfw: data.nsfw as bool,
+            spoiler: data.spoiler as bool,
+            url: data.url as String),
         PostFooter(
-            votes: data['votes'] as int, comments: data['comments'] as int),
+            votes: data.votes as int,
+            comments: data.commentCount as int,
+            id: data.sId as String,
+            postVoteStatus: int.parse(data.postVoteStatus as String)),
       ],
     );
   }
