@@ -11,6 +11,7 @@
 	"license": "ISC",
 	"description": "",
 	"dependencies": {
+		"express-jwt": "^7.7.7",
 		"json-server": "^0.17.1",
 		"node-dev": "^7.4.3"
 	}
