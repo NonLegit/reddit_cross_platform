@@ -18,7 +18,6 @@ class HomeController extends GetxController with StateMixin<List<PostModel>> {
   RxBool isModeratingPannelExpanded = true.obs;
   RxBool isFollowingPannelExpanded = true.obs;
   RxBool isYourCommunitiesPannelExpanded = true.obs;
-
   @override
   void onInit() {
 

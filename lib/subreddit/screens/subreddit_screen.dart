@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:post/post/test_data.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
@@ -107,8 +106,6 @@ SubredditData? loadedSubreddit;
 
   @override
   Widget build(BuildContext context) {
-    TestData.fetchAlbum().then((value) => print(value));
-    print('1');
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: _scaffoldKey,
