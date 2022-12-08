@@ -1,7 +1,6 @@
 import '../post/models/post_model.dart';
 
 import 'package:flutter/material.dart';
-import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,8 +16,6 @@ class ProfilePostProvider with ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-      print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-      print(userName);
 
       await DioClient.get(
           path: '/users/${userName}/posts',

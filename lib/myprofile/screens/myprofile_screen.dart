@@ -63,7 +63,7 @@ class _MyProfileState extends State<MyProfileScreen>
         indicatorColor: Colors.blue,
       );
   TabController? _controller;
-    var userName;
+  var userName;
   @override
   void initState() {
     // date= DateFormat.yMMMEd().format(toDay);
@@ -87,7 +87,7 @@ class _MyProfileState extends State<MyProfileScreen>
       });
       userName = ModalRoute.of(context)?.settings.arguments as String;
       Provider.of<MyProfileProvider>(context, listen: false)
-          .fetchAndSetMyProfile(userName)
+          .fetchAndSetMyProfile()
           .then((value) {
         loadProfile = Provider.of<MyProfileProvider>(context, listen: false)
             .gettingMyProfileData;
@@ -116,7 +116,7 @@ class _MyProfileState extends State<MyProfileScreen>
                 : MyProfileApp(
                     controller: _controller,
                     isLoading: _isLoading,
-                    loadProfile:  loadProfile as MyProfileData,
+                    loadProfile: loadProfile as MyProfileData,
                     tabBar: _tabBar,
                     userName: userName,
                   ));

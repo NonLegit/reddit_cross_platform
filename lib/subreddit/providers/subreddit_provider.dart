@@ -20,7 +20,8 @@ Future<void> fetchAndSetSubredddit(String subredditUserName) async {
       subredditName = subredditUserName;
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-      await DioClient.get(path: subreddit).then((response) {
+      await DioClient.get(path: '/subreddits/${subredditUserName}')
+          .then((response) {
         print('lllllllllllllllllllllllllllllllllllll');
         print(response.data['data']);
         loadSubreddit = SubredditData.fromJson(response.data['data']);
