@@ -20,6 +20,8 @@ var isAvailabilityCheck = false;
 var is_users_userName_posts = false;
 var is_subreddits_subredditName_top = false;
 var is_subreddits_subredditName_flairs = false;
+var is_users_otherUserName_about = false;
+var is_subreddits_name = false;
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 //helpers
@@ -91,13 +93,15 @@ server.get('/users/username_available', (req, res) => {
 
 server.get('/users/me/', Authenticate, (req, res) => {
 	console.log(req.user.userId);
+	is_users_otherUserName_about = true;
 	res.redirect(`/users/${req.user.userId}`);
 });
 server.get('/users/:userName/about', (req, res) => {
+	is_users_otherUserName_about = true;
 	res.redirect(`/users?userName=${req.params.userName}`);
 });
 server.get('/subreddits/:subredditName', (req, res) => {
-	console.log(req);
+	is_subreddits_name = true;
 	res.redirect(`/subreddits?name=${req.params.subredditName}`);
 });
 server.get('/users/notifications', (req, res) => {
@@ -346,7 +350,8 @@ router.render = (req, res) => {
 	res.jsonp(
 		(function () {
 			if (req.method === 'GET') {
-				if (req.originalUrl.includes('/subreddits?name=')) {
+				if (is_subreddits_name) {
+					is_subreddits_name = false;
 					return subredditGET(req, res);
 				} else if (isAvailabilityCheck) {
 					return username_available(req, res);
@@ -354,12 +359,16 @@ router.render = (req, res) => {
 					is_users_userName_posts = false;
 					return getPOST(req, res);
 				} else if (is_subreddits_subredditName_top) {
-					is_users_userName_posts = false;
+					is_subreddits_subredditName_top = false;
 					return getDataPOST(req, res);
 				} else if (is_subreddits_subredditName_flairs) {
 					is_subreddits_subredditName_flairs = false;
 					return getFlairs(req, res);
+				} else if (is_users_otherUserName_about) {
+					is_users_otherUserName_about = false;
+					return getUser(req, res);
 				} else {
+					console.log('y');
 					return defaultGET(req, res);
 				}
 			} else if (req.method === 'POST') {
@@ -411,6 +420,14 @@ const getPOST = (req, res) => {
 	return {
 		status: 'success',
 		posts: Array.isArray(data) ? data : [data],
+	};
+};
+
+const getUser = (req, res) => {
+	data = res.locals.data;
+	return {
+		status: 'success',
+		user: Array.isArray(data) ? (data.length > 1 ? data : data[0]) : data,
 	};
 };
 
