@@ -1,0 +1,198 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.sw_code"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+9        android:targetSdkVersion="31" />
+10    <!--
+11         The INTERNET permission is required for development. Specifically,
+12         the Flutter tool needs it to communicate with the running application
+13         to allow setting breakpoints, to provide hot reload, etc.
+14    -->
+15    <uses-permission android:name="android.permission.INTERNET" />
+15-->D:\TempDesktop\First Semester\SW\project\developement\android\app\src\debug\AndroidManifest.xml:7:5-66
+15-->D:\TempDesktop\First Semester\SW\project\developement\android\app\src\debug\AndroidManifest.xml:7:22-64
+16
+17    <queries>
+17-->D:\TempDesktop\First Semester\SW\project\developement\android\app\src\main\AndroidManifest.xml:3:5-8:15
+18        <intent>
+18-->D:\TempDesktop\First Semester\SW\project\developement\android\app\src\main\AndroidManifest.xml:4:9-7:18
+19            <action android:name="android.intent.action.VIEW" />
+19-->D:\TempDesktop\First Semester\SW\project\developement\android\app\src\main\AndroidManifest.xml:5:13-65
+19-->D:\TempDesktop\First Semester\SW\project\developement\android\app\src\main\AndroidManifest.xml:5:21-62
+20
+21            <data android:scheme="https" />
+21-->D:\TempDesktop\First Semester\SW\project\developement\android\app\src\main\AndroidManifest.xml:6:13-44
+21-->D:\TempDesktop\First Semester\SW\project\developement\android\app\src\main\AndroidManifest.xml:6:19-41
+22        </intent>
+23    </queries>
+24
+25    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+25-->[com.google.android.exoplayer:exoplayer-core:2.18.1] C:\Users\ahmed\.gradle\caches\transforms-3\6ec2c823b2ddfa9d4aff16fd99b56b89\transformed\jetified-exoplayer-core-2.18.1\AndroidManifest.xml:24:5-79
+25-->[com.google.android.exoplayer:exoplayer-core:2.18.1] C:\Users\ahmed\.gradle\caches\transforms-3\6ec2c823b2ddfa9d4aff16fd99b56b89\transformed\jetified-exoplayer-core-2.18.1\AndroidManifest.xml:24:22-76
+26
+27    <application
+28        android:name="android.app.Application"
+29        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+29-->[androidx.core:core:1.8.0] C:\Users\ahmed\.gradle\caches\transforms-3\d363e3b5616f580c766e3e2b3c05f27d\transformed\core-1.8.0\AndroidManifest.xml:24:18-86
+30        android:debuggable="true"
+31        android:icon="@mipmap/ic_launcher"
+32        android:label="developement" >
+33        <activity
+34            android:name="com.example.developement.MainActivity"
+35            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+36            android:exported="true"
+37            android:hardwareAccelerated="true"
+38            android:launchMode="singleTop"
+39            android:theme="@style/LaunchTheme"
+40            android:windowSoftInputMode="adjustResize" >
+41
+42            <!--
+43                 Specifies an Android theme to apply to this Activity as soon as
+44                 the Android process has started. This theme is visible to the user
+45                 while the Flutter UI initializes. After that, this theme continues
+46                 to determine the Window background behind the Flutter UI.
+47            -->
+48            <meta-data
+49                android:name="io.flutter.embedding.android.NormalTheme"
+50                android:resource="@style/NormalTheme" />
+51
+52            <intent-filter>
+53                <action android:name="android.intent.action.MAIN" />
+54
+55                <category android:name="android.intent.category.LAUNCHER" />
+56            </intent-filter>
+57        </activity>
+58        <!--
+59             Don't delete the meta-data below.
+60             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+61        -->
+62        <meta-data
+63            android:name="flutterEmbedding"
+64            android:value="2" />
+65
+66        <provider
+66-->[:image_picker_android] D:\TempDesktop\First Semester\SW\project\developement\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+67            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+67-->[:image_picker_android] D:\TempDesktop\First Semester\SW\project\developement\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
+68            android:authorities="com.example.sw_code.flutter.image_provider"
+68-->[:image_picker_android] D:\TempDesktop\First Semester\SW\project\developement\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
+69            android:exported="false"
+69-->[:image_picker_android] D:\TempDesktop\First Semester\SW\project\developement\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+70            android:grantUriPermissions="true" >
+70-->[:image_picker_android] D:\TempDesktop\First Semester\SW\project\developement\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+71            <meta-data
+71-->[:image_picker_android] D:\TempDesktop\First Semester\SW\project\developement\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
+72                android:name="android.support.FILE_PROVIDER_PATHS"
+72-->[:image_picker_android] D:\TempDesktop\First Semester\SW\project\developement\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+73                android:resource="@xml/flutter_image_picker_file_paths" />
+73-->[:image_picker_android] D:\TempDesktop\First Semester\SW\project\developement\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
+74        </provider>
+75
+76        <activity
+76-->[:url_launcher_android] D:\TempDesktop\First Semester\SW\project\developement\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-13:74
+77            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+77-->[:url_launcher_android] D:\TempDesktop\First Semester\SW\project\developement\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-74
+78            android:exported="false"
+78-->[:url_launcher_android] D:\TempDesktop\First Semester\SW\project\developement\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-37
+79            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+79-->[:url_launcher_android] D:\TempDesktop\First Semester\SW\project\developement\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-71
+80
+81        <provider
+81-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:12:9-20:20
+82            android:name="com.sangcomz.fishbun.FishBunFileProvider"
+82-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:13:13-68
+83            android:authorities="com.example.sw_code.fishbunfileprovider"
+83-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:14:13-71
+84            android:exported="false"
+84-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:15:13-37
+85            android:grantUriPermissions="true" >
+85-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:16:13-47
+86            <meta-data
+86-->[:image_picker_android] D:\TempDesktop\First Semester\SW\project\developement\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
+87                android:name="android.support.FILE_PROVIDER_PATHS"
+87-->[:image_picker_android] D:\TempDesktop\First Semester\SW\project\developement\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+88                android:resource="@xml/provider_paths" />
+88-->[:image_picker_android] D:\TempDesktop\First Semester\SW\project\developement\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
+89        </provider>
+90
+91        <activity
+91-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:22:9-25:51
+92            android:name="com.sangcomz.fishbun.ui.album.AlbumActivity"
+92-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:23:13-71
+93            android:label="@string/album"
+93-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:24:13-42
+94            android:theme="@style/FishBunTheme" />
+94-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:25:13-48
+95        <activity
+95-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:26:9-28:51
+96            android:name="com.sangcomz.fishbun.ui.picker.PickerActivity"
+96-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:27:13-73
+97            android:theme="@style/FishBunTheme" />
+97-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:28:13-48
+98        <activity
+98-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:29:9-31:54
+99            android:name="com.sangcomz.fishbun.ui.detail.DetailActivity"
+99-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:30:13-73
+100            android:theme="@style/DetailViewTheme" />
+100-->[com.sangcomz:FishBun:0.11.2] C:\Users\ahmed\.gradle\caches\transforms-3\ef69ee4910190a3ffd0e4760174dca1f\transformed\jetified-FishBun-0.11.2\AndroidManifest.xml:31:13-51
+101
+102        <uses-library
+102-->[androidx.window:window:1.0.0-beta04] C:\Users\ahmed\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+103            android:name="androidx.window.extensions"
+103-->[androidx.window:window:1.0.0-beta04] C:\Users\ahmed\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+104            android:required="false" />
+104-->[androidx.window:window:1.0.0-beta04] C:\Users\ahmed\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+105        <uses-library
+105-->[androidx.window:window:1.0.0-beta04] C:\Users\ahmed\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+106            android:name="androidx.window.sidecar"
+106-->[androidx.window:window:1.0.0-beta04] C:\Users\ahmed\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+107            android:required="false" />
+107-->[androidx.window:window:1.0.0-beta04] C:\Users\ahmed\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+108
+109        <activity
+109-->[com.google.android.gms:play-services-auth:20.4.0] C:\Users\ahmed\.gradle\caches\transforms-3\3535be8f62b8f6744ac9d5afbd552ab5\transformed\jetified-play-services-auth-20.4.0\AndroidManifest.xml:23:9-27:75
+110            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+110-->[com.google.android.gms:play-services-auth:20.4.0] C:\Users\ahmed\.gradle\caches\transforms-3\3535be8f62b8f6744ac9d5afbd552ab5\transformed\jetified-play-services-auth-20.4.0\AndroidManifest.xml:24:13-93
+111            android:excludeFromRecents="true"
+111-->[com.google.android.gms:play-services-auth:20.4.0] C:\Users\ahmed\.gradle\caches\transforms-3\3535be8f62b8f6744ac9d5afbd552ab5\transformed\jetified-play-services-auth-20.4.0\AndroidManifest.xml:25:13-46
+112            android:exported="false"
+112-->[com.google.android.gms:play-services-auth:20.4.0] C:\Users\ahmed\.gradle\caches\transforms-3\3535be8f62b8f6744ac9d5afbd552ab5\transformed\jetified-play-services-auth-20.4.0\AndroidManifest.xml:26:13-37
+113            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+113-->[com.google.android.gms:play-services-auth:20.4.0] C:\Users\ahmed\.gradle\caches\transforms-3\3535be8f62b8f6744ac9d5afbd552ab5\transformed\jetified-play-services-auth-20.4.0\AndroidManifest.xml:27:13-72
+114        <!--
+115            Service handling Google Sign-In user revocation. For apps that do not integrate with
+116            Google Sign-In, this service will never be started.
+117        -->
+118        <service
+118-->[com.google.android.gms:play-services-auth:20.4.0] C:\Users\ahmed\.gradle\caches\transforms-3\3535be8f62b8f6744ac9d5afbd552ab5\transformed\jetified-play-services-auth-20.4.0\AndroidManifest.xml:33:9-37:51
+119            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+119-->[com.google.android.gms:play-services-auth:20.4.0] C:\Users\ahmed\.gradle\caches\transforms-3\3535be8f62b8f6744ac9d5afbd552ab5\transformed\jetified-play-services-auth-20.4.0\AndroidManifest.xml:34:13-89
+120            android:exported="true"
+120-->[com.google.android.gms:play-services-auth:20.4.0] C:\Users\ahmed\.gradle\caches\transforms-3\3535be8f62b8f6744ac9d5afbd552ab5\transformed\jetified-play-services-auth-20.4.0\AndroidManifest.xml:35:13-36
+121            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+121-->[com.google.android.gms:play-services-auth:20.4.0] C:\Users\ahmed\.gradle\caches\transforms-3\3535be8f62b8f6744ac9d5afbd552ab5\transformed\jetified-play-services-auth-20.4.0\AndroidManifest.xml:36:13-107
+122            android:visibleToInstantApps="true" />
+122-->[com.google.android.gms:play-services-auth:20.4.0] C:\Users\ahmed\.gradle\caches\transforms-3\3535be8f62b8f6744ac9d5afbd552ab5\transformed\jetified-play-services-auth-20.4.0\AndroidManifest.xml:37:13-48
+123
+124        <activity
+124-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\ahmed\.gradle\caches\transforms-3\3ff720be07735976176520d1c05fb799\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+125            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+125-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\ahmed\.gradle\caches\transforms-3\3ff720be07735976176520d1c05fb799\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:19-85
+126            android:exported="false"
+126-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\ahmed\.gradle\caches\transforms-3\3ff720be07735976176520d1c05fb799\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+127            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+127-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\ahmed\.gradle\caches\transforms-3\3ff720be07735976176520d1c05fb799\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+128
+129        <meta-data
+129-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\ahmed\.gradle\caches\transforms-3\6b0daa5fb4c2eb7e8b55778df9b972f6\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+130            android:name="com.google.android.gms.version"
+130-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\ahmed\.gradle\caches\transforms-3\6b0daa5fb4c2eb7e8b55778df9b972f6\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+131            android:value="@integer/google_play_services_version" />
+131-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\ahmed\.gradle\caches\transforms-3\6b0daa5fb4c2eb7e8b55778df9b972f6\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+132    </application>
+133
+134</manifest>
