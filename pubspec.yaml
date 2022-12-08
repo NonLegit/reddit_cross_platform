@@ -109,7 +109,7 @@ flutter:
         - asset: assets/icons/settings_icons.ttf
     - family: ArrowHeadDownWord
       fonts:
-        - asset: assets/icons/arrow_head_down_word.ttf
+        - asset: assets/icons/arrow_head_down_ward.ttf
     - family: Verdana
       fonts:
         - asset: assets/fonts/Verdana.ttf

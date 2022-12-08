@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:post/createpost/model/subreddits_of_user.dart';
 import 'package:post/createpost/widgets/subreddit_container.dart';
-import 'package:post/networks/dio_client.dart';
+import '../../networks/dio_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../networks/const_endpoint_data.dart';
