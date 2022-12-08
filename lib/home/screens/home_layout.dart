@@ -1,7 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_code_style/flutter_code_style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:post/home/widgets/new_drawer.dart';
 import '../../chat/chat.dart';
@@ -14,6 +11,14 @@ import '../../notification/screens/notifications_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import '../widgets/component.dart';
+
+import 'package:get/get.dart';
+import 'package:post/createpost/controllers/posts_controllers.dart';
+import 'package:post/home/controller/home_controller.dart';
+import 'package:post/home/widgets/new_drawer.dart';
+import 'package:post/widgets/loading_reddit.dart';
+import '../../icons/icon_broken.dart';
+import '../widgets/buttom_nav_bar.dart';
 import '../widgets/drawer.dart';
 import '../widgets/end_drawer.dart';
 
@@ -24,6 +29,12 @@ class homeLayoutScreen extends StatefulWidget {
 }
 
 class _homeLayoutScreenState extends State<homeLayoutScreen> {
+  final HomeController controller = Get.put(
+    HomeController(),
+  );
+  final PostController controllerForPost = Get.put(
+    PostController(),
+  );
 // Value for DropDownButton
   String dropDownButtonValue = "Home";
   List<String> list = ["Home", "Popular"];
@@ -81,14 +92,13 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
           }),
           title: ElevatedButton.icon(
             onPressed: () {
+              print(controllerForPost.subscribedSubreddits.length);
+              print(controllerForPost.subscribedSubreddits[0].id!);
               print("ell");
             },
             icon: Text(
               "Home",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 17.0,
-                  fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.w600),
             ),
             label: Icon(
               IconBroken.Arrow___Down_2,
@@ -125,8 +135,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
                       radius: 6,
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.only(end: 2, bottom: 2),
+                      padding: const EdgeInsetsDirectional.only(end: 2, bottom: 2),
                       child: CircleAvatar(
                         backgroundColor: Colors.green,
                         radius: 4,
@@ -140,6 +149,26 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
       bottomNavigationBar: buttomNavBar(),
       endDrawer: endDrawer(),
       drawer: MyDrawer(),
+
+      body: controller.obx(
+          (data) => ListView.separated(
+                itemCount: data!.length,
+                itemBuilder: (context, index) {
+                  return Text(data[index].title.toString());
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: 10,
+                  );
+                },
+              ),
+          onError: (error) => Center(
+                child: Text(error.toString()),
+              ),
+          onEmpty: Center(
+            child: Text('No Posts'),
+          ),
+          onLoading: LoadingReddit()),
     );
   }
 }
