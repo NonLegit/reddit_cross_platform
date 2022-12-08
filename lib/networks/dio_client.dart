@@ -24,7 +24,7 @@ class DioClient {
       BaseOptions(
         baseUrl: baseUrl,
         receiveDataWhenStatusError: true,
-        connectTimeout: 50000, //why ther is this here ?
+        connectTimeout: 5000, //why ther is this here ?
         receiveTimeout: 20 * 1000, //why ther is this here ?
         responseType: ResponseType.json,
         headers: {
