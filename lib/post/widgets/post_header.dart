@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:post/post/widgets/post_popup_menu.dart';
+import 'package:post/post/widgets/user_info_popup.dart';
+import 'package:post/subreddit/screens/subreddit_screen.dart';
 
 /// This Widget is responsible for the header of the post.
 
@@ -7,66 +10,78 @@ class PostHeader extends StatelessWidget {
   final bool inHome;
 
   /// The user name.
-  final String userName;
+  final String authorName;
 
-  /// The community name.
-  final String communityName;
+  /// The owner name.
+  final String ownerName;
 
   /// The create date of the post.
   final String createDate;
-  const PostHeader(
-      {super.key,
-      this.inProfile = false,
-      this.inHome = false,
-      required this.userName,
-      required this.communityName,
-      required this.createDate});
+
+  /// The icon of the community
+  final String ownerIcon;
+
+  /// Is the post saved;
+  final bool isSaved;
+  const PostHeader({
+    super.key,
+    this.inProfile = false,
+    this.inHome = false,
+    required this.authorName,
+    required this.ownerName,
+    required this.createDate,
+    required this.isSaved,
+    required this.ownerIcon,
+  });
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Material(
       color: Theme.of(context).colorScheme.brightness == Brightness.light
           ? Theme.of(context).colorScheme.primary
           : Theme.of(context).colorScheme.surface,
-      padding: const EdgeInsetsDirectional.only(start: 10, top: 10, bottom: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          inHome
-              ? _PostHeaderHome(
-                  userName: userName,
-                  communityName: communityName,
-                  createDate: createDate,
-                )
-              : PostHeaderBasic(
-                  inProfile: inProfile,
-                  userName: userName,
-                  communityName: communityName,
-                  createDate: createDate,
-                ),
-          IconButton(
-            onPressed: null,
-            icon: Icon(Icons.more_vert,
-                color: Theme.of(context).colorScheme.secondary),
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-          ),
-        ],
+      child: Container(
+        padding: const EdgeInsetsDirectional.only(start: 10, top: 5, bottom: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            inHome
+                ? _PostHeaderHome(
+                    authorName: authorName,
+                    ownerName: ownerName,
+                    createDate: createDate,
+                    ownerIcon: ownerIcon,
+                  )
+                : PostHeaderBasic(
+                    inProfile: inProfile,
+                    authorName: authorName,
+                    ownerName: ownerName,
+                    createDate: createDate,
+                    ownerIcon: ownerIcon,
+                  ),
+            PostPopupMenu(
+              isSaved: isSaved,
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
 /// This is a class for the basic info in the header.
-class PostHeaderBasic extends StatelessWidget {
+class PostHeaderBasic extends StatefulWidget {
   final bool inProfile;
-  final String userName;
-  final String communityName;
+  final String authorName;
+  final String ownerName;
   final String createDate;
-  const PostHeaderBasic(
-      {this.inProfile = false,
-      required this.userName,
-      required this.communityName,
-      required this.createDate});
+  final String ownerIcon;
+  const PostHeaderBasic({
+    this.inProfile = false,
+    required this.authorName,
+    required this.ownerName,
+    required this.createDate,
+    required this.ownerIcon,
+  });
 
   /// This function is used to get how far time passed from a given date.
   static String calculateHowOld(date) {
@@ -89,21 +104,46 @@ class PostHeaderBasic extends StatelessWidget {
   }
 
   @override
+  State<PostHeaderBasic> createState() => _PostHeaderBasicState();
+}
+
+class _PostHeaderBasicState extends State<PostHeaderBasic> {
+  @override
   Widget build(BuildContext context) {
-    String howOld = calculateHowOld(createDate);
+    String howOld = PostHeaderBasic.calculateHowOld(widget.createDate);
     return Row(
       children: [
-        if (inProfile)
-          Container(
-            width: 15,
-            height: 15,
-            margin: const EdgeInsetsDirectional.only(end: 2),
-            child: const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/community_icon.png'),
-            ),
+        InkWell(
+          onTap: (!widget.inProfile)
+              ? () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => UserInfoPopUp(
+                      authorName: widget.authorName,
+                    ),
+                  );
+                }
+              : () => Navigator.of(context).pushNamed(SubredditScreen.routeName,
+                  arguments: widget.ownerName),
+          child: Row(
+            children: [
+              if (widget.inProfile)
+                Container(
+                  width: 15,
+                  height: 15,
+                  margin: const EdgeInsetsDirectional.only(end: 2),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(widget.ownerIcon),
+                  ),
+                ),
+              Text(
+                '${widget.inProfile ? 'r' : 'u'}/${widget.inProfile ? widget.ownerName : widget.authorName}',
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.secondary),
+              ),
+            ],
           ),
-        Text('${inProfile ? 'r' : 'u'}/${inProfile ? communityName : userName}',
-            style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
+        ),
         Container(
           width: 3,
           height: 3,
@@ -124,13 +164,17 @@ class PostHeaderBasic extends StatelessWidget {
 /// This is class is called to make the header post widget for the home page.
 
 class _PostHeaderHome extends StatelessWidget {
-  final String userName;
-  final String communityName;
+  final String authorName;
+  final String ownerName;
   final String createDate;
-  const _PostHeaderHome(
-      {required this.userName,
-      required this.communityName,
-      required this.createDate});
+  final String ownerIcon;
+
+  const _PostHeaderHome({
+    required this.authorName,
+    required this.ownerName,
+    required this.createDate,
+    required this.ownerIcon,
+  });
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -148,7 +192,7 @@ class _PostHeaderHome extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'r/$communityName',
+              'r/$ownerName',
               style: TextStyle(
                 color:
                     Theme.of(context).colorScheme.brightness == Brightness.light
@@ -158,9 +202,10 @@ class _PostHeaderHome extends StatelessWidget {
               ),
             ),
             PostHeaderBasic(
-              userName: userName,
-              communityName: communityName,
+              authorName: authorName,
+              ownerName: ownerName,
               createDate: createDate,
+              ownerIcon: ownerIcon,
             ),
           ],
         )

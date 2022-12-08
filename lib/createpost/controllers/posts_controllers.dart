@@ -6,16 +6,21 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:post/createpost/model/subreddits_of_user.dart';
 import 'package:post/createpost/widgets/subreddit_container.dart';
-import 'package:post/networks/dio_client.dart';
+import '../../networks/dio_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../networks/const_endpoint_data.dart';
 import '../model/post_model.dart';
 import '../services/post_services.dart';
 //import 'package:image_picker/image_picker.dart';
 
-class postController extends GetxController {
-  List<userSubredditsResponse> mySubredditsInPost = <userSubredditsResponse>[];
+class PostController extends GetxController {
+  List<userSubredditsResponse> subscribedSubreddits =
+      <userSubredditsResponse>[].obs;
+  List<userSubredditsResponse> moderatedSubreddits =
+      <userSubredditsResponse>[].obs;
+  RxString subredditToSubmitPost = "".obs;
   RxBool isPostSpoiler = false.obs;
   RxBool isPostNSFW = false.obs;
   RxBool isLoading = true.obs;
@@ -24,35 +29,39 @@ class postController extends GetxController {
   Rx<TextEditingController> textPost = TextEditingController().obs;
   Rx<TextEditingController> urlPost = TextEditingController().obs;
   RxString typeOfPost = ''.obs;
-  final formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   List<XFile>? imageFileList = <XFile>[].obs;
-  Rx<XFile> video = XFile("").obs;
+
+  // VideoPlayerController? controller;
+
+    final videoFile = Rx<File?>(null);
+
+  final videoController = Rx<VideoPlayerController?>(null);
+
   @override
   void onInit() {
-    _fetchHouses();
     getSubreddits();
+    _fetchHouses();
     super.onInit();
   }
 
-  Future<void> getSubreddits() async {
+  getSubreddits() async {
     final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
-    print(
-        "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
     try {
-      print("$mySubreddits/emssssssssanfdggggggggggg");
-      DioClient.get(path: '$mySubreddits/subscriber')
-          .then((value) => value.data['subreddits'].forEach((value1) {
-                print(value1);
-                print(userSubredditsResponse.fromJson(value1).subredditName);
-                mySubredditsInPost.add(userSubredditsResponse.fromJson(value1));
-              }));
-      DioClient.get(path: '${mySubreddits}/moderator')
-          .then((value) => value.data['subreddits'].forEach((value1) {
-                mySubredditsInPost.add(userSubredditsResponse.fromJson(value1));
-              }));
-      print('hellodfaddddddddddd');
-      print(mySubredditsInPost);
+      await DioClient.get(path:'$mySubreddits/subscriber').then((value) {
+        print(value);
+        value.data['data'].forEach((value1) {
+          subscribedSubreddits.add(userSubredditsResponse.fromJson(value1));
+        });
+      });
+
+      await DioClient.get(path:'$mySubreddits/moderator').then((value) {
+        print(value);
+        value.data['data'].forEach((value1) {
+          moderatedSubreddits.add(userSubredditsResponse.fromJson(value1));
+        });
+      });
     } catch (error) {
       print(error);
     }
@@ -62,19 +71,27 @@ class postController extends GetxController {
     services.sendPost(
         PostModel(
           title: postTitle.value.text,
-          text: textPost.value.text,
-          flairId: "",
-          flairText: "",
-          kind: "",
-          nsfw: "",
-          owner: "",
-          ownerType: "",
-          scheduled: "",
-          sendReplies: "",
-          sharedFrom: "",
-          spoiler: "",
-          suggestedSort: "",
-          url: "",
+          text: 'post text', //textPost.value.text,
+          kind: 'self',
+          owner: subredditToSubmitPost.value,
+          ownerType: 'Subreddit',
+          spoiler: false,
+          nsfw: isPostNSFW.value,
+          // sendReplies: '',
+          // title: postTitle.value.text,
+          // text: textPost.value.text,
+          // flairId: "",
+          // flairText: "",
+          // kind: "",
+          // nsfw: isPostNSFW.value,
+          // owner: "",
+          // ownerType: "subreddit",
+          // scheduled: "",
+          // sendReplies: "",
+          // sharedFrom: "",
+          // spoiler: isPostSpoiler.value,
+          // suggestedSort: "",
+          // url: "",
         ),
         context);
   }
@@ -98,5 +115,23 @@ class postController extends GetxController {
     } finally {
       isLoading(false);
     }
+  }
+  playVideo() {
+    if (videoController.value!.value.isPlaying) {
+      videoController.value!.pause();
+    } else {
+      // If the video is paused, play it.
+      videoController.value!.play();
+    }
+    update();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    postTitle.close();
+    urlPost.close();
+    textPost.close();
+    super.dispose();
   }
 }

@@ -3,17 +3,12 @@ import '../widgets/upper_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../icons/reddit_icons.dart';
-import '../../icons/google_facebook_icons.dart';
-import 'login.dart';
 import '../widgets/upper_text.dart';
 import '../widgets/text_input.dart';
 import '../widgets/password_input.dart';
 import '../widgets/continue_with_facebook.dart';
 import '../widgets/continue_with_google.dart';
 import '../../models/wrapper.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../models/status.dart';
 import 'package:email_validator/email_validator.dart';
 import 'gender.dart';
@@ -23,8 +18,6 @@ import 'package:provider/provider.dart';
 class SignUp extends StatefulWidget {
   // const SignUp({Key? key}) : super(key: key);
   static const routeName = '/SignUp';
-  String token = '';
-  String expiresIn = '';
   @override
   State<SignUp> createState() => SignUpState();
 }
@@ -75,7 +68,7 @@ class SignUpState extends State<SignUp> {
   /// error message to view when the password is invalid
   String passwordErrorMessage = '';
 
-  ///controlling the finish flag
+  ///controlling the isfinish flag
   ///
   ///when user typing in any input field ->
   ///check the changes and detect when the finish flag is true
@@ -193,7 +186,7 @@ class SignUpState extends State<SignUp> {
       'email': inputEmailController.text,
       'password': inputPasswardController.text
     }).then((value) {
-      // Navigator.of(context).pushNamed(Gender.routeName);
+      //Navigator.of(context).pushNamed(Gender.routeName);
     });
     setState(() {
       isError = provider.error;

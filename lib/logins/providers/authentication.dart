@@ -3,16 +3,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
-import '../../networks/dio_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Auth with ChangeNotifier {
-  final url = 'https://api.nonlegit.click/api/v1';
+  final url = dotenv.env['API'] as String;
   bool error = false;
   String errorMessage = '';
   String token = '';
-  String expiresIn = '';
+  DateTime expiresIn = DateTime.now();
+  bool alreadyAuthed = false;
+  Future<void> alreadyAuth() async {
+    final prefs = await SharedPreferences.getInstance();
+    print(DateTime.parse(prefs.getString('expiresIn') as String)
+        .isBefore(DateTime.now()));
+    // alreadyAuthed = prefs.getString('token') != null;
+  }
+
   Future<void> sinUp(Map<String, String> query) async {
     try {
       final http.Response response = await http.post(
@@ -28,15 +37,16 @@ class Auth with ChangeNotifier {
         errorMessage = json.decode(response.body)['errorMessage'];
       } else {
         token = json.decode(response.body)['token'];
-        expiresIn = (json.decode(response.body)['expiresIn'] as int).toString();
+        expiresIn =
+            DateTime.parse(json.decode(response.body)['expiresIn'].toString());
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
-        await prefs.setString('expiresIn', expiresIn);
+        await prefs.setString('expiresIn', expiresIn.toString());
         await prefs.setString('userName', query['userName'] as String);
       }
       notifyListeners();
     } catch (error) {
-      print('error');
+      print('error: $error');
     }
     print(token);
   }
@@ -50,21 +60,26 @@ class Auth with ChangeNotifier {
             'Content-type': 'application/json',
             'Accept': 'application/json',
           });
+      print(response);
       error = response.statusCode != 200;
       if (error) {
         errorMessage = json.decode(response.body)['errorMessage'];
       } else {
         token = json.decode(response.body)['token'];
-        expiresIn = (json.decode(response.body)['expiresIn'] as int).toString();
+
+        DateTime.parse(json.decode(response.body)['expiresIn'].toString());
+        expiresIn =
+            DateTime.parse(json.decode(response.body)['expiresIn'].toString());
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
-        await prefs.setString('expiresIn', expiresIn);
+        await prefs.setString('expiresIn', expiresIn.toString());
         await prefs.setString('userName', query['userName'] as String);
       }
       notifyListeners();
     } catch (error) {
-      print('error');
+      print('error: $error');
     }
+    print(token);
   }
 
   Future<bool> availableUserName(userName) async {
@@ -77,8 +92,9 @@ class Auth with ChangeNotifier {
           });
       notifyListeners();
     } catch (error) {
-      print('error');
+      print('error: $error');
     }
+    // print(response!.body);
     return jsonDecode(response!.body)['available'];
   }
 
@@ -100,7 +116,7 @@ class Auth with ChangeNotifier {
           });
       notifyListeners();
     } catch (error) {
-      print('error');
+      print('error: $error');
     }
 
     try {
@@ -116,11 +132,9 @@ class Auth with ChangeNotifier {
       });
       notifyListeners();
     } catch (error) {
-      print('error');
+      print('error: $error');
     }
-
-    print(json.decode(response!.body)['errorMessage']);
-    return response.statusCode == 200;
+    return response!.statusCode == 200;
   }
 
   Future<void> forgetUserName(Map<String, String> query) async {
@@ -138,7 +152,7 @@ class Auth with ChangeNotifier {
       }
       notifyListeners();
     } catch (error) {
-      print('error');
+      print('error: $error');
     }
   }
 
@@ -157,7 +171,7 @@ class Auth with ChangeNotifier {
       }
       notifyListeners();
     } catch (error) {
-      print('error');
+      print('error: $error');
     }
   }
 }

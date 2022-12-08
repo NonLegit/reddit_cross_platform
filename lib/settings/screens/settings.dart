@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:post/icons/arrow_head_down_word_icons.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/icon_list_view.dart';
 import '../widgets/title_text.dart';
@@ -31,18 +32,7 @@ class Settings extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 228, 231, 239),
       appBar: AppBar(
-        title: Row(
-          children: [
-            IconButton(
-              padding: EdgeInsets.only(right: 30),
-              icon: Icon(Icons.arrow_back_outlined),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            Text('Settings'),
-          ],
-        ),
+        title: Text('Settings'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -87,7 +77,12 @@ class Settings extends StatelessWidget {
               choosenElement: '',
               leadingIcon: Icon(Icons.home_outlined),
               title: 'Sort home posts by',
-              trailingIcon: Icon(Icons.arrow_forward),
+              trailingIcon: Container(
+                width: 3.5.w,
+                child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Icon(ArrowHeadDownWord.down_open)),
+              ),
               choosenIndex: IntWrapper(),
               listType: TypeStaus.icons,
             ),
@@ -110,7 +105,12 @@ class Settings extends StatelessWidget {
               choosenElement: '',
               leadingIcon: Icon(SettingsIcons.triangle_right),
               title: 'Autoplay',
-              trailingIcon: Icon(Icons.arrow_forward),
+              trailingIcon: Container(
+                width: 3.5.w,
+                child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Icon(ArrowHeadDownWord.down_open)),
+              ),
               choosenIndex: IntWrapper(),
               listType: TypeStaus.selected,
             ),

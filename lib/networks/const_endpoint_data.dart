@@ -16,5 +16,8 @@ const myprofile = '/users/me';
 var userName;
 var otherprofile = '/users/${userName}/about';
 //const myprofile = '/users/ZeinabMoawad/about';
+var myprofilePosts = '/users/${userName}/posts';
 //====================Posts======================//
 var createPost = '/posts';
+var postId;
+var votePost = 'posts/${postId}/vote';

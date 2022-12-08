@@ -12,37 +12,34 @@ class DioClient {
   static Dio? dio;
 
   static init(prefs) async {
-    WidgetsFlutterBinding.ensureInitialized();
     String token = '';
     try {
       token = prefs.getString('token') as String;
-      print('asddddd    ' + token);
+      print('hi');
+      print(token);
     } catch (error) {
       print(error);
     }
-    print(1);
     dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
         receiveDataWhenStatusError: true,
-        connectTimeout: 5000,
-        receiveTimeout: 20 * 1000,
+        connectTimeout: 50000, //why ther is this here ?
+        receiveTimeout: 20 * 1000, //why ther is this here ?
         responseType: ResponseType.json,
         headers: {
-          // 'Content-type': 'text/plain',
           'Content-type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + token,
         },
       ),
     );
-    print(1);
   }
 
   // Post:----------------------------------------------------------------------
   static Future<Response> post(
       {required String path,
-      required Map<String, dynamic> data,
+      Map<String, dynamic>? data,
       Map<String, dynamic>? query}) async {
     print(data);
     return await dio!.post(path, data: json.encode(data));

@@ -39,8 +39,8 @@ class PostModel {
   String? url;
   String? owner;
   String? ownerType;
-  String? nsfw;
-  String? spoiler;
+  bool? nsfw;
+  bool? spoiler;
   String? sendReplies;
   String? flairId;
   String? flairText;

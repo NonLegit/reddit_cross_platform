@@ -1,9 +1,5 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-
-import '../../icons/reddit_icons.dart';
-import '../../icons/google_facebook_icons.dart';
+import '../models/status.dart';
 import '../models/status.dart';
 
 class TextInput extends StatefulWidget {
@@ -34,8 +30,8 @@ class _TextInputState extends State<TextInput> {
         color: Color.fromARGB(255, 228, 231, 239),
         child: Focus(
           onFocusChange: (hasfocus) {
-            int x = 2;
             widget.ontap(hasfocus);
+            int x = 12;
           },
           child: TextField(
             onChanged: (_) {

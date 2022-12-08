@@ -8,16 +8,17 @@ import '../models/others_profile_data.dart';
 import '../widgets/position_in_flex_appbar_otherprofile.dart';
 import '../widgets/pop_down_menu.dart';
 import '../screens/others_profile_screen.dart';
+
 class OtherProfileApp extends StatelessWidget {
-    final String userName;
-final  OtherProfileData loadProfile;
+  final String userName;
+  final OtherProfileData loadProfile;
   bool isOnline = true;
   final TabBar tabBar;
   bool isLoading;
   TabController? controller;
- OtherProfileApp({
+  OtherProfileApp({
     Key? key,
-        required this.userName,
+    required this.userName,
     required this.controller,
     required this.isLoading,
     required this.tabBar,
@@ -27,28 +28,25 @@ final  OtherProfileData loadProfile;
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return <Widget>[
-                  SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
-                    sliver: SliverAppBar(
-                      elevation: 4,
-                      backgroundColor: Colors.blue,
-                      title: Visibility(
-                        visible: innerBoxIsScrolled,
-                        child: Text('u/${loadProfile.displayName}',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                      expandedHeight: (loadProfile.description == null ||
-                              loadProfile.description == '')
-                          ? 54.h
-                          : (54 +
-                                  ((loadProfile.description.toString().length /
-                                          42) +
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                elevation: 4,
+                backgroundColor: Colors.blue,
+                title: Visibility(
+                  visible: innerBoxIsScrolled,
+                  child: Text('u/${loadProfile.displayName}',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
+                ),
+                expandedHeight: (loadProfile.description == null ||
+                        loadProfile.description == '')
+                    ? 54.h
+                    : (54 +
+                            ((loadProfile.description.toString().length / 42) +
+ 
                                       7))
                               .h,
                       floating: false,
@@ -61,7 +59,7 @@ final  OtherProfileData loadProfile;
                             child: tabBar,
                           )),
                       actions: <Widget>[
-                        const PopDownMenu(),
+                        PopDownMenu(userName:loadProfile.userName.toString(),buildContext:context),
                       ],
                       flexibleSpace: FlexibleSpaceBar(
                         background: Column(children: <Widget>[
@@ -102,23 +100,25 @@ final  OtherProfileData loadProfile;
                               PositionInFlexAppBarOtherProfile(
                                   loadProfile: loadProfile)
                             ],
-                          ),
-                        ]),
-                      ),
+            
                     ),
-                  ),
-                ];
-              },
-              body: isLoading
-                  ? LoadingReddit()
-                  : TabBarView(controller: controller, children: [
-                      ProfilePosts(routeNamePop: OthersProfileScreen.routeName),
-                      ProfileComments(),
-                      OthersProfileAbout(
-                          int.parse(loadProfile.postKarma.toString()),
-                          int.parse(loadProfile.commentkarma.toString()),
-                          loadProfile.description.toString())
-                    ])
-            );
+                  ]),
+                ),
+              ),
+            ),
+          ];
+        },
+        body: isLoading
+            ? LoadingReddit()
+            : TabBarView(controller: controller, children: [
+                ProfilePosts(
+                    routeNamePop: OthersProfileScreen.routeName,
+                    userName: userName),
+                ProfileComments(),
+                OthersProfileAbout(
+                    int.parse(loadProfile.postKarma.toString()),
+                    int.parse(loadProfile.commentkarma.toString()),
+                    loadProfile.description.toString())
+              ]));
   }
 }
