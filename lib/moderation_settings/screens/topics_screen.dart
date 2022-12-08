@@ -8,6 +8,7 @@ import '../widgets/alert_dialog.dart';
 import '../constants/topics.dart';
 import '../widgets/topic_main_body.dart';
 import '../../widgets/loading_reddit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TopicsScreen extends StatefulWidget {
   const TopicsScreen({super.key});
@@ -22,6 +23,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
   Topics t1 = Topics();
   var topics = {};
   String selectedBefore = '';
+  String subbredditName = '';
 
   var _selectedIndex = -1;
   bool fetchingDone = false;
@@ -31,8 +33,6 @@ class _TopicsScreenState extends State<TopicsScreen> {
 
   @override
   void initState() {
-    
-    DioClient.init();
     //return hardcoded topics from constant folder
     topics = t1.topic;
 
@@ -47,17 +47,18 @@ class _TopicsScreenState extends State<TopicsScreen> {
       setState(() {
         fetchingDone = false;
       });
+      subbredditName = ModalRoute.of(context)?.settings.arguments as String;
       Provider.of<ModerationSettingProvider>(context, listen: false)
-          .getCommunity(
-           // ModalRoute.of(context)?.settings.arguments as String
-           'Cooking'
-            )
+          .getCommunity(ModalRoute.of(context)?.settings.arguments as String
+              // 'Cooking'
+              )
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)
                 .moderatorToolsModel;
 
         choosenTopic = moderatorToolsModel!.choosenTopic1;
+        print(choosenTopic);
         setState(() {
           fetchingDone = true;
         });
@@ -85,9 +86,9 @@ class _TopicsScreenState extends State<TopicsScreen> {
       _pressed = true;
     });
     Provider.of<ModerationSettingProvider>(context, listen: false)
-        .patchCommunity({
-      "primaryTopic": '${topics.keys.elementAt(_selectedIndex)}'
-    }).then((_) => Navigator.of(context).pop());
+        .patchCommunity(
+            {"primaryTopic": '${topics.keys.elementAt(_selectedIndex)}'},
+            subbredditName).then((_) => Navigator.of(context).pop());
   }
 
   @override

@@ -1,10 +1,4 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-
-import '../../icons/redditIcons.dart';
-import '../../icons/GoogleFacebookIcons.dart';
-import '../../icons/closeIcons.dart';
 import '../models/status.dart';
 
 class TextInput extends StatefulWidget {
@@ -80,7 +74,7 @@ class _TextInputState extends State<TextInput> {
                                   : Colors.black45,
                           (widget.currentStatus == InputStatus.sucess)
                               ? Icons.check_outlined
-                              : CloseIcons.cancel_circled2)),
+                              : Icons.close_outlined)),
               label: Text(
                 widget.lable,
                 style: TextStyle(

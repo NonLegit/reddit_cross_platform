@@ -2,37 +2,36 @@ import 'package:flutter/material.dart';
 import '../widgets/upper_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
-
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../icons/redditIcons.dart';
-import '../../icons/GoogleFacebookIcons.dart';
-import 'login.dart';
-import '../../icons/closeIcons.dart';
 import '../widgets/upper_text.dart';
-
 import '../widgets/text_input.dart';
 import '../widgets/password_input.dart';
-
 import '../widgets/continue_with_facebook.dart';
 import '../widgets/continue_with_google.dart';
-import '../models/wrapper.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import '../../models/wrapper.dart';
 import '../models/status.dart';
 import 'package:email_validator/email_validator.dart';
 import 'gender.dart';
+import '../providers/authentication.dart';
+import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
   // const SignUp({Key? key}) : super(key: key);
   static const routeName = '/SignUp';
-  String token = '';
-  String expiresIn = '';
   @override
   State<SignUp> createState() => SignUpState();
 }
 
 class SignUpState extends State<SignUp> {
+  /// Whether there is an error in the fields or not
+  bool isError = true;
+
+  /// Whether the user tring to submit or not
+  bool isSubmit = false;
+
+  /// error message to view when the log in is failed
+  String errorMessage = '';
+
   /// Whether the user finish enter the 3 inputs
   bool isFinished = false;
 
@@ -99,17 +98,9 @@ class SignUpState extends State<SignUp> {
 
   /// check if the username is taken or not
   Future checkUnique() async {
-    Uri URL = Uri.parse(url +
-        '/users/username_available' +
-        ((isMock && inputUserNameController.text == 'ahmed')
-            ? '/4'
-            : (isMock)
-                ? '/3'
-                : '') +
-        '?userName=${inputUserNameController.text}');
-
-    await http.get(URL).then((response) {
-      isUnige = jsonDecode(response.body)['available'];
+    final provider = Provider.of<Auth>(context, listen: false);
+    provider.availableUserName(inputUserNameController.text).then((value) {
+      isUnige = value;
     });
   }
 
@@ -185,42 +176,24 @@ class SignUpState extends State<SignUp> {
       inputPasswardStatus = validatePassword();
   }
 
-  /// variable to contain the url of the server
-  final String url =
-      'https://abf8b3a8-af00-46a9-ba71-d2c4eac785ce.mock.pstmn.io';
-
-  /// Whether the Mock server is still working not the actual API
-  final bool isMock = true;
-
   ///post the signup info to the backend server
   ///
   /// take the data from inputs listener and sent it to the server
-  void submitSignUp() {
-    Uri URL = Uri.parse(url + '/users/signup' + ((isMock) ? '/1' : ''));
-    print(URL.toString());
-    http
-        .post(URL,
-            body: json.encode({
-              'userName': inputUserNameController.text,
-              'email': inputEmailController.text,
-              'password': inputPasswardController.text
-            }))
-        .then((response) {
-      print('the status code: ' + response.statusCode.toString());
-      if (response.statusCode == 201) {
-        widget.token = json.decode(response.body)['token'];
-        widget.expiresIn = json.decode(response.body)['expiresIn'];
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => ResponsiveSizer(
-                builder: (cntx, orientation, Screentype) {
-                  // Device.deviceType == DeviceType.web;
-                  return Gender();
-                },
-              ),
-            ));
-      }
+  void submitSignUp() async {
+    final provider = Provider.of<Auth>(context, listen: false);
+    await provider.sinUp({
+      'userName': inputUserNameController.text,
+      'email': inputEmailController.text,
+      'password': inputPasswardController.text
+    }).then((value) {
+      // Navigator.of(context).pushNamed(Gender.routeName);
+    });
+    setState(() {
+      isError = provider.error;
+      errorMessage = provider.errorMessage;
+      isSubmit = true;
+      if (provider.error == false)
+        Navigator.of(context).pushNamed(Gender.routeName);
     });
   }
 
@@ -378,6 +351,30 @@ class SignUpState extends State<SignUp> {
               ),
             ),
           ),
+          if (isSubmit && isError)
+            Padding(
+              padding: EdgeInsets.all(5.w),
+              child: Center(
+                child: Text(
+                    textAlign: TextAlign.center,
+                    errorMessage,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Theme.of(context).errorColor,
+                    )),
+              ),
+            ),
+          if (isSubmit && !isError)
+            Padding(
+              padding: EdgeInsets.all(5.w),
+              child: Text(
+                  textAlign: TextAlign.center,
+                  'you will receve if that adress maches your mail',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.green,
+                  )),
+            ),
           Container(
               width: double.infinity,
               child: Padding(

@@ -1,12 +1,6 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import '../models/status.dart';
-
-import '../../icons/redditIcons.dart';
-import '../../icons/GoogleFacebookIcons.dart';
-import '../../icons/closeIcons.dart';
-import '../models/wrapper.dart';
+import '../../models/wrapper.dart';
 
 class PasswordInput extends StatefulWidget {
   // const PasswordInput({Key? key}) : super(key: key);

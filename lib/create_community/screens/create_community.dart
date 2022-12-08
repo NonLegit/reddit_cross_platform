@@ -17,6 +17,7 @@ import '../widgets/list_of_community_type.dart';
 import '../widgets/toggle_switch.dart';
 import '../widgets/create_community_web.dart';
 import '../constants/community_modal_sheet_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateCommunity extends StatefulWidget {
   static const routeName = '/createCommunity';
@@ -34,7 +35,6 @@ class CreateCommunityState extends State<CreateCommunity> {
   int count = 21;
 
   final _communityNameController = TextEditingController();
-
 
   bool _typed = false;
   bool validating = false;
@@ -133,7 +133,6 @@ class CreateCommunityState extends State<CreateCommunity> {
 
   @override
   void dispose() {
-
     super.dispose();
     _communityNameController.dispose();
   }
@@ -141,7 +140,6 @@ class CreateCommunityState extends State<CreateCommunity> {
   @override
   void initState() {
     super.initState();
-    DioClient.init();
     choosenCommunityType = communityType.keys.elementAt(0);
   }
 
@@ -287,11 +285,6 @@ class CreateCommunityState extends State<CreateCommunity> {
                               : () async {
                                   //GOTO POST IN COMMUNITY & SAVE THE CREATED COMMUNITY
                                   await _saveCommunity();
-                                  Navigator.of(context).pushNamed(
-                                      ModeratedSubredditScreen.routeName,
-                                       arguments: 'Cooking'       
-                                      //arguments: _communityNameController.text
-                                      );
                                 },
                           style: ElevatedButton.styleFrom(
                             onSurface: Colors.grey[900],
@@ -334,7 +327,8 @@ class CreateCommunityState extends State<CreateCommunity> {
     //function called after waiting for 3 milliseconds to check uniqueness of the community name type
     // return type void
     // found takes returned value after calling backend
-    if (_communityNameController.text.length >= 3) {
+    if (_communityNameController.text.length >= 3 &&
+        _textFieldKey.currentState!.validate()) {
       setState(() {
         validating = true;
       });
@@ -343,7 +337,7 @@ class CreateCommunityState extends State<CreateCommunity> {
       try {
         bool found =
             await Provider.of<CreateCommunityProvider>(context, listen: false)
-                .getCommunity( _communityNameController.text);
+                .getCommunity(_communityNameController.text);
         if (found) {
           setState(() {
             uniqueCommunityName = false;
@@ -361,7 +355,6 @@ class CreateCommunityState extends State<CreateCommunity> {
       } catch (error) {
         //print(error);
       }
-
     }
   }
 
@@ -373,14 +366,19 @@ class CreateCommunityState extends State<CreateCommunity> {
         nSFW: plus18Community,
         name: _communityNameController.text,
         type: choosenCommunityType);
-    bool postCommunity =
-        await Provider.of<CreateCommunityProvider>(context, listen: false)
-            .postCommunity(createCommunityModel.toJson());
-    if (postCommunity) {
-      setState(() {
-        done = true;
-      });
-    }
-
+    await Provider.of<CreateCommunityProvider>(context, listen: false)
+        .postCommunity(createCommunityModel.toJson())
+        .then((value) {
+      //if(value)
+      // print('Community $value');
+      Navigator.of(context).pushNamed(ModeratedSubredditScreen.routeName,
+          //  arguments: 'Cooking'
+          arguments: _communityNameController.text);
+    });
+    // if (postCommunity) {
+    //   setState(() {
+    //     done = true;
+    //   });
+    //}
   }
 }

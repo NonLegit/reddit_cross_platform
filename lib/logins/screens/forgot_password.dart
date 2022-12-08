@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import '../widgets/upper_bar.dart';
 import '../widgets/text_input.dart';
 import '../widgets/upper_text.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
-
 import 'package:url_launcher/url_launcher.dart';
 import 'forgot_username.dart';
-
 import '../models/status.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import '../providers/authentication.dart';
+import 'package:provider/provider.dart';
+import './login.dart';
 
 class ForgotPassword extends StatefulWidget {
   static const routeName = '/ForgotPassword';
@@ -96,26 +92,17 @@ class ForgotPasswordState extends State<ForgotPassword> {
   /// take the data from inputs listener and sent it to the server
   /// if the server return failed response then there is error message will appare
   /// other show sucess message
-  void submitForgorPasssword() {
-    Uri URL = Uri.parse(widget.url +
-        '/users/forgot_password' +
-        ((widget.isMock) ? '/204' : ''));
-    http
-        .post(URL,
-            body: json.encode({
-              "email": inputEmailController.text,
-              "userName": inputUserNameController.text
-            }))
-        .then((response) {
-      setState(() {
-        isSubmit = true;
-        if (response.statusCode == 204) {
-          isError = false;
-        } else if (response.statusCode == 400) {
-          isError = true;
-          errorMessage = json.decode(response.body)['errorMessage'];
-        }
-      });
+  void submitForgorPasssword() async {
+    final provider = Provider.of<Auth>(context, listen: false);
+    await provider.forgetPassword({
+      "email": inputEmailController.text,
+      "userName": inputUserNameController.text
+    });
+    setState(() {
+      isSubmit = true;
+      isError = provider.error;
+      errorMessage = provider.errorMessage;
+      if (isError == false) Navigator.of(context).pushNamed(Login.routeName);
     });
   }
 

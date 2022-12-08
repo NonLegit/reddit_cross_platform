@@ -1,18 +1,19 @@
 {
   "users": [
     {
-      "id": "rjvMUnl",
+      "id":  10,
       "userName": "Zeinab_maoawad",
       "email": "user@email.com",
       "profilePicture": "https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2019/10/blank-person-icon-9.jpg",
-      "profileBackPicture": "https://preview.redd.it/vqqv5xbfezp91.jpg?width=4096&format=pjpg&auto=webp&s=54acda24af01e2de60e98603e3e29e8db381ebac",
+      "profileBackground": "https://preview.redd.it/vqqv5xbfezp91.jpg?width=4096&format=pjpg&auto=webp&s=54acda24af01e2de60e98603e3e29e8db381ebac",
       "description": "I'm Student",
       "createdAt": "2022-11-09T00:19:45.186+00:00",
       "followersCount": 0,
       "numOfDaysInReddit": 0,
       "displayName": "Zeinab_maoawad",
       "postKarma": 1,
-      "commentkarma": 1
+      "commentKarma": 1,
+      "isFollowed": true
     },
     {
       "id": "rjvlUUl",
@@ -289,6 +290,210 @@
       "scheduled": "",
       "sharedFrom": "",
       "id": "3J3vBBM"
+    },
+    {
+      "title": "vvvvv",
+      "kind": "",
+      "text": "",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "79vHt2t"
+    },
+    {
+      "title": "ddddddd",
+      "kind": "",
+      "text": "",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "4JIcUxe"
+    },
+    {
+      "title": "nnnnn",
+      "kind": "",
+      "text": "",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "Ywds7cD"
+    },
+    {
+      "title": "dddd",
+      "kind": "",
+      "text": "",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "DbfZJ1c"
+    },
+    {
+      "title": "rrrr",
+      "kind": "",
+      "text": "",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "C06cS3J"
+    },
+    {
+      "title": "rrrrrrrrfff",
+      "kind": "",
+      "text": "",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "rrUkO12"
+    },
+    {
+      "title": "fffff",
+      "kind": "",
+      "text": "",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "I4U-yYR"
+    },
+    {
+      "title": "rrrrr",
+      "kind": "",
+      "text": "",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "U1wke-E"
+    },
+    {
+      "title": "wwww",
+      "kind": "",
+      "text": "",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "Mw-a-_Z"
+    },
+    {
+      "title": "tttfff",
+      "kind": "",
+      "text": "",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "BAl4qGa"
+    },
+    {
+      "title": "ggggg",
+      "kind": "",
+      "text": "",
+      "url": "",
+      "owner": "",
+      "ownerType": "",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": "",
+      "flairText": "",
+      "suggestedSort": "",
+      "scheduled": "",
+      "sharedFrom": "",
+      "id": "QIzh0q9"
+    },
+    {
+      "title": "xxxxx",
+      "kind": "text",
+      "text": "",
+      "url": null,
+      "owner": "",
+      "ownerType": "Subreddit",
+      "nsfw": false,
+      "spoiler": false,
+      "sendReplies": "",
+      "flairId": null,
+      "flairText": null,
+      "suggestedSort": null,
+      "scheduled": null,
+      "sharedFrom": null,
+      "id": "c1tTLmf"
     }
   ],
   "notifications": [
@@ -352,5 +557,56 @@
       "seen": true,
       "isHidden": true
     }
+  ],
+  "subreddits_moderator": [
+    {
+      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+      "id": "10",
+      "subredditName": "Cooking",
+      "membersCount": 10000,
+      "description": "welcome to subreddit"
+    },
+    {
+
+      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+      "id": "13",
+      "subredditName": "Platform",
+      "membersCount": 10000,
+      "description": "welcome to subreddit"
+    },
+    {
+
+      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+      "id": "15",
+      "subredditName": "Hello",
+      "membersCount": 10000,
+      "description": "welcome to subreddit"
+    }
+  ],
+  "subreddits_subscriber": [
+    {
+      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+      "id": "17",
+      "subredditName": "MySubreddit",
+      "membersCount": 10000,
+      "description": "welcome to subreddit"
+    },
+    {
+
+      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+      "id": "12",
+      "subredditName": "uniquesub",
+      "membersCount": 10000,
+      "description": "welcome to subreddit"
+    },
+    {
+
+      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+      "id": "19",
+      "subredditName": "tryHello",
+      "membersCount": 10000,
+      "description": "welcome to subreddit"
+    }
   ]
+
 }
