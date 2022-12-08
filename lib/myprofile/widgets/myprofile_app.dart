@@ -14,7 +14,6 @@ import '../../widgets/profile_posts.dart';
 import '../widgets/myprofile_web.dart';
 import '../models/myprofile_data.dart';
 import '../screens/myprofile_screen.dart';
-
 class MyProfileApp extends StatelessWidget {
   final String userName;
   MyProfileData loadProfile;
@@ -111,9 +110,7 @@ class MyProfileApp extends StatelessWidget {
         body: isLoading
             ? LoadingReddit()
             : TabBarView(controller: controller, children: [
-                ProfilePosts(
-                    routeNamePop: MyProfileScreen.routeName,
-                    userName: userName),
+                ProfilePosts(routeNamePop: MyProfileScreen.routeName),
                 ProfileComments(),
                 MyProfileAbout(
                     int.parse(loadProfile.postKarma.toString()),

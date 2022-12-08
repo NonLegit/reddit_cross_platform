@@ -36,7 +36,6 @@ class MyDrawer extends StatelessWidget {
                ()=> ExpansionTile(
                  initiallyExpanded: true,
                onExpansionChanged: (value){
-
                      controller.isRecentlyVisitedPannelExpanded.value=value;
                },
                title:  Text(
