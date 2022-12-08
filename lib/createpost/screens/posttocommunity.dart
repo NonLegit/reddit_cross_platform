@@ -8,9 +8,9 @@ import '../../networks/const_endpoint_data.dart';
 import '../controllers/posts_controllers.dart';
 import '../widgets/container.dart';
 import '../widgets/subreddit_container.dart';
-class buildSubreddit extends StatelessWidget {
-  final postController controller = Get.put(
-    postController(),
+class BuildSubreddit extends StatelessWidget {
+  final PostController controller = Get.put(
+    PostController(),
   );
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class buildSubreddit extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          physics: const BouncingScrollPhysics(),
+          physics:  BouncingScrollPhysics(),
           child: Column(
             children: [
               GestureDetector(
@@ -67,23 +67,25 @@ class buildSubreddit extends StatelessWidget {
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context , index) => SubredditModeratorContainer(nameOfSubreddit:controller.moderatedSubreddits[index].subredditName!,memberCount: controller.moderatedSubreddits[index].membersCount!,iconOfSubreddit:controller.moderatedSubreddits[index].icon!,) ,
-                    itemCount: controller.moderatedSubreddits.length,
-                  ),
-                  ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context , index) => SubredditSubscriberContainer(nameOfSubreddit:controller.subscribedSubreddits[index].subredditName!,memberCount: controller.subscribedSubreddits[index].membersCount!,iconOfSubreddit:controller.subscribedSubreddits[index].icon!,) ,
-                    itemCount: controller.subscribedSubreddits.length,
-                  ),
-                ],
+              Obx(()=>
+                 Column(
+                  children: [
+                    ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context , index) => SubredditModeratorContainer(nameOfSubreddit:controller.moderatedSubreddits[index].subredditName!,memberCount: controller.moderatedSubreddits[index].membersCount!,iconOfSubreddit:controller.moderatedSubreddits[index].icon!,) ,
+                      itemCount: controller.moderatedSubreddits.length,
+                    ),
+                    ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context , index) => SubredditSubscriberContainer(nameOfSubreddit:controller.subscribedSubreddits[index].subredditName!,memberCount: controller.subscribedSubreddits[index].membersCount!,iconOfSubreddit:controller.subscribedSubreddits[index].icon!,) ,
+                      itemCount: controller.subscribedSubreddits.length,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

@@ -37,7 +37,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   email_validator: ^2.1.17
-  url_launcher: ^6.1.6 
+  url_launcher: ^6.1.6
   cupertino_icons: ^1.0.2
   flutter_dotenv: ^5.0.2
   fluttericon: ^2.0.0
@@ -66,6 +66,9 @@ dependencies:
   multi_image_picker: ^4.7.14
   shared_preferences: ^2.0.15
   hexcolor: ^3.0.1
+  video_player: ^2.4.8
+  # flutter_signin_button: ^2.0.0
+  google_sign_in: ^5.4.2
 
 
 dev_dependencies:
@@ -103,12 +106,17 @@ flutter:
     - family: GoogleFacebookIcons
       fonts:
         - asset: assets/icons/google_facebook_icons.ttf
-
+    - family: SettingsIcons
+      fonts:
+        - asset: assets/icons/settings_icons.ttf
+    - family: ArrowHeadDownWord
+      fonts:
+        - asset: assets/icons/arrow_head_down_ward.ttf
     - family: Verdana
       fonts:
         - asset: assets/fonts/Verdana.ttf
         - asset: assets/fonts/verdanab.ttf
-          weight: 700    
+          weight: 700
     - family: Jannah
       fonts:
         - asset: assets/fonts/jannah.ttf

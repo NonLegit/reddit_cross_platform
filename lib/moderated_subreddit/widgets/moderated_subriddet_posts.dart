@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:post/createpost/model/post_model.dart';
 //import 'package:flutter_code_style/analysis_options.yaml';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/mod_subreddit_post_sort_bottom.dart';

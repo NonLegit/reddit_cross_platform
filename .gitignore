@@ -46,8 +46,7 @@ app.*.map.json
 
 #additional ignore
 .metadata
-pubspec.lock
-android/
+pubspec.locks
 ios/
 linux/
 macos/

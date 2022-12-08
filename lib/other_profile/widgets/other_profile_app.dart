@@ -46,59 +46,61 @@ class OtherProfileApp extends StatelessWidget {
                     ? 54.h
                     : (54 +
                             ((loadProfile.description.toString().length / 42) +
-                                7))
-                        .h,
-                floating: false,
-                pinned: true,
-                snap: false,
-                bottom: PreferredSize(
-                    preferredSize: tabBar.preferredSize,
-                    child: ColoredBox(
-                      color: Colors.white,
-                      child: tabBar,
-                    )),
-                actions: <Widget>[
-                  const PopDownMenu(),
-                ],
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Column(children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        //Profile back ground
-                        Container(
-                          // color: Colors.blue,
-                          height: (loadProfile.description == null ||
-                                  loadProfile.description == '')
-                              ? 51.h
-                              : (51 +
-                                      (loadProfile.description
-                                              .toString()
-                                              .length /
-                                          42) +
-                                      7)
-                                  .h,
-                          width: 100.w,
-                          foregroundDecoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.black,
-                                Colors.transparent,
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              stops: [0, 1],
-                            ),
-                          ),
-                          child: Image.network(
-                            loadProfile.profileBackPicture.toString(),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        //),
-                        //tomake widget position
-                        PositionInFlexAppBarOtherProfile(
-                            loadProfile: loadProfile)
+ 
+                                      7))
+                              .h,
+                      floating: false,
+                      pinned: true,
+                      snap: false,
+                      bottom: PreferredSize(
+                          preferredSize: tabBar.preferredSize,
+                          child: ColoredBox(
+                            color: Colors.white,
+                            child: tabBar,
+                          )),
+                      actions: <Widget>[
+                        PopDownMenu(userName:loadProfile.userName.toString(),buildContext:context),
                       ],
+                      flexibleSpace: FlexibleSpaceBar(
+                        background: Column(children: <Widget>[
+                          Stack(
+                            children: <Widget>[
+                              //Profile back ground
+                              Container(
+                                // color: Colors.blue,
+                                height: (loadProfile.description == null ||
+                                        loadProfile.description == '')
+                                    ? 51.h
+                                    : (51 +
+                                            (loadProfile.description
+                                                    .toString()
+                                                    .length /
+                                                42) +
+                                            7)
+                                        .h,
+                                width: 100.w,
+                                foregroundDecoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.black,
+                                      Colors.transparent,
+                                    ],
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    stops: [0, 1],
+                                  ),
+                                ),
+                                child: Image.network(
+                                  loadProfile.profileBackPicture.toString(),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              //),
+                              //tomake widget position
+                              PositionInFlexAppBarOtherProfile(
+                                  loadProfile: loadProfile)
+                            ],
+            
                     ),
                   ]),
                 ),
