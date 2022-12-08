@@ -16,9 +16,9 @@ class MyDrawer extends StatelessWidget {
   final HomeController controller = Get.put(
     HomeController(),
   );
-  final PostController controllerForCreatePost = Get.put(
-    PostController(),
-  );
+  // final PostController controllerForCreatePost = Get.put(
+  //   PostController(),
+  // );
   @override
   Widget build(BuildContext context) {
     return  Drawer(
@@ -97,9 +97,9 @@ class MyDrawer extends StatelessWidget {
                        ),
                        title: Text("Modmail",style: TextStyle(color: Colors.black)),
                      ),
-                   Column(
-                      children:List.generate(controllerForCreatePost.moderatedSubreddits.length, (index) => CommunityContainer(nameOfSubreddit:controllerForCreatePost.moderatedSubreddits[index].subredditName! , iconOfSubreddit:controllerForCreatePost.moderatedSubreddits[index].icon! ),)
-                   )
+                  //  Column(
+                  //     children:List.generate(controllerForCreatePost.moderatedSubreddits.length, (index) => CommunityContainer(nameOfSubreddit:controllerForCreatePost.moderatedSubreddits[index].subredditName! , iconOfSubreddit:controllerForCreatePost.moderatedSubreddits[index].icon! ),)
+                  //  )
                    ],
                //  children:List.generate(20, (index) => CommunityContainer(nameOfSubreddit: "as", iconOfSubreddit: "sa"))
              ),
@@ -131,9 +131,9 @@ class MyDrawer extends StatelessWidget {
                        size: 30.0,
                      ),
                      title: Text("Create a community")),
-                 Column(
-                     children:List.generate(controllerForCreatePost.subscribedSubreddits.length, (index) => SubScribedCommunityContainer(nameOfSubreddit:controllerForCreatePost.subscribedSubreddits[index].subredditName! , iconOfSubreddit:controllerForCreatePost.subscribedSubreddits[index].icon! ),)
-                 )
+                //  Column(
+                //      children:List.generate(controllerForCreatePost.subscribedSubreddits.length, (index) => SubScribedCommunityContainer(nameOfSubreddit:controllerForCreatePost.subscribedSubreddits[index].subredditName! , iconOfSubreddit:controllerForCreatePost.subscribedSubreddits[index].icon! ),)
+                //  )
                ],
                //  children:List.generate(20, (index) => CommunityContainer(nameOfSubreddit: "as", iconOfSubreddit: "sa"))
              ),

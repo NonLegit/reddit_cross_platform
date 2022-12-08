@@ -186,7 +186,7 @@ class SignUpState extends State<SignUp> {
       'email': inputEmailController.text,
       'password': inputPasswardController.text
     }).then((value) {
-      // Navigator.of(context).pushNamed(Gender.routeName);
+      //Navigator.of(context).pushNamed(Gender.routeName);
     });
     setState(() {
       isError = provider.error;

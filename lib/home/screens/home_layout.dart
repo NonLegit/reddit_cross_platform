@@ -20,9 +20,9 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
   final HomeController controller = Get.put(
     HomeController(),
   );
-  final PostController controllerForPost = Get.put(
-    PostController(),
-  );
+  // final PostController controllerForPost = Get.put(
+  //   PostController(),
+  // );
 // Value for DropDownButton
   String dropDownButtonValue = "Home";
   List<String> list = ["Home", "Popular"];
@@ -80,8 +80,8 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
           }),
           title: ElevatedButton.icon(
             onPressed: () {
-              print(controllerForPost.subscribedSubreddits.length);
-              print(controllerForPost.subscribedSubreddits[0].id!);
+              // print(controllerForPost.subscribedSubreddits.length);
+              // print(controllerForPost.subscribedSubreddits[0].id!);
               print("ell");
             },
             icon: Text(

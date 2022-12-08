@@ -15,6 +15,8 @@ class DioClient {
     String token = '';
     try {
       token = prefs.getString('token') as String;
+      print('hi');
+      print(token);
     } catch (error) {
       print(error);
     }

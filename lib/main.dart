@@ -46,6 +46,7 @@ import 'other_profile/screens/others_profile_screen.dart';
 import 'myprofile/screens/edit_profile_screen.dart';
 import 'myprofile/screens/user_followers_screen.dart';
 import 'post/provider/post_provider.dart';
+import 'providers/subreddit_post.dart';
 import 'subreddit/screens/subreddit_screen.dart';
 import 'screens/subreddit_search_screen.dart';
 import 'subreddit/screens/community_info_screen.dart';
@@ -122,6 +123,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider.value(value: Auth()),
             ChangeNotifierProvider.value(value: ProfilePostProvider()),
             ChangeNotifierProvider.value(value: PostProvider()),
+            ChangeNotifierProvider.value(value: SubredditPostProvider()),
           ],
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
@@ -137,11 +139,11 @@ class MyApp extends StatelessWidget {
                   onSurface: Colors.white),
             ),
 
-            home: homeLayoutScreen(),
+            //home: homeLayoutScreen(),
             // home: HomeScreen(),
             // home: Login(),
             // home: CreateCommunity(),
-            // home: Login(),
+            home: Login(),
             // home: ForgotUserName(),
             // home: SignUp(),
             // home: Gender(),

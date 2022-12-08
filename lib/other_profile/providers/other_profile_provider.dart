@@ -15,12 +15,13 @@ class OtherProfileprovider with ChangeNotifier {
 
   Future<void> fetchAndSetOtherProfile(String otherUserName) async {
     try {
-      userName = otherUserName;
+      //userName = otherUserName;
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
 
-      await DioClient.get(path: otherprofile).then((response) {
-        loadProfile = OtherProfileData.fromJson(response.data['data']);
+      await DioClient.get(path: '/users/${otherUserName}/about')
+          .then((response) {
+        loadProfile = OtherProfileData.fromJson(response.data['user']);
         notifyListeners();
       });
     } catch (error) {
