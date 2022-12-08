@@ -24,6 +24,7 @@ class ModeratedSubredditProvider with ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
       await DioClient.get(path: '/subreddits/$subredditName').then((response) {
+        print(response.data);
         loadSubreddit = ModeratedSubredditData.fromJson(response.data['data']);
         notifyListeners();
       });
