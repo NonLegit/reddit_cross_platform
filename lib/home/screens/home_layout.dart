@@ -9,6 +9,8 @@ import '../../icons/icon_broken.dart';
 import '../widgets/buttom_nav_bar.dart';
 import '../widgets/drawer.dart';
 import '../widgets/end_drawer.dart';
+import '../controller/home_controller.dart';
+import '../../createpost/controllers/posts_controllers.dart';
 
 class homeLayoutScreen extends StatefulWidget {
   static const routeName = '/homescreen';
@@ -20,9 +22,9 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
   final HomeController controller = Get.put(
     HomeController(),
   );
-  final PostController controllerForPost = Get.put(
-    PostController(),
-  );
+  // final PostController controllerForPost = Get.put(
+  //   PostController(),
+  // );
 // Value for DropDownButton
   String dropDownButtonValue = "Home";
   List<String> list = ["Home", "Popular"];
@@ -80,13 +82,16 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
           }),
           title: ElevatedButton.icon(
             onPressed: () {
-              print(controllerForPost.subscribedSubreddits.length);
-              print(controllerForPost.subscribedSubreddits[0].id!);
-              print("ell");
+              // print(controllerForPost.subscribedSubreddits.length);
+              // print(controllerForPost.subscribedSubreddits[0].id!);
+              // print("ell");
             },
             icon: Text(
               "Home",
-              style: TextStyle(color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.w600),
             ),
             label: Icon(
               IconBroken.Arrow___Down_2,
@@ -123,7 +128,8 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
                       radius: 6,
                     ),
                     Padding(
-                      padding: const EdgeInsetsDirectional.only(end: 2, bottom: 2),
+                      padding:
+                          const EdgeInsetsDirectional.only(end: 2, bottom: 2),
                       child: CircleAvatar(
                         backgroundColor: Colors.green,
                         radius: 4,

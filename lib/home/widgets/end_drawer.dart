@@ -162,7 +162,7 @@ class _endDrawerState extends State<endDrawer> {
                 ),
                 onTap: () {
                   Navigator.of(context).pushNamed(MyProfileScreen.routeName,
-                      arguments: 'Zeinab_maoawad');
+                      arguments: userName);
                 },
               ),
               ListTile(
@@ -175,6 +175,7 @@ class _endDrawerState extends State<endDrawer> {
                 onTap: () {
                   Navigator.of(context).pushNamed(CreateCommunity.routeName);
                   // Navigator.pop(context);
+
                 },
               ),
               ListTile(

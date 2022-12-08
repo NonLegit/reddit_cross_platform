@@ -66,6 +66,9 @@ dependencies:
   multi_image_picker: ^4.7.14
   shared_preferences: ^2.0.15
   video_player: ^2.4.8
+  # flutter_signin_button: ^2.0.0
+  google_sign_in: ^5.4.2
+
 
 dev_dependencies:
   test_cov_console: ^0.2.2
@@ -102,7 +105,12 @@ flutter:
     - family: GoogleFacebookIcons
       fonts:
         - asset: assets/icons/google_facebook_icons.ttf
-
+    - family: SettingsIcons
+      fonts:
+        - asset: assets/icons/settings_icons.ttf
+    - family: ArrowHeadDownWord
+      fonts:
+        - asset: assets/icons/arrow_head_down_ward.ttf
     - family: Verdana
       fonts:
         - asset: assets/fonts/Verdana.ttf

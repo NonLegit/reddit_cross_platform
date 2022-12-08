@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:post/createpost/model/subreddits_of_user.dart';
 import 'package:post/createpost/widgets/subreddit_container.dart';
-import 'package:post/networks/dio_client.dart';
+import '../../networks/dio_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
@@ -71,13 +71,27 @@ class PostController extends GetxController {
     services.sendPost(
         PostModel(
           title: postTitle.value.text,
-          text: textPost.value.text,
+          text: 'post text', //textPost.value.text,
           kind: 'self',
-          owner: "asd",
+          owner: subredditToSubmitPost.value,
           ownerType: 'Subreddit',
           spoiler: false,
           nsfw: isPostNSFW.value,
-          sendReplies: '',
+          // sendReplies: '',
+          // title: postTitle.value.text,
+          // text: textPost.value.text,
+          // flairId: "",
+          // flairText: "",
+          // kind: "",
+          // nsfw: isPostNSFW.value,
+          // owner: "",
+          // ownerType: "subreddit",
+          // scheduled: "",
+          // sendReplies: "",
+          // sharedFrom: "",
+          // spoiler: isPostSpoiler.value,
+          // suggestedSort: "",
+          // url: "",
         ),
         context);
   }

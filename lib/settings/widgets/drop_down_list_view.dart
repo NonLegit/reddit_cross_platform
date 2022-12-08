@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:post/settings/widgets/botom_icons_list_sheet.dart';
-import '../../icons/arrow_head_down_ward_icons.dart';
+import '../../icons/arrow_head_down_word_icons.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../models/wrapper.dart';
 import './botom_icons_list_sheet.dart';
@@ -11,10 +11,10 @@ import '../models/types.dart';
 class DorpDownListView extends StatefulWidget {
   // const IconListView({Key? key}) : super(key: key);
   bool firstTime = true;
-  final Icon leadingIcon;
+  final Widget leadingIcon;
   final String title;
   final String subtitle;
-  final Icon trailingIcon;
+  final Widget trailingIcon;
   final List<Map> sheetList;
   final IntWrapper choosenIndex;
   final TypeStaus listType;
@@ -117,11 +117,7 @@ class _DorpDownListViewState extends State<DorpDownListView> {
                                 as String),
                       ),
                     ),
-                    Expanded(
-                      child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Icon(ArrowHeadDownWard.down_open_mini)),
-                    )
+                    widget.trailingIcon,
                   ]),
             )),
       ),
