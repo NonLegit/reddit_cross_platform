@@ -30,52 +30,32 @@ class _ShowPostDetailsState extends State<ShowPostDetails> {
               //return list.map((e) {
               return [
                 PopupMenuItem(
-                    height: 1.h,
                     child: ListTileWidget(icon: Icons.share, title: 'Share')),
                 PopupMenuItem(
-                    height: 1.h,
                     child: ListTileWidget(icon: Icons.save, title: 'Save')),
                 PopupMenuItem(
-                    height: 1.h,
                     child:
                         ListTileWidget(icon: Icons.copy, title: 'Copy text')),
                 PopupMenuItem(
-                    height: 1.h,
                     child: ListTileWidget(
                         icon: Icons.edit,
                         title: 'Edit',
                         onpressed: () => Navigator.of(context)
                             .popAndPushNamed(EditPost.routeName))),
                 PopupMenuItem(
-                    height: 1.h,
                     child: ListTileWidget(
                         icon: Icons.tag, title: 'Add post flair')),
                 PopupMenuItem(
-                    height: 1.h,
                     child: ListTileWidget(
                         icon: Icons.warning, title: 'Mark spoiler')),
                 PopupMenuItem(
-                    height: 1.h,
                     child: ListTileWidget(
                         icon: Icons.plus_one, title: 'Mark NSFW')),
                 PopupMenuItem(
-                    height: 1,
                     child: ListTileWidget(icon: Icons.delete, title: 'Delete')),
               ];
             },
           ),
-          // ThreeDotsWidget(listOfWidgets: [
-          //  ListTileWidget(icon: Icons.share, title: 'Share'),
-          //  ListTileWidget(icon: Icons.save, title: 'Save'),
-          //  ListTileWidget(icon: Icons.copy, title: 'Copy text'),
-          //  ListTileWidget(icon: Icons.edit, title: 'Edit'),
-          //  ListTileWidget(icon: Icons.tag, title: 'Add post flair'),
-          //  ListTileWidget(icon: Icons.warning, title: 'Mark spoiler'),
-          //  ListTileWidget(icon: Icons.plus_one, title: 'Mark NSFW'),
-          //  ListTileWidget(icon: Icons.delete, title: 'Delete'),
-          // ],height: 65,);
-
-          // }, icon: Icon(Icons.more_vert,color: Colors.white,))
         ],
       ),
     );

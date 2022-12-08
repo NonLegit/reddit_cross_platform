@@ -44,6 +44,8 @@ import 'myprofile/screens/myprofile_screen.dart';
 import 'other_profile/screens/others_profile_screen.dart';
 import 'myprofile/screens/edit_profile_screen.dart';
 import 'myprofile/screens/user_followers_screen.dart';
+import 'show_post/screens/show_post.dart';
+import 'show_post/widgets/edit_post.dart';
 import 'subreddit/screens/subreddit_screen.dart';
 import 'screens/subreddit_search_screen.dart';
 import 'subreddit/screens/community_info_screen.dart';
@@ -135,8 +137,8 @@ class MyApp extends StatelessWidget {
 
             //home: homeLayoutScreen(),
           // home: HomeScreen(),
-           home: Login(),
-         
+         //  home: Login(),
+         home:ShowPostDetails(),
             // home: CreateCommunity(),
             //    home: Login(),
             // home: ForgotUserName(),
@@ -144,7 +146,10 @@ class MyApp extends StatelessWidget {
             // home: Gender(),
             // home: ModeratorTools(),
             // home: Settings(),
+            
             routes: {
+              EditPost.routeName : (context) => EditPost(),
+              ShowPostDetails.routeName : (context) => ShowPostDetails(),
               BlockedAccounts.routeName: (context) => BlockedAccounts(),
               AccountSettings.routeName: (context) => AccountSettings(),
               Settings.routeName: (context) => Settings(),

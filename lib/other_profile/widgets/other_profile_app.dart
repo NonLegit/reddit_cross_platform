@@ -112,7 +112,7 @@ final  OtherProfileData loadProfile;
               body: isLoading
                   ? LoadingReddit()
                   : TabBarView(controller: controller, children: [
-                      ProfilePosts(routeNamePop: OthersProfileScreen.routeName),
+                      ProfilePosts(routeNamePop: OthersProfileScreen.routeName,userName: userName),
                       ProfileComments(),
                       OthersProfileAbout(
                           int.parse(loadProfile.postKarma.toString()),

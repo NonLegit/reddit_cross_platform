@@ -110,7 +110,7 @@ class MyProfileApp extends StatelessWidget {
         body: isLoading
             ? LoadingReddit()
             : TabBarView(controller: controller, children: [
-                ProfilePosts(routeNamePop: MyProfileScreen.routeName),
+                ProfilePosts(routeNamePop: MyProfileScreen.routeName,userName: userName),
                 ProfileComments(),
                 MyProfileAbout(
                     int.parse(loadProfile.postKarma.toString()),
