@@ -1,5 +1,17 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:post/home/widgets/new_drawer.dart';
+import '../../chat/chat.dart';
+import '../../createpost/screens/createpost.dart';
+import '../../discover/discover.dart';
+
+import '../../icons/icon_broken.dart';
+import '../widgets/buttom_nav_bar.dart';
+import '../../notification/screens/notifications_screen.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
+import '../widgets/component.dart';
+
 import 'package:get/get.dart';
 import 'package:post/createpost/controllers/posts_controllers.dart';
 import 'package:post/home/controller/home_controller.dart';
@@ -137,6 +149,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
       bottomNavigationBar: buttomNavBar(),
       endDrawer: endDrawer(),
       drawer: MyDrawer(),
+
       body: controller.obx(
           (data) => ListView.separated(
                 itemCount: data!.length,

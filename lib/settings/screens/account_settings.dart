@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:post/settings/screens/change_email.dart';
+import 'package:post/settings/screens/change_password.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/icon_list_view.dart';
 import '../widgets/title_text.dart';
@@ -9,6 +11,8 @@ import '../../icons/settings_icons.dart';
 import '../models/types.dart';
 import '../../icons/google_facebook_icons.dart';
 import './blocked_accounts.dart';
+import '../../icons/arrow_head_down_word_icons.dart';
+import './choose_country.dart';
 // Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
 
 class AccountSettings extends StatelessWidget {
@@ -32,18 +36,7 @@ class AccountSettings extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 228, 231, 239),
       appBar: AppBar(
-        title: Row(
-          children: [
-            // IconButton(
-            //   padding: EdgeInsets.only(right: 30),
-            //   icon: Icon(Icons.arrow_back_outlined),
-            //   onPressed: () {
-            //     Navigator.pop(context);
-            //   },
-            // ),
-            Text('Account settings'),
-          ],
-        ),
+        title: Text('Account settings'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -54,33 +47,45 @@ class AccountSettings extends StatelessWidget {
               leadingIcon: Icon(Icons.settings),
               title: 'Update email address',
               trailingIcon: Icon(Icons.arrow_forward_outlined),
-              handler: () {},
+              handler: () {
+                Navigator.of(context).pushNamed(ChangeEmail.routeName);
+              },
               onlyIconPressed: false,
             ),
             IconListView(
               leadingIcon: Icon(Icons.settings),
-              title: 'Add password',
+              title: 'Change password',
               trailingIcon: Icon(Icons.arrow_forward_outlined),
-              handler: () {},
+              handler: () {
+                Navigator.of(context).pushNamed(ChangePassword.routeName);
+              },
               onlyIconPressed: false,
             ),
             IconListView(
               leadingIcon: Icon(Icons.location_on_outlined),
               title: 'Country',
+              subtitle: 'Select the country you live in.',
               trailingIcon: Icon(Icons.arrow_forward_outlined),
-              handler: () {},
+              handler: () {
+                Navigator.of(context).pushNamed(ChooseCountry.routeName);
+              },
               onlyIconPressed: false,
             ),
             DorpDownListView(
               leadingIcon: Icon(SettingsIcons.account_circle),
               title: 'Gender',
-              trailingIcon: Icon(Icons.arrow_forward_outlined),
+              trailingIcon: Container(
+                width: 3.5.w,
+                child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Icon(ArrowHeadDownWord.down_open)),
+              ),
               choosenIndex: IntWrapper(),
-              choosenElement: 'man',
+              choosenElement: 'Man',
               listType: TypeStaus.selected,
               sheetList: [
-                {'title': 'man', 'selected': false},
-                {'title': 'woman', 'selected': false},
+                {'title': 'Man', 'selected': false},
+                {'title': 'Woman', 'selected': false},
               ],
             ),
             TitleText(lable: 'CONNECTED ACCOUNTS'),
