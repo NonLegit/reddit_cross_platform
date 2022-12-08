@@ -24,7 +24,7 @@ class DioClient {
       BaseOptions(
         baseUrl: baseUrl,
         receiveDataWhenStatusError: true,
-        connectTimeout: 5000, //why ther is this here ?
+        connectTimeout: 50000, //why ther is this here ?
         receiveTimeout: 20 * 1000, //why ther is this here ?
         responseType: ResponseType.json,
         headers: {
@@ -39,7 +39,7 @@ class DioClient {
   // Post:----------------------------------------------------------------------
   static Future<Response> post(
       {required String path,
-       Map<String, dynamic> ?data,
+      Map<String, dynamic>? data,
       Map<String, dynamic>? query}) async {
     print(data);
     return await dio!.post(path, data: json.encode(data));

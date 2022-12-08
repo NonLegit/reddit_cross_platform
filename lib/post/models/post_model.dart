@@ -23,7 +23,7 @@ class PostModel {
   bool? isSaved;
   Owner? owner;
   Author? author;
-  int? postVoteStatus;
+  String? postVoteStatus;
   bool? isSpam;
   String? url;
 
@@ -113,7 +113,7 @@ class PostModel {
         json['author'] != null ? new Author.fromJson(json['author']) : null;
     postVoteStatus = json['postVoteStatus'];
     isSpam = json['isSpam'];
-    url = json['url'];
+    url = (json['url'] != null) ? json['url'] : '';
   }
 }
 

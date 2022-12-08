@@ -16,9 +16,9 @@ class MyDrawer extends StatelessWidget {
   final HomeController controller = Get.put(
     HomeController(),
   );
-  // final PostController controllerForCreatePost = Get.put(
-  //   PostController(),
-  // );
+  final PostController controllerForCreatePost = Get.put(
+    PostController(),
+  );
   @override
   Widget build(BuildContext context) {
     return Drawer(
