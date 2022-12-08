@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:provider/provider.dart';
+import '../providers/subreddit_provider.dart';
 
 class JoinButtons extends StatefulWidget {
-
   bool isJoined;
-  //String dropDownValue;
-  String communityName;
-  //IconData icon;
-  JoinButtons(
-      {
-      required this.isJoined,
-      //required this.icon,
-      //required this.dropDownValue,
-      required this.communityName});
+  String communityuserName;
+
+  JoinButtons({required this.isJoined,required this.communityuserName});
 
   @override
   State<JoinButtons> createState() => JoinButtonsState();
 }
 
 class JoinButtonsState extends State<JoinButtons> {
-    String dropDownValue = "Low";
+  String dropDownValue = "Low";
   IconData icon = Icons.notifications;
   var tappedIndex = 1;
   bool isJoinedstate = false;
@@ -31,10 +26,9 @@ class JoinButtonsState extends State<JoinButtons> {
   ];
   @override
   void initState() {
-     tappedIndex = 1;
+    tappedIndex = 1;
     isJoinedstate = widget.isJoined;
     super.initState();
-   
   }
 
   @override
@@ -76,13 +70,17 @@ class JoinButtonsState extends State<JoinButtons> {
                         style: TextStyle(fontSize: 13),
                       )
                     : Text('Join'),
-                onPressed: () {
+                onPressed: () async {
                   if (isJoinedstate) {
-                    _showLeaveDialog();
+                    _showLeaveDialog(widget.communityuserName);
                   } else {
-                    setState(() {
-                      isJoinedstate = true;
-                    });
+                    bool join = await Provider.of<SubredditProvider>(context,
+                            listen: false)
+                        .joinAndDisjoinSubreddit(widget.communityuserName,{"action":"sub"});
+                    if (join)
+                      setState(() {
+                        isJoinedstate = true;
+                      });
                   }
                 },
               ),
@@ -90,6 +88,7 @@ class JoinButtonsState extends State<JoinButtons> {
           ],
         ));
   }
+
 // Change Notification Mod  of subreddit
   Future<void> bellBottomSheet(BuildContext context) {
     return showModalBottomSheet<void>(
@@ -125,10 +124,9 @@ class JoinButtonsState extends State<JoinButtons> {
                           child: ListTile(
                         leading: Icon(
                           size: 25,
-                        notifyItemsIcons[index],
-                          color: tappedIndex == index
-                              ? Colors.black
-                              : Colors.grey,
+                          notifyItemsIcons[index],
+                          color:
+                              tappedIndex == index ? Colors.black : Colors.grey,
                         ),
                         trailing: Visibility(
                           visible: tappedIndex == index,
@@ -160,21 +158,23 @@ class JoinButtonsState extends State<JoinButtons> {
       },
     );
   }
+
   int changeNotificationMode(int index) {
     icon = notifyItemsIcons[index] as IconData;
     dropDownValue = notifyItems[index];
     tappedIndex = index;
 
-    return  tappedIndex;
+    return tappedIndex;
   }
+
   //to Disjoin from subreddit
-  void _showLeaveDialog() {
+  void _showLeaveDialog(String communityName) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         //title:Text('Are you sure you want to leave the r/${widget.communityName.toString()} community?'),
         content: Text(
-            'Are you sure you want to leave the r/${widget.communityName.toString()} community?'),
+            'Are you sure you want to leave the r/${ communityName.toString()} community?'),
         actions: <Widget>[
           Container(
             width: 35.w,
@@ -205,10 +205,15 @@ class JoinButtonsState extends State<JoinButtons> {
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
               child: Text('Leave'),
-              onPressed: () {
-            setState(() {
-                  disJoin();
-                });
+              onPressed: () async {
+           bool disjoin =
+                    await Provider.of<SubredditProvider>(context, listen: false)
+                        .joinAndDisjoinSubreddit(communityName,{"action":"unsub"});
+                if (disjoin)
+                  setState(() {
+                    disJoin();
+                  });
+
                 Navigator.of(ctx).pop();
               },
             ),
@@ -217,6 +222,7 @@ class JoinButtonsState extends State<JoinButtons> {
       ),
     );
   }
+
   bool disJoin() {
     isJoinedstate = false;
     return isJoinedstate;

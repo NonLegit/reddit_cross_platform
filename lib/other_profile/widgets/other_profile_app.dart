@@ -61,7 +61,7 @@ final  OtherProfileData loadProfile;
                             child: tabBar,
                           )),
                       actions: <Widget>[
-                        const PopDownMenu(),
+                        PopDownMenu(userName:loadProfile.userName.toString(),buildContext:context),
                       ],
                       flexibleSpace: FlexibleSpaceBar(
                         background: Column(children: <Widget>[

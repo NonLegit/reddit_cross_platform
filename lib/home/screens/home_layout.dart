@@ -1,23 +1,16 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_code_style/flutter_code_style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../providers/cubit/states.dart';
-import '../../chat/chat.dart';
-import '../../createpost/screens/createpost.dart';
-import '../../discover/discover.dart';
-
+import 'package:get/get.dart';
+import 'package:post/createpost/controllers/posts_controllers.dart';
+import 'package:post/home/controller/home_controller.dart';
+import 'package:post/home/widgets/new_drawer.dart';
+import 'package:post/widgets/loading_reddit.dart';
 import '../../icons/icon_broken.dart';
 import '../widgets/buttom_nav_bar.dart';
-import '../providers/cubit/cubit.dart';
-import '../../notification/screens/notifications_screen.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
-import '../widgets/component.dart';
 import '../widgets/drawer.dart';
 import '../widgets/end_drawer.dart';
-
+import '../controller/home_controller.dart';
+import '../../createpost/controllers/posts_controllers.dart';
 class homeLayoutScreen extends StatefulWidget {
   static const routeName = '/homescreen';
   @override
@@ -25,6 +18,12 @@ class homeLayoutScreen extends StatefulWidget {
 }
 
 class _homeLayoutScreenState extends State<homeLayoutScreen> {
+  final HomeController controller = Get.put(
+    HomeController(),
+  );
+  // final PostController controllerForPost = Get.put(
+  //   PostController(),
+  // );
 // Value for DropDownButton
   String dropDownButtonValue = "Home";
   List<String> list = ["Home", "Popular"];
@@ -82,7 +81,9 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
           }),
           title: ElevatedButton.icon(
             onPressed: () {
-              print("ell");
+              // print(controllerForPost.subscribedSubreddits.length);
+              // print(controllerForPost.subscribedSubreddits[0].id!);
+              // print("ell");
             },
             icon: Text(
               "Home",
@@ -140,7 +141,26 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
           ]),
       bottomNavigationBar: buttomNavBar(),
       endDrawer: endDrawer(),
-      drawer: drawer(),
+      drawer: MyDrawer(),
+      body: controller.obx(
+          (data) => ListView.separated(
+                itemCount: data!.length,
+                itemBuilder: (context, index) {
+                  return Text(data[index].title.toString());
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: 10,
+                  );
+                },
+              ),
+          onError: (error) => Center(
+                child: Text(error.toString()),
+              ),
+          onEmpty: Center(
+            child: Text('No Posts'),
+          ),
+          onLoading: LoadingReddit()),
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../widgets/subreddit_copy_share.dart';
-import '../../subreddit/screens/subreddit_screen.dart';
+import '../../moderated_subreddit/providers/moderated_subreddit_provider.dart';
 
 class ModeratedSubredditPopupMenuButton extends StatefulWidget {
   final String linkOfCommuinty;
@@ -52,9 +53,9 @@ class ModeratedSubredditPopupMenuButtonState
         else if (value.toString() == 'Share')
           shareCommunitySheetButton(context);
         else if (value.toString() == 'Leave')
-          _showLeaveDialog();
+          _showLeaveDialog(widget.communityName);
         else if (value.toString() == 'join') {
-          _join();
+          _join(widget.communityName);
         } else
           _bellBottomSheet(context);
       },
@@ -120,13 +121,13 @@ class ModeratedSubredditPopupMenuButtonState
   }
 
 // to disjoin of subreddit
-  void _showLeaveDialog() {
+  void _showLeaveDialog(String communityName) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         //title:Text('Are you sure you want to leave the r/${widget.communityName.toString()} community?'),
         content: Text(
-            'Are you sure you want to leave the r/${widget.communityName.toString()} community?'),
+            'Are you sure you want to leave the r/${communityName.toString()} community?'),
         actions: <Widget>[
           Container(
             width: 35.w,
@@ -157,10 +158,17 @@ class ModeratedSubredditPopupMenuButtonState
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
               child: Text('Leave'),
-              onPressed: () {
-                setState(() {
-                  disJoin();
-                });
+              onPressed: () async {
+                bool disjoin = await Provider.of<ModeratedSubredditProvider>(
+                        context,
+                        listen: false)
+                    .joinAndDisjoinModeratedSubreddit(
+                        communityName, {"action": "unsub"});
+                if (disjoin)
+                  setState(() {
+                    disJoin();
+                  });
+
                 Navigator.of(ctx).pop();
               },
             ),
@@ -175,9 +183,14 @@ class ModeratedSubredditPopupMenuButtonState
     return isJoinedstate;
   }
 
-  void _join() {
-    setState(() {
-      isJoinedstate = true;
+  void _join(String communityName) async {
+    //bool join =
+    await Provider.of<ModeratedSubredditProvider>(context, listen: false)
+        .joinAndDisjoinModeratedSubreddit(
+            communityName, {"action": 'sub'}).then((value) {
+      setState(() {
+        isJoinedstate = true;
+      });
     });
   }
 

@@ -8,15 +8,17 @@ import '../../home/screens/home_layout.dart';
 import '../model/post_model.dart';
 import '../model/subreddits_of_user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PostServices {
   // were final instead of static var
   static var dio = Dio();
   //static var client =http.Client();
   sendPost(PostModel model, BuildContext context) async {
-     final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
     try {
+      int x = 2;
       final response =
           await DioClient.post(path: createPost, data: model.toJson());
 

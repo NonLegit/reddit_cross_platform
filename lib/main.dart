@@ -133,12 +133,14 @@ class MyApp extends StatelessWidget {
                   onSurface: Colors.white),
             ),
 
-          //  home: homeLayoutScreen(),
+            //home: homeLayoutScreen(),
+          // home: HomeScreen(),
+           home: Login(),
+         
             // home: CreateCommunity(),
-            // home: HomeScreen(),
-          //    home: Login(),
+            //    home: Login(),
             // home: ForgotUserName(),
-             home: SignUp(),
+            // home: SignUp(),
             // home: Gender(),
             // home: ModeratorTools(),
             // home: Settings(),

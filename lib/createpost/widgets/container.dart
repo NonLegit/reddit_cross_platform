@@ -6,14 +6,15 @@ import 'package:post/createpost/model/subreddits_of_user.dart';
 import '../controllers/posts_controllers.dart';
 import '../screens/finalpost.dart';
 
-class SubredditSubscriberContainer extends StatelessWidget {
+class SubredditModeratorContainer extends StatelessWidget {
+  // const SubredditContainer({Key? key}) : super(key: key);
   final postController controller = Get.put(
     postController(),
   );
   String nameOfSubreddit = "";
   String iconOfSubreddit = '';
   int memberCount = 0;
-  SubredditSubscriberContainer({
+  SubredditModeratorContainer({
     required this.nameOfSubreddit,
     required this.iconOfSubreddit,
     required this.memberCount,
@@ -27,7 +28,7 @@ class SubredditSubscriberContainer extends StatelessWidget {
         backgroundImage: NetworkImage("$iconOfSubreddit"),
       ),
       title: Text("$nameOfSubreddit"),
-      subtitle: Text("$memberCount " + "members . " + "subscribed"),
+      subtitle: Text("$memberCount " + "members . " + "moderator"),
       onTap: () {
         controller.subredditToSubmitPost = RxString(nameOfSubreddit);
         Navigator.push(
