@@ -84,7 +84,7 @@ class _PostState extends State<Post> {
               votes: widget.data.votes as int,
               comments: widget.data.commentCount as int,
               id: widget.data.sId as String,
-              postVoteStatus: widget.data.postVoteStatus as int),
+              postVoteStatus: int.parse(widget.data.postVoteStatus as String)),
           PostModTools(
             isApproved: isApprove,
             isNSFW: data.nsfw as bool,
