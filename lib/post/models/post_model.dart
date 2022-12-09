@@ -113,14 +113,12 @@ class PostModel {
         json['author'] != null ? new Author.fromJson(json['author']) : null;
     postVoteStatus = json['postVoteStatus'];
     isSpam = json['isSpam'];
-    // url = json['url'];
-    url = 'github.com';
+    url = (json['url'] != null) ? json['url'] : '';
   }
 }
 
 class FlairId {
   String? sId;
-  String? id;
   String? text;
   String? backgroundColor;
   String? textColor;
@@ -128,7 +126,6 @@ class FlairId {
 
   FlairId(
       {this.sId,
-      this.id,
       this.text,
       this.backgroundColor,
       this.textColor,
@@ -136,7 +133,6 @@ class FlairId {
 
   FlairId.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    id = json['id'];
     text = json['text'];
     backgroundColor = json['backgroundColor'];
     textColor = json['textColor'];
@@ -161,11 +157,13 @@ class Owner {
 class Author {
   String? sId;
   String? name;
+  String? icon;
 
-  Author({this.sId, this.name});
+  Author({this.sId, this.name, this.icon});
 
   Author.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
+    icon = json['icon'];
   }
 }

@@ -33,11 +33,11 @@ class PostionForSubredditInfo extends StatelessWidget {
                   subtitle: Text(
                    '${new NumberFormat.compact().format(loadedSubreddit.numOfMembers)} members .${new NumberFormat.compact().format(loadedSubreddit.numOfOnlines)} online ',
                   ),
+                  //////////////////change
                   trailing: JoinButtons(
                       isJoined: loadedSubreddit.isJoined as bool,
-                      // icon: icon,
-                      //dropDownValue: dropDownValue,
-                      communityName: loadedSubreddit.name.toString()),
+                       communityuserName: loadedSubreddit.name.toString(),
+                      ),
                 ),
               ),
               Container(

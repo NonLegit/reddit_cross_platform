@@ -1,611 +1,516 @@
 {
-  "users": [
-    {
-      "id": "rjvMUnl",
-      "userName": "Zeinab_maoawad",
-      "email": "user@email.com",
-      "profilePicture": "https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2019/10/blank-person-icon-9.jpg",
-      "profileBackPicture": "https://preview.redd.it/vqqv5xbfezp91.jpg?width=4096&format=pjpg&auto=webp&s=54acda24af01e2de60e98603e3e29e8db381ebac",
-      "description": "I'm Student",
-      "createdAt": "2022-11-09T00:19:45.186+00:00",
-      "followersCount": 0,
-      "numOfDaysInReddit": 0,
-      "displayName": "Zeinab_maoawad",
-      "postKarma": 1,
-      "commentkarma": 1
-    },
-    {
-      "id": "rjvlUUl",
-      "userName": "Amr_Ahmed",
-      "email": "user@email.com",
-      "profilePicture": "https://opgg-static.akamaized.net/meta/images/lol/champion/Vex.png",
-      "profileBackPicture": "https://images2.alphacoders.com/117/thumb-1920-1170991.jpg",
-      "description": "I'm Student",
-      "createdAt": "2022-11-01T00:19:45.186+00:00",
-      "followersCount": 5,
-      "numOfDaysInReddit": 22,
-      "displayName": "Amr49",
-      "postKarma": 4,
-      "commentkarma": 3
-    }
-  ],
-  "subreddits": [
-    {
-      "id": "rjvAUUl",
-      "name": "Cooking",
-      "primaryTopic": "Activisim",
-      "displayName": "Cooking Good",
-      "icon": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
-      "backgroundImage": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fassets.marthastewart.com%2Fstyles%2Fwmax-750%2Fd30%2Feasy-basic-pancakes-horiz-1022%2Feasy-basic-pancakes-horiz-1022_0.jpg%3Fitok%3DXQMZkp_j",
-      "description": "Iam Chef",
-      "subredditLink": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
-      "numOfMembers": 10398,
-      "numOfOnlines": 1789,
-      "rules": [
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        },
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        },
-        {
-          "title": "no codeing",
-          "description": "i hate coding"
-        }
-      ],
-      "topics": [],
-      "language": "not used",
-      "region": "not used",
-      "type": "Public",
-      "nsfw": true,
-      "postType": "Any",
-      "allowCrossposting": true,
-      "allowArchivePosts": true,
-      "allowSpoilerTag": true,
-      "allowGif": true,
-      "allowImageUploads": true,
-      "allowMultipleImage": true,
-      "moderators": [
-        {
-          "userName": "Ali",
-          "joiningDate": "2019-08-24T14:15:22Z",
-          "profilePicture": "not used",
-          "moderatorPermissions": {
-            "all": true,
-            "access": true,
-            "config": true,
-            "flair": true,
-            "posts": true
-          }
-        },
-        {
-          "userName": "omer",
-          "joiningDate": "2019-08-24T14:15:22Z",
-          "profilePicture": "not used",
-          "moderatorPermissions": {
-            "all": true,
-            "access": true,
-            "config": true,
-            "flair": true,
-            "posts": true
-          }
-        },
-        {
-          "userName": "zeinab",
-          "joiningDate": "2019-08-24T14:15:22Z",
-          "profilePicture": "not used",
-          "moderatorPermissions": {
-            "all": true,
-            "access": true,
-            "config": true,
-            "flair": true,
-            "posts": true
-          }
-        },
-        {
-          "userName": "mazen",
-          "joiningDate": "2019-08-24T14:15:22Z",
-          "profilePicture": "not used",
-          "moderatorPermissions": {
-            "all": true,
-            "access": true,
-            "config": true,
-            "flair": true,
-            "posts": true
-          }
-        }
-      ],
-      "isJoined": true
-    }
-  ],
-  "posts": [
-    {
-      "id": "pFhGTaV",
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2018-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "text",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": false,
-      "url": "github.com",
-      "votes": 11,
-      "comments": 6
-    },
-    {
-      "id": "aFhGTaV",
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2018-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "link",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": false,
-      "url": "github.com",
-      "votes": 0,
-      "comments": 0
-    },
-    {
-      "id": "pFhaTaV",
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2017-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "image",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": false,
-      "url": "github.com",
-      "votes": 5,
-      "comments": 6
-    },
-    {
-      "id": "pFhGqV",
-      "userName": "Amr",
-      "communityName": "Cooking",
-      "createDate": "2017-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "text",
-      "text": "Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": false,
-      "url": "github.com",
-      "votes": 0,
-      "comments": 6
-    },
-    {
-      "id": "pFhGTaq",
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2017-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "link",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": true,
-      "spoiler": false,
-      "url": "github.com",
-      "votes": 0,
-      "comments": 0
-    },
-    {
-      "id": "pFhlTaV",
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2018-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "image",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": true,
-      "url": "github.com",
-      "votes": 5,
-      "comments": 6
-    },
-    {
-      "id": "pFhGiaV",
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2017-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "link",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": false,
-      "spoiler": true,
-      "url": "github.com",
-      "votes": 0,
-      "comments": 0
-    },
-    {
-      "id": "pFhGoaV",
-      "userName": "Amr",
-      "communityName": "vexmains",
-      "createDate": "2017-07-21T17:32:28Z",
-      "title": "hello world",
-      "type": "image",
-      "text": "Nice!",
-      "images": [
-        "https://docs.flutter.dev/assets/images/flutter-logo-sharing.png",
-        "https://dart.dev/assets/shared/dart-logo-for-shares.png?2",
-        "https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-      ],
-      "nsfw": true,
-      "spoiler": true,
-      "url": "github.com",
-      "votes": 5,
-      "comments": 6
-    },
-    {
-      "title": "test",
-      "kind": "",
-      "text": "Test ",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": "",
-      "spoiler": "",
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "3J3vBBM"
-    },
-    {
-      "title": "vvvvv",
-      "kind": "",
-      "text": "",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "79vHt2t"
-    },
-    {
-      "title": "ddddddd",
-      "kind": "",
-      "text": "",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "4JIcUxe"
-    },
-    {
-      "title": "nnnnn",
-      "kind": "",
-      "text": "",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "Ywds7cD"
-    },
-    {
-      "title": "dddd",
-      "kind": "",
-      "text": "",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "DbfZJ1c"
-    },
-    {
-      "title": "rrrr",
-      "kind": "",
-      "text": "",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "C06cS3J"
-    },
-    {
-      "title": "rrrrrrrrfff",
-      "kind": "",
-      "text": "",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "rrUkO12"
-    },
-    {
-      "title": "fffff",
-      "kind": "",
-      "text": "",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "I4U-yYR"
-    },
-    {
-      "title": "rrrrr",
-      "kind": "",
-      "text": "",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "U1wke-E"
-    },
-    {
-      "title": "wwww",
-      "kind": "",
-      "text": "",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "Mw-a-_Z"
-    },
-    {
-      "title": "tttfff",
-      "kind": "",
-      "text": "",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "BAl4qGa"
-    },
-    {
-      "title": "ggggg",
-      "kind": "",
-      "text": "",
-      "url": "",
-      "owner": "",
-      "ownerType": "",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": "",
-      "flairText": "",
-      "suggestedSort": "",
-      "scheduled": "",
-      "sharedFrom": "",
-      "id": "QIzh0q9"
-    },
-    {
-      "title": "xxxxx",
-      "kind": "text",
-      "text": "",
-      "url": null,
-      "owner": "",
-      "ownerType": "Subreddit",
-      "nsfw": false,
-      "spoiler": false,
-      "sendReplies": "",
-      "flairId": null,
-      "flairText": null,
-      "suggestedSort": null,
-      "scheduled": null,
-      "sharedFrom": null,
-      "id": "c1tTLmf"
-    }
-  ],
-  "notifications": [
-    {
-      "type": "postReply",
-      "folowerId": "not used",
-      "postId": "Yes that is true",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    },
-    {
-      "type": "commentReply",
-      "folowerId": "not used",
-      "postId": "No",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    },
-    {
-      "type": "userMention",
-      "folowerId": "not used",
-      "postId": "u/EmanShahda",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    },
-    {
-      "type": "follow",
-      "folowerId": "not used",
-      "postId": "BasmaElhoseny01 followed you back.",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    },
-    {
-      "type": "firstCommentUpVote",
-      "folowerId": "not used",
-      "postId": "Go see your comment on r/aww:\"Huskies were probably humans in their past lives\"",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    },
-    {
-      "type": "firstPostUpVote",
-      "folowerId": "not used",
-      "postId": "Go see your post on",
-      "commentId": "not used",
-      "followedId": "not used",
-      "createdAt": "2017-07-21T17:32:28.000Z",
-      "seen": true,
-      "isHidden": true
-    }
-  ],
-  "subreddits_moderator": [
-    {
-      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
-      "id": "10",
-      "subredditName": "Cooking",
-      "membersCount": 10000,
-      "description": "welcome to subreddit"
-    },
-    {
+	"users": [
+		{
+			"id": "rjvMUnl",
+			"userName": "Zeinab_maoawad",
+			"email": "user@email.com",
+			"profilePicture": "https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2019/10/blank-person-icon-9.jpg",
+			"profileBackPicture": "https://preview.redd.it/vqqv5xbfezp91.jpg?width=4096&format=pjpg&auto=webp&s=54acda24af01e2de60e98603e3e29e8db381ebac",
+			"description": "I'm Student",
+			"createdAt": "2022-11-09T00:19:45.186+00:00",
+			"followersCount": 0,
+			"numOfDaysInReddit": 0,
+			"displayName": "Zeinab_maoawad",
+			"postKarma": 1,
+			"commentkarma": 1
+		},
+		{
+			"id": "rjvlUUl",
+			"userName": "Amr_Ahmed",
+			"email": "user@email.com",
+			"profilePicture": "https://opgg-static.akamaized.net/meta/images/lol/champion/Vex.png",
+			"profileBackPicture": "https://images2.alphacoders.com/117/thumb-1920-1170991.jpg",
+			"description": "I'm Student",
+			"createdAt": "2022-11-01T00:19:45.186+00:00",
+			"followersCount": 5,
+			"numOfDaysInReddit": 22,
+			"displayName": "Amr49",
+			"postKarma": 4,
+			"commentkarma": 3
+		},
+		{
+			"id": "sss",
+			"userName": "Amr",
+			"email": "user@gmail.com",
+			"password": "Aa1234**",
+			"profilePicture": "https://opgg-static.akamaized.net/meta/images/lol/champion/Vex.png?image=c_crop,h_103,w_103,x_9,y_9/q_auto,f_webp,w_160&v=1670226786967",
+			"profileBackground": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/items/270010/4bdbd33eb075f0c7d6d4d3e8a4065aa336b15b73.jpg",
+			"lastUpdatedPassword": "2022-12-06T13:35:54.332Z",
+			"adultContent": false,
+			"autoplayMedia": true,
+			"canbeFollowed": true,
+			"followersCount": 0,
+			"friendsCount": 0,
+			"accountActivated": true,
+			"gender": "male",
+			"displayName": "Amr",
+			"postKarma": 1,
+			"commentKarma": 1,
+			"isFollowed": true,
+			"createdAt": "2022-12-06T13:35:54.332Z",
+			"description": "info"
+		}
+	],
+	"subreddits": [
+		{
+			"id": "rjvAUUl",
+			"name": "Cooking",
+			"fixedName": "Cooking",
+			"primaryTopic": "Activisim",
+			"displayName": "Cooking Good",
+			"icon": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
+			"backgroundImage": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fassets.marthastewart.com%2Fstyles%2Fwmax-750%2Fd30%2Feasy-basic-pancakes-horiz-1022%2Feasy-basic-pancakes-horiz-1022_0.jpg%3Fitok%3DXQMZkp_j",
+			"description": "Iam Chef",
+			"subredditLink": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
+			"numOfMembers": 10398,
+			"numOfOnlines": 1789,
+			"rules": [
+				{ "title": "no codeing", "description": "i hate coding" },
+				{ "title": "no codeing", "description": "i hate coding" },
+				{ "title": "no codeing", "description": "i hate coding" }
+			],
+			"topics": [],
+			"language": "not used",
+			"region": "not used",
+			"type": "Public",
+			"nsfw": true,
+			"postType": "Any",
+			"allowCrossposting": true,
+			"allowArchivePosts": true,
+			"allowSpoilerTag": true,
+			"allowGif": true,
+			"allowImageUploads": true,
+			"allowMultipleImage": true,
+			"moderators": [
+				{
+					"userName": "Ali",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				},
+				{
+					"userName": "omer",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				},
+				{
+					"userName": "zeinab",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				},
+				{
+					"userName": "mazen",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				}
+			],
+			"isJoined": true
+		},
+		{
+			"id": "ayajkdk",
+			"name": "vexmains",
+			"fixedName": "vexmains",
+			"primaryTopic": "Activisim",
+			"displayName": "Shadow",
+			"icon": "https://i.pinimg.com/564x/38/fd/8c/38fd8cfd8071f4447f9f372088d42177.jpg",
+			"backgroundImage": "https://images2.alphacoders.com/117/1170991.jpg",
+			"description": "Welcome to all Vex mains",
+			"subredditLink": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg",
+			"numOfMembers": 10398,
+			"numOfOnlines": 1789,
+			"rules": [
+				{ "title": "no codeing", "description": "i hate coding" },
+				{ "title": "no codeing", "description": "i hate coding" },
+				{ "title": "no codeing", "description": "i hate coding" }
+			],
+			"topics": [],
+			"language": "not used",
+			"region": "not used",
+			"type": "Public",
+			"nsfw": true,
+			"postType": "Any",
+			"allowCrossposting": true,
+			"allowArchivePosts": true,
+			"allowSpoilerTag": true,
+			"allowGif": true,
+			"allowImageUploads": true,
+			"allowMultipleImage": true,
+			"moderators": [
+				{
+					"userName": "Ali",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				},
+				{
+					"userName": "omer",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				},
+				{
+					"userName": "zeinab",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				},
+				{
+					"userName": "mazen",
+					"joiningDate": "2019-08-24T14:15:22Z",
+					"profilePicture": "not used",
+					"moderatorPermissions": {
+						"all": true,
+						"access": true,
+						"config": true,
+						"flair": true,
+						"posts": true
+					}
+				}
+			],
+			"isJoined": true
+		}
+	],
+	"posts": [
+		{
+			"_id": "fhgjhkjlg",
+			"author": { "_id": "2022-12-06T14:21:02.113Z", "name": "Amr" },
+			"ownerType": "Subreddit",
+			"owner": {
+				"_id": "hdgahhbajk",
+				"name": "vexmains",
+				"icon": "https://i.pinimg.com/564x/38/fd/8c/38fd8cfd8071f4447f9f372088d42177.jpg"
+			},
+			"replies": ["string"],
+			"flairId": {
+				"_id": "gskjhlj",
+				"text": "Question",
+				"backgroundColor": "#d4f5f5",
+				"textColor": "#735e7d",
+				"permissions": "modOnly"
+			},
+			"flairText": "string",
+			"sharedFrom": "",
+			"title": "pentakill!!",
+			"kind": "link",
+			"text": "",
+			"images": [],
+			"video": "",
+			"createdAt": "2022-12-06T08:55:28.000Z",
+			"locked": false,
+			"isDeleted": false,
+			"sendReplies": false,
+			"nsfw": false,
+			"spoiler": false,
+			"votes": 0,
+			"views": 0,
+			"commentCount": 0,
+			"shareCount": 0,
+			"suggestedSort": "top",
+			"scheduled": true,
+			"sortOnHot": 0,
+			"sortOnBest": 0,
+			"isSpam": true,
+			"url": "https://drive.google.com/file/d/1ixYA5x7kG38XEBgWL86Ku7FWQvmYKiTz/view?usp=sharing",
+			"isSaved": false,
+			"postVoteStatus": 1
 
-      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
-      "id": "13",
-      "subredditName": "Platform",
-      "membersCount": 10000,
-      "description": "welcome to subreddit"
-    },
-    {
-
-      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
-      "id": "15",
-      "subredditName": "Hello",
-      "membersCount": 10000,
-      "description": "welcome to subreddit"
-    }
-  ],
-  "subreddits_subscriber": [
-    {
-      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
-      "id": "17",
-      "subredditName": "MySubreddit",
-      "membersCount": 10000,
-      "description": "welcome to subreddit"
-    },
-    {
-
-      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
-      "id": "12",
-      "subredditName": "uniquesub",
-      "membersCount": 10000,
-      "description": "welcome to subreddit"
-    },
-    {
-
-      "icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
-      "id": "19",
-      "subredditName": "tryHello",
-      "membersCount": 10000,
-      "description": "welcome to subreddit"
-    }
-  ]
-
+		},
+		{
+			"_id": "ekjshsse",
+			"author": { "_id": "2022-12-06T14:21:02.113Z", "name": "Amr" },
+			"ownerType": "Subreddit",
+			"owner": {
+				"_id": "hdgahhbajk",
+				"name": "Cooking",
+				"icon": "https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg"
+			},
+			"replies": ["string"],
+			"flairId": {
+				"_id": "gskjhlj",
+				"text": "Question",
+				"backgroundColor": "#d4f5f5",
+				"textColor": "#735e7d",
+				"permissions": "modOnly"
+			},
+			"flairText": "string",
+			"sharedFrom": "",
+			"title": "How to Cook",
+			"kind": "text",
+			"text": "Mix the flour, cocoa, icing sugar and a pinch of salt in a bowl. Rub in the butter and then mix in eggs. Knead quickly with your hands to a smooth dough. Wrap in foil, press into a flat disc and chill for 30 minutes.Heat the oven to 180C/fan 160C/gas 4. Line a couple of baking sheets with baking parchment. Roll out the pastry on a lightly floured worksurface to about 3mm thin. Cut out shapes from the dough. Put the biscuits on the baking sheets – it’s best to put similarly sized cookies together. Bake for 7-10 minutes, depending on the size of the biscuits.Knead the off-cuts of the dough together and chill again for 15 minutes. Roll, cut and bake as before. Cool completely.When cooled, the cookies can be decorated with chocolate or icing and sugar pearls and sprinkles.",
+			"images": [],
+			"video": "",
+			"createdAt": "2022-12-06T08:55:28.000Z",
+			"locked": false,
+			"isDeleted": false,
+			"sendReplies": false,
+			"nsfw": false,
+			"spoiler": false,
+			"votes": 0,
+			"views": 0,
+			"commentCount": 0,
+			"shareCount": 0,
+			"suggestedSort": "top",
+			"scheduled": true,
+			"sortOnHot": 0,
+			"sortOnBest": 0,
+			"isSpam": true,
+			"url": "https://drive.google.com/file/d/1ixYA5x7kG38XEBgWL86Ku7FWQvmYKiTz/view?usp=sharing",
+			"isSaved": false,
+			"postVoteStatus": 1
+		},
+		{
+			"_id": "hzkalkhlkj",
+			"author": { "_id": "2022-12-06T14:21:02.113Z", "name": "Amr" },
+			"ownerType": "Subreddit",
+			"owner": {
+				"_id": "hdgahhbajk",
+				"name": "vexmains",
+				"icon": "https://i.pinimg.com/564x/38/fd/8c/38fd8cfd8071f4447f9f372088d42177.jpg"
+			},
+			"replies": ["string"],
+			"flairId": {
+				"_id": "gskjhlj",
+				"text": "Art",
+				"backgroundColor": "#d4f5f5",
+				"textColor": "#ff5e7d",
+				"permissions": "modOnly"
+			},
+			"flairText": "string",
+			"sharedFrom": "",
+			"title": "Vex skins",
+			"kind": "image",
+			"text": "",
+			"images": [
+				"https://www.mobafire.com/images/champion/skins/landscape/vex-empyrean-762x.jpg",
+				"https://www.mobafire.com/images/champion/skins/landscape/vex-dawnbringer-762x.jpg"
+			],
+			"video": "",
+			"createdAt": "2022-12-06T08:55:28.000Z",
+			"locked": false,
+			"isDeleted": false,
+			"sendReplies": false,
+			"nsfw": false,
+			"spoiler": false,
+			"votes": 0,
+			"views": 0,
+			"commentCount": 0,
+			"shareCount": 0,
+			"suggestedSort": "top",
+			"scheduled": true,
+			"sortOnHot": 0,
+			"sortOnBest": 0,
+			"isSpam": true,
+			"url": "https://drive.google.com/file/d/1ixYA5x7kG38XEBgWL86Ku7FWQvmYKiTz/view?usp=sharing",
+			"isSaved": false,
+			"postVoteStatus": 1
+		},
+		{
+			"_id": "hzkalkhlkj",
+			"author": { "_id": "2022-12-06T14:21:02.113Z", "name": "Amr" },
+			"ownerType": "Subreddit",
+			"owner": {
+				"_id": "hdgahhbajk",
+				"name": "vexmains",
+				"icon": "https://i.pinimg.com/564x/38/fd/8c/38fd8cfd8071f4447f9f372088d42177.jpg"
+			},
+			"replies": ["string"],
+			"flairId": {
+				"_id": "gskjhlj",
+				"text": "Art",
+				"backgroundColor": "#d4f5f5",
+				"textColor": "#ff5e7d",
+				"permissions": "modOnly"
+			},
+			"flairText": "string",
+			"sharedFrom": "",
+			"title": "Vex skins",
+			"kind": "image",
+			"text": "",
+			"images": [
+				"https://www.mobafire.com/images/champion/skins/landscape/vex-empyrean-762x.jpg",
+				"https://www.mobafire.com/images/champion/skins/landscape/vex-dawnbringer-762x.jpg"
+			],
+			"video": "",
+			"createdAt": "2022-12-06T08:55:28.000Z",
+			"locked": false,
+			"isDeleted": false,
+			"sendReplies": false,
+			"nsfw": false,
+			"spoiler": true,
+			"votes": 0,
+			"views": 0,
+			"commentCount": 0,
+			"shareCount": 0,
+			"suggestedSort": "top",
+			"scheduled": true,
+			"sortOnHot": 0,
+			"sortOnBest": 0,
+			"isSpam": true,
+			"url": "https://drive.google.com/file/d/1ixYA5x7kG38XEBgWL86Ku7FWQvmYKiTz/view?usp=sharing",
+			"isSaved": false,
+			"postVoteStatus": 1
+		}
+	],
+	"notifications": [
+		{
+			"type": "postReply",
+			"folowerId": "not used",
+			"postId": "Yes that is true",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		},
+		{
+			"type": "commentReply",
+			"folowerId": "not used",
+			"postId": "No",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		},
+		{
+			"type": "userMention",
+			"folowerId": "not used",
+			"postId": "u/EmanShahda",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		},
+		{
+			"type": "follow",
+			"folowerId": "not used",
+			"postId": "BasmaElhoseny01 followed you back.",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		},
+		{
+			"type": "firstCommentUpVote",
+			"folowerId": "not used",
+			"postId": "Go see your comment on r/aww:\"Huskies were probably humans in their past lives\"",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		},
+		{
+			"type": "firstPostUpVote",
+			"folowerId": "not used",
+			"postId": "Go see your post on",
+			"commentId": "not used",
+			"followedId": "not used",
+			"createdAt": "2017-07-21T17:32:28.000Z",
+			"seen": true,
+			"isHidden": true
+		}
+	],
+	"subreddits_moderator": [
+		{
+			"icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+			"id": "10",
+			"subredditName": "Cooking",
+			"membersCount": 10000,
+			"description": "welcome to subreddit"
+		},
+		{
+			"icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+			"id": "13",
+			"subredditName": "Platform",
+			"membersCount": 10000,
+			"description": "welcome to subreddit"
+		},
+		{
+			"icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+			"id": "15",
+			"subredditName": "Hello",
+			"membersCount": 10000,
+			"description": "welcome to subreddit"
+		}
+	],
+	"subreddits_subscriber": [
+		{
+			"icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+			"id": "17",
+			"subredditName": "MySubreddit",
+			"membersCount": 10000,
+			"description": "welcome to subreddit"
+		},
+		{
+			"icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+			"id": "12",
+			"subredditName": "uniquesub",
+			"membersCount": 10000,
+			"description": "welcome to subreddit"
+		},
+		{
+			"icon": "https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4",
+			"id": "19",
+			"subredditName": "tryHello",
+			"membersCount": 10000,
+			"description": "welcome to subreddit"
+		}
+	],
+	"flairs": [
+		{
+			"_id": "fudgkhucg",
+			"text": "Question",
+			"backgroundColor": "string",
+			"textColor": "string",
+			"permissions": "modOnly"
+		}
+	]
 }

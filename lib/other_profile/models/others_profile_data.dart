@@ -45,7 +45,18 @@ class OtherProfileData {
 //   "isFollowed": true
 // }
   OtherProfileData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+        print(json['id'].runtimeType);
+    print(json['userName'].runtimeType);
+    print(json['email'].runtimeType);
+    print(json['profilePicture'].runtimeType);
+    print(json['profileBackground'].runtimeType);
+    print(json['followersCount'].runtimeType);
+    print(json['createdAt'].runtimeType);
+    print(json['postKarma'].runtimeType);
+    print(json['commentKarma'].runtimeType);
+    print(json['description'].runtimeType);
+    print(json['isFollowed'].runtimeType);
+    id = json['id'].toString();
     userName = json['userName'];
     email = json['email'];
     profilePicture = json['profilePicture'];
@@ -53,13 +64,13 @@ class OtherProfileData {
     description = json['description'];
     displayName = json['displayName'];
     followersCount = int.parse( json['followersCount'].toString());
-    createdAt = json['toDayTime'];
+   // createdAt = json['toDayTime'];
     //numOfDaysInReddit = json['numOfDaysInReddit'];
     createdAt = json['createdAt'];
-    postKarma =int.parse(json['postKarma'].toString());;
+    postKarma =int.parse(json['postKarma'].toString());
     displayName = json['displayName'];
     commentkarma = int.parse(json['commentKarma'].toString());
-    isFollowed = false;
+    isFollowed = json['isFollowed'];
   }
 
   Map<String, dynamic> toJson() {

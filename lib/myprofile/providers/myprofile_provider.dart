@@ -12,7 +12,7 @@ class MyProfileProvider with ChangeNotifier {
     return loadProfile;
   }
 
-  Future<void> fetchAndSetMyProfile(String userName) async {
+  Future<void> fetchAndSetMyProfile() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
