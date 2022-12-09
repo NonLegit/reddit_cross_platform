@@ -17,20 +17,22 @@ class InviteButton extends StatefulWidget {
 }
 
 class InviteButtonState extends State<InviteButton> {
-  List<ModeratedSubbredditUserData>? subdata = [
-    ModeratedSubbredditUserData(
-        icon:
-            'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
-        subredditName: 'reddit'),
-    ModeratedSubbredditUserData(
-        icon:
-            'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
-        subredditName: 'reddit'),
-    ModeratedSubbredditUserData(
-        icon:
-            'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
-        subredditName: 'reddit')
-  ];
+  List<ModeratedSubbredditUserData>? subdata
+      // = [
+      //   ModeratedSubbredditUserData(
+      //       icon:
+      //           'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
+      //       subredditName: 'reddit'),
+      //   ModeratedSubbredditUserData(
+      //       icon:
+      //           'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
+      //       subredditName: 'reddit'),
+      //   ModeratedSubbredditUserData(
+      //       icon:
+      //           'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
+      //       subredditName: 'reddit')
+      // ];
+      ;
   String textMessage = '';
   late String subredditName;
   late TextEditingController message;
@@ -47,21 +49,22 @@ class InviteButtonState extends State<InviteButton> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     //===============================doing fetch=======================================//
-    // if (_isInit) {
-    //   setState(() {
-    //     _isLoading = true;
-    //   });
-    //   Provider.of<OtherProfileprovider>(context, listen: false)
-    //       .fetchAndSetModeratedSubredditUser()
-    //       .then((value) {
-    //     subdata = Provider.of<OtherProfileprovider>(context, listen: false)
-    //         .gettingModeratedSubreddit;
-    //     setState(() {
-    //       _isLoading = false;
-    //     });
-    //   });
-    // }
-    // _isInit = false;
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      // print('12 ');
+      Provider.of<OtherProfileprovider>(context, listen: false)
+          .fetchAndSetModeratedSubredditUser()
+          .then((value) {
+        subdata = Provider.of<OtherProfileprovider>(context, listen: false)
+            .gettingModeratedSubreddit;
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
 
     //==================================================//
     super.didChangeDependencies();

@@ -29,15 +29,15 @@ class ModeratedSubredditData {
       required this.moderators});
 
   ModeratedSubredditData.fromJson(Map<String, dynamic> json) {
-    print(json);
-    print(json['_id'].runtimeType);
-    print(json['fixedName'].runtimeType);
-    print(json['name'].runtimeType);
-    print(json['description'].runtimeType);
-    // print(json['subredditLink'].runtimeType);
-    print(json['isJoined'].runtimeType);
-    print(json['rules'].runtimeType);
-    print(json['moderators'].runtimeType);
+    // print(json);
+    // print(json['_id'].runtimeType);
+    // print(json['fixedName'].runtimeType);
+    // print(json['name'].runtimeType);
+    // print(json['description'].runtimeType);
+    // // print(json['subredditLink'].runtimeType);
+    // print(json['isJoined'].runtimeType);
+    // print(json['rules'].runtimeType);
+    // print(json['moderators'].runtimeType);
     id = json['_id'];
     name = json['fixedName'];
     displayName = json['name'];
