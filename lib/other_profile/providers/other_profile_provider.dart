@@ -6,16 +6,19 @@ import '../models/others_profile_data.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/moderated_subreddit_user_data.dart';
+
 //using in heighest widget to use
 class OtherProfileprovider with ChangeNotifier {
   OtherProfileData? loadProfile;
- List< ModeratedSubbredditUserData> ?moderatedSubbredditUserData;
+  List<ModeratedSubbredditUserData>? moderatedSubbredditUserData;
   OtherProfileData? get gettingOtherProfileData {
     return loadProfile;
   }
- List< ModeratedSubbredditUserData> ? get gettingModeratedSubreddit{
-  return moderatedSubbredditUserData;
- }
+
+  List<ModeratedSubbredditUserData>? get gettingModeratedSubreddit {
+    return moderatedSubbredditUserData;
+  }
+
   Future<void> fetchAndSetOtherProfile(String otherUserName) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -25,8 +28,8 @@ class OtherProfileprovider with ChangeNotifier {
       // print(userName);
       await DioClient.get(path: '/users/${otherUserName}/about')
           .then((response) {
-        print(response.data['data']);
-        loadProfile = OtherProfileData.fromJson(response.data['data']);
+        print(response.data['user']);
+        loadProfile = OtherProfileData.fromJson(response.data['user']);
         notifyListeners();
       });
     } catch (error) {
@@ -36,53 +39,62 @@ class OtherProfileprovider with ChangeNotifier {
     }
   }
 
-Future<void> fetchAndSetModeratedSubredditUser() async {
+  Future<void> fetchAndSetModeratedSubredditUser() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-
+      print('12ssdsadsadsada ');
       await DioClient.get(
-          path: '/subreddits/mine/moderator',
-         ).then((response) {
-        print(response.data);
+        path: '/subreddits/mine/moderator',
+      ).then((response) {
+        print('erorrr  ${response.statusCode}');
+        print(response);
         List<ModeratedSubbredditUserData> tempData = [];
-        response.data['subreddits'].forEach((subreedit) {
+        response.data['data'].forEach((subreedit) {
           tempData.add(ModeratedSubbredditUserData.fromJson(subreedit));
         });
         moderatedSubbredditUserData = tempData;
         notifyListeners();
       });
     } catch (error) {
+      // print('12 ');
+      // print('heelo');
       print(error);
-      print('heelo');
       throw (error);
     }
   }
- Future<bool> invitation(String subredditUserName,  String moderatorName) async {
+
+  Future<bool> invitation(
+      String subredditUserName, String moderatorName) async {
     try {
-   final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
       print(prefs);
       DioClient.init(prefs);
-      await DioClient.post(path:'/subreddits/${subredditName}/moderators/${moderatorName}',
-       );
+      await DioClient.post(
+        path: '/subreddits/${subredditName}/moderators/${moderatorName}',
+      ).then((value) => print(value));
       notifyListeners();
       return true;
     } catch (error) {
+      print('error in invitaion : $error');
       return false;
     }
   }
+
   Future<bool> blockUser(String userName) async {
     try {
-   final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
       print(prefs);
+      print(userName);
       DioClient.init(prefs);
-      await DioClient.post(path:'/users/${userName}/block_user',
-       );
+      await DioClient.post(
+        path: '/users/${userName}/block_user',
+      );
       notifyListeners();
       return true;
     } catch (error) {
+      print('blocked error $error');
       return false;
     }
   }
 }
-

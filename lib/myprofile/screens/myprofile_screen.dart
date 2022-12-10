@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
 import '../../widgets/loading_reddit.dart';
 import '../widgets/myprofile_web.dart';
-import '../widgets/myProfile_app.dart';
+import '../widgets/myprofile_app.dart';
 import '../models/myprofile_data.dart';
 import '../providers/myprofile_provider.dart';
 
