@@ -60,6 +60,7 @@ class Auth with ChangeNotifier {
             'Content-type': 'application/json',
             'Accept': 'application/json',
           });
+      print(response);
       error = response.statusCode != 200;
       if (error) {
         errorMessage = json.decode(response.body)['errorMessage'];

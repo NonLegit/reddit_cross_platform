@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:post/createpost/screens/createpost.dart';
-import 'package:post/moderation_settings/models/moderator_tools.dart';
-import 'package:post/notification/screens/messages_main_screen.dart';
 import 'package:post/providers/profile_post.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +34,7 @@ import 'other_profile/screens/others_profile_screen.dart';
 import 'myprofile/screens/edit_profile_screen.dart';
 import 'myprofile/screens/user_followers_screen.dart';
 import 'post/provider/post_provider.dart';
+import 'providers/subreddit_post.dart';
 import 'subreddit/screens/subreddit_screen.dart';
 import 'screens/subreddit_search_screen.dart';
 import 'subreddit/screens/community_info_screen.dart';
@@ -104,6 +101,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider.value(value: Auth()),
             ChangeNotifierProvider.value(value: ProfilePostProvider()),
             ChangeNotifierProvider.value(value: PostProvider()),
+            ChangeNotifierProvider.value(value: SubredditPostProvider()),
           ],
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
@@ -118,7 +116,7 @@ class MyApp extends StatelessWidget {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-            // home: homeLayoutScreen(),
+            home: homeLayoutScreen(),
             // home: HomeScreen(),
             // home: Login(),
             // home: CreateCommunity(),
@@ -127,7 +125,7 @@ class MyApp extends StatelessWidget {
             // home: SignUp(),
             // home: Gender(),
             // home: ModeratorTools(),
-            home: Settings(),
+            // home: Settings(),
             // home: ChangeEmail(),
             routes: {
               ChangeEmail.routeName: (context) => ChangeEmail(),

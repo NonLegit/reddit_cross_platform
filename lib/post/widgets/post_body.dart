@@ -4,8 +4,11 @@ import 'package:fluttericon/mfg_labs_icons.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:post/post/models/post_model.dart';
 
 import '../network/fetch_preview.dart';
+import '../network/open_link.dart';
 import '../network/prepare_images.dart';
 
 /// This Widget is responsible for the body of the post.
@@ -34,15 +37,19 @@ class PostBody extends StatefulWidget {
   /// the array of images to display
   final List<String> images;
 
+  /// the flair data
+  final FlairId? flair;
+
   const PostBody(
       {super.key,
       required this.title,
       required this.type,
       this.nsfw = false,
       this.spoiler = false,
-      this.url = '',
+      required this.url,
       this.text = '',
-      this.images = const []});
+      this.images = const [],
+      required this.flair});
 
   @override
   State<PostBody> createState() => _PostBodyState();
@@ -69,6 +76,8 @@ class _PostBodyState extends State<PostBody> {
   Widget build(BuildContext context) {
     if (widget.type == 'link' && linkImage == '') {
       FetchPreview().fetch(widget.url).then((res) {
+        print(widget.url);
+        print(linkImage);
         setState(
           () {
             link = res['link'];
@@ -99,7 +108,7 @@ class _PostBodyState extends State<PostBody> {
         color: Theme.of(context).colorScheme.brightness == Brightness.light
             ? Theme.of(context).colorScheme.primary
             : Theme.of(context).colorScheme.surface,
-        padding: const EdgeInsetsDirectional.only(top: 10, bottom: 10),
+        padding: const EdgeInsetsDirectional.only(bottom: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,26 +185,46 @@ class _PostBodyState extends State<PostBody> {
                                 Brightness.light
                             ? Theme.of(context).colorScheme.onPrimary
                             : Theme.of(context).colorScheme.onSurface,
-                        fontSize: 20,
+                        fontSize: 18,
                       ),
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.clip,
                     ),
                   ),
+                  if (widget.flair != null)
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color:
+                            HexColor(widget.flair?.backgroundColor as String),
+                      ),
+                      padding: const EdgeInsetsDirectional.only(
+                          start: 10, end: 10, top: 5, bottom: 5),
+                      margin: const EdgeInsetsDirectional.only(
+                          top: 10, start: 10, end: 10),
+                      child: Text(
+                        widget.flair?.text as String,
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: HexColor(widget.flair?.textColor as String),
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ),
                   if (widget.type == 'text' &&
                       widget.text.length > 139 &&
                       !widget.spoiler)
                     Container(
-                      padding:
-                          const EdgeInsetsDirectional.only(start: 10, end: 10),
+                      padding: const EdgeInsetsDirectional.only(
+                          start: 10, end: 10, top: 10),
                       child: Text(
                         widget.text,
+                        maxLines: 3,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 18,
+                          fontSize: 12,
                         ),
                         textAlign: TextAlign.start,
-                        overflow: TextOverflow.clip,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   if (widget.type == 'image' &&
@@ -285,62 +314,70 @@ class _PostBodyState extends State<PostBody> {
             if (((widget.spoiler || widget.nsfw) &&
                     !(widget.type == 'text' || widget.type == 'poll')) ||
                 widget.type == 'link')
-              Flexible(
-                child: ((linkImage != null &&
-                            (linkImage as String).isNotEmpty) ||
-                        (widget.images[0].isNotEmpty && widget.type == 'image'))
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Stack(
-                          alignment: Alignment.bottomLeft,
-                          children: [
-                            (widget.spoiler)
-                                ? Blur(
-                                    child: Image.network(
+              ((linkImage != null && (linkImage as String).isNotEmpty) ||
+                      (widget.images.isNotEmpty &&
+                          widget.images[0].isNotEmpty &&
+                          widget.type == 'image'))
+                  ? GestureDetector(
+                      onTap: widget.type == 'link'
+                          ? () => OpenLink.openLink(widget.url)
+                          : null,
+                      child: Container(
+                        margin: EdgeInsetsDirectional.only(end: 10),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Stack(
+                            alignment: Alignment.bottomLeft,
+                            children: [
+                              (widget.spoiler)
+                                  ? Blur(
+                                      child: Image.network(
+                                        (widget.type == 'link')
+                                            ? linkImage as String
+                                            : widget.images[0],
+                                        height: 70,
+                                        width: 100,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : Image.network(
                                       (widget.type == 'link')
                                           ? linkImage as String
                                           : widget.images[0],
-                                      height: 80,
+                                      height: 70,
                                       width: 100,
-                                      fit: BoxFit.fitWidth,
+                                      fit: BoxFit.cover,
                                     ),
-                                  )
-                                : Image.network(
-                                    (widget.type == 'link')
-                                        ? linkImage as String
-                                        : widget.images[0],
-                                    height: 80,
-                                    width: 100,
-                                    fit: BoxFit.fitWidth,
+                              if (link != null && link != '')
+                                Container(
+                                  width: 100,
+                                  padding: const EdgeInsetsDirectional.only(
+                                      start: 5, end: 5, top: 5, bottom: 5),
+                                  color: Colors.black.withOpacity(0.6),
+                                  child: Text(
+                                    link as String,
+                                    style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                        overflow: TextOverflow.ellipsis),
                                   ),
-                            if (link != null && link != '')
-                              Container(
-                                width: 100,
-                                padding: const EdgeInsetsDirectional.only(
-                                    start: 5, end: 5, top: 5, bottom: 5),
-                                color: Colors.black.withOpacity(0.6),
-                                child: Text(
-                                  link as String,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      overflow: TextOverflow.ellipsis),
-                                ),
-                              )
-                          ],
-                        ),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Container(
-                          width: 100,
-                          height: 80,
-                          margin: const EdgeInsetsDirectional.only(
-                              end: 4, start: 4),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary),
+                                )
+                            ],
+                          ),
                         ),
                       ),
-              )
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Container(
+                        width: 100,
+                        height: 80,
+                        margin:
+                            const EdgeInsetsDirectional.only(end: 4, start: 4),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.secondary),
+                      ),
+                    ),
           ],
         ),
       ),

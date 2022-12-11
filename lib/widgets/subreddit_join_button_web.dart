@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:provider/provider.dart';
+import '../subreddit/providers/subreddit_provider.dart';
 import '../subreddit/widgets/notify_button_web.dart';
 class SubredditJoinButtonWeb extends StatefulWidget {
   bool isJoined;
@@ -58,12 +60,16 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
                         style: TextStyle(fontSize: 13),
                       )
                     : Text('Join'),
-                onPressed: () {
+                onPressed: ()async {
                   if (isJoinedstate) {
                     disJoin();
                   } else {
-                    setState(() {
-                      isJoinedstate = true;
+                   await Provider.of<SubredditProvider>(context, listen: false)
+                        .joinAndDisjoinSubreddit(widget.communityName,
+                            {"action": "sub"}).then((value) {
+                      setState(() {
+                        isJoinedstate = true;
+                      });
                     });
                   }
                 },
@@ -115,10 +121,15 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
               child: Text('Leave'),
-              onPressed: () {
-                setState(() {
-                  disJoin();
+               onPressed: () async {
+                await Provider.of<SubredditProvider>(context, listen: false)
+                    .joinAndDisjoinSubreddit(
+                       widget.communityName, {"action": "unsub"}).then((value) {
+                  setState(() {
+                    disJoin();
+                  });
                 });
+
                 Navigator.of(ctx).pop();
               },
             ),

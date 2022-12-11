@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/typicons_icons.dart';
+import 'package:intl/intl.dart';
 import 'package:post/post/provider/post_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 /// This Widget is responsible for the footer of the post.
 
@@ -76,67 +78,94 @@ class _PostFooterState extends State<PostFooter> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).colorScheme.brightness == Brightness.light
-          ? Theme.of(context).colorScheme.primary
-          : Theme.of(context).colorScheme.surface,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                onPressed: upVote,
-                icon: (postVoteStatus != 1)
-                    ? Icon(
-                        Typicons.up_outline,
-                        color: Theme.of(context).colorScheme.secondary,
-                      )
-                    : Icon(
-                        Typicons.up,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
+    return Material(
+      child: Material(
+        color: Theme.of(context).colorScheme.brightness == Brightness.light
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.surface,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InkWell(
+                  highlightColor: Colors.orange[300],
+                  focusColor: Colors.orange[300],
+                  splashColor: Colors.orange[300],
+                  hoverColor: Colors.orange[300],
+                  borderRadius: BorderRadius.circular(25.0),
+                  onTap: upVote,
+                  child: Tooltip(
+                    message: 'Upvote',
+                    child: Container(
+                      padding: EdgeInsetsDirectional.all(10),
+                      child: (postVoteStatus != 1)
+                          ? Icon(
+                              Typicons.up_outline,
+                              color: Theme.of(context).colorScheme.secondary,
+                            )
+                          : Icon(
+                              Typicons.up,
+                              color: Colors.red[400],
+                            ),
+                    ),
+                  ),
+                ),
+                Text(NumberFormat.compact().format(votes).toString(),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary)),
+                InkWell(
+                  highlightColor: Colors.indigo[100],
+                  focusColor: Colors.indigo[100],
+                  splashColor: Colors.indigo[100],
+                  hoverColor: Colors.indigo[100],
+                  borderRadius: BorderRadius.circular(25.0),
+                  onTap: downVote,
+                  child: Tooltip(
+                    message: 'Downvote',
+                    child: Container(
+                      padding: EdgeInsetsDirectional.all(10),
+                      child: (postVoteStatus != -1)
+                          ? Icon(
+                              Typicons.down_outline,
+                              color: Theme.of(context).colorScheme.secondary,
+                            )
+                          : Icon(
+                              Typicons.down,
+                              color: HexColor('#7192FE'),
+                            ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            TextButton.icon(
+              onPressed: null,
+              icon: Icon(
+                FontAwesome.comment_empty,
+                color: Theme.of(context).colorScheme.secondary,
               ),
-              Text(votes.toString(),
+              label: Text(
+                (widget.comments > 0)
+                    ? NumberFormat.compact().format(widget.comments).toString()
+                    : 'Comment',
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.secondary),
+              ),
+            ),
+            TextButton.icon(
+              onPressed: null,
+              icon: Icon(
+                Icons.share_outlined,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+              label: Text('Share',
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary)),
-              IconButton(
-                onPressed: downVote,
-                icon: (postVoteStatus != -1)
-                    ? Icon(
-                        Typicons.down_outline,
-                        color: Theme.of(context).colorScheme.secondary,
-                      )
-                    : Icon(
-                        Typicons.down,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-              ),
-            ],
-          ),
-          TextButton.icon(
-            onPressed: null,
-            icon: Icon(
-              FontAwesome.comment_empty,
-              color: Theme.of(context).colorScheme.secondary,
             ),
-            label: Text(
-              (widget.comments > 0) ? widget.comments.toString() : 'Comment',
-              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-            ),
-          ),
-          TextButton.icon(
-            onPressed: null,
-            icon: Icon(
-              Icons.share,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-            label: Text('Share',
-                style:
-                    TextStyle(color: Theme.of(context).colorScheme.secondary)),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

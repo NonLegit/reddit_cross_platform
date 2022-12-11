@@ -22,7 +22,7 @@ class _endDrawerState extends State<endDrawer> {
     userName = prefs.getString('userName') as String;
   }
 
-  String userName = '';
+  String userName = 'A';
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +43,8 @@ class _endDrawerState extends State<endDrawer> {
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  width: 250.0,
-                  height: 250.0,
+                  width: 220.0,
+                  height: 220.0,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -111,6 +111,44 @@ class _endDrawerState extends State<endDrawer> {
               ),
               SizedBox(
                 height: 10,
+              ),
+              Divider(
+                thickness: 1,
+              ),
+              Row(
+                children: [
+                GestureDetector(child: Row(
+                  children: [
+                    Icon(Icons.ac_unit_outlined),
+                    Column(
+                      children: [
+                        Text("1",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                        Text("karma",
+                        style: TextStyle(
+                          color: Colors.grey
+                        ),
+                        )
+                      ],
+                    )
+                  ],
+                )),
+                Divider(height: 10,),
+                  GestureDetector(child: Row(
+                    children: [
+                      Icon(Icons.text_snippet_rounded),
+                      Column(
+                        children: [
+                          Text("1m 2d",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                          Text("Reddit ago",
+                            style: TextStyle(
+                                color: Colors.grey
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  )),
+                ],
               ),
               Divider(
                 thickness: 1,

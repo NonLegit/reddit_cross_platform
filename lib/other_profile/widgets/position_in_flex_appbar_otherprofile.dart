@@ -78,7 +78,7 @@ class PositionInFlexAppBarOtherProfile extends StatelessWidget {
                 Container(
                     width: 15.w,
                     height: 6.h,
-                    child: InviteButton()),
+                    child: InviteButton(userName:loadProfile.userName.toString())),
               ],
             ),
             const SizedBox(

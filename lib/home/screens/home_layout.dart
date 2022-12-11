@@ -1,17 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:post/home/widgets/new_drawer.dart';
-import '../../chat/chat.dart';
-import '../../createpost/screens/createpost.dart';
-import '../../discover/discover.dart';
-
-import '../../icons/icon_broken.dart';
-import '../widgets/buttom_nav_bar.dart';
-import '../../notification/screens/notifications_screen.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
-import '../widgets/component.dart';
-
 import 'package:get/get.dart';
 import 'package:post/createpost/controllers/posts_controllers.dart';
 import 'package:post/home/controller/home_controller.dart';
@@ -21,7 +9,8 @@ import '../../icons/icon_broken.dart';
 import '../widgets/buttom_nav_bar.dart';
 import '../widgets/drawer.dart';
 import '../widgets/end_drawer.dart';
-
+import '../controller/home_controller.dart';
+import '../../createpost/controllers/posts_controllers.dart';
 class homeLayoutScreen extends StatefulWidget {
   static const routeName = '/homescreen';
   @override
@@ -32,9 +21,9 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
   final HomeController controller = Get.put(
     HomeController(),
   );
-  final PostController controllerForPost = Get.put(
-    PostController(),
-  );
+  // final PostController controllerForPost = Get.put(
+  //   PostController(),
+  // );
 // Value for DropDownButton
   String dropDownButtonValue = "Home";
   List<String> list = ["Home", "Popular"];
@@ -92,13 +81,15 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
           }),
           title: ElevatedButton.icon(
             onPressed: () {
-              print(controllerForPost.subscribedSubreddits.length);
-              print(controllerForPost.subscribedSubreddits[0].id!);
-              print("ell");
+              // print(controllerForPost.subscribedSubreddits.length);
+              // print(controllerForPost.subscribedSubreddits[0].id!);
             },
             icon: Text(
               "Home",
-              style: TextStyle(color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.w600),
             ),
             label: Icon(
               IconBroken.Arrow___Down_2,
@@ -135,7 +126,8 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
                       radius: 6,
                     ),
                     Padding(
-                      padding: const EdgeInsetsDirectional.only(end: 2, bottom: 2),
+                      padding:
+                          const EdgeInsetsDirectional.only(end: 2, bottom: 2),
                       child: CircleAvatar(
                         backgroundColor: Colors.green,
                         radius: 4,
@@ -149,7 +141,6 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
       bottomNavigationBar: buttomNavBar(),
       endDrawer: endDrawer(),
       drawer: MyDrawer(),
-
       body: controller.obx(
           (data) => ListView.separated(
                 itemCount: data!.length,
