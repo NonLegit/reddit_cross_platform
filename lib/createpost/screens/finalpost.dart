@@ -11,8 +11,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class FinalPost extends StatelessWidget {
   // const FinalPost({Key? key}) : super(key: key);
-  final postController controller = Get.put(
-    postController(),
+  final PostController controller = Get.put(
+    PostController(),
   );
   @override
   Widget build(BuildContext context) {

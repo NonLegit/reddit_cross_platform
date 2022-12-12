@@ -28,7 +28,7 @@ class ModeratedSubredditProvider with ChangeNotifier {
       print(error);
     }
   }
-   Future<bool> joinAndDisjoinModeratedSubreddit(String moderatedSubredditUserName,  Map<String, dynamic>? query) async {
+   Future<void> joinAndDisjoinModeratedSubreddit(String moderatedSubredditUserName,  Map<String, dynamic>? query) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       print(prefs);
@@ -37,11 +37,8 @@ class ModeratedSubredditProvider with ChangeNotifier {
        //data: data
        );
       notifyListeners();
-      return true;
+
     } catch (error) {
-      // print(error);
-      //notifyListeners();
-      return false;
     }
   }
 }

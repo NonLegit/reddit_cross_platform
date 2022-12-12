@@ -17,7 +17,7 @@ class ModeratedSubredditApp extends StatelessWidget {
   bool isLoading;
   TabController? controller;
   ModeratedSubredditApp({
-   required this.userName,
+    required this.userName,
     required this.controller,
     required this.isLoading,
     required this.tabBar,
@@ -79,7 +79,8 @@ class ModeratedSubredditApp extends StatelessWidget {
                   ModeratedSubredditPopupMenuButton(
                     linkOfCommuinty: loadedSubreddit!.subredditLink.toString(),
                     communityName: loadedSubreddit!.name.toString(),
-                    userName: userName,isJoined: loadedSubreddit!.isJoined as bool,
+                    userName: userName,
+                    isJoined: loadedSubreddit!.isJoined as bool,
                   ),
                   Builder(builder: (context) {
                     return IconButton(
@@ -152,7 +153,8 @@ class ModeratedSubredditApp extends StatelessWidget {
                             )),
                         // for name , members ,online and description
                         PositionForModeratedSubredditInfo(
-                            loadedSubreddit: loadedSubreddit,userName: userName),
+                            loadedSubreddit: loadedSubreddit,
+                            userName: userName),
                         //for profile picture
                         Positioned(
                           top: 90,
@@ -190,7 +192,8 @@ class ModeratedSubredditApp extends StatelessWidget {
               )
             : TabBarView(controller: controller, children: [
                 ModeratedSubriddetPosts(
-                    routeNamePop: ModeratedSubredditScreen.routeName),
+                    routeNamePop: ModeratedSubredditScreen.routeName,
+                    subredditName: loadedSubreddit!.name as String),
                 SubredditAbout(
                     rules: loadedSubreddit!.rules as List<SubredditAboutRules>,
                     moderators: loadedSubreddit!.moderators as List<String>,

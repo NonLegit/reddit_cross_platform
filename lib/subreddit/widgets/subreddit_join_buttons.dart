@@ -7,7 +7,7 @@ class JoinButtons extends StatefulWidget {
   bool isJoined;
   String communityuserName;
 
-  JoinButtons({required this.isJoined,required this.communityuserName});
+  JoinButtons({required this.isJoined, required this.communityuserName});
 
   @override
   State<JoinButtons> createState() => JoinButtonsState();
@@ -74,13 +74,13 @@ class JoinButtonsState extends State<JoinButtons> {
                   if (isJoinedstate) {
                     _showLeaveDialog(widget.communityuserName);
                   } else {
-                    bool join = await Provider.of<SubredditProvider>(context,
-                            listen: false)
-                        .joinAndDisjoinSubreddit(widget.communityuserName,{"action":"sub"});
-                    if (join)
+                    await Provider.of<SubredditProvider>(context, listen: false)
+                        .joinAndDisjoinSubreddit(widget.communityuserName,
+                            {"action": "sub"}).then((value) {
                       setState(() {
                         isJoinedstate = true;
                       });
+                    });
                   }
                 },
               ),
@@ -174,7 +174,7 @@ class JoinButtonsState extends State<JoinButtons> {
       builder: (ctx) => AlertDialog(
         //title:Text('Are you sure you want to leave the r/${widget.communityName.toString()} community?'),
         content: Text(
-            'Are you sure you want to leave the r/${ communityName.toString()} community?'),
+            'Are you sure you want to leave the r/${communityName.toString()} community?'),
         actions: <Widget>[
           Container(
             width: 35.w,
@@ -206,13 +206,13 @@ class JoinButtonsState extends State<JoinButtons> {
               ),
               child: Text('Leave'),
               onPressed: () async {
-           bool disjoin =
-                    await Provider.of<SubredditProvider>(context, listen: false)
-                        .joinAndDisjoinSubreddit(communityName,{"action":"unsub"});
-                if (disjoin)
+                await Provider.of<SubredditProvider>(context, listen: false)
+                    .joinAndDisjoinSubreddit(
+                        communityName, {"action": "unsub"}).then((value) {
                   setState(() {
                     disJoin();
                   });
+                });
 
                 Navigator.of(ctx).pop();
               },

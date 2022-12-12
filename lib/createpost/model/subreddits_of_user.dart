@@ -7,15 +7,15 @@ class userSubredditsResponse {
 
   userSubredditsResponse(
       {this.icon,
-        this.id,
-        this.subredditName,
-        this.membersCount,
-        this.description});
+      this.id,
+      this.subredditName,
+      this.membersCount,
+      this.description});
 
   userSubredditsResponse.fromJson(Map<String, dynamic> json) {
     icon = json['icon'];
-    id = json['id'];
-    subredditName = json['subredditName'];
+    id = json['_id'];
+    subredditName = json['fixedName'];
     membersCount = json['membersCount'];
     description = json['description'];
   }
@@ -23,8 +23,8 @@ class userSubredditsResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['icon'] = this.icon;
-    data['id'] = this.id;
-    data['subredditName'] = this.subredditName;
+    data['_id'] = this.id;
+    data['fixedName'] = this.subredditName;
     data['membersCount'] = this.membersCount;
     data['description'] = this.description;
     return data;

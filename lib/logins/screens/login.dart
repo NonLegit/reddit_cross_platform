@@ -18,6 +18,8 @@ import '../../home/screens/home_layout.dart';
 import '../models/status.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../providers/authentication.dart';
+// import 'package:flutter_signin_button/flutter_signin_button.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 
 class Login extends StatefulWidget {
   // Login({Key? key}) : super(key: key);
@@ -119,6 +121,11 @@ class LoginState extends State<Login> {
                     SizedBox(
                       height: 4.h,
                     ),
+                    // SignInButton(
+                    //   Buttons.FacebookNew,
+                    //   text: "Sign up with Google",
+                    //   onPressed: () {},
+                    // ),
                     ContinueWithGoogle(handler: () {}),
                     ContinueWithFacebook(handler: () {}),
                     Padding(

@@ -159,16 +159,14 @@ class ModeratedSubredditPopupMenuButtonState
               ),
               child: Text('Leave'),
               onPressed: () async {
-                bool disjoin = await Provider.of<ModeratedSubredditProvider>(
+           await Provider.of<ModeratedSubredditProvider>(
                         context,
                         listen: false)
                     .joinAndDisjoinModeratedSubreddit(
-                        communityName, {"action": "unsub"});
-                if (disjoin)
-                  setState(() {
+                        communityName, {"action": "unsub"}).then((value) { setState(() {
                     disJoin();
-                  });
-
+                  });});
+            
                 Navigator.of(ctx).pop();
               },
             ),
@@ -184,10 +182,10 @@ class ModeratedSubredditPopupMenuButtonState
   }
 
   void _join(String communityName) async {
-    //bool join =
-    await Provider.of<ModeratedSubredditProvider>(context, listen: false)
-        .joinAndDisjoinModeratedSubreddit(
-            communityName, {"action": 'sub'}).then((value) {
+
+        await Provider.of<ModeratedSubredditProvider>(context, listen: false)
+            .joinAndDisjoinModeratedSubreddit(
+                communityName, {"action": "sub"}).then((value) {
       setState(() {
         isJoinedstate = true;
       });

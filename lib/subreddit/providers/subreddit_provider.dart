@@ -19,7 +19,8 @@ Future<void> fetchAndSetSubredddit(String subredditUserName) async {
       subredditName = subredditUserName;
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-      await DioClient.get(path: subreddit).then((response) {
+      await DioClient.get(path: '/subreddits/${subredditUserName}')
+          .then((response) {
         print('lllllllllllllllllllllllllllllllllllll');
         print(response.data['data']);
         loadSubreddit = SubredditData.fromJson(response.data['data']);
@@ -30,7 +31,7 @@ Future<void> fetchAndSetSubredddit(String subredditUserName) async {
       //throw (error);
     }
   }
-  Future<bool> joinAndDisjoinSubreddit(String subredditUserName,  Map<String, dynamic>? query) async {
+  Future<void> joinAndDisjoinSubreddit(String subredditUserName,  Map<String, dynamic>? query) async {
     try {
    final prefs = await SharedPreferences.getInstance();
       print(prefs);
@@ -39,9 +40,7 @@ Future<void> fetchAndSetSubredddit(String subredditUserName) async {
        //data: data
        );
       notifyListeners();
-      return true;
     } catch (error) {
-      return false;
     }
   }
 }

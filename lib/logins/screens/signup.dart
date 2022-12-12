@@ -68,7 +68,7 @@ class SignUpState extends State<SignUp> {
   /// error message to view when the password is invalid
   String passwordErrorMessage = '';
 
-  ///controlling the finish flag
+  ///controlling the isfinish flag
   ///
   ///when user typing in any input field ->
   ///check the changes and detect when the finish flag is true
@@ -186,7 +186,7 @@ class SignUpState extends State<SignUp> {
       'email': inputEmailController.text,
       'password': inputPasswardController.text
     }).then((value) {
-      // Navigator.of(context).pushNamed(Gender.routeName);
+      //Navigator.of(context).pushNamed(Gender.routeName);
     });
     setState(() {
       isError = provider.error;

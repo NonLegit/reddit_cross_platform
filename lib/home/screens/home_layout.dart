@@ -83,7 +83,6 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> {
             onPressed: () {
               // print(controllerForPost.subscribedSubreddits.length);
               // print(controllerForPost.subscribedSubreddits[0].id!);
-              // print("ell");
             },
             icon: Text(
               "Home",

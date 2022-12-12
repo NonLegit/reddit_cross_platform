@@ -29,8 +29,8 @@ class _TextInputState extends State<TextInput> {
         color: Color.fromARGB(255, 228, 231, 239),
         child: Focus(
           onFocusChange: (hasfocus) {
-            int x = 2;
             widget.ontap(hasfocus);
+            int x = 12;
           },
           child: TextField(
             onChanged: (_) {

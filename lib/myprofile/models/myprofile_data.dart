@@ -47,7 +47,7 @@ class MyProfileData {
     profilePicture = json['profilePicture'];
     profileBackPicture = json['profileBackground'];
     description = json['description'];
-    displayName = json['displayName'];
+    displayName = json['userName']; //json['displayName'];
     followersCount = int.parse(json['followersCount'].toString());
     createdAt = json['createdAt'];
     // numOfDaysInReddit = int.parse(json['numOfDaysInReddit'].toString());

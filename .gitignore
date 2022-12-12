@@ -46,8 +46,7 @@ app.*.map.json
 
 #additional ignore
 .metadata
-pubspec.lock
-android/
+pubspec.locks
 ios/
 linux/
 macos/
@@ -55,4 +54,4 @@ web/
 windows/
 json_server/node_modules
 json_server/package-lock.json
-
+.env

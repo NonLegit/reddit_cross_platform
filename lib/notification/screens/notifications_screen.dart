@@ -268,9 +268,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ),
               ),
-              bottomNavigationBar:buttomNavBar(),
+              bottomNavigationBar: buttomNavBar(),
               endDrawer: endDrawer(),
-              drawer:drawer(),
+              drawer: drawer(),
               body: TabBarView(children: [
                 !returned
                     ? LoadingReddit()
