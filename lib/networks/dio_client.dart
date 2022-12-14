@@ -30,7 +30,7 @@ class DioClient {
         headers: {
           'Content-type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ' + token,
+         // 'Authorization': 'Bearer ' + token,
         },
       ),
     );
@@ -51,7 +51,7 @@ class DioClient {
   }
 
   static Future<Response> patch(
-      {required String path, required Map<String, dynamic> data}) async {
+      {required String path, Map<String, dynamic>? data}) async {
     return await dio!.patch(path, data: data);
   }
 }

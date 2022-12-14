@@ -5,7 +5,6 @@ import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../models/subreddit_data.dart';
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 //using in heighest widget to use
 class SubredditProvider with ChangeNotifier {

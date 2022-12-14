@@ -1,40 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import '../constants/community_modal_sheet_constants.dart';
+import '../models/create_community_model.dart';
+import '../provider/create_community_provider.dart';
 import 'radio_button_widget.dart';
 
 class CreateCommunityWeb extends StatefulWidget {
   CreateCommunityWeb({
     super.key,
-    required GlobalKey<FormState> formKey,
+    // required GlobalKey<FormState> formKey,
     required TextEditingController communityNameController,
     required this.errorMessage,
     required this.count,
     required this.checked,
-    required this.changeCounterValue,
-    required this.onClick,
-    required this.toggleSwitch,
     required this.saveCommunity,
-    required this.validateTextField,
-    required this.validateCommunity,
-  })  : _formKey = formKey,
-        _communityNameController = communityNameController;
+  }) : _communityNameController = communityNameController;
 
-  final GlobalKey<FormState> _formKey;
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _communityNameController;
   String errorMessage;
   int count;
   bool checked;
 
-  final Function changeCounterValue;
-  final Function onClick;
-  final Function toggleSwitch;
+  // final Function changeCounterValue;
+  // final Function toggleSwitch;
   final Function saveCommunity;
-  final Function validateTextField;
-  final Function validateCommunity;
+  // final Function validateTextField;
+  // final Function validateCommunity;
 
   @override
   State<CreateCommunityWeb> createState() => _CreateCommunityWebState();
@@ -43,16 +39,115 @@ class CreateCommunityWeb extends StatefulWidget {
 class _CreateCommunityWebState extends State<CreateCommunityWeb> {
   int selectedIndex = -1;
   bool validated = true;
+  bool uniqueCommunityName = false;
+  String? choosenCommunityType;
+  String? communityDefinition;
+  bool toggleSwitch = false;
+  onClick(key2) {
+    //changing the type of commmunity chosen
+    //return type void
+    //input takes the choosen community the either(private-public-restricted)
+    setState(() {
+      choosenCommunityType = key2;
+      communityDefinition = communityType[key2]!;
+    });
+  }
+
+  String? validateTextField(value) {
+    //used to validate the text field check if not empty and check if it only contains (A to Z or a to z or _)
+    //return type Strung: error message if not validated or null if validated
+    //input the text written in textField
+    if ((value!.length < 3 && value.isNotEmpty) ||
+        !RegExp(r'^[A-Za-z0-9_.]+$').hasMatch(value)) {
+      return 'Community names must be between 3-21 characters,and\n only contain letters,numbers or underscores';
+    }
+    return null;
+  }
+
+  _onChangeTextField(value) {
+    //called when changing the input field
+    //return type void
+    //input the text written in textField
+
+    setState(() {
+      widget.count = 21 - value.length as int;
+    });
+  }
+
+  _toggleSwitch(value) {
+    print(value);
+    print(widget.checked);
+    //used to toggle the switch of 18+ to true or false
+    //return type void
+
+    setState(() {
+      toggleSwitch = value;
+    });
+    print(widget.checked);
+  }
+
   _onClickWeb(index, type) {
     setState(() {
       selectedIndex = index;
     });
-    widget.onClick(type);
+    onClick(type);
   }
 
   FocusNode textFieldFocus = FocusNode();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    choosenCommunityType = communityType.keys.elementAt(0);
+    // textFieldFocus.addListener(() {
+    //   print(textFieldFocus.hasFocus);
+    //   if (!textFieldFocus.hasFocus) {
+    //     _validateTextField();
+    //   }
+    // });
+    widget.count = 21 - widget._communityNameController.text.length;
+    selectedIndex = 0;
+    super.initState();
+  }
+
+  Future<void> _checkIfUnique() async {
+    String name = widget._communityNameController.text;
+    print(widget._communityNameController.text);
+    setState(() {
+      uniqueCommunityName = false;
+    });
+    if (name.length >= 3
+        //&&
+        //widget._formKey.currentState!.validate()
+        ) {
+      try {
+        bool found =
+            await Provider.of<CreateCommunityProvider>(context, listen: false)
+                .getCommunity(widget._communityNameController.text,context);
+        if (found) {
+          setState(() {
+            uniqueCommunityName = false;
+            widget.errorMessage =
+                'Sorry,${widget._communityNameController.text} is taken.Try another.';
+            //validating = false;
+          });
+        } else {
+          setState(() {
+            uniqueCommunityName = true;
+            widget.errorMessage = '';
+            //validating = false;
+          });
+        }
+      } catch (error) {
+        //print(error);
+      }
+    }
+  }
+
   _validateTextField() {
+    setState(() {
+      validated = false;
+    });
     if (widget._communityNameController.text.isEmpty) {
       setState(() {
         widget.errorMessage = 'A community name is required';
@@ -62,35 +157,13 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
     }
     setState(() {
       widget.errorMessage =
-          widget.validateTextField(widget._communityNameController.text) ?? '';
+          validateTextField(widget._communityNameController.text) ?? '';
       if (widget.errorMessage != '') {
         validated = false;
         return;
-      }
-    });
-    bool check = widget.validateCommunity();
-    if (check == true) {
-      setState(() {
-        validated = false;
-      });
-    } else {
-      setState(() {
+      } else
         validated = true;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    textFieldFocus.addListener(() {
-      if (!textFieldFocus.hasFocus) {
-        _validateTextField();
-      }
     });
-    widget.count = 21 - widget._communityNameController.text.length;
-    selectedIndex = 0;
-    super.initState();
   }
 
   @override
@@ -98,6 +171,33 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
     // TODO: implement dispose
     super.dispose();
     textFieldFocus.removeListener(() {});
+  }
+
+  _saveCommunity() async {
+    //called to save the commmunity
+    //return value void
+
+    final createCommunityModel = CreateCommunityModel(
+        nSFW: toggleSwitch,
+        name: widget._communityNameController.text,
+        type: choosenCommunityType);
+    print(toggleSwitch);
+    print(widget._communityNameController.text);
+    print(choosenCommunityType);
+    await Provider.of<CreateCommunityProvider>(context, listen: false)
+        .postCommunity(createCommunityModel.toJson(),context)
+        .then((value) {
+      //if(value)
+      // print('Community $value');
+      Navigator.of(context).pushNamed(ModeratedSubredditScreen.routeName,
+          //  arguments: 'Cooking'
+          arguments: widget._communityNameController.text);
+    });
+    // if (postCommunity) {
+    //   setState(() {
+    //     done = true;
+    //   });
+    //}
   }
 
   @override
@@ -225,15 +325,15 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
                 const Text('Adult content'),
                 GestureDetector(
                   onTap: () {
-                    widget.toggleSwitch(!widget.checked);
+                    _toggleSwitch(!toggleSwitch);
                   },
                   child: Row(
                     children: [
                       Icon(
-                        (widget.checked)
+                        (toggleSwitch)
                             ? Icons.check_box
                             : Icons.check_box_outline_blank_outlined,
-                        color: (widget.checked) ? Colors.blue : Colors.black45,
+                        color: (toggleSwitch) ? Colors.blue : Colors.black45,
                       ),
                       RichText(
                         textAlign: TextAlign.start,
@@ -282,14 +382,21 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
                       width: 1.w,
                     ),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         _validateTextField();
                         if (validated) {
-                          widget.saveCommunity();
-                          Navigator.of(context).pushNamed(
-                              ModeratedSubredditScreen.routeName,
-                              arguments: widget._communityNameController.text);
+                          await _checkIfUnique().then((value) {
+                            if (uniqueCommunityName) {
+                              _saveCommunity();
+                            }
+                          });
                         }
+                        // if (validated) {
+                        //   _saveCommunity();
+                        //   // Navigator.of(context).pushNamed(
+                        //   //     ModeratedSubredditScreen.routeName,
+                        //   //     arguments: widget._communityNameController.text);
+                        // }
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue,

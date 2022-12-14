@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/status.dart';
-import '../models/status.dart';
 
 class TextInput extends StatefulWidget {
   // const TextInput({Key? key}) : super(key: key);

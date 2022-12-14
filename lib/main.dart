@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:post/providers/profile_post.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
@@ -29,10 +34,14 @@ import './logins/screens/forgot_username.dart';
 import './screens/emptyscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:post/home/screens/home_layout.dart';
+import 'logins/providers/notification.dart';
 import 'myprofile/screens/myprofile_screen.dart';
+import 'notification/models/notification_class_model.dart';
 import 'other_profile/screens/others_profile_screen.dart';
 import 'myprofile/screens/edit_profile_screen.dart';
 import 'myprofile/screens/user_followers_screen.dart';
+import 'show_post/screens/show_post.dart';
+import 'show_post/widgets/edit_post.dart';
 import 'post/provider/post_provider.dart';
 import 'providers/subreddit_post.dart';
 import 'subreddit/screens/subreddit_screen.dart';
@@ -56,6 +65,7 @@ import './settings/screens/change_email.dart';
 import './settings/screens/change_password.dart';
 import './settings/screens/change_email.dart';
 import './settings/screens/change_password.dart';
+import './messages/screens/new_message_screen.dart';
 //=====================================Providers====================================================//
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
@@ -65,18 +75,184 @@ import './create_community/provider/create_community_provider.dart';
 import './moderation_settings/provider/moderation_settings_provider.dart';
 import './notification/provider/notification_provider.dart';
 import 'logins/providers/authentication.dart';
+import './notification/provider/push_notification.dart';
 
-void main() async {
+String returnCorrectText(type, name, user) {
+  String text = '';
+  if (type == 'userMention') {
+    text = '$user mentioned you in $name';
+  } else if (type == 'follow') {
+    text = 'New follower!';
+  } else if (type == 'postReply') {
+    text = '$user replied to your post in $name';
+  } else if (type == 'commentReply') {
+    text = '$user replied to your comment in $name';
+  } else if (type == 'firstCommentUpVote' || type == 'firstPostUpVote') {
+    text = '⬆️ 1\'st upvote';
+  }
+  return text;
+}
+
+String returnCorrectDescription(type, description, name) {
+  String description1 = '';
+  if (type == 'firstCommentUpVote') {
+    description1 = 'Go see your post on $name : $description';
+  } else if (type == 'firstPostUpVote') {
+    description1 = 'Go see your comments on $name : $description';
+  } else if (type == 'follow') {
+    description1 = '$name followed you.Follow them back';
+  } else {
+    description1 = description;
+  }
+  return description1;
+}
+
+//@pragma('vm:entry-point')
+NotificationModel notificationModel = NotificationModel();
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
+  await Firebase.initializeApp();
+  await FirebaseMessaging.instance.getToken();
+  //print('hidojsljfkbgdvdbhnjkjhgvfcvgbhnjmk');
+  await setupFlutterNotifications();
+  print('Handling a background message ${message.messageId}');
+  RemoteNotification? notification = message.notification;
+  notificationModel =
+      NotificationModel.fromJson(json.decode(message.data['val']));
+  flutterLocalNotificationsPlugin.show(
+      notification.hashCode,
+      returnCorrectText(notificationModel.type, notificationModel.requiredName,
+          notificationModel.followeruserName),
+      //notificationModel.type,
+      //notificationModel.description,
+
+      returnCorrectDescription(notificationModel.type,
+          notificationModel.description, notificationModel.requiredName),
+      NotificationDetails(
+          android: AndroidNotificationDetails(
+        channel.id,
+        channel.name,
+        channelDescription: channel.description,
+        color: Colors.blue,
+        playSound: true,
+        // icon: ('assets/images/reddit.png'),
+      )));
+}
+
+bool isFlutterLocalNotificationsInitialized = false;
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+AndroidNotificationChannel channel = const AndroidNotificationChannel(
+  'high_importance_channel', // id
+  'High Importance Notifications', // title
+  description:
+      'This channel is used for important notifications.', // description
+  importance: Importance.high,
+);
+
+Future<void> setupFlutterNotifications() async {
+  if (isFlutterLocalNotificationsInitialized) {
+    print('settings doneeeeeeeeeee');
+    return;
+  }
+  print('Print the channel $channel');
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  isFlutterLocalNotificationsInitialized = true;
+}
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   final prefs = await SharedPreferences.getInstance();
   await prefs.setInt('counter', 10);
   final int? cont = prefs.getInt('counter');
+  await Firebase.initializeApp();
+  await NotificationToken.getTokenOfNotification();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int counter = 0;
+  @override
+  void initState() {
+    //AndroidNotificationChannel channel;
+    // TODO: implement initState
+    super.initState();
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print(message.data);
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      print(notification.hashCode);
+      if (message.data != null) {
+        print(message.data['val']);
+        notificationModel =
+            NotificationModel.fromJson(json.decode(message.data['val']));
+        print('hiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+        print(channel.id);
+        print(channel.name);
+        print(channel.description);
+        print(message.data['val']);
+
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            returnCorrectText(
+                notificationModel.type,
+                notificationModel.requiredName,
+                notificationModel.followeruserName),
+            //notificationModel.type,
+            //notificationModel.description,
+            returnCorrectDescription(notificationModel.type,
+                notificationModel.description, notificationModel.requiredName),
+            NotificationDetails(
+                android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              color: Colors.blue,
+              playSound: true,
+              //     icon: ('assets/images/reddit.png'),
+            )));
+      }
+    });
+    onOpeningMessage(context) {
+      FirebaseMessaging.onMessageOpenedApp.listen(
+        (RemoteMessage message) async {
+          print('BYEEEEEEEEEEEEEEEEEEEEEEE');
+          print(message.data);
+          RemoteNotification? notification = message.notification;
+          AndroidNotification? android = message.notification?.android;
+          if (message.data != null) {
+            Navigator.of(context)
+                .popAndPushNamed(NavigateToCorrectScreen.routeName);
+          }
+        },
+      );
+    }
+    //push.onMessageListener();
+    // push.onOpeningMessage(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,18 +292,20 @@ class MyApp extends StatelessWidget {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-            home: homeLayoutScreen(),
+
+            //home: homeLayoutScreen(),
             // home: HomeScreen(),
-            // home: Login(),
+            // home: NotificationScreen(),
+            // home:ShowPostDetails(),
             // home: CreateCommunity(),
-            // home: Login(),
-            // home: ForgotUserName(),
-            // home: SignUp(),
-            // home: Gender(),
-            // home: ModeratorTools(),
-            // home: Settings(),
-            // home: ChangeEmail(),
+            //   home: homeLayoutScreen(),
+            // home: HomeScreen(),
+            home: Login(),
+            // home: CreateCommunity(),
             routes: {
+              NewMessageScreen.routeName: (context) => NewMessageScreen(),
+              EditPost.routeName: (context) => EditPost(),
+              ShowPostDetails.routeName: (context) => ShowPostDetails(),
               ChangeEmail.routeName: (context) => ChangeEmail(),
               ChangePassword.routeName: (context) => ChangePassword(),
               ChooseCountry.routeName: (context) => ChooseCountry(),
@@ -170,17 +348,17 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class _MyHomeApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('MyShop'),
-      ),
-      body: const Center(
-        child: Text('Let\'s build a shop!'),
-      ),
-    );
-  }
-}
+// class _MyHomeApp extends StatelessWidget {
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('MyShop'),
+//       ),
+//       body: const Center(
+//         child: Text('Let\'s build a shop!'),
+//       ),
+//     );
+//   }
+// }
