@@ -13,6 +13,11 @@ class NotificationProvider with ChangeNotifier {
   NotificationModel? notificationClassModel;
   List<NotificationModel> listToday = [];
   List<NotificationModel> listEariler = [];
+  int? count;
+  initState(){
+    count = 0;
+  }
+  //int counter = 0;
   List<NotificationModel> get returnTodayNotification {
     return [...listToday];
   }
@@ -20,6 +25,7 @@ class NotificationProvider with ChangeNotifier {
   List<NotificationModel> get returnEarlierNotification {
     return [...listEariler];
   }
+
 
   void appendToList(NotificationModel notificationClassModel) {
     if (DateTime.now()
@@ -33,6 +39,16 @@ class NotificationProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  // void incrementCounter() {
+  //   count = count!+1;
+  //   notifyListeners();
+  // }
+
+  // void decrementCounter() {
+  //   counter = counter--;
+  //   notifyListeners();
+  // }
 
 //Get notification
   Future<void> getNotification(BuildContext context) async {
@@ -113,7 +129,7 @@ class NotificationProvider with ChangeNotifier {
       // print(notificationId);
       // print(type);
       // print('/users/notifications/{$notificationId}/$type');
-      //type ==> hide or mark_as_read
+      // type ==> hide or mark_as_read
       if (type == 'hide') {
         (i == 1)
             ? listEariler

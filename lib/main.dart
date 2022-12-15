@@ -109,35 +109,38 @@ String returnCorrectDescription(type, description, name) {
 
 //@pragma('vm:entry-point')
 PushNotificationModel notificationModel = PushNotificationModel();
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
-  await Firebase.initializeApp();
-  await FirebaseMessaging.instance.getToken();
-  //print('hidojsljfkbgdvdbhnjkjhgvfcvgbhnjmk');
-  await setupFlutterNotifications();
-  print('Handling a background message ${message.messageId}');
-  RemoteNotification? notification = message.notification;
-  notificationModel =
-      PushNotificationModel.fromJson(json.decode(message.data['val']));
-  flutterLocalNotificationsPlugin.show(
-      notification.hashCode,
-      returnCorrectText(notificationModel.type, notificationModel.requiredName,
-          notificationModel.followeruserName),
-      //notificationModel.type,
-      //notificationModel.description,
+NotificationProvider provider = NotificationProvider();
+final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
+//Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+// print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
+//   await Firebase.initializeApp();
+//   await FirebaseMessaging.instance.getToken();
+//   //print('hidojsljfkbgdvdbhnjkjhgvfcvgbhnjmk');
+//   await setupFlutterNotifications();
+//   print('Handling a background message ${message.messageId}');
+//   RemoteNotification? notification = message.notification;
+//   notificationModel =
+//       PushNotificationModel.fromJson(json.decode(message.data['val']));
+//   provider.incrementCounter();
+//   flutterLocalNotificationsPlugin.show(
+//       notification.hashCode,
+//       returnCorrectText(notificationModel.type, notificationModel.requiredName,
+//           notificationModel.followeruserName),
+//       //notificationModel.type,
+//       //notificationModel.description,
 
-      returnCorrectDescription(notificationModel.type,
-          notificationModel.description, notificationModel.requiredName),
-      NotificationDetails(
-          android: AndroidNotificationDetails(
-        channel.id,
-        channel.name,
-        channelDescription: channel.description,
-        color: Colors.blue,
-        playSound: true,
-        // icon: ('assets/images/reddit.png'),
-      )));
-}
+//       returnCorrectDescription(notificationModel.type,
+//           notificationModel.description, notificationModel.requiredName),
+//       NotificationDetails(
+//           android: AndroidNotificationDetails(
+//         channel.id,
+//         channel.name,
+//         channelDescription: channel.description,
+//         color: Colors.blue,
+//         playSound: true,
+//         // icon: ('assets/images/reddit.png'),
+//       )));
+// }
 
 bool isFlutterLocalNotificationsInitialized = false;
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -150,23 +153,23 @@ AndroidNotificationChannel channel = const AndroidNotificationChannel(
   importance: Importance.high,
 );
 
-Future<void> setupFlutterNotifications() async {
-  if (isFlutterLocalNotificationsInitialized) {
-    print('settings doneeeeeeeeeee');
-    return;
-  }
-  print('Print the channel $channel');
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-  isFlutterLocalNotificationsInitialized = true;
-}
+// Future<void> setupFlutterNotifications() async {
+//   if (isFlutterLocalNotificationsInitialized) {
+//     print('settings doneeeeeeeeeee');
+//     return;
+//   }
+//   // print('Print the channel $channel');
+//   await flutterLocalNotificationsPlugin
+//       .resolvePlatformSpecificImplementation<
+//           AndroidFlutterLocalNotificationsPlugin>()
+//       ?.createNotificationChannel(channel);
+//   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+//     alert: true,
+//     badge: true,
+//     sound: true,
+//   );
+//   isFlutterLocalNotificationsInitialized = true;
+// }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -174,9 +177,13 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setInt('counter', 10);
   final int? cont = prefs.getInt('counter');
-  await Firebase.initializeApp();
-  await NotificationToken.getTokenOfNotification();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await prefs.setInt('not', 0);
+  provider.initState();
+  //await Firebase.initializeApp();
+  // await NotificationToken.getTokenOfNotification();
+  // final RemoteMessage? remoteMessage =
+  //   await FirebaseMessaging.instance.getInitialMessage();
+  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(MyApp());
 }
@@ -200,21 +207,19 @@ class _MyAppState extends State<MyApp> {
     var initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print(message.data);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      //print(message.data);
+
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
-      print(notification.hashCode);
+      // print(notification.hashCode);
       if (message.data != null) {
-        print(message.data['val']);
+        // print(message.data['val']);
         notificationModel =
             PushNotificationModel.fromJson(json.decode(message.data['val']));
-        print('hiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
-        print(channel.id);
-        print(channel.name);
-        print(channel.description);
-        print(message.data['val']);
-
+        print('foregroud');
+        //provider.incrementCounter();
+        print('returned from counter in foreground');
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
             returnCorrectText(
@@ -234,6 +239,19 @@ class _MyAppState extends State<MyApp> {
               playSound: true,
               //     icon: ('assets/images/reddit.png'),
             )));
+        FirebaseMessaging.onMessageOpenedApp.listen(
+          (RemoteMessage message) async {
+            print('BYEEEEEEEEEEEEEEEEEEEEEEE');
+            print(message.data);
+            RemoteNotification? notification = message.notification;
+            AndroidNotification? android = message.notification?.android;
+            if (message.data['val'] != null) {
+              print('heereeeeeeeeeeeeee');
+              Navigator.of(navState.currentState!.context)
+                  .pushNamed(NavigateToCorrectScreen.routeName);
+            }
+          },
+        );
       }
     });
     // initializationSettingsAndroid =
@@ -241,8 +259,8 @@ class _MyAppState extends State<MyApp> {
     // initializationSettings =
     //     InitializationSettings(android: initializationSettingsAndroid);
     // flutterLocalNotificationsPlugin.initialize(initializationSettings);
-     FirebaseMessaging.instance
-        .getInitialMessage();
+    //  FirebaseMessaging.instance
+    //     .getInitialMessage();
     FirebaseMessaging.onMessageOpenedApp.listen(
       (RemoteMessage message) async {
         print('BYEEEEEEEEEEEEEEEEEEEEEEE');
@@ -251,7 +269,8 @@ class _MyAppState extends State<MyApp> {
         AndroidNotification? android = message.notification?.android;
         if (message.data['val'] != null) {
           print('heereeeeeeeeeeeeee');
-          Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
+          Navigator.of(navState.currentState!.context)
+              .pushNamed(NavigateToCorrectScreen.routeName);
         }
       },
     );
@@ -286,6 +305,7 @@ class _MyAppState extends State<MyApp> {
           ],
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
+            navigatorKey: navState,
             title: 'Logins',
             theme: theme.copyWith(
               primaryColor: Colors.red,

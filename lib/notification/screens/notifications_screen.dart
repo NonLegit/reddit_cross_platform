@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/notification_class_model.dart';
 
 import 'package:provider/provider.dart';
@@ -139,7 +140,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   void initState() {
+  //  _updateCount();
     super.initState();
+  }
+
+  _updateCount() {
+    //final prefs = await SharedPreferences.getInstance();
+    unreadNotification = Provider.of<NotificationProvider>(context).count!;
+    print('In notifications          $unreadNotification');
   }
 
   @override
@@ -148,6 +156,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       setState(() {
         returned = false;
       });
+    //  _updateCount();
       await Provider.of<NotificationProvider>(context, listen: false)
           .getNotification(context)
           .then((value) {
@@ -201,7 +210,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<NotificationProvider>(context);
+    _updateCount();
+    //final data = Provider.of<NotificationProvider>(context,listen: false);
     //var cubit =layoutCubit.get(context);
     MediaQueryData queryData = MediaQuery.of(context);
     final height = queryData.size.height;
@@ -271,23 +281,24 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     unselectedLabelColor: Colors.grey,
                     tabs: [
                       Badge(
-                        toAnimate: false,
-                        position: BadgePosition.topEnd(end: -10, top: -23),
-                        shape: BadgeShape.circle,
-                        borderRadius: BorderRadius.circular(4),
-                        showBadge: unreadNotification != 0 ? true : false,
-                        badgeContent: const Text(
-                          '3',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.only(bottom: 6),
-                          child: Text(
-                            'Notifications',
-                            style: TextStyle(fontSize: 15),
+                          toAnimate: false,
+                          position: BadgePosition.topEnd(end: -10, top: -23),
+                          shape: BadgeShape.circle,
+                          borderRadius: BorderRadius.circular(4),
+                          showBadge: unreadNotification != 0 ? true : false,
+                          badgeContent: Text(
+                            unreadNotification.toString(),
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.only(bottom: 6),
+                            child: Text(
+                              'Notifications',
+                              style: TextStyle(fontSize: 15),
+                            ),
                           ),
                         ),
-                      ),
+                      
                       const Padding(
                         padding: EdgeInsets.only(bottom: 6),
                         child: Text(

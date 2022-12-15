@@ -35,7 +35,7 @@ class PushNotificationModel {
       this.followeruserName});
 
   PushNotificationModel.fromJson(Map<String, dynamic> json) {
-    print(json);
+    //print(json);
     // print('hh');
     // print(json['_id'].runtimeType);
     // print('hh');
@@ -63,10 +63,10 @@ class PushNotificationModel {
     print(json['followedUser'].runtimeType);
     print(json['followedUser']);
     if (json['followedUser'] != null) {
-      print('in followeeeeeeeeeeeeeeeeedddddddddd');
+   //   print('in followeeeeeeeeeeeeeeeeedddddddddd');
       requiredId = json['followedUser']['_id'] as String ;
       requiredName = json['followedUser']['userName'] ?? '';
-      print(requiredName);
+   //   print(requiredName);
     } else if (json['followedSubreddit'] != null) {
       requiredId = json['followedSubreddit']['_id'] as String ;
       requiredName = json['followedSubreddit']['fixedName'] ?? '';
@@ -88,7 +88,7 @@ class PushNotificationModel {
     }
 
     if (json['post'] != null) {
-      print('In class Model');
+   //   print('In class Model');
       // print(json['post']['_id'].runtimeType);
       postId = json['post'] as String ;
     } else {
