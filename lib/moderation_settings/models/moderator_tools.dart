@@ -18,7 +18,9 @@ class ModeratorToolsModel {
   bool? allowGif;
   bool? allowImageUploads;
   bool? allowMultipleImage;
-
+  bool? allowImages;
+  bool? allowVideos;
+  bool? allowLinks;
   ModeratorToolsModel(
       {this.createdAt,
       this.primaryTopic,
@@ -38,11 +40,14 @@ class ModeratorToolsModel {
       this.allowSpoilerTag,
       this.allowGif,
       this.allowImageUploads,
-      this.allowMultipleImage});
+      this.allowMultipleImage,
+      this.allowImages,
+      this.allowLinks,
+      this.allowVideos});
 
-    String? get choosenTopic1{
-        return primaryTopic;
-      }    
+  String? get choosenTopic1 {
+    return primaryTopic;
+  }
 
   ModeratorToolsModel.fromJson(Map<String, dynamic> json) {
     //createdAt = json['createdAt'];
@@ -51,7 +56,7 @@ class ModeratorToolsModel {
     // icon = json['icon'];
     // rules = json['rules'] != null ? Rules.fromJson(json['rules']) : null;
     // name = json['name'];
-    // description = json['description'];
+    description = json['description'];
     // if (json['topics'] != null) {
     //   topics = <Null>[];
     //   json['topics'].forEach((v) {
@@ -59,9 +64,9 @@ class ModeratorToolsModel {
     //   });
     // }
     // language = json['language'];
-    // region = json['region'];
-    // type = json['type'];
-    // nsfw = json['nsfw'];
+    region = json['region'];
+    type = json['type'];
+    nsfw = json['nsfw'];
     // postType = json['postType'];
     // allowCrossposting = json['allowCrossposting'];
     // allowArchivePosts = json['allowArchivePosts'];
@@ -69,6 +74,9 @@ class ModeratorToolsModel {
     // allowGif = json['allowGif'];
     // allowImageUploads = json['allowImageUploads'];
     // allowMultipleImage = json['allowMultipleImage'];
+    allowImages = json['allowImages'];
+    allowVideos = json['allowVideos'];
+    allowLinks = json['allowLinks'];
   }
 
   Map<String, dynamic> toJson() {
@@ -96,6 +104,9 @@ class ModeratorToolsModel {
     data['allowGif'] = allowGif;
     data['allowImageUploads'] = allowImageUploads;
     data['allowMultipleImage'] = allowMultipleImage;
+    data['allowImages'] = allowImages;
+    data['allowVideos'] = allowVideos;
+    data['allowLinks'] = allowLinks;
     return data;
   }
 }

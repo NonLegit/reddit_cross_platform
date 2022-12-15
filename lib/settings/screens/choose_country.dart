@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants/countries.dart';
+import '../../constants/countries.dart';
 
 class ChooseCountry extends StatelessWidget {
   static const routeName = '/choosecountry';

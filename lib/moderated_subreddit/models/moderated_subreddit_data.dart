@@ -30,6 +30,7 @@ class ModeratedSubredditData {
       required this.moderators});
 
   ModeratedSubredditData.fromJson(Map<String, dynamic> json) {
+
     name = json['fixedName'];
     displayName = json['name'];
     subredditPicture =json['icon'];
@@ -52,5 +53,13 @@ class ModeratedSubredditData {
       loadedmodrator.add(moderator["userName"]);
     });
     moderators = loadedmodrator;
+    print(json['_id'].runtimeType);
+    print(json['fixedName'].runtimeType);
+    print(json['name'].runtimeType);
+    print(json['description'].runtimeType);
+    print(json['subredditLink'].runtimeType);
+    print(json['isJoined'].runtimeType);
+    print(json['rules'].runtimeType);
+    print(json['moderators'].runtimeType);
   }
 }

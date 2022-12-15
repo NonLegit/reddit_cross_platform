@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../icons/icon_broken.dart';
 import './topics_screen.dart';
+import 'description_screen.dart';
+import 'post_types_screen.dart';
+import './location_screen.dart';
+import './community_type_screen.dart';
 
 class ModeratorTools extends StatefulWidget {
   static const routeName = '/moderatortools';
