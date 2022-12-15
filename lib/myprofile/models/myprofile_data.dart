@@ -30,17 +30,17 @@ class MyProfileData {
       required this.commentkarma});
 
   MyProfileData.fromJson(Map<String, dynamic> json) {
-    // print(json['id'].runtimeType);
+    //      print(json['id'].runtimeType);
     // print(json['userName'].runtimeType);
     // print(json['email'].runtimeType);
     // print(json['profilePicture'].runtimeType);
-    print(json['profileBackground'].runtimeType);
-    print(json['followersCount'].runtimeType);
-    print(json['createdAt'].runtimeType);
-    print(json['postKarma'].runtimeType);
-    print(json['commentKarma'].runtimeType);
-    print(json['description'].runtimeType);
-    print('heeee;ssssssssssssssssssssss');
+    // print(json['profileBackground'].runtimeType);
+    // print(json['followersCount'].runtimeType);
+    // print(json['createdAt'].runtimeType);
+    // print(json['postKarma'].runtimeType);
+    // print(json['commentKarma'].runtimeType);
+    // print(json['description'].runtimeType);
+    // print(json['isFollowed'].runtimeType);
     id = json['id'];
     userName = json['userName'];
     email = json['email'];

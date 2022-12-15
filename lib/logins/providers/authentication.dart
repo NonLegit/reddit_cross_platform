@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import './notification.dart';
 
 class Auth with ChangeNotifier {
   final url = dotenv.env['API'] as String;
@@ -74,6 +75,9 @@ class Auth with ChangeNotifier {
         await prefs.setString('token', token);
         await prefs.setString('expiresIn', expiresIn.toString());
         await prefs.setString('userName', query['userName'] as String);
+        final notificationToken = prefs.get('notificationToken');
+        await NotificationToken.sendTokenToDatabase(notificationToken);
+        await NotificationToken.refreshToken();
       }
       notifyListeners();
     } catch (error) {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../constants/types_of_notification.dart';
 import '../../create_community/widgets/bar_widget.dart';
+import '../models/notification_class_model.dart';
 import '../widgets/notification_text.dart';
 import '../widgets/reply_back.dart';
 import './navigate_to_correct_screen.dart';
@@ -11,45 +13,86 @@ import '../widgets/list_tile_widget.dart';
 import '../widgets/three_dots_widget.dart';
 import '../widgets/notification_image.dart';
 
-class NotificationsMainScreen extends StatelessWidget {
+class NotificationsMainScreen extends StatefulWidget {
   NotificationsMainScreen(
       {super.key,
       required this.changeNumOfNotification,
       required this.usersAllNotificatiion});
-  final List<Map> usersAllNotificatiion;
+  final List<NotificationModel> usersAllNotificatiion;
   Function? changeNumOfNotification;
+
+  @override
+  State<NotificationsMainScreen> createState() => _NotificationsMainScreenState();
+}
+
+class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
   String dropDownValue = '';
+
   List<String> list = [
     'Hide this notification',
-    'Disable updates from this community'
+    //'Disable updates from this community'
   ];
 
   _navigateToCorrectScreen(index, context) {
     Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
   }
 
+  String returnCorrectText(type, name, user) {
+    String text = '';
+    if (type == 'userMention') {
+      text = '$user mentioned you in $name';
+    } else if (type == 'follow') {
+      text = 'New follower!';
+    } else if (type == 'postReply') {
+      text = '$user replied to your post in $name';
+    } else if (type == 'commentReply') {
+      text = '$user replied to your comment in $name';
+    } else if (type == 'firstCommentUpVote' || type == 'firstPostUpVote') {
+      text = '⬆️ 1\'st upvote';
+    }
+    return text;
+  }
+
+  String returnCorrectDescription(type, description, name) {
+    String description1 = '';
+    if (type == 'firstCommentUpVote') {
+      description1 = 'Go see your post on $name : $description';
+    } else if (type == 'firstPostUpVote') {
+      description1 = 'Go see your comments on $name : $description';
+    } else if (type == 'follow') {
+      description1 = '$name followed you.Follow them back';
+    } else {
+      description1 = description;
+    }
+    return description1;
+  }
+
 //return time in terms of month or week or day or seconds
   String getTimeOfNotification(date) {
     String howOld;
     final difference = DateTime.now().difference(DateTime.parse(date));
-    print(DateTime.parse(date));
+    //print(DateTime.parse(date));
     if (difference.inDays >= 30) {
-      howOld = '${DateTime.parse(date).month}';
+      howOld = DateFormat.MMMMd().format(DateTime.parse(date));
     } else if (difference.inDays >= 1) {
       howOld = '${difference.inDays}d';
     } else if (difference.inMinutes >= 60) {
-      howOld = '${difference.inHours}h';
+      howOld = '${DateFormat.j().format(DateTime.parse(date))}h';
     } else if (difference.inSeconds >= 60) {
-      howOld = '${difference.inMinutes}m';
+      howOld = '${DateFormat.m().format(DateTime.parse(date))}min';
     } else {
-      howOld = 'Now';
+      howOld = '${DateFormat.s()..format(DateTime.parse(date))}sec';
     }
+
     return howOld;
   }
 
   @override
   Widget build(BuildContext context) {
-    return (usersAllNotificatiion.isEmpty)
+    MediaQueryData queryData = MediaQuery.of(context);
+    final height = queryData.size.height;
+    final width = queryData.size.width;
+    return (widget.usersAllNotificatiion.isEmpty)
         ? Container(
             color: Colors.grey[100],
             child: Center(
@@ -74,15 +117,15 @@ class NotificationsMainScreen extends StatelessWidget {
                 if (!kIsWeb)
                   Flexible(
                     child: SingleChildScrollView(
-                      child: notificationBody(),
+                      child: notificationBody(height, width),
                     ),
                   ),
-                if (kIsWeb) notificationBody(),
+                if (kIsWeb) notificationBody(height, width),
               ]);
   }
 
-  //Widget return the main body of each notification
-  ListView notificationBody() {
+  // Widget return the main body of each notification
+  ListView notificationBody(height, width) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
@@ -92,7 +135,7 @@ class NotificationsMainScreen extends StatelessWidget {
             GestureDetector(
               onTap: () => _navigateToCorrectScreen(index, context),
               child: Container(
-                color: (!usersAllNotificatiion[index]['seen'])
+                color: (!widget.usersAllNotificatiion[index].seen!)
                     ? Colors.lightBlue[50]
                     : Colors.white,
                 // width: double.infinity,
@@ -104,17 +147,26 @@ class NotificationsMainScreen extends StatelessWidget {
                         Row(
                           children: [
                             notificationMain(
-                              'r/Hunter',
-                              'u/Basma',
-                              usersAllNotificatiion[index]['postId'],
-                              usersAllNotificatiion[index]['type'],
-                              getTimeOfNotification(usersAllNotificatiion[index]
-                                      ['createdAt']
-                                  .toString()),
-                              NotificationImage(
-                                  usersAllNotificatiion: typeOfNotification[
-                                      usersAllNotificatiion[index]['type']]!),
-                            )!,
+                                returnCorrectText(
+                                  widget.usersAllNotificatiion[index].type,
+                                  widget.usersAllNotificatiion[index].requiredName,
+                                  widget.usersAllNotificatiion[index].followeruserName,
+                                ),
+                                returnCorrectDescription(
+                                    widget.usersAllNotificatiion[index].type,
+                                    widget.usersAllNotificatiion[index].description,
+                                    widget.usersAllNotificatiion[index].requiredName),
+                                widget.usersAllNotificatiion[index].type,
+                                getTimeOfNotification(
+                                    widget.usersAllNotificatiion[index].createdAt),
+                                NotificationImage(
+                                    usersAllNotificatiion: typeOfNotification[
+                                        widget.usersAllNotificatiion[index].type]!,
+                                    userPhoto: widget.usersAllNotificatiion[index]
+                                        .followerIcon!,
+                                    height: height,
+                                    width: width),
+                                width)!,
                           ],
                         ),
                       ],
@@ -142,15 +194,15 @@ class NotificationsMainScreen extends StatelessWidget {
                               ListTileWidget(
                                   icon: Icons.visibility_off_outlined,
                                   title: 'Hide this notification'),
-                              //only in community notifications this option is shown
-                              if (usersAllNotificatiion[index]['type'] ==
-                                  'community')
-                                ListTileWidget(
-                                    icon: Icons.cancel_outlined,
-                                    title:
-                                        'Disable updates from this community'),
+                              // //only in community notifications this option is shown
+                              // if (usersAllNotificatiion[index]['type'] ==
+                              //     'community')
+                              //   ListTileWidget(
+                              //       icon: Icons.cancel_outlined,
+                              //       title:
+                              //           'Disable updates from this community'),
                               SizedBox(
-                                height: 5.h,
+                                height: height * 0.05,
                                 child: ElevatedButton(
                                   onPressed: () => Navigator.of(context).pop(),
                                   style: ElevatedButton.styleFrom(
@@ -164,10 +216,11 @@ class NotificationsMainScreen extends StatelessWidget {
                                 ),
                               )
                             ],
-                            height: (usersAllNotificatiion[index]['type'] ==
-                                    'community')
-                                ? 31
-                                : 25)
+                            // height: (usersAllNotificatiion[index]['type'] ==
+                            //         'community')
+                            //     ? 31
+                            //     :
+                            height: height * 0.025)
                         : PopupMenuButton(
                             // elevation: -1,
                             position: PopupMenuPosition.under,
@@ -180,7 +233,7 @@ class NotificationsMainScreen extends StatelessWidget {
                                   list[0],
                                   style: const TextStyle(fontSize: 12),
                                 )),
-                                if (usersAllNotificatiion[index]['type'] ==
+                                if (widget.usersAllNotificatiion[index].type ==
                                     'community')
                                   PopupMenuItem(
                                       child: Text(
@@ -198,7 +251,7 @@ class NotificationsMainScreen extends StatelessWidget {
           ],
         );
       },
-      itemCount: usersAllNotificatiion.length,
+      itemCount: widget.usersAllNotificatiion.length,
     );
   }
 }
@@ -207,91 +260,29 @@ class NotificationsMainScreen extends StatelessWidget {
 
 //Notification Text : To build the header and the description body of notification
 //Reply back : Button reply back that appears to reply on a comment
-Widget? notificationMain(me, user, description, type, time, Widget image) {
-  if (type == 'firstCommentUpVote' || type == 'firstPostUpVote') {
-    return Row(
-      children: [
-        image,
-        SizedBox(
-          width: 2.w,
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Image.asset(
-                  'assets/images/up-arrow.png',
-                  width: (kIsWeb) ? 1.w : 3.w,
-                ),
-                const Text(
-                  '1st upvote!',
-                  style: TextStyle(fontSize: 13, color: Colors.black),
-                  maxLines: 2,
-                ),
-                SizedBox(
-                  width: 2.w,
-                ),
-                const Icon(
-                  Icons.circle,
-                  color: Colors.grey,
-                  size: 4,
-                ),
-                SizedBox(
-                  width: 1.w,
-                ),
-                Text(
-                  time,
-                  style: const TextStyle(color: Colors.grey, fontSize: 10),
-                )
-              ],
-            ),
-            SizedBox(
-              width: (kIsWeb) ? 20.w : 76.w,
-              child: Text(description,
-                  maxLines: 2,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.grey, fontSize: 10)),
-            ),
-          ],
-        ),
-      ],
-    );
-  } else if (type == 'userMention') {
-    return NotificationText(
-      description: description,
-      text: '$user mentioned you in $me',
-      time: time,
-      image: image,
-    );
-  } else if (type == 'follow') {
-    return NotificationText(
-        description: description,
-        text: 'New follower!',
-        time: time,
-        image: image);
-  } else if (type == 'postReply') {
-    return NotificationText(
-        description: description,
-        text: '$user replied to your post in  $me',
-        time: time,
-        image: image);
-  } else if (type == 'commentReply') {
+Widget? notificationMain(text, description, type, time, Widget image, width) {
+  print(description);
+  if (type == 'commentReply') {
     return Column(
       children: [
         NotificationText(
           description: description,
-          text: '$user replied to your comment in  $me',
+          text: text,
           time: time,
           image: image,
           button: const ReplyBack(),
           index: 1,
+          width: width,
         ),
-        // const ReplyBack(),
       ],
     );
+  } else {
+    return NotificationText(
+      description: description,
+      text: text,
+      time: time,
+      image: image,
+      width: width,
+    );
   }
-  return null;
 }
