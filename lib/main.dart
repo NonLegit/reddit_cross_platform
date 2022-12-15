@@ -1,11 +1,11 @@
 import 'dart:convert';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/create_community/widgets/community_type.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:post/moderation_settings/models/moderators.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:post/providers/profile_post.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
@@ -71,6 +71,14 @@ import 'moderation_settings/screens/post_types_screen.dart';
 import 'moderation_settings/screens/community_type_screen.dart';
 import 'moderation_settings/screens/location_screen.dart';
 import './messages/screens/new_message_screen.dart';
+import 'moderation_settings/screens/moderators_screen.dart';
+import 'moderation_settings/screens/banned_user_sceen.dart';
+import 'moderation_settings/screens/muted_user_screen.dart';
+import 'moderation_settings/screens/approved_users_screen.dart';
+import 'moderation_settings/screens/add_edit_banned_screen.dart';
+import 'moderation_settings/screens/add_edit_moderator_screen.dart';
+import 'moderation_settings/screens/add_edit_muted_screen.dart';
+import 'moderation_settings/screens/add_edit_aproved_screen.dart';
 //=====================================Providers====================================================//
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
@@ -147,23 +155,22 @@ final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
 //       )));
 // }
 
-bool isFlutterLocalNotificationsInitialized = false;
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-AndroidNotificationChannel channel = const AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  description:
-      'This channel is used for important notifications.', // description
-  importance: Importance.high,
-);
+// bool isFlutterLocalNotificationsInitialized = false;
+// FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
+// AndroidNotificationChannel channel = const AndroidNotificationChannel(
+//   'high_importance_channel', // id
+//   'High Importance Notifications', // title
+//   description:
+//       'This channel is used for important notifications.', // description
+//   importance: Importance.high,
+// );
 
 // Future<void> setupFlutterNotifications() async {
 //   if (isFlutterLocalNotificationsInitialized) {
 //     print('settings doneeeeeeeeeee');
 //     return;
 //   }
-//   // print('Print the channel $channel');
 //   await flutterLocalNotificationsPlugin
 //       .resolvePlatformSpecificImplementation<
 //           AndroidFlutterLocalNotificationsPlugin>()
@@ -330,18 +337,28 @@ class _MyAppState extends State<MyApp> {
             // home: CreateCommunity(),
             //   home: homeLayoutScreen(),
             // home: HomeScreen(),
-            home: Login(),
+            // home: Login(),
             // home: CreateCommunity(),
             // home: Login(),
             // home: ForgotUserName(),
             // home: SignUp(),
             // home: Gender(),
-           // home: ModeratorTools(),
+            // home: ModeratorTools(),
             // home: Settings(),
             // home: ChangeEmail(),
             // home: ComuunityTypesScreen(),
             // home: LocationScreen(),
+            // home: ModeratorsScreen(),
+            // home: BannedScreen(),
+            // home: MutedScreen(),
+            // home: ApprovedScreen(),
             routes: {
+              EditApprovedScreen.routeName: (context) => EditApprovedScreen(),
+              EditBannedScreen.routeName: (context) => EditBannedScreen(),
+              EditMutedScreen.routeName: (context) => EditMutedScreen(),
+              EditModeratorScreen.routeName: (context) => EditModeratorScreen(),
+              ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
+              ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
               ComuunityTypesScreen.routeName: (context) =>
                   ComuunityTypesScreen(),
               LocationScreen.routeName: (context) => LocationScreen(),

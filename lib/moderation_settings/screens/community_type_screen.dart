@@ -93,6 +93,7 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
           : '';
       // subbredditName = 'Cooking';
       Provider.of<ModerationSettingProvider>(context, listen: false)
+
           .getCommunity(subbredditName!,context)
           .then((_) {
         moderatorToolsModel =
@@ -125,7 +126,6 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
       "type": sliderValues[index.toInt()]['title'],
       "nsfw": isPlus18,
     }, subbredditName!,context).then((response) {});
-
     if (provider.isError == true) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(

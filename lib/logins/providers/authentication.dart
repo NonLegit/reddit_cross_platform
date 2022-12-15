@@ -152,6 +152,7 @@ class Auth with ChangeNotifier {
         await prefs.setString('userName', query['userName'] as String);
         await Firebase.initializeApp();
         final notificationToken = prefs.get('notificationToken');
+
         await NotificationToken.sendTokenToDatabase(notificationToken);
         await NotificationToken.refreshToken();
         FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

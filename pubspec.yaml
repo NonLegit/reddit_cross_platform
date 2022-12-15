@@ -103,6 +103,12 @@ flutter:
   uses-material-design: true
 
   fonts:
+    - family: Plus
+      fonts:
+        - asset: assets/icons/Plus.ttf
+    - family: Penciel
+      fonts:
+        - asset: assets/icons/Penciel.ttf
     - family: closeIcons
       fonts:
         - asset: assets/icons/close_icons.ttf
