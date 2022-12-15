@@ -1,2 +1,3 @@
-json_server/node_modules
-json_server/package-lock.json
+*
+!json_server/node_modules
+!json_server/package-lock.json

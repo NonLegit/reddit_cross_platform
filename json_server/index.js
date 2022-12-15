@@ -22,6 +22,10 @@ var is_subreddits_subredditName_top = false;
 var is_subreddits_subredditName_flairs = false;
 var is_users_otherUserName_about = false;
 var is_subreddits_name = false;
+var is_moderators = false;
+var is_banned = false;
+var is_mutted = false;
+var is_approved = false;
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 //helpers
@@ -104,6 +108,23 @@ server.get('/subreddits/:subredditName', (req, res) => {
 	is_subreddits_name = true;
 	res.redirect(`/subreddits?name=${req.params.subredditName}`);
 });
+server.get('/subreddits/:subredditName/moderators', (req, res) => {
+	is_moderators = true;
+	res.redirect(`/moderators`);
+});
+server.get('/subreddits/:subredditName/banned', (req, res) => {
+	is_banned = true;
+	res.redirect(`/banned`);
+});
+server.get('/subreddits/:subredditName/muted', (req, res) => {
+	is_mutted = true;
+	res.redirect(`/muted`);
+});
+server.get('/subreddits/:subredditName/approved', (req, res) => {
+	is_approved = true;
+	res.redirect(`/approved`);
+});
+
 server.get('/users/notifications', (req, res) => {
 	res.redirect(`/notifications`);
 });
@@ -283,6 +304,11 @@ server.post(
 	}
 );
 
+//---------------------------- patch
+server.patch('/subreddits/:subredditName', (req, res) => {
+	is_subreddits_name = true;
+	res.redirect(`/subreddits?name=${req.params.subredditName}`);
+});
 // server.use((req, res, next) => {
 // 	if (req.method === 'POST') {
 // 		if (req.originalUrl.includes('/subreddits')) {
@@ -333,8 +359,6 @@ server.post(
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////
-
 //use Router
 
 server.use(router);
@@ -369,6 +393,18 @@ router.render = (req, res) => {
 				} else if (is_users_otherUserName_about) {
 					is_users_otherUserName_about = false;
 					return getUser(req, res);
+				} else if (is_moderators) {
+					is_moderators = false;
+					return getModerators(req, res);
+				} else if (is_mutted) {
+					is_mutted = false;
+					return getModerators(req, res);
+				} else if (is_banned) {
+					is_banned = false;
+					return getModerators(req, res);
+				} else if (is_approved) {
+					is_approved = false;
+					return getModerators(req, res);
 				} else {
 					console.log('y');
 					return defaultGET(req, res);
@@ -431,6 +467,17 @@ const getUser = (req, res) => {
 		status: 'success',
 		user: Array.isArray(data) ? (data.length > 1 ? data : data[0]) : data,
 	};
+};
+
+const getModerators = (req, res) => {
+	data = res.locals.data;
+	console.log(data);
+	return data;
+};
+const getBanned = (req, res) => {
+	data = res.locals.data;
+	console.log(data);
+	return data;
 };
 
 const getDataPOST = (req, res) => {
