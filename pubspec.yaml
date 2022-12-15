@@ -67,6 +67,10 @@ dependencies:
   shared_preferences: ^2.0.15
   hexcolor: ^2.0.1
   video_player: ^2.4.8
+  flutter_quill: ^6.1.6
+  custom_refresh_indicator: ^2.0.1
+  fluttertoast: ^8.1.2
+  #html_editor_enhanced: ^2.5.0
   # flutter_signin_button: ^2.0.0
   google_sign_in: ^5.4.2
 
