@@ -506,10 +506,31 @@
 	],
 	"flairs": [
 		{
-			"_id": "fudgkhucg",
+			"_id": "asa",
 			"text": "Question",
-			"backgroundColor": "string",
-			"textColor": "string",
+			"backgroundColor": "#000000",
+			"textColor": "#00FF00",
+			"permissions": "modOnly"
+		},
+		{
+			"_id": "ananana",
+			"text": "sports",
+			"backgroundColor": "#000000",
+			"textColor": "#00FF00",
+			"permissions": "modOnly"
+		},
+		{
+			"_id": "nonono",
+			"text": "eating",
+			"backgroundColor": "#000000",
+			"textColor": "#00FF00",
+			"permissions": "modOnly"
+		},
+		{
+			"_id": "kak",
+			"text": "films",
+			"backgroundColor": "#000000",
+			"textColor": "#00FF00",
 			"permissions": "modOnly"
 		}
 	]
