@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hexcolor/hexcolor.dart';
 import '../../home/screens/home_layout.dart';
 import '../../icons/icon_broken.dart';
 import '../controllers/posts_controllers.dart';
 import './schedulepost.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
+import 'flair_list.dart';
 
 class FinalPost extends StatelessWidget {
   // const FinalPost({Key? key}) : super(key: key);
@@ -27,10 +30,11 @@ class FinalPost extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsetsDirectional.only(start: 10.0),
-                      child: Icon(
-                        IconBroken.Arrow___Left_2,
-                        size: 32.0,
-                        color: Colors.black,
+                      child: IconButton(
+
+                        color: Colors.black, onPressed: () {
+                          navigator!.pop(context);
+                      }, icon:Icon( IconBroken.Arrow___Left_2,size: 32.0),
                       ),
                     ),
                     SizedBox(
@@ -76,11 +80,11 @@ class FinalPost extends StatelessWidget {
                       Row(
                         children: [
                           CircleAvatar(
-                            backgroundColor: Colors.blue,
-                            radius: 20.0,
+                            backgroundImage: NetworkImage('${controller.iconOfSubredditToSubmittPost}'),
+                            radius: 16.0,
                           ),
                           SizedBox(
-                            width: 8.0,
+                            width: 4.0,
                           ),
                           ElevatedButton.icon(
                             onPressed: () {
@@ -242,11 +246,31 @@ class FinalPost extends StatelessWidget {
                 SizedBox(
                   height: 8.0,
                 ),
-                ListTile(
-                  horizontalTitleGap: 0.0,
-                  title: Text("Add flair"),
-                  leading: Icon(IconBroken.Edit),
-                  trailing: Icon(IconBroken.Arrow___Right_2),
+                Obx(()=>
+                   Visibility(
+                     visible: (controller.flairsOfSubreddit.length>0)?true:false,
+                     child: ListTile(
+                       onTap: ()
+                       {
+                         Get.to(FlairList());
+                       },
+                      horizontalTitleGap: 0.0,
+                      title:Text(controller.textOfFlair.isEmpty?"Add Flar":
+                      controller.textOfFlair.value,
+                        style: TextStyle(
+                          color: controller.textColorOfFlair.value=="None"?
+                         Colors.black87:
+                          HexColor(controller.textColorOfFlair.value),
+                          backgroundColor: controller.backgroundColorOfFlair.value=="None"?
+                          Colors.white:
+                          HexColor(controller.backgroundColorOfFlair.value),
+                        ),
+                      ),
+                      // Text("Add flair"),
+                      leading: Icon(IconBroken.Edit),
+                      trailing: Icon(IconBroken.Arrow___Right_2),
+                  ),
+                   ),
                 ),
                 Divider(
                   height: 10.0,

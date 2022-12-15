@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import '../../home/controller/home_controller.dart';
 import '../../icons/icon_broken.dart';
 import '../widgets/moderated_subreddit_web.dart';
 import '../models/moderated_subreddit_data.dart';
@@ -11,8 +14,11 @@ import '../../widgets/loading_reddit.dart';
 import '../widgets/moderated_subreddit_app.dart';
 import '../providers/moderated_subreddit_provider.dart';
 import '../../home/widgets/end_drawer.dart';
+
+
 class ModeratedSubredditScreen extends StatefulWidget {
   static const routeName = '/moderatedsubreddit';
+
 
   @override
   State<ModeratedSubredditScreen> createState() =>
@@ -23,7 +29,9 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
     with TickerProviderStateMixin {
   //=====================End Drawer=============//
   bool isOnline = true;
-
+  final HomeController controller = Get.put(
+    HomeController(),
+  );
   //================Tab bar==================//
   List<Tab> tabs = <Tab>[
     const Tab(text: 'Posts'),
@@ -125,7 +133,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
                     controller: _controller,
                     isLoading: _isLoading,
                     tabBar: _tabBar),
-        endDrawer: _isLoading ? LoadingReddit() : endDrawer());
+        endDrawer: _isLoading ? LoadingReddit() : endDrawer(controller:controller ));
   }
 
  }
