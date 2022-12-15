@@ -5,14 +5,16 @@ class SwichListView extends StatefulWidget {
   // const SwichListView({Key? key}) : super(key: key);
 
   bool choosen;
-  final Icon leadingIcon;
+  final Icon? leadingIcon;
   final String title;
   final String subtitle;
+  final Function? changeSwiching;
   SwichListView(
       {required this.choosen,
-      required this.leadingIcon,
+      this.leadingIcon = null,
       this.subtitle = '',
-      this.title = ''});
+      this.title = '',
+      this.changeSwiching = null});
 
   @override
   State<SwichListView> createState() => SwichListViewState(choosen: choosen);
@@ -32,7 +34,12 @@ class SwichListViewState extends State<SwichListView> {
         child: ElevatedButton(
             onPressed: () {
               setState(() {
-                changeState();
+                if (widget.changeSwiching == null)
+                  changeState();
+                else {
+                  changeState();
+                  widget.changeSwiching!();
+                }
               });
             },
             child: ListTile(
@@ -45,9 +52,13 @@ class SwichListViewState extends State<SwichListView> {
                 activeColor: Colors.blue,
                 value: choosen,
                 onChanged: (_) {
-                  int x = 0;
                   setState(() {
-                    changeState();
+                    if (widget.changeSwiching == null)
+                      changeState();
+                    else {
+                      changeState();
+                      widget.changeSwiching!();
+                    }
                   });
                 },
               ),

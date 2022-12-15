@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/create_community/widgets/community_type.dart';
 import 'package:post/providers/profile_post.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
@@ -56,6 +57,10 @@ import './settings/screens/change_email.dart';
 import './settings/screens/change_password.dart';
 import './settings/screens/change_email.dart';
 import './settings/screens/change_password.dart';
+import 'moderation_settings/screens/description_screen.dart';
+import 'moderation_settings/screens/post_types_screen.dart';
+import 'moderation_settings/screens/community_type_screen.dart';
+import 'moderation_settings/screens/location_screen.dart';
 //=====================================Providers====================================================//
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
@@ -116,7 +121,8 @@ class MyApp extends StatelessWidget {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-            home: homeLayoutScreen(),
+            // home: homeLayoutScreen(),
+            // home: Description(),
             // home: HomeScreen(),
             // home: Login(),
             // home: CreateCommunity(),
@@ -124,10 +130,17 @@ class MyApp extends StatelessWidget {
             // home: ForgotUserName(),
             // home: SignUp(),
             // home: Gender(),
-            // home: ModeratorTools(),
+            home: ModeratorTools(),
             // home: Settings(),
             // home: ChangeEmail(),
+            // home: ComuunityTypesScreen(),
+            // home: LocationScreen(),
             routes: {
+              ComuunityTypesScreen.routeName: (context) =>
+                  ComuunityTypesScreen(),
+              LocationScreen.routeName: (context) => LocationScreen(),
+              PostTypesScreen.routeName: (context) => PostTypesScreen(),
+              Description.routeName: (context) => Description(),
               ChangeEmail.routeName: (context) => ChangeEmail(),
               ChangePassword.routeName: (context) => ChangePassword(),
               ChooseCountry.routeName: (context) => ChooseCountry(),
