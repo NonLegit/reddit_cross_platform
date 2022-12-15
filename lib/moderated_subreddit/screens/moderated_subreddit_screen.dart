@@ -52,7 +52,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
   IconData icon = Icons.notifications;
   var _isLoading = false;
   var _isInit = true;
- var subredditUserName;
+  var subredditUserName;
   ModeratedSubredditData? loadedSubreddit;
   //  = ModeratedSubredditData(
   //     id: 10,
@@ -74,7 +74,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
   //     ],
   //     moderators: ['Ali', 'omer', 'zeinab', 'mazen'],
   //     isJoined: true);
-      //====================================================//
+  //====================================================//
   @override
   void initState() {
     super.initState();
@@ -100,8 +100,9 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
       Provider.of<ModeratedSubredditProvider>(context, listen: false)
           .fetchAndSetModeratedSubredddit(subredditUserName)
           .then((value) {
-        loadedSubreddit = Provider.of<ModeratedSubredditProvider>(context, listen: false)
-            .gettingSubredditeData;
+        loadedSubreddit =
+            Provider.of<ModeratedSubredditProvider>(context, listen: false)
+                .gettingSubredditeData;
         setState(() {
           _isLoading = false;
         });
@@ -135,5 +136,4 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
                     tabBar: _tabBar),
         endDrawer: _isLoading ? LoadingReddit() : endDrawer(controller:controller ));
   }
-
- }
+}

@@ -13,7 +13,7 @@ class ThreeDotsWidget extends StatelessWidget {
       : super(key: key);
   List<Widget> listOfWidgets;
   Widget? optional;
-  int height;
+  double height;
 
   @override
   Widget build(BuildContext context) {
