@@ -132,7 +132,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   int unreadNotification = 0;
   bool returned = false;
-  List<NotificationModel> usersAllNotificatiion = [];
+  List<NotificationModel> usersNotificationEarlier = [];
+  List<NotificationModel> usersNotificationToday = [];
   var currentIndex = 4;
   bool _isInit = true;
 
@@ -147,11 +148,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
       setState(() {
         returned = false;
       });
-      Provider.of<NotificationProvider>(context, listen: false)
+      await Provider.of<NotificationProvider>(context, listen: false)
           .getNotification(context)
           .then((value) {
-        usersAllNotificatiion =
-            Provider.of<NotificationProvider>(context, listen: false).list;
+        usersNotificationToday =
+            Provider.of<NotificationProvider>(context, listen: false).listToday;
+        usersNotificationEarlier =
+            Provider.of<NotificationProvider>(context, listen: false)
+                .listEariler;
         setState(() {
           returned = true;
         });
@@ -168,20 +172,36 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
-  _markAllAsRead() async {
+  _markAsRead() async {
     await Provider.of<NotificationProvider>(context, listen: false)
         .markAllAsRead(context);
-    usersAllNotificatiion.forEach((element) {
-      if (element.seen!) {
+  }
+
+  markAllAsRead() {
+    _markAsRead();
+    print('hiiiiiiiiiiiii');
+    usersNotificationEarlier.forEach((element) {
+      print(element.seen);
+      if (!element.seen!) {
         setState(() {
-          element.seen = false;
+          element.seen = true;
         });
       }
     });
+    usersNotificationToday.forEach((element) {
+      print(element);
+      if (!element.seen!) {
+        setState(() {
+          element.seen = true;
+        });
+      }
+    });
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<NotificationProvider>(context);
     //var cubit =layoutCubit.get(context);
     MediaQueryData queryData = MediaQuery.of(context);
     final height = queryData.size.height;
@@ -202,7 +222,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     ListTileWidget(
                       icon: Icons.drafts_outlined,
                       title: 'Mark all inbox tabs as read',
-                      onpressed: _markAllAsRead(),
+                      onpressed: () => markAllAsRead(),
                     )
                   ], height: height * 0.016),
                   Builder(builder: (context) {
@@ -285,7 +305,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 !returned
                     ? const LoadingReddit()
                     : NotificationsMainScreen(
-                        usersAllNotificatiion: usersAllNotificatiion,
+                        usersNotificationEarlier: usersNotificationEarlier,
+                        usersNotificationToday: usersNotificationToday,
                         changeNumOfNotification: _changeNumOfNotification),
                 const MessagesMainScreen(),
               ]),
@@ -397,7 +418,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         Container(
                           color: Colors.white,
                           child: NotificationsMainScreen(
-                              usersAllNotificatiion: usersAllNotificatiion,
+                              usersNotificationEarlier:
+                                  usersNotificationEarlier,
+                              usersNotificationToday: usersNotificationToday,
                               changeNumOfNotification:
                                   _changeNumOfNotification),
                         ),

@@ -1,5 +1,5 @@
-class NotificationModel {
-  String? sId;
+class PushNotificationModel {
+ // String? sId;
   String? type;
   //FollowedUser? followedUser;
   //FollowedUser? followerUser;
@@ -18,8 +18,9 @@ class NotificationModel {
   String? commentId;
   String? description;
 
-  NotificationModel(
-      {this.sId,
+  PushNotificationModel(
+      {
+        //this.sId,
       this.type,
       // this.followedUser,
       //this.followerUser,
@@ -33,55 +34,49 @@ class NotificationModel {
       this.followerId,
       this.followeruserName});
 
-  NotificationModel.fromJson(Map<String, dynamic> json) {
+  PushNotificationModel.fromJson(Map<String, dynamic> json) {
     print(json);
-    print('hh');
-    print(json['_id'].runtimeType);
-    print('hh');
-    print(json['followedUser'].runtimeType);
-    print('hh');
-    print(json['followedSubreddit'].runtimeType);
-    print('hh');
-    print(json['followerUser'].runtimeType);
-    print('hh');
-    //print(json['post']['_id'].runtimeType);
-    print('hh');
-    print(json['comment']['_id'].runtimeType);
-    print('hh');
-    print(json['createdAt'].runtimeType);
-    print('hh');
-    print(json['seen'].runtimeType);
-    print('hh');
-    print(json['hidden'].runtimeType);
+    // print('hh');
+    // print(json['_id'].runtimeType);
+    // print('hh');
+    // print(json['followedUser'].runtimeType);
+    // print('hh');
+    // print(json['followedSubreddit'].runtimeType);
+    // print('hh');
+    // print(json['followerUser'].runtimeType);
+    // print('hh');
+    // print(json['post']['_id'].runtimeType);
+    // print('hh');
+    // print(json['comment']['_id'].runtimeType);
+    // print('hh');
+    // print(json['createdAt'].runtimeType);
+    // print('hh');
+    // print(json['seen'].runtimeType);
+    // print('hh');
+    // print(json['hidden'].runtimeType);
     // print(json['_id'].runtimeType);
     // print(json['_id'].runtimeType);
     // print(json['_id'].runtimeType);
     // print(json['_id']);
-    sId = (json['_id'] == null) ? '' : json['_id'] as String;
+    // sId = int.parse(json['_id']).toString() ?? '';
     type = json['type'] ?? '';
     print(json['followedUser'].runtimeType);
     print(json['followedUser']);
     if (json['followedUser'] != null) {
-    //  print('in followeeeeeeeeeeeeeeeeedddddddddd');
-      requiredId = (json['followedSubreddit']['_id'] == null)
-          ? ''
-          : json['followedSubreddit']['_id'] as String;
-      requiredName = json['followedSubreddit']['fixedName'] ?? '';
-      print(requiredName);
-    } else if (json['followedUser'] != null) {
-      requiredId = (json['followedUser']['_id'] == null)
-          ? ''
-          : json['followedUser']['_id'] as String;
+      print('in followeeeeeeeeeeeeeeeeedddddddddd');
+      requiredId = json['followedUser']['_id'] as String ;
       requiredName = json['followedUser']['userName'] ?? '';
+      print(requiredName);
+    } else if (json['followedSubreddit'] != null) {
+      requiredId = json['followedSubreddit']['_id'] as String ;
+      requiredName = json['followedSubreddit']['fixedName'] ?? '';
       //name = json['name'];
     } else {
       requiredId = '';
       requiredName = '';
     }
     if (json['followerUser'] != null) {
-      followerId = (json['followerUser']['_id'] == null)
-          ? ''
-          : json['followerUser']['_id'] as String;
+      followerId =json['followerUser']['_id'] as String;
       followeruserName = json['followerUser']['userName'] ?? '';
       followerIcon = json['followerUser']['profilePicture'] ??
           'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_0.png';
@@ -95,17 +90,13 @@ class NotificationModel {
     if (json['post'] != null) {
       print('In class Model');
       // print(json['post']['_id'].runtimeType);
-      postId =
-          (json['post'] == null) ? '' : json['post'] as String;
+      postId = json['post'] as String ;
     } else {
       postId = '';
     }
     // comment =
     if (json['comment'] != null) {
-      print('In mcommmmeeeeeeen');
-      commentId = (json['comment']['_id'] == null)
-          ? ''
-          : json['comment']['_id'] as String;
+      commentId = json['comment']['_id'] as String;
       description = json['comment']['text'] ?? '';
     } else {
       commentId = '';

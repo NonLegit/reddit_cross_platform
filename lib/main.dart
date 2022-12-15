@@ -75,7 +75,7 @@ import './create_community/provider/create_community_provider.dart';
 import './moderation_settings/provider/moderation_settings_provider.dart';
 import './notification/provider/notification_provider.dart';
 import 'logins/providers/authentication.dart';
-import './notification/provider/push_notification.dart';
+import './models/push_notification_model.dart';
 
 String returnCorrectText(type, name, user) {
   String text = '';
@@ -108,7 +108,7 @@ String returnCorrectDescription(type, description, name) {
 }
 
 //@pragma('vm:entry-point')
-NotificationModel notificationModel = NotificationModel();
+PushNotificationModel notificationModel = PushNotificationModel();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
   await Firebase.initializeApp();
@@ -118,7 +118,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
   RemoteNotification? notification = message.notification;
   notificationModel =
-      NotificationModel.fromJson(json.decode(message.data['val']));
+      PushNotificationModel.fromJson(json.decode(message.data['val']));
   flutterLocalNotificationsPlugin.show(
       notification.hashCode,
       returnCorrectText(notificationModel.type, notificationModel.requiredName,
@@ -208,7 +208,7 @@ class _MyAppState extends State<MyApp> {
       if (message.data != null) {
         print(message.data['val']);
         notificationModel =
-            NotificationModel.fromJson(json.decode(message.data['val']));
+            PushNotificationModel.fromJson(json.decode(message.data['val']));
         print('hiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
         print(channel.id);
         print(channel.name);
@@ -236,23 +236,28 @@ class _MyAppState extends State<MyApp> {
             )));
       }
     });
-    onOpeningMessage(context) {
-      FirebaseMessaging.onMessageOpenedApp.listen(
-        (RemoteMessage message) async {
-          print('BYEEEEEEEEEEEEEEEEEEEEEEE');
-          print(message.data);
-          RemoteNotification? notification = message.notification;
-          AndroidNotification? android = message.notification?.android;
-          if (message.data != null) {
-            Navigator.of(context)
-                .popAndPushNamed(NavigateToCorrectScreen.routeName);
-          }
-        },
-      );
-    }
-    //push.onMessageListener();
-    // push.onOpeningMessage(context);
+    // initializationSettingsAndroid =
+    //     AndroidInitializationSettings('@mipmap/ic_launcher');
+    // initializationSettings =
+    //     InitializationSettings(android: initializationSettingsAndroid);
+    // flutterLocalNotificationsPlugin.initialize(initializationSettings);
+     FirebaseMessaging.instance
+        .getInitialMessage();
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (RemoteMessage message) async {
+        print('BYEEEEEEEEEEEEEEEEEEEEEEE');
+        print(message.data);
+        RemoteNotification? notification = message.notification;
+        AndroidNotification? android = message.notification?.android;
+        if (message.data['val'] != null) {
+          print('heereeeeeeeeeeeeee');
+          Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
+        }
+      },
+    );
   }
+  //push.onMessageListener();
+  // push.onOpeningMessage(context);
 
   @override
   Widget build(BuildContext context) {
@@ -293,7 +298,7 @@ class _MyAppState extends State<MyApp> {
                   onSurface: Colors.white),
             ),
 
-            //home: homeLayoutScreen(),
+            // home: homeLayoutScreen(),
             // home: HomeScreen(),
             // home: NotificationScreen(),
             // home:ShowPostDetails(),

@@ -44,6 +44,8 @@ class Auth with ChangeNotifier {
         await prefs.setString('token', token);
         await prefs.setString('expiresIn', expiresIn.toString());
         await prefs.setString('userName', query['userName'] as String);
+        final notificationToken = prefs.get('notificationToken');
+        await NotificationToken.sendTokenToDatabase(notificationToken);
       }
       notifyListeners();
     } catch (error) {

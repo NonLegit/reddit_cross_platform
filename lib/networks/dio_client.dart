@@ -30,7 +30,7 @@ class DioClient {
         headers: {
           'Content-type': 'application/json',
           'Accept': 'application/json',
-         // 'Authorization': 'Bearer ' + token,
+          'Authorization': 'Bearer ' + token,
         },
       ),
     );
