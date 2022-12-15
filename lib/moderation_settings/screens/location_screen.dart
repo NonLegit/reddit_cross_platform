@@ -63,7 +63,7 @@ class LocationScreenState extends State<LocationScreen> {
           : '';
       // subbredditName = 'Cooking';
       Provider.of<ModerationSettingProvider>(context, listen: false)
-          .getCommunity(subbredditName!)
+          .getCommunity(subbredditName!,context)
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)
@@ -86,7 +86,7 @@ class LocationScreenState extends State<LocationScreen> {
         Provider.of<ModerationSettingProvider>(context, listen: false);
     await provider.patchCommunity({
       "region": location,
-    }, subbredditName!).then((response) {});
+    }, subbredditName!,context).then((response) {});
 
     if (provider.isError == true) {
       // ignore: use_build_context_synchronously

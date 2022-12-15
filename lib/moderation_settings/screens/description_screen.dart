@@ -52,7 +52,7 @@ class DescriptionState extends State<Description> {
     final provider =
         Provider.of<ModerationSettingProvider>(context, listen: false);
     await provider.patchCommunity({"description": '$descriptionController'},
-        subbredditName!).then((response) {});
+        subbredditName!,context).then((response) {});
 
     if (provider.isError == true) {
       // ignore: use_build_context_synchronously
@@ -99,7 +99,7 @@ class DescriptionState extends State<Description> {
 
       // subbredditName = 'Cooking';
       Provider.of<ModerationSettingProvider>(context, listen: false)
-          .getCommunity(subbredditName!)
+          .getCommunity(subbredditName!,context)
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)

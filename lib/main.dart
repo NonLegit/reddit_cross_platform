@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/create_community/widgets/community_type.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:post/moderation_settings/models/moderators.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:post/providers/profile_post.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
@@ -71,6 +72,14 @@ import 'moderation_settings/screens/post_types_screen.dart';
 import 'moderation_settings/screens/community_type_screen.dart';
 import 'moderation_settings/screens/location_screen.dart';
 import './messages/screens/new_message_screen.dart';
+import 'moderation_settings/screens/moderators_screen.dart';
+import 'moderation_settings/screens/banned_user_sceen.dart';
+import 'moderation_settings/screens/muted_user_screen.dart';
+import 'moderation_settings/screens/approved_users_screen.dart';
+import 'moderation_settings/screens/add_edit_banned_screen.dart';
+import 'moderation_settings/screens/add_edit_moderator_screen.dart';
+import 'moderation_settings/screens/add_edit_muted_screen.dart';
+import 'moderation_settings/screens/add_edit_aproved_screen.dart';
 //=====================================Providers====================================================//
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
@@ -114,64 +123,64 @@ String returnCorrectDescription(type, description, name) {
 
 //@pragma('vm:entry-point')
 NotificationModel notificationModel = NotificationModel();
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
-  await Firebase.initializeApp();
-  await FirebaseMessaging.instance.getToken();
-  //print('hidojsljfkbgdvdbhnjkjhgvfcvgbhnjmk');
-  await setupFlutterNotifications();
-  print('Handling a background message ${message.messageId}');
-  RemoteNotification? notification = message.notification;
-  notificationModel =
-      NotificationModel.fromJson(json.decode(message.data['val']));
-  flutterLocalNotificationsPlugin.show(
-      notification.hashCode,
-      returnCorrectText(notificationModel.type, notificationModel.requiredName,
-          notificationModel.followeruserName),
-      //notificationModel.type,
-      //notificationModel.description,
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   // print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
+//   await Firebase.initializeApp();
+//   await FirebaseMessaging.instance.getToken();
+//   //print('hidojsljfkbgdvdbhnjkjhgvfcvgbhnjmk');
+//   await setupFlutterNotifications();
+//   print('Handling a background message ${message.messageId}');
+//   RemoteNotification? notification = message.notification;
+//   notificationModel =
+//       NotificationModel.fromJson(json.decode(message.data['val']));
+//   flutterLocalNotificationsPlugin.show(
+//       notification.hashCode,
+//       returnCorrectText(notificationModel.type, notificationModel.requiredName,
+//           notificationModel.followeruserName),
+//       //notificationModel.type,
+//       //notificationModel.description,
 
-      returnCorrectDescription(notificationModel.type,
-          notificationModel.description, notificationModel.requiredName),
-      NotificationDetails(
-          android: AndroidNotificationDetails(
-        channel.id,
-        channel.name,
-        channelDescription: channel.description,
-        color: Colors.blue,
-        playSound: true,
-        // icon: ('assets/images/reddit.png'),
-      )));
-}
+//       returnCorrectDescription(notificationModel.type,
+//           notificationModel.description, notificationModel.requiredName),
+//       NotificationDetails(
+//           android: AndroidNotificationDetails(
+//         channel.id,
+//         channel.name,
+//         channelDescription: channel.description,
+//         color: Colors.blue,
+//         playSound: true,
+//         // icon: ('assets/images/reddit.png'),
+//       )));
+// }
 
-bool isFlutterLocalNotificationsInitialized = false;
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-AndroidNotificationChannel channel = const AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  description:
-      'This channel is used for important notifications.', // description
-  importance: Importance.high,
-);
+// bool isFlutterLocalNotificationsInitialized = false;
+// FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
+// AndroidNotificationChannel channel = const AndroidNotificationChannel(
+//   'high_importance_channel', // id
+//   'High Importance Notifications', // title
+//   description:
+//       'This channel is used for important notifications.', // description
+//   importance: Importance.high,
+// );
 
-Future<void> setupFlutterNotifications() async {
-  if (isFlutterLocalNotificationsInitialized) {
-    print('settings doneeeeeeeeeee');
-    return;
-  }
-  print('Print the channel $channel');
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-  isFlutterLocalNotificationsInitialized = true;
-}
+// Future<void> setupFlutterNotifications() async {
+//   if (isFlutterLocalNotificationsInitialized) {
+//     print('settings doneeeeeeeeeee');
+//     return;
+//   }
+//   print('Print the channel $channel');
+//   await flutterLocalNotificationsPlugin
+//       .resolvePlatformSpecificImplementation<
+//           AndroidFlutterLocalNotificationsPlugin>()
+//       ?.createNotificationChannel(channel);
+//   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+//     alert: true,
+//     badge: true,
+//     sound: true,
+//   );
+//   isFlutterLocalNotificationsInitialized = true;
+// }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -179,9 +188,9 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setInt('counter', 10);
   final int? cont = prefs.getInt('counter');
-  await Firebase.initializeApp();
-  await NotificationToken.getTokenOfNotification();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // await Firebase.initializeApp();
+  // await NotificationToken.getTokenOfNotification();
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(MyApp());
 }
@@ -196,68 +205,68 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int counter = 0;
   @override
-  void initState() {
-    //AndroidNotificationChannel channel;
-    // TODO: implement initState
-    super.initState();
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print(message.data);
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      print(notification.hashCode);
-      if (message.data != null) {
-        print(message.data['val']);
-        notificationModel =
-            NotificationModel.fromJson(json.decode(message.data['val']));
-        print('hiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
-        print(channel.id);
-        print(channel.name);
-        print(channel.description);
-        print(message.data['val']);
+  // void initState() {
+  //   //AndroidNotificationChannel channel;
+  //   // TODO: implement initState
+  //   super.initState();
+  //   var initializationSettingsAndroid =
+  //       AndroidInitializationSettings('@mipmap/ic_launcher');
+  //   var initializationSettings =
+  //       InitializationSettings(android: initializationSettingsAndroid);
+  //   flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //     print(message.data);
+  //     RemoteNotification? notification = message.notification;
+  //     AndroidNotification? android = message.notification?.android;
+  //     print(notification.hashCode);
+  //     if (message.data != null) {
+  //       print(message.data['val']);
+  //       notificationModel =
+  //           NotificationModel.fromJson(json.decode(message.data['val']));
+  //       print('hiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+  //       print(channel.id);
+  //       print(channel.name);
+  //       print(channel.description);
+  //       print(message.data['val']);
 
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            returnCorrectText(
-                notificationModel.type,
-                notificationModel.requiredName,
-                notificationModel.followeruserName),
-            //notificationModel.type,
-            //notificationModel.description,
-            returnCorrectDescription(notificationModel.type,
-                notificationModel.description, notificationModel.requiredName),
-            NotificationDetails(
-                android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channelDescription: channel.description,
-              color: Colors.blue,
-              playSound: true,
-              //     icon: ('assets/images/reddit.png'),
-            )));
-      }
-    });
-    onOpeningMessage(context) {
-      FirebaseMessaging.onMessageOpenedApp.listen(
-        (RemoteMessage message) async {
-          print('BYEEEEEEEEEEEEEEEEEEEEEEE');
-          print(message.data);
-          RemoteNotification? notification = message.notification;
-          AndroidNotification? android = message.notification?.android;
-          if (message.data != null) {
-            Navigator.of(context)
-                .popAndPushNamed(NavigateToCorrectScreen.routeName);
-          }
-        },
-      );
-    }
-    //push.onMessageListener();
-    // push.onOpeningMessage(context);
-  }
+  //       flutterLocalNotificationsPlugin.show(
+  //           notification.hashCode,
+  //           returnCorrectText(
+  //               notificationModel.type,
+  //               notificationModel.requiredName,
+  //               notificationModel.followeruserName),
+  //           //notificationModel.type,
+  //           //notificationModel.description,
+  //           returnCorrectDescription(notificationModel.type,
+  //               notificationModel.description, notificationModel.requiredName),
+  //           NotificationDetails(
+  //               android: AndroidNotificationDetails(
+  //             channel.id,
+  //             channel.name,
+  //             channelDescription: channel.description,
+  //             color: Colors.blue,
+  //             playSound: true,
+  //             //     icon: ('assets/images/reddit.png'),
+  //           )));
+  //     }
+  //   });
+  //   onOpeningMessage(context) {
+  //     FirebaseMessaging.onMessageOpenedApp.listen(
+  //       (RemoteMessage message) async {
+  //         print('BYEEEEEEEEEEEEEEEEEEEEEEE');
+  //         print(message.data);
+  //         RemoteNotification? notification = message.notification;
+  //         AndroidNotification? android = message.notification?.android;
+  //         if (message.data != null) {
+  //           Navigator.of(context)
+  //               .popAndPushNamed(NavigateToCorrectScreen.routeName);
+  //         }
+  //       },
+  //     );
+  //   }
+  //   //push.onMessageListener();
+  //   // push.onOpeningMessage(context);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -305,24 +314,33 @@ class _MyAppState extends State<MyApp> {
             // home: CreateCommunity(),
             //   home: homeLayoutScreen(),
             // home: HomeScreen(),
-            home: Login(),
+            // home: Login(),
             // home: CreateCommunity(),
             // home: Login(),
             // home: ForgotUserName(),
             // home: SignUp(),
             // home: Gender(),
-            home: ModeratorTools(),
+            // home: ModeratorTools(),
             // home: Settings(),
             // home: ChangeEmail(),
             // home: ComuunityTypesScreen(),
             // home: LocationScreen(),
+            // home: ModeratorsScreen(),
+            // home: BannedScreen(),
+            // home: MutedScreen(),
+            // home: ApprovedScreen(),
             routes: {
+              EditApprovedScreen.routeName: (context) => EditApprovedScreen(),
+              EditBannedScreen.routeName: (context) => EditBannedScreen(),
+              EditMutedScreen.routeName: (context) => EditMutedScreen(),
+              EditModeratorScreen.routeName: (context) => EditModeratorScreen(),
+              ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
+              ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
               ComuunityTypesScreen.routeName: (context) =>
                   ComuunityTypesScreen(),
               LocationScreen.routeName: (context) => LocationScreen(),
               PostTypesScreen.routeName: (context) => PostTypesScreen(),
               Description.routeName: (context) => Description(),
-            routes: {
               NewMessageScreen.routeName: (context) => NewMessageScreen(),
               EditPost.routeName: (context) => EditPost(),
               ShowPostDetails.routeName: (context) => ShowPostDetails(),
