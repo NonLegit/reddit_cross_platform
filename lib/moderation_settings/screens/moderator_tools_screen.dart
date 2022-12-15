@@ -1,10 +1,7 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
+import '../../icons/icon_broken.dart';
 import './topics_screen.dart';
-
 
 class ModeratorTools extends StatefulWidget {
   static const routeName = '/moderatortools';
@@ -16,7 +13,6 @@ class ModeratorTools extends StatefulWidget {
 }
 
 class _ModeratorToolsState extends State<ModeratorTools> {
-
   List<String>? topics;
 
   @override
@@ -37,43 +33,200 @@ class _ModeratorToolsState extends State<ModeratorTools> {
           shadowColor: Colors.white,
         ),
       ),
-      body:  Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  color: Colors.grey.shade300,
-                  width: 100.h,
-                  padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
-                  child: const Text(
-                    'GENERAL',
-                    style: TextStyle(
-                        color: Colors.black38,
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(
-                  height: 1.h,
-                ),
-                ListView(
-                  shrinkWrap: true,
-                  children: [
-                    buildGeneralOptions(
-                        context,
-                        () => Navigator.of(context).pushNamed(
-                            TopicsScreen.routeName,
-                             arguments:
-                             //'Cooking'
-                             ModalRoute.of(context)?.settings.arguments as String
-                             ),
-                        'Topics',
-                        Icons.topic),
-                  ],
-                )
-              ],
+      body:  ListView(
+          scrollDirection: Axis.vertical,
+          physics: const ClampingScrollPhysics(),
+          shrinkWrap: true,
+          children: [
+            Container(
+              color: Colors.grey.shade300,
+              width: 100.h,
+              padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: const Text(
+                'GENERAL',
+                style: TextStyle(
+                    color: Colors.black38,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
+            SizedBox(
+              height: 1.h,
+            ),
+            // SingleChildScrollView(
+            //   child: 
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Description',
+                      Icons.edit_outlined),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Welcome message',
+                      Icons.message_outlined),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Topics',
+                      Icons.local_offer_outlined),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'CommunityT Type',
+                      Icons.lock_outline),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Post Types',
+                      Icons.library_books_outlined),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Discovery',
+                     IconBroken.Discovery),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Loction',
+                      Icons.location_on_outlined),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Archive Posts',
+                      Icons.view_agenda_outlined),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Media in comments',
+                      Icons.image_outlined),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Loction',
+                      Icons.location_on_outlined),
+                ],
+              ),
+           // ),
+            Container(
+              color: Colors.grey.shade300,
+              width: 100.h,
+              padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: const Text(
+                'CONTENT & REGULATIONS',
+                style: TextStyle(
+                    color: Colors.black38,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            // SingleChildScrollView(
+            //   child: 
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'post flair',
+                      Icons.local_offer_outlined),
+                ],
+              ),
+           // ),
+            Container(
+              color: Colors.grey.shade300,
+              width: 100.h,
+              padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: const Text(
+                'USER MANAGEMENT',
+                style: TextStyle(
+                    color: Colors.black38,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            // SingleChildScrollView(
+            //   child:
+               ListView(
+                shrinkWrap: true,
+                children: [
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Moderators',
+                      Icons.shield_outlined),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Approved users',
+                      Icons.person_outlined),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Muted users',
+                      Icons.block_outlined),
+                  buildGeneralOptions(
+                      context,
+                      () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                          arguments:
+                              //'Cooking'
+                              ModalRoute.of(context)?.settings.arguments as String),
+                      'Banned users',
+                      Icons.gavel_outlined),
+                ],
+              ),
+           // ),
+          ],
+        ),
+    
     );
   }
+
   //call buildGeneralOptions to create the widget of each option in moderation setting
   //return value is Gesture Detector
   //Inputs : context of widget , function to call on tapping gesture, header of settings e.g Topics,Description,.. , next:Icon of each setting

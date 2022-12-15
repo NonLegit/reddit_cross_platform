@@ -17,21 +17,8 @@ class InviteButton extends StatefulWidget {
 }
 
 class InviteButtonState extends State<InviteButton> {
-  List<ModeratedSubbredditUserData>? subdata = [
-    ModeratedSubbredditUserData(
-        icon:
-            'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
-        subredditName: 'reddit'),
-    ModeratedSubbredditUserData(
-        icon:
-            'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
-        subredditName: 'reddit'),
-    ModeratedSubbredditUserData(
-        icon:
-            'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
-        subredditName: 'reddit')
-  ];
-  String textMessage = '';
+  List<ModeratedSubbredditUserData>? subdata;
+  late String textMessage;
   late String subredditName;
   late TextEditingController message;
   var _isLoading = false;
@@ -40,6 +27,8 @@ class InviteButtonState extends State<InviteButton> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    textMessage = '';
+    // textMessage = 'Message ${widget.userName}';
     message = TextEditingController();
   }
 
@@ -47,21 +36,22 @@ class InviteButtonState extends State<InviteButton> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     //===============================doing fetch=======================================//
-    // if (_isInit) {
-    //   setState(() {
-    //     _isLoading = true;
-    //   });
-    //   Provider.of<OtherProfileprovider>(context, listen: false)
-    //       .fetchAndSetModeratedSubredditUser()
-    //       .then((value) {
-    //     subdata = Provider.of<OtherProfileprovider>(context, listen: false)
-    //         .gettingModeratedSubreddit;
-    //     setState(() {
-    //       _isLoading = false;
-    //     });
-    //   });
-    // }
-    // _isInit = false;
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      // print('12 ');
+      Provider.of<OtherProfileprovider>(context, listen: false)
+          .fetchAndSetModeratedSubredditUser()
+          .then((value) {
+        subdata = Provider.of<OtherProfileprovider>(context, listen: false)
+            .gettingModeratedSubreddit;
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
 
     //==================================================//
     super.didChangeDependencies();
@@ -86,12 +76,17 @@ class InviteButtonState extends State<InviteButton> {
   }
 
   void insert(String content) {
-    var text = message.text;
-    var pos = message.selection.start;
-    message.value = TextEditingValue(
-      text: content,
-      selection: TextSelection.collapsed(offset: content.length),
-    );
+    setState(() {
+      message.text = content;
+      //textMessage = '';
+    });
+
+    // var text = message.text;
+    // var pos = message.selection.start;
+    // message.value = TextEditingValue(
+    //   text: content,
+    //   selection: TextSelection.collapsed(offset: content.length),
+    //);
   }
 
   Future<void> _bottomSheet(BuildContext context) {
@@ -103,7 +98,7 @@ class InviteButtonState extends State<InviteButton> {
           onTap: () {},
           child: Container(
             padding: const EdgeInsets.only(left: 5),
-            height: MediaQuery.of(context).size.height * 0.38,
+            height: MediaQuery.of(context).size.height * 0.40,
             width: MediaQuery.of(context).size.width * 0.30,
             // margin: const EdgeInsets.all(5),
             decoration: BoxDecoration(
@@ -116,18 +111,18 @@ class InviteButtonState extends State<InviteButton> {
                 Container(
                     child: ListTile(
                         leading: IconButton(
-                          icon: Icon(Icons.close_outlined),
+                          icon: const Icon(Icons.close_outlined),
                           onPressed: () => Navigator.of(context).pop(),
                         ),
                         title: Text(
                           'Invite ${widget.userName}',
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.black, fontWeight: FontWeight.bold),
                         ))),
-                Divider(),
+                const Divider(),
                 Container(
-                    margin: EdgeInsets.all(5),
-                    child: Text('CHOOSE A COMMUNITY',
+                    margin: const EdgeInsets.all(5),
+                    child: const Text('CHOOSE A COMMUNITY',
                         style: TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.bold))),
                 Container(
@@ -168,7 +163,7 @@ class InviteButtonState extends State<InviteButton> {
                                       ),
                                       Text(
                                         sub.subredditName.toString(),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold),
                                       )
@@ -179,22 +174,26 @@ class InviteButtonState extends State<InviteButton> {
                             );
                           }).toList(),
                         ))),
-                Divider(),
+                const Divider(),
                 Container(
-                  height: 5.h,
+                  height: (message.text.length / 40 + 8).h,
                   width: 100.w,
                   child: TextField(
+                      minLines: 2,
+                      maxLines: 5,
+                      keyboardType: TextInputType.multiline,
+                      style: TextStyle(color: Colors.black),
                       controller: message,
                       decoration: InputDecoration(
-                          icon: Icon(
+                         // labelText: textMessage,
+                          icon: const Icon(
                             Icons.reddit_rounded,
                             color: Colors.blue,
                             size: 50,
-                          ), //icon at head of input
-                          //prefixIcon: Icon(Icons.people), //you can use prefixIcon property too.
-                          labelText: textMessage,
+                          ),
+                          // labelText:,
                           suffixIcon: IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.send,
                               color: Colors.grey,
                             ),

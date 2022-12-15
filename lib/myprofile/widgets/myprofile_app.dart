@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_code_style/flutter_code_style.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'dart:convert';
-import '../../networks/const_endpoint_data.dart';
-import '../../networks/dio_client.dart';
 import '../../widgets/loading_reddit.dart';
 import '../widgets/position_in_flex_app_bar_myprofile.dart';
 import '../widgets/myprofile_about.dart';
 import '../../widgets/profile_comments.dart';
 import '../../widgets/profile_posts.dart';
-import '../widgets/myprofile_web.dart';
 import '../models/myprofile_data.dart';
 import '../screens/myprofile_screen.dart';
+
 class MyProfileApp extends StatelessWidget {
   final String userName;
   MyProfileData loadProfile;
@@ -29,23 +23,31 @@ class MyProfileApp extends StatelessWidget {
     required this.tabBar,
     required this.loadProfile,
   }) : super(key: key);
-
+   final GlobalKey<NestedScrollViewState> documentsNestedKey = GlobalKey();
+   ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
+         key: documentsNestedKey,
+         controller: _scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
+                forceElevated: innerBoxIsScrolled,
                 elevation: 4,
+                foregroundColor: Colors.white,
                 backgroundColor: Colors.blue,
-                title: Visibility(
-                  visible: innerBoxIsScrolled,
-                  child: Text('u/${loadProfile.displayName}',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
-                ),
+                // innerBoxIsScrolled ? Colors.blue : Colors.white,
+                title:
+                    // Visibility(
+                    //   visible: innerBoxIsScrolled,
+                    //   child:
+                    Text('u/${loadProfile.displayName}',
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold)),
+                //),
                 expandedHeight: (loadProfile.description == null ||
                         loadProfile.description == '')
                     ? 54.h
@@ -72,8 +74,8 @@ class MyProfileApp extends StatelessWidget {
                           //  color: Colors.blue,
                           height: (loadProfile.description == null ||
                                   loadProfile.description == '')
-                              ? 51.h
-                              : (51 +
+                              ? 56.h
+                              : (56 +
                                       ((loadProfile.description)
                                               .toString()
                                               .length /
@@ -108,10 +110,14 @@ class MyProfileApp extends StatelessWidget {
           ];
         },
         body: isLoading
-            ? LoadingReddit()
+            ? const LoadingReddit()
             : TabBarView(controller: controller, children: [
-                ProfilePosts(routeNamePop: MyProfileScreen.routeName),
-                ProfileComments(),
+                ProfilePosts(
+                  routeNamePop: MyProfileScreen.routeName,
+                  userName: userName,
+                  //controller: _scrollController,
+                ),
+                ProfileComments(userName: userName),
                 MyProfileAbout(
                     int.parse(loadProfile.postKarma.toString()),
                     int.parse(loadProfile.commentkarma.toString()),

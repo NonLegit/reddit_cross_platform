@@ -8,54 +8,59 @@ import '../models/others_profile_data.dart';
 import '../widgets/position_in_flex_appbar_otherprofile.dart';
 import '../widgets/pop_down_menu.dart';
 import '../screens/others_profile_screen.dart';
+
 class OtherProfileApp extends StatelessWidget {
-    final String userName;
-final  OtherProfileData loadProfile;
+  final String userName;
+  final OtherProfileData loadProfile;
   bool isOnline = true;
   final TabBar tabBar;
   bool isLoading;
   TabController? controller;
- OtherProfileApp({
+  OtherProfileApp({
     Key? key,
-        required this.userName,
+    required this.userName,
     required this.controller,
     required this.isLoading,
     required this.tabBar,
     required this.loadProfile,
   }) : super(key: key);
-
+  final GlobalKey<NestedScrollViewState> documentsNestedKey = GlobalKey();
+  ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return <Widget>[
-                  SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
-                    sliver: SliverAppBar(
-                      elevation: 4,
-                      backgroundColor: Colors.blue,
-                      title: Visibility(
-                        visible: innerBoxIsScrolled,
-                        child: Text('u/${loadProfile.displayName}',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                      expandedHeight: (loadProfile.description == null ||
-                              loadProfile.description == '')
-                          ? 54.h
-                          : (54 +
-                                  ((loadProfile.description.toString().length /
-                                          42) +
+            key: documentsNestedKey,
+        controller: _scrollController,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+              foregroundColor: Colors.white,
+                elevation: 4,
+                backgroundColor:Colors.blue,
+                // innerBoxIsScrolled?Colors.blue:Colors.white,
+                title: 
+                // Visibility(
+                //   visible: innerBoxIsScrolled,
+                //   child: 
+                  Text('u/${loadProfile.displayName}',
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
+               //),
+                expandedHeight: (loadProfile.description == null ||
+                        loadProfile.description == '')
+                    ? 54.h
+                    : (54 +
+                            ((loadProfile.description.toString().length / 42) +
+ 
                                       7))
                               .h,
                       floating: false,
                       pinned: true,
                       snap: false,
                       bottom: PreferredSize(
-                          preferredSize: tabBar.preferredSize,
+                          preferredSize: const Size(double.infinity, kToolbarHeight),
                           child: ColoredBox(
                             color: Colors.white,
                             child: tabBar,
@@ -72,8 +77,8 @@ final  OtherProfileData loadProfile;
                                 // color: Colors.blue,
                                 height: (loadProfile.description == null ||
                                         loadProfile.description == '')
-                                    ? 51.h
-                                    : (51 +
+                                    ? 56.h
+                                    : (56 +
                                             (loadProfile.description
                                                     .toString()
                                                     .length /
@@ -102,23 +107,27 @@ final  OtherProfileData loadProfile;
                               PositionInFlexAppBarOtherProfile(
                                   loadProfile: loadProfile)
                             ],
-                          ),
-                        ]),
-                      ),
+            
                     ),
-                  ),
-                ];
-              },
-              body: isLoading
-                  ? LoadingReddit()
-                  : TabBarView(controller: controller, children: [
-                      ProfilePosts(routeNamePop: OthersProfileScreen.routeName),
-                      ProfileComments(),
-                      OthersProfileAbout(
-                          int.parse(loadProfile.postKarma.toString()),
-                          int.parse(loadProfile.commentkarma.toString()),
-                          loadProfile.description.toString())
-                    ])
-            );
+                  ]),
+                ),
+              ),
+            ),
+          ];
+        },
+        body: isLoading
+            ? const LoadingReddit()
+            : TabBarView(controller: controller, children: [
+                ProfilePosts(
+                    routeNamePop: OthersProfileScreen.routeName,
+                    userName: userName,
+                   // controller: _scrollController,
+                    ),
+                ProfileComments(userName: userName),
+                OthersProfileAbout(
+                    int.parse(loadProfile.postKarma.toString()),
+                    int.parse(loadProfile.commentkarma.toString()),
+                    loadProfile.description.toString())
+              ]));
   }
 }

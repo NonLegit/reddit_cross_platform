@@ -6,19 +6,20 @@ import '../models/subreddit_data.dart';
 import '../../screens/subreddit_search_screen.dart';
 import '../widgets/subreddit_pop_up_menu_button.dart';
 import '../widgets/postion_for_subreddit_info.dart';
-import '../widgets/subreddit_posts.dart';
+import '../../widgets/subreddit_posts.dart';
 import '../../widgets/loading_reddit.dart';
 import '../screens/subreddit_screen.dart';
+
 class SubredditApp extends StatelessWidget {
-    final String userName;
-SubredditData loadedSubreddit;
+  final String userName;
+  SubredditData loadedSubreddit;
   bool isOnline = true;
   final TabBar tabBar;
   bool isLoading;
   TabController? controller;
- SubredditApp({
+  SubredditApp({
     Key? key,
-      required this.userName,
+    required this.userName,
     required this.controller,
     required this.isLoading,
     required this.tabBar,
@@ -27,26 +28,26 @@ SubredditData loadedSubreddit;
   void showEndDrawer(BuildContext context) {
     Scaffold.of(context).openEndDrawer();
   }
+
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
-        headerSliverBuilder:
-            (BuildContext context, bool innerBoxIsScrolled) {
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverOverlapAbsorber(
-              handle:
-                  NestedScrollView.sliverOverlapAbsorberHandleFor(
-                      context),
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
                 elevation: 4,
-                backgroundColor: innerBoxIsScrolled
-                    ? const Color.fromARGB(137, 33, 33, 33)
-                    : Colors.white,
+                foregroundColor: Colors.white,
+                backgroundColor: const Color.fromARGB(137, 33, 33, 33),
+                // innerBoxIsScrolled
+                //     ? const Color.fromARGB(137, 33, 33, 33)
+                //     : Colors.white,
                 leading: IconButton(
                   onPressed: () {
                     Navigator.of(context).pop(context);
                   },
-                  icon: Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back),
                   color: Colors.white,
                 ),
                 title: Container(
@@ -59,20 +60,19 @@ SubredditData loadedSubreddit;
                   // to Go to Search in Subreddit
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(
-                          SubredditSearchScreen.routeName);
+                      Navigator.of(context)
+                          .pushNamed(SubredditSearchScreen.routeName);
                     },
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.search_outlined,
                           color: Colors.white,
                         ),
                         Text(
                           'r/${loadedSubreddit.name}',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -88,7 +88,7 @@ SubredditData loadedSubreddit;
                       onPressed: () => showEndDrawer(context),
                       icon: Stack(
                         alignment: AlignmentDirectional.bottomEnd,
-                        children: [
+                        children: const [
                           CircleAvatar(
                             backgroundImage: NetworkImage(
                                 'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4'),
@@ -100,8 +100,7 @@ SubredditData loadedSubreddit;
                           ),
                           Padding(
                             padding:
-                                const EdgeInsetsDirectional.only(
-                                    end: 2, bottom: 2),
+                                EdgeInsetsDirectional.only(end: 2, bottom: 2),
                             child: CircleAvatar(
                               backgroundColor: Colors.green,
                               radius: 4,
@@ -112,15 +111,19 @@ SubredditData loadedSubreddit;
                     );
                   }),
                 ],
-                expandedHeight:
-                    (loadedSubreddit.description == null ||
-                            loadedSubreddit.description == '')
-                        ? 35.h:(35+((loadedSubreddit.description.toString().length/42)+7)).h,
+                expandedHeight: (loadedSubreddit.description == null ||
+                        loadedSubreddit.description == '')
+                    ? 35.h
+                    : (35 +
+                            ((loadedSubreddit.description.toString().length /
+                                    42) +
+                                7))
+                        .h,
                 floating: false,
                 pinned: true,
                 snap: false,
                 bottom: PreferredSize(
-                  preferredSize: tabBar.preferredSize,
+                 preferredSize:tabBar.preferredSize,
                   child: ColoredBox(
                     color: Colors.white,
                     child: tabBar,
@@ -133,14 +136,11 @@ SubredditData loadedSubreddit;
                       children: <Widget>[
                         //Profile back ground
                         Container(
-                            height: (loadedSubreddit.description ==
-                                        null ||
-                                    loadedSubreddit.description ==
-                                        '')
-                                ? 30.h
-                                : (30 +
-                                        ((loadedSubreddit
-                                                    .description)
+                            height: (loadedSubreddit.description == null ||
+                                    loadedSubreddit.description == '')
+                                ? 35.h
+                                : (35 +
+                                        ((loadedSubreddit.description)
                                                 .toString()
                                                 .length /
                                             42) +
@@ -149,29 +149,26 @@ SubredditData loadedSubreddit;
                             width: 100.w,
                             color: Colors.white,
                             child: Image.network(
-                              loadedSubreddit.subredditBackPicture
-                                  .toString(),
+                              loadedSubreddit.subredditBackPicture.toString(),
                               fit: BoxFit.cover,
                             )),
                         // for name , members ,online and description
-                        PostionForSubredditInfo(loadedSubreddit: loadedSubreddit),
+                        PostionForSubredditInfo(
+                            loadedSubreddit: loadedSubreddit),
                         //for profile picture
                         Positioned(
-                          top: 90,
-                          right: 260,
+                         top: 9.h,
+                          right: 65.w,
                           left: 0,
-                          bottom: 120,
+                          bottom: 20.h,
                           child: Container(
-                            width: 20.w,
-                            height: 20.h,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                      loadedSubreddit
-                                          .subredditPicture
-                                          .toString()),
+                                  image: NetworkImage(loadedSubreddit
+                                      .subredditPicture
+                                      .toString()),
                                   fit: BoxFit.fill),
                             ),
                           ),
@@ -185,18 +182,16 @@ SubredditData loadedSubreddit;
           ];
         },
         body: isLoading
-            ? LoadingReddit()
+            ? const LoadingReddit()
             : TabBarView(controller: controller, children: [
                 SubredditPosts(
-                    routeNamePop: SubredditScreen.routeName),
+                    routeNamePop: SubredditScreen.routeName,
+                    subredditName: loadedSubreddit.name as String),
                 SubredditAbout(
-                  rules: loadedSubreddit.rules
-                      as List<SubredditAboutRules>,
-                  moderators:
-                      loadedSubreddit.moderators as List<String>,
+                  rules: loadedSubreddit.rules as List<SubredditAboutRules>,
+                  moderators: loadedSubreddit.moderators as List<String>,
                   userName: userName,
                 )
-              ])
-              );
+              ]));
   }
 }

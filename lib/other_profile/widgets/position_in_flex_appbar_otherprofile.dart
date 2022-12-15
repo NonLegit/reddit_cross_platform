@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_code_style/analysis_options.yaml';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../models/others_profile_data.dart';
 import '../widgets/invite_button.dart';
+import '../widgets/follow_button.dart';
+import '../providers/other_profile_provider.dart';
+
 class PositionInFlexAppBarOtherProfile extends StatelessWidget {
-  const PositionInFlexAppBarOtherProfile({
+  PositionInFlexAppBarOtherProfile({
     Key? key,
     required this.loadProfile,
   }) : super(key: key);
 
-  final OtherProfileData loadProfile;
-
+  OtherProfileData loadProfile;
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 90,
-      right: 10,
+top: 9.h,
+      right: 5.w,
       width: 95.w,
       height: 100.h,
       child: Container(
-        // alignment: Alignment.topLeft,
-        //color: Colors.blue,
         padding: const EdgeInsets.all(20),
-        //color: Colors.black54,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -43,42 +43,12 @@ class PositionInFlexAppBarOtherProfile extends StatelessWidget {
             //Follow and invite
             Row(
               children: [
-                Container(
-                    width: loadProfile.isFollowed?30.w:23.w,
-                    height: 6.h,
-                    child: OutlinedButton(
-                      onPressed: null,
-                      style: ButtonStyle(
-                          //shape: Outlin,
-
-                          side: MaterialStateProperty.all(
-                              const BorderSide(
-                                  color: Colors.white)),
-                          shape: MaterialStateProperty.all(
-                              const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(
-                                          Radius.circular(
-                                              30)))),
-                          backgroundColor:
-                              MaterialStateProperty.all(
-                                  const Color.fromARGB(
-                                      137, 33, 33, 33)),
-                          foregroundColor:
-                              MaterialStateProperty.all(
-                                  Colors.white)),
-                      child:  Text(
-                        loadProfile.isFollowed?'Following':'Follow',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                    )),
+                FollowButton(userName: loadProfile.userName.toString(),isFollowed: loadProfile.isFollowed),
                 Container(
                     width: 15.w,
                     height: 6.h,
-                    child: InviteButton(userName:loadProfile.userName.toString())),
+                    child: InviteButton(
+                        userName: loadProfile.userName.toString())),
               ],
             ),
             const SizedBox(
@@ -92,43 +62,9 @@ class PositionInFlexAppBarOtherProfile extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 20),
             ),
-            //followers
-            Container(
-              padding: const EdgeInsets.all(0),
-              alignment: Alignment.bottomLeft,
-              height: 4.5.h,
-              width: 40.w,
-              //  color: Colors.black,
-              child: TextButton(
-                onPressed: null,
-                style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all(
-                            Colors.white)),
-                child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.start,
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${loadProfile.followersCount} followers',
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14),
-                        textAlign: TextAlign.end,
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 15,
-                      )
-                    ]),
-              ),
-            ),
-            //name and discibtions
-           Text(
-               'u/${loadProfile.displayName} .${int.parse(loadProfile.postKarma.toString()) + int.parse(loadProfile.commentkarma.toString())}.${DateFormat.yMMMMd('en_US').format(DateTime.parse(loadProfile.createdAt.toString()))}',
+            // //name and discibtions
+            Text(
+                'u/${loadProfile.displayName} .${int.parse(loadProfile.postKarma.toString()) + int.parse(loadProfile.commentkarma.toString())}.${DateFormat.yMMMMd('en_US').format(DateTime.parse(loadProfile.createdAt.toString()))}',
                 style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
@@ -140,9 +76,11 @@ class PositionInFlexAppBarOtherProfile extends StatelessWidget {
 
             Container(
               width: 100.w,
-              height: (loadProfile.description==null||loadProfile.description == '')
+              height: (loadProfile.description == null ||
+                      loadProfile.description == '')
                   ? 0.h
-                  : (0 + (loadProfile.description.toString().length / 42) + 7).h,
+                  : (0 + (loadProfile.description.toString().length / 42) + 7)
+                      .h,
               child: Text(loadProfile.description.toString(),
                   style: const TextStyle(
                       color: Colors.white,

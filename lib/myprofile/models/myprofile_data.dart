@@ -2,7 +2,7 @@
 // import 'dart:ffi';
 
 class MyProfileData {
-  String? id;
+  //String? id;
   String? userName;
   String? email;
   String? profilePicture;
@@ -16,7 +16,8 @@ class MyProfileData {
   int? postKarma;
   int? commentkarma;
   MyProfileData(
-      {required this.id,
+      {
+        //required this.id,
       required this.userName,
       required this.email,
       required this.profilePicture,
@@ -30,7 +31,7 @@ class MyProfileData {
       required this.commentkarma});
 
   MyProfileData.fromJson(Map<String, dynamic> json) {
-    //      print(json['id'].runtimeType);
+    // print(json['id'].runtimeType);
     // print(json['userName'].runtimeType);
     // print(json['email'].runtimeType);
     // print(json['profilePicture'].runtimeType);
@@ -40,14 +41,14 @@ class MyProfileData {
     // print(json['postKarma'].runtimeType);
     // print(json['commentKarma'].runtimeType);
     // print(json['description'].runtimeType);
-    // print(json['isFollowed'].runtimeType);
-    id = json['id'];
+    // print('heeee;ssssssssssssssssssssss');
+    //id = json['id'];
     userName = json['userName'];
     email = json['email'];
     profilePicture = json['profilePicture'];
     profileBackPicture = json['profileBackground'];
     description = json['description'];
-    displayName = json['displayName'];
+    displayName = json['userName']; //json['displayName'];
     followersCount = int.parse(json['followersCount'].toString());
     createdAt = json['createdAt'];
     // numOfDaysInReddit = int.parse(json['numOfDaysInReddit'].toString());
@@ -58,7 +59,7 @@ class MyProfileData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    //data['id'] = this.id;
     data['userName'] = this.userName;
     data['email'] = this.email;
     data['profilePicture'] = this.profilePicture;

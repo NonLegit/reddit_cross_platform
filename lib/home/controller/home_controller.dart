@@ -1,3 +1,7 @@
+import 'dart:collection';
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/createpost/model/subreddits_of_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +32,7 @@ class HomeController extends GetxController with StateMixin<List<PostModel>> {
       await DioClient.get(
         path: '/posts',
       ).then((value) {
-        print(value);
+        // print(value);
         List<PostModel> data = value.data.map((e) => PostModel.fromJson(value));
         change(data, status: RxStatus.success());
       });

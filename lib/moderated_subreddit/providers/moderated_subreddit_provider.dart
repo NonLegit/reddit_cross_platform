@@ -5,22 +5,27 @@ import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../models/moderated_subreddit_data.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //using in heighest widget to use
 class ModeratedSubredditProvider with ChangeNotifier {
- ModeratedSubredditData? loadSubreddit;
+  ModeratedSubredditData? loadSubreddit;
 
   ModeratedSubredditData? get gettingSubredditeData {
     return loadSubreddit;
   }
 
-  Future<void> fetchAndSetModeratedSubredddit(String moderatedSubredditUserName) async {
+  Future<void> fetchAndSetModeratedSubredddit(
+      String moderatedSubredditUserName) async {
     try {
       subredditName = moderatedSubredditUserName;
-       final prefs = await SharedPreferences.getInstance();
-      print(prefs);
+      print('******************************HERE*****************************');
+      print(subredditName);
+      print(subreddit);
+      final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-      await DioClient.get(path: subreddit).then((response) {
+      await DioClient.get(path: '/subreddits/$subredditName').then((response) {
+        print(response.data);
         loadSubreddit = ModeratedSubredditData.fromJson(response.data['data']);
         notifyListeners();
       });
@@ -28,17 +33,25 @@ class ModeratedSubredditProvider with ChangeNotifier {
       print(error);
     }
   }
-   Future<void> joinAndDisjoinModeratedSubreddit(String moderatedSubredditUserName,  Map<String, dynamic>? query) async {
+
+  Future<void> joinAndDisjoinModeratedSubreddit(
+      String moderatedSubredditUserName, String action) async {
     try {
       final prefs = await SharedPreferences.getInstance();
+      print(moderatedSubredditUserName);
       print(prefs);
       DioClient.init(prefs);
-      await DioClient.post(path:'subreddits/${moderatedSubredditUserName}/subscribe',query:query
-       //data: data
-       );
+      await DioClient.post(
+          path: '/subreddits/${moderatedSubredditUserName}/subscribe',
+          query: {'action': action},
+          data: {}
+          //data: data
+          );
       notifyListeners();
-
+      print(
+          '========================Successed Join/ disjoin ================================');
     } catch (error) {
+      print(error);
     }
   }
 }

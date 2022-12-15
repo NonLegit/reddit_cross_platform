@@ -8,8 +8,8 @@ import '../screens/finalpost.dart';
 
 class SubredditModeratorContainer extends StatelessWidget {
   // const SubredditContainer({Key? key}) : super(key: key);
-  final postController controller = Get.put(
-    postController(),
+  final PostController controller = Get.put(
+    PostController(),
   );
   String nameOfSubreddit = "";
   String iconOfSubreddit = '';

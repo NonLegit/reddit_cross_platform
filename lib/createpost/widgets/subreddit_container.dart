@@ -7,8 +7,8 @@ import '../controllers/posts_controllers.dart';
 import '../screens/finalpost.dart';
 
 class SubredditSubscriberContainer extends StatelessWidget {
-  final postController controller = Get.put(
-    postController(),
+  final PostController controller = Get.put(
+    PostController(),
   );
   String nameOfSubreddit = "";
   String iconOfSubreddit = '';
