@@ -80,7 +80,7 @@ class PostTypesScreenState extends State<PostTypesScreen> {
           : '';
       // subbredditName = 'Cooking';
       Provider.of<ModerationSettingProvider>(context, listen: false)
-          .getCommunity(subbredditName!)
+          .getCommunity(subbredditName!,context)
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)
@@ -109,7 +109,7 @@ class PostTypesScreenState extends State<PostTypesScreen> {
       "allowImages": '$allowImages',
       "allowVideos": '$allowVideos',
       "allowLinks": '$allowLinks'
-    }, subbredditName!).then((response) {});
+    }, subbredditName!,context).then((response) {});
 
     if (provider.isError == true) {
       // ignore: use_build_context_synchronously
