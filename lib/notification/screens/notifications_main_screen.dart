@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../constants/types_of_notification.dart';
 import '../../create_community/widgets/bar_widget.dart';
 import '../models/notification_class_model.dart';
+import '../provider/notification_provider.dart';
 import '../widgets/notification_text.dart';
 import '../widgets/reply_back.dart';
 import './navigate_to_correct_screen.dart';
@@ -17,12 +19,15 @@ class NotificationsMainScreen extends StatefulWidget {
   NotificationsMainScreen(
       {super.key,
       required this.changeNumOfNotification,
-      required this.usersAllNotificatiion});
-  final List<NotificationModel> usersAllNotificatiion;
+      required this.usersNotificationToday,
+      required this.usersNotificationEarlier});
+  final List<NotificationModel> usersNotificationToday;
+  final List<NotificationModel> usersNotificationEarlier;
   Function? changeNumOfNotification;
 
   @override
-  State<NotificationsMainScreen> createState() => _NotificationsMainScreenState();
+  State<NotificationsMainScreen> createState() =>
+      _NotificationsMainScreenState();
 }
 
 class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
@@ -33,8 +38,21 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
     //'Disable updates from this community'
   ];
 
-  _navigateToCorrectScreen(index, context) {
-    Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
+  _markAsRead(NotificationModel index, context) async {
+    if (!index.seen!) {
+      setState(() {
+        index.seen = true;
+      });
+      await Provider.of<NotificationProvider>(context, listen: false)
+          .markAndHideThisNotification(context, index.sId, 'mark_as_read',1);
+    }
+  }
+
+  _navigateToCorrectScreen(NotificationModel index, context, i) {
+    _markAsRead(index, context);
+    if (i == 0) {
+      Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
+    }
   }
 
   String returnCorrectText(type, name, user) {
@@ -87,12 +105,24 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
     return howOld;
   }
 
+  _hideThisNotification(notificationId,i) async {
+    await Provider.of<NotificationProvider>(context, listen: false)
+        .markAndHideThisNotification(context, notificationId, 'hide',i);
+  }
+
+  hideThisNotification(notificationId,i) {
+    _hideThisNotification(notificationId,i);
+    print('in hides');
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData = MediaQuery.of(context);
     final height = queryData.size.height;
     final width = queryData.size.width;
-    return (widget.usersAllNotificatiion.isEmpty)
+    return (widget.usersNotificationEarlier.isEmpty &&
+            widget.usersNotificationToday.isEmpty)
         ? Container(
             color: Colors.grey[100],
             child: Center(
@@ -110,22 +140,52 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
               ],
             )),
           )
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-                if (!kIsWeb)
-                  Flexible(
-                    child: SingleChildScrollView(
-                      child: notificationBody(height, width),
-                    ),
+        : Container(
+            color: Colors.white,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: height * 0.01,
                   ),
-                if (kIsWeb) notificationBody(height, width),
-              ]);
+                  if (!kIsWeb)
+                    Flexible(
+                      child: SingleChildScrollView(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (!widget.usersNotificationToday.isEmpty)
+                                const Text('    Today',style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              if (!widget.usersNotificationToday.isEmpty)
+                                notificationBody(height, width,
+                                    widget.usersNotificationToday,0),
+                              if (!widget.usersNotificationEarlier.isEmpty)
+                                SizedBox(
+                                  height: height * 0.02,
+                                  child: const Text(
+                                    '    Earlier',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              if (!widget.usersNotificationEarlier.isEmpty)
+                                notificationBody(height, width,
+                                    widget.usersNotificationEarlier,1),
+                            ]),
+                      ),
+                    ),
+                  // if (kIsWeb) notificationBody(height, width),
+                ]),
+          );
   }
 
   // Widget return the main body of each notification
-  ListView notificationBody(height, width) {
+  ListView notificationBody(height, width, usersAllNotificatiion,i) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
@@ -133,9 +193,10 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
         return Column(
           children: [
             GestureDetector(
-              onTap: () => _navigateToCorrectScreen(index, context),
+              onTap: () => _navigateToCorrectScreen(
+                  usersAllNotificatiion[index], context, 0),
               child: Container(
-                color: (!widget.usersAllNotificatiion[index].seen!)
+                color: (!usersAllNotificatiion[index].seen!)
                     ? Colors.lightBlue[50]
                     : Colors.white,
                 // width: double.infinity,
@@ -148,21 +209,21 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                           children: [
                             notificationMain(
                                 returnCorrectText(
-                                  widget.usersAllNotificatiion[index].type,
-                                  widget.usersAllNotificatiion[index].requiredName,
-                                  widget.usersAllNotificatiion[index].followeruserName,
+                                  usersAllNotificatiion[index].type,
+                                  usersAllNotificatiion[index].requiredName,
+                                  usersAllNotificatiion[index].followeruserName,
                                 ),
                                 returnCorrectDescription(
-                                    widget.usersAllNotificatiion[index].type,
-                                    widget.usersAllNotificatiion[index].description,
-                                    widget.usersAllNotificatiion[index].requiredName),
-                                widget.usersAllNotificatiion[index].type,
+                                    usersAllNotificatiion[index].type,
+                                    usersAllNotificatiion[index].description,
+                                    usersAllNotificatiion[index].requiredName),
+                                usersAllNotificatiion[index].type,
                                 getTimeOfNotification(
-                                    widget.usersAllNotificatiion[index].createdAt),
+                                    usersAllNotificatiion[index].createdAt),
                                 NotificationImage(
                                     usersAllNotificatiion: typeOfNotification[
-                                        widget.usersAllNotificatiion[index].type]!,
-                                    userPhoto: widget.usersAllNotificatiion[index]
+                                        usersAllNotificatiion[index].type]!,
+                                    userPhoto: usersAllNotificatiion[index]
                                         .followerIcon!,
                                     height: height,
                                     width: width),
@@ -192,8 +253,11 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                               ),
                               const Divider(),
                               ListTileWidget(
-                                  icon: Icons.visibility_off_outlined,
-                                  title: 'Hide this notification'),
+                                icon: Icons.visibility_off_outlined,
+                                title: 'Hide this notification',
+                                onpressed: () => hideThisNotification(
+                                    usersAllNotificatiion[index].sId,i),
+                              ),
                               // //only in community notifications this option is shown
                               // if (usersAllNotificatiion[index]['type'] ==
                               //     'community')
@@ -233,17 +297,17 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                                   list[0],
                                   style: const TextStyle(fontSize: 12),
                                 )),
-                                if (widget.usersAllNotificatiion[index].type ==
-                                    'community')
-                                  PopupMenuItem(
-                                      child: Text(
-                                    list[1],
-                                    style: const TextStyle(fontSize: 12),
-                                  )),
+                                // if (usersAllNotificatiion[index].type ==
+                                //     'community')
+                                //   PopupMenuItem(
+                                //       child: Text(
+                                //     list[1],
+                                //     style: const TextStyle(fontSize: 12),
+                                //   )),
                               ];
                             },
                           ),
-                    if (kIsWeb) const Divider(),
+                    if (kIsWeb) const Divider(color: Colors.green),
                   ],
                 ),
               ),
@@ -251,7 +315,7 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
           ],
         );
       },
-      itemCount: widget.usersAllNotificatiion.length,
+      itemCount: usersAllNotificatiion.length,
     );
   }
 }

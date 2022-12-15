@@ -19,8 +19,9 @@ class NotificationToken {
     final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
     try {
+      //http://localhost:8000/api/v1/users/notifications/token
       await DioClient.post(
-          path: '/users/notifications/token', data: {"token": token});
+          path: '/notifications/token', data: {"token": token});
     } on DioError catch (e) {
       //HandleError.errorHandler(e, context);
     } catch (error) {

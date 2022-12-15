@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/notification_class_model.dart';
 
 import 'package:provider/provider.dart';
@@ -132,14 +133,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   int unreadNotification = 0;
   bool returned = false;
-  List<NotificationModel> usersAllNotificatiion = [];
+  List<NotificationModel> usersNotificationEarlier = [];
+  List<NotificationModel> usersNotificationToday = [];
   var currentIndex = 4;
   bool _isInit = true;
 
   @override
   void initState() {
+  //  _updateCount();
     super.initState();
   }
+
+  // _updateCount() {
+  //   //final prefs = await SharedPreferences.getInstance();
+  //   unreadNotification = Provider.of<NotificationProvider>(context).count!;
+  //   print('In notifications          $unreadNotification');
+  // }
 
   @override
   void didChangeDependencies() async {
@@ -147,11 +156,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
       setState(() {
         returned = false;
       });
-      Provider.of<NotificationProvider>(context, listen: false)
+    //  _updateCount();
+      await Provider.of<NotificationProvider>(context, listen: false)
           .getNotification(context)
           .then((value) {
-        usersAllNotificatiion =
-            Provider.of<NotificationProvider>(context, listen: false).list;
+        usersNotificationToday =
+            Provider.of<NotificationProvider>(context, listen: false).listToday;
+        usersNotificationEarlier =
+            Provider.of<NotificationProvider>(context, listen: false)
+                .listEariler;
         setState(() {
           returned = true;
         });
@@ -168,20 +181,37 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
-  _markAllAsRead() async {
+  _markAsRead() async {
     await Provider.of<NotificationProvider>(context, listen: false)
         .markAllAsRead(context);
-    usersAllNotificatiion.forEach((element) {
-      if (element.seen!) {
+  }
+
+  markAllAsRead() {
+    _markAsRead();
+    print('hiiiiiiiiiiiii');
+    usersNotificationEarlier.forEach((element) {
+      print(element.seen);
+      if (!element.seen!) {
         setState(() {
-          element.seen = false;
+          element.seen = true;
         });
       }
     });
+    usersNotificationToday.forEach((element) {
+      print(element);
+      if (!element.seen!) {
+        setState(() {
+          element.seen = true;
+        });
+      }
+    });
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    //_updateCount();
+    //final data = Provider.of<NotificationProvider>(context,listen: false);
     //var cubit =layoutCubit.get(context);
     MediaQueryData queryData = MediaQuery.of(context);
     final height = queryData.size.height;
@@ -202,7 +232,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     ListTileWidget(
                       icon: Icons.drafts_outlined,
                       title: 'Mark all inbox tabs as read',
-                      onpressed: _markAllAsRead(),
+                      onpressed: () => markAllAsRead(),
                     )
                   ], height: height * 0.016),
                   Builder(builder: (context) {
@@ -251,23 +281,24 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     unselectedLabelColor: Colors.grey,
                     tabs: [
                       Badge(
-                        toAnimate: false,
-                        position: BadgePosition.topEnd(end: -10, top: -23),
-                        shape: BadgeShape.circle,
-                        borderRadius: BorderRadius.circular(4),
-                        showBadge: unreadNotification != 0 ? true : false,
-                        badgeContent: const Text(
-                          '3',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.only(bottom: 6),
-                          child: Text(
-                            'Notifications',
-                            style: TextStyle(fontSize: 15),
+                          toAnimate: false,
+                          position: BadgePosition.topEnd(end: -10, top: -23),
+                          shape: BadgeShape.circle,
+                          borderRadius: BorderRadius.circular(4),
+                          showBadge: unreadNotification != 0 ? true : false,
+                          badgeContent: Text(
+                            unreadNotification.toString(),
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.only(bottom: 6),
+                            child: Text(
+                              'Notifications',
+                              style: TextStyle(fontSize: 15),
+                            ),
                           ),
                         ),
-                      ),
+                      
                       const Padding(
                         padding: EdgeInsets.only(bottom: 6),
                         child: Text(
@@ -285,7 +316,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 !returned
                     ? const LoadingReddit()
                     : NotificationsMainScreen(
-                        usersAllNotificatiion: usersAllNotificatiion,
+                        usersNotificationEarlier: usersNotificationEarlier,
+                        usersNotificationToday: usersNotificationToday,
                         changeNumOfNotification: _changeNumOfNotification),
                 const MessagesMainScreen(),
               ]),
@@ -397,7 +429,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         Container(
                           color: Colors.white,
                           child: NotificationsMainScreen(
-                              usersAllNotificatiion: usersAllNotificatiion,
+                              usersNotificationEarlier:
+                                  usersNotificationEarlier,
+                              usersNotificationToday: usersNotificationToday,
                               changeNumOfNotification:
                                   _changeNumOfNotification),
                         ),
