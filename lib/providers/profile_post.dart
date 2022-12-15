@@ -19,12 +19,13 @@ class ProfilePostProvider with ChangeNotifier {
 
       await DioClient.get(
           path: '/users/${userName}/posts',
-          query: {'sort': 'New'}).then((response) {
-        print(response.data);
+          query: {'sort': 'New'}).then((response) async {
         List<PostModel> tempData = [];
-        response.data['posts'].forEach((post) {
-          tempData.add(PostModel.fromJson(post));
-        });
+        for (var post in response.data['posts']) {
+          PostModel temp = PostModel();
+          await temp.fromJson(post);
+          tempData.add(temp);
+        }
         data = tempData;
         notifyListeners();
       });

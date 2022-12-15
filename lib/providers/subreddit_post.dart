@@ -21,11 +21,11 @@ class SubredditPostProvider with ChangeNotifier {
       await DioClient.get(path: '/subreddits/${subredditName}/top')
           .then((response) {
         print(response.data);
-        List<PostModel> tempData = [];
-        response.data['data'].forEach((post) {
-          tempData.add(PostModel.fromJson(post));
-        });
-        data = tempData;
+        // List<PostModel> tempData = [];
+        // response.data['data'].forEach((post) {
+        //   tempData.add(PostModel.fromJson(post));
+        // });
+        // data = tempData;
         notifyListeners();
       });
     } catch (error) {
@@ -43,11 +43,11 @@ class SubredditPostProvider with ChangeNotifier {
       await DioClient.get(path: '/subreddits/${subredditName}/new')
           .then((response) {
         print(response.data);
-        List<PostModel> tempData = [];
-        response.data['data'].forEach((post) {
-          tempData.add(PostModel.fromJson(post));
-        });
-        data = tempData;
+        // List<PostModel> tempData = [];
+        // response.data['data'].forEach((post) {
+        //   tempData.add(PostModel.fromJson(post));
+        // });
+        // data = tempData;
         notifyListeners();
       });
     } catch (error) {
@@ -65,11 +65,11 @@ class SubredditPostProvider with ChangeNotifier {
       await DioClient.get(path: '/subreddits/${subredditName}/hot')
           .then((response) {
         print(response.data);
-        List<PostModel> tempData = [];
-        response.data['data'].forEach((post) {
-          tempData.add(PostModel.fromJson(post));
-        });
-        data = tempData;
+        // List<PostModel> tempData = [];
+        // response.data['data'].forEach((post) {
+        //   tempData.add(PostModel.fromJson(post));
+        // });
+        // data = tempData;
         notifyListeners();
       });
     } catch (error) {

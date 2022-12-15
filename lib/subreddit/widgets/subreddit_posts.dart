@@ -76,7 +76,9 @@ class _SubredditPosts extends State<SubredditPosts> {
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: ((context, index) => Post.community(
+                    inView: false,
                         data: posts![index],
+                        updateDate: print,
                       )),
                   itemCount: posts?.length,
                 ),

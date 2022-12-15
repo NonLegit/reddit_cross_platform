@@ -70,6 +70,8 @@ class _ModeratedSubriddetPosts extends State<ModeratedSubriddetPosts> {
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: ((context, index) => Post.community(
+                  inView: false,
+                  updateDate: print,
                   data: posts![index],
                 )),
             itemCount: posts!.length,

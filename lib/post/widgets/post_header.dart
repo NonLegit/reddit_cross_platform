@@ -40,7 +40,7 @@ class PostHeader extends StatelessWidget {
           ? Theme.of(context).colorScheme.primary
           : Theme.of(context).colorScheme.surface,
       child: Container(
-        padding: const EdgeInsetsDirectional.only(start: 10, top: 5, bottom: 5),
+        padding: const EdgeInsetsDirectional.only(start: 15, top: 5, bottom: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

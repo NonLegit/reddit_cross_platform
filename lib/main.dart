@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/providers/global_settings.dart';
 import 'package:post/providers/profile_post.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
@@ -72,7 +73,12 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setInt('counter', 10);
   final int? cont = prefs.getInt('counter');
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider<GlobalSettings>(
+      create: (context) => GlobalSettings(true, true),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -116,9 +122,9 @@ class MyApp extends StatelessWidget {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-            home: homeLayoutScreen(),
+            // home: homeLayoutScreen(),
             // home: HomeScreen(),
-            // home: Login(),
+            home: Login(),
             // home: CreateCommunity(),
             // home: Login(),
             // home: ForgotUserName(),
@@ -166,21 +172,6 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _MyHomeApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('MyShop'),
-      ),
-      body: const Center(
-        child: Text('Let\'s build a shop!'),
-      ),
     );
   }
 }
