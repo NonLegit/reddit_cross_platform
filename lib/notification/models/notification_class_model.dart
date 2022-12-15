@@ -35,48 +35,59 @@ class NotificationModel {
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     print(json);
-    // print('hh');
-    // print(json['_id'].runtimeType);
-    // print('hh');
-    // print(json['followedUser'].runtimeType);
-    // print('hh');
-    // print(json['followedSubreddit'].runtimeType);
-    // print('hh');
-    // print(json['followerUser'].runtimeType);
-    // print('hh');
-    // print(json['post']['_id'].runtimeType);
-    // print('hh');
-    // print(json['comment']['_id'].runtimeType);
-    // print('hh');
-    // print(json['createdAt'].runtimeType);
-    // print('hh');
-    // print(json['seen'].runtimeType);
-    // print('hh');
-    // print(json['hidden'].runtimeType);
+    print('hh');
+    print(json['_id'].runtimeType);
+    print('hh');
+    print(json['followedUser'].runtimeType);
+    print('hh');
+    print(json['followedSubreddit'].runtimeType);
+    print('hh');
+    print(json['followerUser'].runtimeType);
+    print('hh');
+    //print(json['post']['_id'].runtimeType);
+    print('hh');
+    print(json['comment']['_id'].runtimeType);
+    print('hh');
+    print(json['createdAt'].runtimeType);
+    print('hh');
+    print(json['seen'].runtimeType);
+    print('hh');
+    print(json['hidden'].runtimeType);
     // print(json['_id'].runtimeType);
     // print(json['_id'].runtimeType);
     // print(json['_id'].runtimeType);
     // print(json['_id']);
-    // sId = int.parse(json['_id']).toString() ?? '';
+    sId = (json['_id'] == null) ? '' : json['_id'] as String;
     type = json['type'] ?? '';
     print(json['followedUser'].runtimeType);
     print(json['followedUser']);
     if (json['followedUser'] != null) {
-      print('in followeeeeeeeeeeeeeeeeedddddddddd');
-      requiredId = json['followedUser']['_id'] as String ;
-      requiredName = json['followedUser']['userName'] ?? '';
+    //  print('in followeeeeeeeeeeeeeeeeedddddddddd');
+      requiredId = (json['followedSubreddit']['_id'] == null)
+          ? ''
+          : json['followedSubreddit']['_id'] as String;
+          String? h =json['followedSubreddit']['fixedName'] ?? ''; 
+      requiredName = 'r/$h';
       print(requiredName);
-    } else if (json['followedSubreddit'] != null) {
-      requiredId = json['followedSubreddit']['_id'] as String ;
-      requiredName = json['followedSubreddit']['fixedName'] ?? '';
+    } else if (json['followedUser'] != null) {
+      requiredId = (json['followedUser']['_id'] == null)
+          ? ''
+          : json['followedUser']['_id'] as String;
+      String? h =json['followedUser']['userName'] ?? ''; 
+      requiredName = 'u/$h';
+     // requiredName = json['followedUser']['userName'] ?? '';
       //name = json['name'];
     } else {
       requiredId = '';
       requiredName = '';
     }
     if (json['followerUser'] != null) {
-      followerId =json['followerUser']['_id'] as String;
-      followeruserName = json['followerUser']['userName'] ?? '';
+      followerId = (json['followerUser']['_id'] == null)
+          ? ''
+          : json['followerUser']['_id'] as String;
+      String? h =json['followerUser']['userName'] ?? ''; 
+      followeruserName = 'u/$h';
+     // followeruserName = json['followerUser']['userName'] ?? '';
       followerIcon = json['followerUser']['profilePicture'] ??
           'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_0.png';
     } else {
@@ -89,13 +100,17 @@ class NotificationModel {
     if (json['post'] != null) {
       print('In class Model');
       // print(json['post']['_id'].runtimeType);
-      postId = json['post'] as String ;
+      postId =
+          (json['post'] == null) ? '' : json['post'] as String;
     } else {
       postId = '';
     }
     // comment =
     if (json['comment'] != null) {
-      commentId = json['comment']['_id'] as String;
+      print('In mcommmmeeeeeeen');
+      commentId = (json['comment']['_id'] == null)
+          ? ''
+          : json['comment']['_id'] as String;
       description = json['comment']['text'] ?? '';
     } else {
       commentId = '';

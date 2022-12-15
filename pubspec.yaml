@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: ">=2.19.0-146.2.beta <3.0.0"
 # environment:
 #   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
@@ -68,7 +68,11 @@ dependencies:
   hexcolor: ^2.0.1
   video_player: ^2.4.8
   # flutter_signin_button: ^2.0.0
+  flutter_local_notifications: ^12.0.4
   google_sign_in: ^5.4.2
+  firebase_core: ^2.4.0
+  firebase_messaging: ^14.1.4
+  cached_network_image: ^3.2.3
   dropdown_search: ^5.0.5
 
 
@@ -206,6 +210,8 @@ flutter:
     - assets/images/atom.png
     - assets/images/otaku.png
     - assets/images/up-arrow.png
+    - assets/images/default-img.png
+    - assets/images/reddit.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

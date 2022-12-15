@@ -11,30 +11,89 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationProvider with ChangeNotifier {
   NotificationModel? notificationClassModel;
-  List<NotificationModel> list = [];
-
-  List<NotificationModel> get returnNotification {
-    return [...list];
+  List<NotificationModel> listToday = [];
+  List<NotificationModel> listEariler = [];
+  int? count;
+  initState(){
+    count = 0;
   }
+  //int counter = 0;
+  List<NotificationModel> get returnTodayNotification {
+    return [...listToday];
+  }
+
+  List<NotificationModel> get returnEarlierNotification {
+    return [...listEariler];
+  }
+
+
+  void appendToList(NotificationModel notificationClassModel) {
+    if (DateTime.now()
+            .difference(
+                DateTime.parse(notificationClassModel.createdAt.toString()))
+            .inDays >
+        1) {
+      listEariler.add(notificationClassModel);
+    } else {
+      listToday.add(notificationClassModel);
+    }
+    notifyListeners();
+  }
+
+  // void incrementCounter() {
+  //   count = count!+1;
+  //   notifyListeners();
+  // }
+
+  // void decrementCounter() {
+  //   counter = counter--;
+  //   notifyListeners();
+  // }
 
 //Get notification
   Future<void> getNotification(BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-
+      listToday = [];
+      listEariler = [];
       final response =
           await DioClient.get(path: notificationResults).then((value) {
-        print(value.data['data']);
+            // print('hiii');
         print(value);
-        // value.data['data'].forEach((value1) {
-        //   print(value1.runtimeType);
-        //   print('fghjkl');
+        print(value.data['data'].runtimeType);
+        // notificationClassModel = NotificationModel.fromJson(value.data['data']);
+        // if (DateTime.now()
+        //         .difference(DateTime.parse(
+        //             notificationClassModel!.createdAt.toString()))
+        //         .inDays >
+        //     1) {
+        //   listEariler.add(notificationClassModel!);
+        // } else {
+        //   listToday.add(notificationClassModel!);
+        // }
 
-          notificationClassModel = NotificationModel.fromJson(value.data['data']);
-
-          list.add(notificationClassModel!);
-       // });
+        value.data['data'].forEach((value1) {
+          print(value1);
+          print('hoiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+          notificationClassModel = NotificationModel.fromJson(value1);
+          print(notificationClassModel);
+          if (DateTime.now()
+                  .difference(DateTime.parse(
+                      notificationClassModel!.createdAt.toString()))
+                  .inDays >
+              1) {
+            if (!listEariler.contains(notificationClassModel)) {
+              listEariler.add(notificationClassModel!);
+            }
+          } else {
+            if (!listToday.contains(notificationClassModel)) {
+              listToday.add(notificationClassModel!);
+            }
+          }
+          // print(value1.runtimeType);
+          // print('fghjkl');
+        });
       });
       notifyListeners();
       // return true;
@@ -46,11 +105,12 @@ class NotificationProvider with ChangeNotifier {
       //return false;
     }
   }
+
   Future<void> markAllAsRead(BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-          await DioClient.patch(path: '/users/notifications/mark_as_read');
+      await DioClient.patch(path: '/users/notifications/mark_as_read');
       notifyListeners();
       // return true;
     } on DioError catch (e) {
@@ -63,12 +123,22 @@ class NotificationProvider with ChangeNotifier {
   }
 
   //http://localhost:8000/api/v1/users/notifications/{notificationId}/hide
-  Future<void> markAndHideThisNotification(BuildContext context,notificationId,type) async {
+  Future<void> markAndHideThisNotification(
+      BuildContext context, notificationId, type, i) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-      //type ==> hide or mark_as_read
-          await DioClient.patch(path: '/users/notifications/{$notificationId}/$type');
+      // print(notificationId);
+      // print(type);
+      // print('/users/notifications/{$notificationId}/$type');
+      // type ==> hide or mark_as_read
+      if (type == 'hide') {
+        (i == 1)
+            ? listEariler
+                .removeWhere((element) => element.sId == notificationId)
+            : listToday.removeWhere((element) => element.sId == notificationId);
+      }
+      await DioClient.patch(path: '/users/notifications/$notificationId/$type');
       notifyListeners();
       // return true;
     } on DioError catch (e) {
@@ -79,7 +149,4 @@ class NotificationProvider with ChangeNotifier {
       //return false;
     }
   }
-
-
-
 }
