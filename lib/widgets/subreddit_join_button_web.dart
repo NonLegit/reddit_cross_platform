@@ -66,7 +66,7 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
                   } else {
                    await Provider.of<SubredditProvider>(context, listen: false)
                         .joinAndDisjoinSubreddit(widget.communityName,
-                            {"action": "sub"}).then((value) {
+                          'sub').then((value) {
                       setState(() {
                         isJoinedstate = true;
                       });
@@ -124,7 +124,7 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
                onPressed: () async {
                 await Provider.of<SubredditProvider>(context, listen: false)
                     .joinAndDisjoinSubreddit(
-                       widget.communityName, {"action": "unsub"}).then((value) {
+                       widget.communityName,'unsub').then((value) {
                   setState(() {
                     disJoin();
                   });

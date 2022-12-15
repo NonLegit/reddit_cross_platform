@@ -39,9 +39,9 @@ class DioClient {
   // Post:----------------------------------------------------------------------
   static Future<Response> post(
       {required String path,
-      Map<String, dynamic>? data,
+      required Map<String, dynamic>? data,
       Map<String, dynamic>? query}) async {
-    print('eror in dio post : $data');
+    print('datain dio post : $data');
     return await dio!.post(path, data: json.encode(data));
   }
 
