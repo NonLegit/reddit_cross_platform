@@ -93,7 +93,7 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
           : '';
       // subbredditName = 'Cooking';
       Provider.of<ModerationSettingProvider>(context, listen: false)
-          .getCommunity(subbredditName!)
+          .getCommunity(subbredditName!,context)
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)
@@ -124,7 +124,7 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
     await provider.patchCommunity({
       "type": sliderValues[index.toInt()]['title'],
       "nsfw": isPlus18,
-    }, subbredditName!).then((response) {});
+    }, subbredditName!,context).then((response) {});
 
     if (provider.isError == true) {
       // ignore: use_build_context_synchronously
