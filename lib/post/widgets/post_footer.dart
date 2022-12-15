@@ -83,88 +83,112 @@ class _PostFooterState extends State<PostFooter> {
         color: Theme.of(context).colorScheme.brightness == Brightness.light
             ? Theme.of(context).colorScheme.primary
             : Theme.of(context).colorScheme.surface,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                InkWell(
-                  highlightColor: Colors.orange[300],
-                  focusColor: Colors.orange[300],
-                  splashColor: Colors.orange[300],
-                  hoverColor: Colors.orange[300],
-                  borderRadius: BorderRadius.circular(25.0),
-                  onTap: upVote,
-                  child: Tooltip(
-                    message: 'Upvote',
-                    child: Container(
-                      padding: EdgeInsetsDirectional.all(10),
-                      child: (postVoteStatus != 1)
-                          ? Icon(
-                              Typicons.up_outline,
-                              color: Theme.of(context).colorScheme.secondary,
-                            )
-                          : Icon(
-                              Typicons.up,
-                              color: Colors.red[400],
-                            ),
+        child: Container(
+          margin: EdgeInsetsDirectional.only(start: 10, end: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  InkWell(
+                    highlightColor: Colors.orange[300],
+                    focusColor: Colors.orange[300],
+                    splashColor: Colors.orange[300],
+                    hoverColor: Colors.orange[300],
+                    borderRadius: BorderRadius.circular(25.0),
+                    onTap: upVote,
+                    child: Tooltip(
+                      message: 'Upvote',
+                      child: Container(
+                        padding: EdgeInsetsDirectional.all(8),
+                        child: (postVoteStatus != 1)
+                            ? Icon(
+                                Typicons.up_outline,
+                                color: Theme.of(context).colorScheme.secondary,
+                              )
+                            : Icon(
+                                Typicons.up,
+                                color: Colors.red[400],
+                              ),
+                      ),
                     ),
                   ),
-                ),
-                Text(NumberFormat.compact().format(votes).toString(),
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary)),
-                InkWell(
-                  highlightColor: Colors.indigo[100],
-                  focusColor: Colors.indigo[100],
-                  splashColor: Colors.indigo[100],
-                  hoverColor: Colors.indigo[100],
-                  borderRadius: BorderRadius.circular(25.0),
-                  onTap: downVote,
-                  child: Tooltip(
-                    message: 'Downvote',
-                    child: Container(
-                      padding: EdgeInsetsDirectional.all(10),
-                      child: (postVoteStatus != -1)
-                          ? Icon(
-                              Typicons.down_outline,
-                              color: Theme.of(context).colorScheme.secondary,
-                            )
-                          : Icon(
-                              Typicons.down,
-                              color: HexColor('#7192FE'),
-                            ),
+                  Text(NumberFormat.compact().format(votes).toString(),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary)),
+                  InkWell(
+                    highlightColor: Colors.indigo[100],
+                    focusColor: Colors.indigo[100],
+                    splashColor: Colors.indigo[100],
+                    hoverColor: Colors.indigo[100],
+                    borderRadius: BorderRadius.circular(25.0),
+                    onTap: downVote,
+                    child: Tooltip(
+                      message: 'Downvote',
+                      child: Container(
+                        padding: EdgeInsetsDirectional.all(8),
+                        child: (postVoteStatus != -1)
+                            ? Icon(
+                                Typicons.down_outline,
+                                color: Theme.of(context).colorScheme.secondary,
+                              )
+                            : Icon(
+                                Typicons.down,
+                                color: HexColor('#7192FE'),
+                              ),
+                      ),
                     ),
                   ),
+                ],
+              ),
+              InkWell(
+                onTap: null,
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesome.comment_empty,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      (widget.comments > 0)
+                          ? NumberFormat.compact()
+                              .format(widget.comments)
+                              .toString()
+                          : 'Comment',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            TextButton.icon(
-              onPressed: null,
-              icon: Icon(
-                FontAwesome.comment_empty,
-                color: Theme.of(context).colorScheme.secondary,
               ),
-              label: Text(
-                (widget.comments > 0)
-                    ? NumberFormat.compact().format(widget.comments).toString()
-                    : 'Comment',
-                style:
-                    TextStyle(color: Theme.of(context).colorScheme.secondary),
+              InkWell(
+                onTap: null,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.share_outlined,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'Share',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            TextButton.icon(
-              onPressed: null,
-              icon: Icon(
-                Icons.share_outlined,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              label: Text('Share',
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary)),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:post/create_community/widgets/community_type.dart';
 import 'package:post/moderation_settings/models/moderators.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:post/providers/global_settings.dart';
 import 'package:post/providers/profile_post.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
@@ -196,8 +197,12 @@ Future<void> main() async {
   // final RemoteMessage? remoteMessage =
   //   await FirebaseMessaging.instance.getInitialMessage();
   //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider<GlobalSettings>(
+      create: (context) => GlobalSettings(true, true),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -337,7 +342,7 @@ class _MyAppState extends State<MyApp> {
             // home: CreateCommunity(),
             //   home: homeLayoutScreen(),
             // home: HomeScreen(),
-            // home: Login(),
+            home: Login(),
             // home: CreateCommunity(),
             // home: Login(),
             // home: ForgotUserName(),
@@ -408,18 +413,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-// class _MyHomeApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('MyShop'),
-//       ),
-//       body: const Center(
-//         child: Text('Let\'s build a shop!'),
-//       ),
-//     );
-//   }
-// }

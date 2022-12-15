@@ -100,7 +100,9 @@ class _MyProfilePostWebState extends State<MyProfilePostWeb> {
                                       shrinkWrap: true,
                                       itemBuilder: ((context, index) =>
                                           Post.profile(
+                                            inView: false,
                                             data: posts![index],
+                                            updateDate: print,
                                           )),
                                       itemCount: posts?.length,
                                     ),
