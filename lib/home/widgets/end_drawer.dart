@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:post/home/controller/home_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../create_community/screens/create_community.dart';
@@ -7,16 +8,14 @@ import '../../icons/icon_broken.dart';
 import '../../myprofile/screens/myprofile_screen.dart';
 import '../../settings/screens/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+class endDrawer extends StatelessWidget {
 
-class endDrawer extends StatefulWidget {
-  const endDrawer({Key? key}) : super(key: key);
-
-  @override
-  State<endDrawer> createState() => _endDrawerState();
-}
-
-class _endDrawerState extends State<endDrawer> {
+   endDrawer({
+    required this.controller
+    ,Key? key}) : super(key: key);
+  final HomeController controller;
   bool isOnline = true;
+
   Future<void> getUserName() async {
     final prefs = await SharedPreferences.getInstance();
     userName = prefs.getString('userName') as String;
@@ -51,13 +50,13 @@ class _endDrawerState extends State<endDrawer> {
                         CircleAvatar(
                           radius: 60.0,
                           backgroundImage: NetworkImage(
-                              'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/1016295_681893355195881_1578644646_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=19026a&_nc_eui2=AeFCVmaamBcbWQWbLgc5goA3TPveZl9CmeVM-95mX0KZ5Vix3F-p1IQuy-XTH_AaZw9YBNHT3DSG2M-3MKmnZCTP&_nc_ohc=sqT0q3soKqIAX_3KeFE&_nc_ht=scontent.fcai19-6.fna&oh=00_AfDtKbIed-hxraIzyhrh3idtNM-BDhP8dvZT6sKo7tAZsA&oe=6396FDE4'),
+                              '${controller.myProfile!.profilePicture}'),
                         ),
                         SizedBox(
                           height: 10.0,
                         ),
                         Text(
-                          'u/ $userName',
+                          'u/$userName',
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 17.0,
@@ -71,13 +70,13 @@ class _endDrawerState extends State<endDrawer> {
                           height: 30.0,
                           child: ElevatedButton.icon(
                             onPressed: () {
-                              setState(() {
-                                if (isOnline) {
-                                  isOnline = false;
-                                } else {
-                                  isOnline = true;
-                                }
-                              });
+                              // setState(() {
+                              //   if (isOnline) {
+                              //     isOnline = false;
+                              //   } else {
+                              //     isOnline = true;
+                              //   }
+                              // });
                             },
                             icon: CircleAvatar(
                               radius: 4,
@@ -115,40 +114,133 @@ class _endDrawerState extends State<endDrawer> {
               Divider(
                 thickness: 1,
               ),
-              Row(
-                children: [
-                GestureDetector(child: Row(
+              Padding(
+                padding: const EdgeInsetsDirectional.only(start: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(Icons.ac_unit_outlined),
-                    Column(
-                      children: [
-                        Text("1",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                        Text("karma",
-                        style: TextStyle(
-                          color: Colors.grey
-                        ),
-                        )
-                      ],
-                    )
-                  ],
-                )),
-                Divider(height: 10,),
-                  GestureDetector(child: Row(
+                  GestureDetector(
+                     onTap: (){
+                       showDialog(
+                         context: context,
+                         builder: (ctx) => AlertDialog(
+                             content: Container(
+                                 decoration: BoxDecoration(
+                                   borderRadius:BorderRadius.circular(20),
+                                 ),
+                                 width: MediaQuery.of(context).size.width/1,
+                                 height: MediaQuery.of(context).size.height/2,
+                                 child: (
+                                     Column(
+                                       mainAxisAlignment: MainAxisAlignment.center,
+                                       crossAxisAlignment: CrossAxisAlignment.center,
+                                       children:  [
+                                         SizedBox(height: 30,),
+                                         CircleAvatar(
+                                           radius:70,
+                                           backgroundImage: NetworkImage("${controller.myProfile!.profilePicture}"),
+                                         ),
+                                         SizedBox(height: 130,),
+                                         Padding(
+                                           padding: const EdgeInsetsDirectional.only(end: 30),
+                                           child: Text(
+                                             'u/${controller.myProfile!.displayName}',
+                                             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                                           ),
+                                         ),
+                                         SizedBox(height: 10,),
+                                         Expanded(
+                                           child: Row(
+                                             children: [
+                                               Expanded(
+                                                 child: Column(
+                                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                                   children: [
+                                                     Text("${controller.myProfile!.postKarma}"),
+                                                      Text("Post Karma",
+                                                        style: TextStyle(
+                                                            color: Colors.grey[400],
+                                                            fontSize: 14
+                                                        ),
+                                                      ),
+                                                   ],
+                                                 ),
+                                               ),
+                                               SizedBox(width:20,),
+                                               Column(
+                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                                 children: [
+                                                   Text("${controller.myProfile!.commentkarma}"),
+                                                    Text("Comment Karma",
+                                                   style: TextStyle(
+                                                     color: Colors.grey[400],
+                                                     fontSize: 14
+                                                   ),
+                                                   ),
+                                                 ],
+                                               ),
+                                             ],
+                                           ),
+                                         ),
+                                         SizedBox(height: 10,),
+                                         Padding(
+                                           padding: const EdgeInsetsDirectional.only(end: 10),
+                                           child:  ListTile(
+                                             onTap: ()
+                                             {
+                                               Navigator.of(context).pushNamed(MyProfileScreen.routeName,
+                                                   arguments: userName);
+                                             },
+                                             leading: Icon(Icons.account_circle,color: Colors.black,),
+                                             title: Text("View profile",style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w600),),
+                                             horizontalTitleGap: 0,
+                                           ),
+                                         )
+                                       ],
+                                     )
+                                 )
+                             )
+                         ),
+                       );
+                     },
+                      child: Row(
                     children: [
-                      Icon(Icons.text_snippet_rounded),
+                      Icon(Icons.ac_unit_outlined,color: Colors.blue[700],),
+                      SizedBox(width: 5,),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("1m 2d",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                          Text("Reddit ago",
-                            style: TextStyle(
-                                color: Colors.grey
-                            ),
+                          Text("${controller.myProfile!.postKarma}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                          Text("karma",
+                          style: TextStyle(
+                            color: Colors.grey
+                          ),
                           )
                         ],
                       )
                     ],
                   )),
-                ],
+                 SizedBox(width: 10,),
+
+                    SizedBox(width: 10,),
+                    GestureDetector(child: Row(
+                      children: [
+                        Icon(Icons.text_snippet_rounded,color: Colors.blue[700],),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("1m 2d",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                            Text("Reddit ago",
+                              style: TextStyle(
+                                  color: Colors.grey
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    )),
+                  ],
+                ),
               ),
               Divider(
                 thickness: 1,
@@ -203,6 +295,7 @@ class _endDrawerState extends State<endDrawer> {
               SizedBox(
                 height: 20.h,
               ),
+
               ListTile(
                 horizontalTitleGap: 3,
                 leading: Icon(IconBroken.Setting),

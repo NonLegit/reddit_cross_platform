@@ -31,6 +31,8 @@ class SubredditModeratorContainer extends StatelessWidget {
       subtitle: Text("$memberCount " + "members . " + "moderator"),
       onTap: () {
         controller.subredditToSubmitPost = RxString(nameOfSubreddit);
+        controller.iconOfSubredditToSubmittPost=RxString(iconOfSubreddit);
+        controller.getFlairsOfSubreddit();
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => FinalPost()));
       },
