@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/create_community/widgets/community_type.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:post/providers/profile_post.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -65,6 +66,10 @@ import './settings/screens/change_email.dart';
 import './settings/screens/change_password.dart';
 import './settings/screens/change_email.dart';
 import './settings/screens/change_password.dart';
+import 'moderation_settings/screens/description_screen.dart';
+import 'moderation_settings/screens/post_types_screen.dart';
+import 'moderation_settings/screens/community_type_screen.dart';
+import 'moderation_settings/screens/location_screen.dart';
 import './messages/screens/new_message_screen.dart';
 //=====================================Providers====================================================//
 import './myprofile/providers/myprofile_provider.dart';
@@ -292,8 +297,8 @@ class _MyAppState extends State<MyApp> {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-
-            //home: homeLayoutScreen(),
+            // home: homeLayoutScreen(),
+            // home: Description(),
             // home: HomeScreen(),
             // home: NotificationScreen(),
             // home:ShowPostDetails(),
@@ -302,6 +307,21 @@ class _MyAppState extends State<MyApp> {
             // home: HomeScreen(),
             home: Login(),
             // home: CreateCommunity(),
+            // home: Login(),
+            // home: ForgotUserName(),
+            // home: SignUp(),
+            // home: Gender(),
+            home: ModeratorTools(),
+            // home: Settings(),
+            // home: ChangeEmail(),
+            // home: ComuunityTypesScreen(),
+            // home: LocationScreen(),
+            routes: {
+              ComuunityTypesScreen.routeName: (context) =>
+                  ComuunityTypesScreen(),
+              LocationScreen.routeName: (context) => LocationScreen(),
+              PostTypesScreen.routeName: (context) => PostTypesScreen(),
+              Description.routeName: (context) => Description(),
             routes: {
               NewMessageScreen.routeName: (context) => NewMessageScreen(),
               EditPost.routeName: (context) => EditPost(),

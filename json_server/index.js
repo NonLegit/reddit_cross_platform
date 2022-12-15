@@ -283,6 +283,11 @@ server.post(
 	}
 );
 
+//---------------------------- patch
+server.patch('/subreddits/:subredditName', (req, res) => {
+	is_subreddits_name = true;
+	res.redirect(`/subreddits?name=${req.params.subredditName}`);
+});
 // server.use((req, res, next) => {
 // 	if (req.method === 'POST') {
 // 		if (req.originalUrl.includes('/subreddits')) {
