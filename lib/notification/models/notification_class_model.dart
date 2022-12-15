@@ -66,13 +66,16 @@ class NotificationModel {
       requiredId = (json['followedSubreddit']['_id'] == null)
           ? ''
           : json['followedSubreddit']['_id'] as String;
-      requiredName = json['followedSubreddit']['fixedName'] ?? '';
+          String? h =json['followedSubreddit']['fixedName'] ?? ''; 
+      requiredName = 'r/$h';
       print(requiredName);
     } else if (json['followedUser'] != null) {
       requiredId = (json['followedUser']['_id'] == null)
           ? ''
           : json['followedUser']['_id'] as String;
-      requiredName = json['followedUser']['userName'] ?? '';
+      String? h =json['followedUser']['userName'] ?? ''; 
+      requiredName = 'u/$h';
+     // requiredName = json['followedUser']['userName'] ?? '';
       //name = json['name'];
     } else {
       requiredId = '';
@@ -82,7 +85,9 @@ class NotificationModel {
       followerId = (json['followerUser']['_id'] == null)
           ? ''
           : json['followerUser']['_id'] as String;
-      followeruserName = json['followerUser']['userName'] ?? '';
+      String? h =json['followerUser']['userName'] ?? ''; 
+      followeruserName = 'u/$h';
+     // followeruserName = json['followerUser']['userName'] ?? '';
       followerIcon = json['followerUser']['profilePicture'] ??
           'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_0.png';
     } else {

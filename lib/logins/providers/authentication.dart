@@ -9,7 +9,8 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../main.dart';
-import '../../models/push_notification_model.dart';
+//import '../../models/push_notification_model.dart';
+import '../../notification/models/notification_class_model.dart';
 import '../../notification/provider/notification_provider.dart';
 import './notification.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,7 +18,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 NotificationProvider provider = NotificationProvider();
 @pragma('vm:entry-point')
-PushNotificationModel notificationModel = PushNotificationModel();
+NotificationModel notificationModel = NotificationModel();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
   await Firebase.initializeApp();
@@ -27,7 +28,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
   RemoteNotification? notification = message.notification;
   notificationModel =
-      PushNotificationModel.fromJson(json.decode(message.data['val']));
+      NotificationModel.fromJson(json.decode(message.data['val']));
   //provider.incrementCounter();
   print('returned from counter in background');
   flutterLocalNotificationsPlugin.show(

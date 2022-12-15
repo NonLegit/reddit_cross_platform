@@ -59,6 +59,7 @@ class NotificationProvider with ChangeNotifier {
       listEariler = [];
       final response =
           await DioClient.get(path: notificationResults).then((value) {
+            // print('hiii');
         print(value);
         print(value.data['data'].runtimeType);
         // notificationClassModel = NotificationModel.fromJson(value.data['data']);
@@ -74,8 +75,9 @@ class NotificationProvider with ChangeNotifier {
 
         value.data['data'].forEach((value1) {
           print(value1);
-          print(value1.runtimeType);
+          print('hoiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
           notificationClassModel = NotificationModel.fromJson(value1);
+          print(notificationClassModel);
           if (DateTime.now()
                   .difference(DateTime.parse(
                       notificationClassModel!.createdAt.toString()))

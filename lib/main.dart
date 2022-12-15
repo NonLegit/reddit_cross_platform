@@ -75,7 +75,7 @@ import './create_community/provider/create_community_provider.dart';
 import './moderation_settings/provider/moderation_settings_provider.dart';
 import './notification/provider/notification_provider.dart';
 import 'logins/providers/authentication.dart';
-import './models/push_notification_model.dart';
+//import './models/push_notification_model.dart';
 
 String returnCorrectText(type, name, user) {
   String text = '';
@@ -108,7 +108,7 @@ String returnCorrectDescription(type, description, name) {
 }
 
 //@pragma('vm:entry-point')
-PushNotificationModel notificationModel = PushNotificationModel();
+NotificationModel notificationModel = NotificationModel();
 NotificationProvider provider = NotificationProvider();
 final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
 //Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -216,7 +216,7 @@ class _MyAppState extends State<MyApp> {
       if (message.data != null) {
         // print(message.data['val']);
         notificationModel =
-            PushNotificationModel.fromJson(json.decode(message.data['val']));
+            NotificationModel.fromJson(json.decode(message.data['val']));
         print('foregroud');
         //provider.incrementCounter();
         print('returned from counter in foreground');
