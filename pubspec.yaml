@@ -73,6 +73,9 @@ dependencies:
   firebase_core: ^2.4.0
   firebase_messaging: ^14.1.4
   cached_network_image: ^3.2.3
+  dropdown_search: ^5.0.5
+
+
 
 dev_dependencies:
   test_cov_console: ^0.2.2

@@ -35,20 +35,18 @@ class _TopicsScreenState extends State<TopicsScreen> {
   void initState() {
     //return hardcoded topics from constant folder
     topics = t1.topic;
-
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['subredditName'] = 'hello';
     if (_isInit) {
       setState(() {
         fetchingDone = false;
       });
       subbredditName = ModalRoute.of(context)?.settings.arguments as String;
       Provider.of<ModerationSettingProvider>(context, listen: false)
+
           .getCommunity(ModalRoute.of(context)?.settings.arguments as String,context
               // 'Cooking'
               )
