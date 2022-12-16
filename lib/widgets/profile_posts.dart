@@ -7,31 +7,20 @@ import 'package:post/widgets/loading_reddit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import './post_sort_bottom.dart';
 import '../post/widgets/post.dart';
-import '../post/test_data.dart';
 import 'package:provider/provider.dart';
-import '../providers/profile_post.dart';
+import '../providers/profile_post_provider.dart';
 import '../post/models/post_model.dart';
 
 class ProfilePosts extends StatefulWidget {
   final String routeNamePop;
   final String userName;
+//late ScrollController controller;
   ProfilePosts({
     Key? key,
     required this.routeNamePop,
     required this.userName,
+    //required this.controller,
   }) : super(key: key);
-  // [
-  //   {'username': 'ahmed', 'title': 'hello world1'},
-  //   {'username': 'sayed', 'title': 'hello world2'},
-  //   {'username': 'sayed', 'title': 'hello world3'},
-  //   {'username': 'ahmed', 'title': 'hello world1'},
-  //   {'username': 'sayed', 'title': 'hello world2'},
-  //   {'username': 'sayed', 'title': 'hello world3'},
-  //   {'username': 'ahmed', 'title': 'hello world1'},
-  //   {'username': 'sayed', 'title': 'hello world2'},
-  //   {'username': 'sayed', 'title': 'hello world3'}
-  // ];
-  // Posts(this.routeNamePop);
   @override
   State<ProfilePosts> createState() => _ProfilePosts();
 }
@@ -90,10 +79,10 @@ class _ProfilePosts extends State<ProfilePosts> {
     return Column(
       // scrollDirection: Axis.vertical,
       children: [
-        PostSortBottom(
-          widget.routeNamePop,
-          //_dropDownValue, _icon
-        ),
+        // PostSortBottom(
+        //   widget.routeNamePop,
+        //   //_dropDownValue, _icon
+        // ),
         // Container(
         //   height: 500,
         //   child: TreeView.simple(
@@ -133,7 +122,4 @@ class _ProfilePosts extends State<ProfilePosts> {
     );
     // : LoadingReddit();
   }
-  //     Post.community(data: {'username': 'ahmed'})),
-  // itemCount: 10,
-
 }

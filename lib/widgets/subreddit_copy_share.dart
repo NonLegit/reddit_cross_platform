@@ -17,7 +17,7 @@ class CopyShare extends StatelessWidget {
       width: 100.w,
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 216, 215, 215),
+        color: const Color.fromARGB(255, 216, 215, 215),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -25,9 +25,9 @@ class CopyShare extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           //  mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            BarWidget(),
+            const BarWidget(),
             Container(
-              margin: EdgeInsets.only(top: 8, bottom: 8),
+              margin: const EdgeInsets.only(top: 8, bottom: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -38,22 +38,23 @@ class CopyShare extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.document_scanner,
                     color: Colors.blue,
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
                   Text(
                     link,
+                    textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                   ),
                   TextButton(
                       onPressed: () {
                         Clipboard.setData(ClipboardData(text: link));
                       },
-                      child: Text("Copy",style: TextStyle(color: Colors.blue),)),
+                      child: const Text(
+                        "Copy",
+                        style: TextStyle(color: Colors.blue),
+                      )),
                 ],
               ),
             ),

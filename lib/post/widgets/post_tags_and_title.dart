@@ -8,7 +8,7 @@ class PostTagsAndTitle extends StatefulWidget {
   final String title;
   final bool isNSFW;
   final bool isSpoiler;
-  final FlairId flair;
+  final FlairId? flair;
 
   const PostTagsAndTitle(
       {super.key,
@@ -98,17 +98,17 @@ class _PostTagsAndTitleState extends State<PostTagsAndTitle> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: HexColor(widget.flair.backgroundColor as String),
+              color: HexColor(widget.flair?.backgroundColor as String),
             ),
             padding: const EdgeInsetsDirectional.only(
                 start: 10, end: 10, top: 5, bottom: 5),
             margin:
                 const EdgeInsetsDirectional.only(top: 10, start: 15, end: 10),
             child: Text(
-              widget.flair.text as String,
+              widget.flair?.text as String,
               style: TextStyle(
                   fontSize: 12,
-                  color: HexColor(widget.flair.textColor as String),
+                  color: HexColor(widget.flair?.textColor as String),
                   overflow: TextOverflow.ellipsis),
             ),
           ),

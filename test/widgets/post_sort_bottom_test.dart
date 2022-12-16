@@ -13,12 +13,6 @@ void main() {
         int result = posttypeButtonState.choosePostType(1);
         expect(result, 1);
       });
-
-      test('changetopPost', () {
-        // TODO: Implement test
-      int result = posttypeButtonState.chooseTimeOfTopPosts(2,1);
-        expect(result, 1);
-      });
     },
   );
 }

@@ -71,8 +71,8 @@ class OtherProfileprovider with ChangeNotifier {
       print(prefs);
       DioClient.init(prefs);
       await DioClient.post(
-        path: '/subreddits/${subredditName}/moderators/${moderatorName}',
-      ).then((value) => print(value));
+          path: '/subreddits/${subredditName}/moderators/${moderatorName}',
+          data: {}).then((value) => print(value));
       notifyListeners();
       return true;
     } catch (error) {
@@ -87,13 +87,42 @@ class OtherProfileprovider with ChangeNotifier {
       print(prefs);
       print(userName);
       DioClient.init(prefs);
-      await DioClient.post(
-        path: '/users/${userName}/block_user',
-      );
+      await DioClient.post(path: '/users/${userName}/block_user', data: {});
       notifyListeners();
       return true;
     } catch (error) {
       print('blocked error $error');
+      return false;
+    }
+  }
+
+  Future<bool> followUser(String userName) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      print(prefs);
+      print(userName);
+      DioClient.init(prefs);
+      print('users/${userName}/follow');
+      await DioClient.post(path: 'users/${userName}/follow', data: {});
+      notifyListeners();
+      return true;
+    } catch (error) {
+      print('Follow error $error');
+      return false;
+    }
+  }
+
+  Future<bool> unFollowUser(String userName) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      print(prefs);
+      print(userName);
+      DioClient.init(prefs);
+      await DioClient.post(path: '/users/${userName}/unfollow', data: {});
+      notifyListeners();
+      return true;
+    } catch (error) {
+      print('UnFollow error $error');
       return false;
     }
   }

@@ -15,7 +15,7 @@ class PostVideoInWidget extends StatefulWidget {
   final String title;
   final bool spoiler;
   final bool nsfw;
-  final FlairId flair;
+  final FlairId? flair;
   const PostVideoInWidget({
     super.key,
     required this.url,

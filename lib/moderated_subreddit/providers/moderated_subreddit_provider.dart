@@ -33,17 +33,25 @@ class ModeratedSubredditProvider with ChangeNotifier {
       print(error);
     }
   }
-   Future<void> joinAndDisjoinModeratedSubreddit(String moderatedSubredditUserName,  Map<String, dynamic>? query) async {
+
+  Future<void> joinAndDisjoinModeratedSubreddit(
+      String moderatedSubredditUserName, String action) async {
     try {
       final prefs = await SharedPreferences.getInstance();
+      print(moderatedSubredditUserName);
       print(prefs);
       DioClient.init(prefs);
-      await DioClient.post(path:'subreddits/${moderatedSubredditUserName}/subscribe',query:query
-       //data: data
-       );
+      await DioClient.post(
+          path: '/subreddits/${moderatedSubredditUserName}/subscribe',
+          query: {'action': action},
+          data: {}
+          //data: data
+          );
       notifyListeners();
-
+      print(
+          '========================Successed Join/ disjoin ================================');
     } catch (error) {
+      print(error);
     }
   }
 }

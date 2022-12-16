@@ -48,7 +48,7 @@ class _PostBodyState extends State<PostBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   PostTagsAndTitle(
-                    flair: widget.data.flairId as FlairId,
+                    flair: (widget.data.flairId),
                     isSpoiler: widget.data.spoiler as bool,
                     isNSFW: widget.data.nsfw as bool,
                     title: widget.data.title as String,
@@ -71,7 +71,7 @@ class _PostBodyState extends State<PostBody> {
               )
             : (widget.data.kind == 'image')
                 ? PostImages(
-                    flair: widget.data.flairId as FlairId,
+                    flair: widget.data.flairId ,
                     nsfw: widget.data.nsfw as bool,
                     spoiler: widget.data.spoiler as bool,
                     title: widget.data.title as String,
@@ -82,7 +82,7 @@ class _PostBodyState extends State<PostBody> {
                   )
                 : (widget.data.kind == 'link')
                     ? PostCard(
-                        flair: widget.data.flairId as FlairId,
+                        flair: widget.data.flairId  ,
                         nsfw: widget.data.nsfw as bool,
                         spoiler: widget.data.spoiler as bool,
                         link: widget.data.url as String,
@@ -92,7 +92,7 @@ class _PostBodyState extends State<PostBody> {
                     : (widget.data.kind == 'video')
                         ? PostVideoInWidget(
                             title: widget.data.title as String,
-                            flair: widget.data.flairId as FlairId,
+                            flair: widget.data.flairId  ,
                             nsfw: widget.data.nsfw as bool,
                             spoiler: widget.data.spoiler as bool,
                             inView: widget.inView,

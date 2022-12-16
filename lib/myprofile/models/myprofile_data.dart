@@ -2,7 +2,7 @@
 // import 'dart:ffi';
 
 class MyProfileData {
-  String? id;
+  //String? id;
   String? userName;
   String? email;
   String? profilePicture;
@@ -16,7 +16,8 @@ class MyProfileData {
   int? postKarma;
   int? commentkarma;
   MyProfileData(
-      {required this.id,
+      {
+        //required this.id,
       required this.userName,
       required this.email,
       required this.profilePicture,
@@ -34,14 +35,14 @@ class MyProfileData {
     // print(json['userName'].runtimeType);
     // print(json['email'].runtimeType);
     // print(json['profilePicture'].runtimeType);
-    print(json['profileBackground'].runtimeType);
-    print(json['followersCount'].runtimeType);
-    print(json['createdAt'].runtimeType);
-    print(json['postKarma'].runtimeType);
-    print(json['commentKarma'].runtimeType);
-    print(json['description'].runtimeType);
-    print('heeee;ssssssssssssssssssssss');
-    id = json['id'];
+    // print(json['profileBackground'].runtimeType);
+    // print(json['followersCount'].runtimeType);
+    // print(json['createdAt'].runtimeType);
+    // print(json['postKarma'].runtimeType);
+    // print(json['commentKarma'].runtimeType);
+    // print(json['description'].runtimeType);
+    // print('heeee;ssssssssssssssssssssss');
+    //id = json['id'];
     userName = json['userName'];
     email = json['email'];
     profilePicture = json['profilePicture'];
@@ -58,7 +59,7 @@ class MyProfileData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    //data['id'] = this.id;
     data['userName'] = this.userName;
     data['email'] = this.email;
     data['profilePicture'] = this.profilePicture;

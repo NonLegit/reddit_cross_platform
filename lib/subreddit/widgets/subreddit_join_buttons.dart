@@ -76,7 +76,7 @@ class JoinButtonsState extends State<JoinButtons> {
                   } else {
                     await Provider.of<SubredditProvider>(context, listen: false)
                         .joinAndDisjoinSubreddit(widget.communityuserName,
-                            {"action": "sub"}).then((value) {
+                          'sub').then((value) {
                       setState(() {
                         isJoinedstate = true;
                       });
@@ -208,7 +208,7 @@ class JoinButtonsState extends State<JoinButtons> {
               onPressed: () async {
                 await Provider.of<SubredditProvider>(context, listen: false)
                     .joinAndDisjoinSubreddit(
-                        communityName, {"action": "unsub"}).then((value) {
+                        communityName,  'unsub').then((value) {
                   setState(() {
                     disJoin();
                   });
