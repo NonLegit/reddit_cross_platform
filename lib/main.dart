@@ -1,13 +1,13 @@
 import 'dart:convert';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/create_community/widgets/community_type.dart';
 import 'package:post/moderation_settings/models/moderators.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:post/providers/global_settings.dart';
-import 'package:post/providers/profile_post.dart';
+import 'package:post/providers/profile_post_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
@@ -45,7 +45,7 @@ import 'myprofile/screens/user_followers_screen.dart';
 import 'show_post/screens/show_post.dart';
 import 'show_post/widgets/edit_post.dart';
 import 'post/provider/post_provider.dart';
-import 'providers/subreddit_post.dart';
+import 'providers/subreddit_post_provider.dart';
 import 'subreddit/screens/subreddit_screen.dart';
 import 'screens/subreddit_search_screen.dart';
 import 'subreddit/screens/community_info_screen.dart';
@@ -334,7 +334,7 @@ class _MyAppState extends State<MyApp> {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-            // home: homeLayoutScreen(),
+            home: homeLayoutScreen(),
             // home: Description(),
             // home: HomeScreen(),
             // home: NotificationScreen(),
@@ -342,7 +342,7 @@ class _MyAppState extends State<MyApp> {
             // home: CreateCommunity(),
             //   home: homeLayoutScreen(),
             // home: HomeScreen(),
-            home: Login(),
+            // home: Login(),
             // home: CreateCommunity(),
             // home: Login(),
             // home: ForgotUserName(),
@@ -363,7 +363,10 @@ class _MyAppState extends State<MyApp> {
               EditMutedScreen.routeName: (context) => EditMutedScreen(),
               EditModeratorScreen.routeName: (context) => EditModeratorScreen(),
               ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
-              ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
+              MutedScreen.routeName: (context) => MutedScreen(),
+              BannedScreen.routeName: (context) => BannedScreen(),
+              ApprovedScreen.routeName: (context) => ApprovedScreen(),
+
               ComuunityTypesScreen.routeName: (context) =>
                   ComuunityTypesScreen(),
               LocationScreen.routeName: (context) => LocationScreen(),

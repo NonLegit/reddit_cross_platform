@@ -1,7 +1,6 @@
 import '../post/models/post_model.dart';
 
 import 'package:flutter/material.dart';
-import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,14 +19,14 @@ class SubredditPostProvider with ChangeNotifier {
       DioClient.init(prefs);
 
       await DioClient.get(
-              path: '/subreddits/${subredditName}/${postType}',
-              query: {'page': page, 'limit': limit})
-          .then((response) {
-        print(response.data);
+          path: '/subreddits/${subredditName}/${postType}',
+          query: {'page': page, 'limit': limit}).then((response) async {
         List<PostModel> tempData = [];
-        response.data['data'].forEach((post) {
-          tempData.add(PostModel.fromJson(post));
-        });
+        for (var post in response.data['posts']) {
+          PostModel temp = PostModel();
+          await temp.fromJson(post);
+          tempData.add(temp);
+        }
         postData = tempData;
         notifyListeners();
       });

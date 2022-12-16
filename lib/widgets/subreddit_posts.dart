@@ -34,7 +34,7 @@ class _SubredditPosts extends State<SubredditPosts> {
     if (_hasNextPage == true &&
         _isLoading == false &&
         _isLoadMoreRunning == false &&
-       _scrollController.position.extentAfter < 300) {
+        _scrollController.position.extentAfter < 300) {
       setState(() {
         _isLoadMoreRunning = true; // Display a progress indicator at the bottom
       });
@@ -53,7 +53,7 @@ class _SubredditPosts extends State<SubredditPosts> {
   void initState() {
     // TODO: implement initState
     super.initState();
-   _scrollController = ScrollController()..addListener(_loadMore);
+    _scrollController = ScrollController()..addListener(_loadMore);
   }
 
   @override
@@ -62,24 +62,26 @@ class _SubredditPosts extends State<SubredditPosts> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<SubredditPostProvider>(context, listen: false)
-          .fetchSubredditePosts(widget.subredditName, 'hot', _page, 25)
-          .then((value) {
-        posts = Provider.of<SubredditPostProvider>(context, listen: false)
-            .gettingSubredditPostData;
-        setState(() {
-          _isLoading = false;
-        });
+      // Provider.of<SubredditPostProvider>(context, listen: false)
+      //     .fetchSubredditePosts(widget.subredditName, 'hot', _page, 25)
+      //     .then((value) {
+      //   posts = Provider.of<SubredditPostProvider>(context, listen: false)
+      //       .gettingSubredditPostData;
+      setState(() {
+        _isLoading = false;
       });
+      // });
     }
     _isInit = false;
     super.didChangeDependencies();
   }
+
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     posts = Provider.of<SubredditPostProvider>(context, listen: true)
@@ -88,7 +90,7 @@ class _SubredditPosts extends State<SubredditPosts> {
         ? LoadingReddit()
         : (posts != null)
             ? ListView(
-              controller: _scrollController,
+                controller: _scrollController,
                 scrollDirection: Axis.vertical,
                 physics: const ClampingScrollPhysics(),
                 addAutomaticKeepAlives: true,
@@ -109,6 +111,8 @@ class _SubredditPosts extends State<SubredditPosts> {
                       shrinkWrap: true,
                       itemBuilder: ((context, index) => Post.community(
                             data: posts![index],
+                            inView: false,
+                            updateDate: () {},
                           )),
                       itemCount: posts?.length,
                     ),

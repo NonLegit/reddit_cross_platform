@@ -22,7 +22,7 @@ class ProfilePosts extends StatefulWidget {
     //required this.controller,
   }) : super(key: key);
   @override
-  State<ProfilePosts> createState() => ProfilePostsState();
+  State<ProfilePosts> createState() => _ProfilePosts();
 }
 
 class _ProfilePosts extends State<ProfilePosts> {
@@ -79,10 +79,10 @@ class _ProfilePosts extends State<ProfilePosts> {
     return Column(
       // scrollDirection: Axis.vertical,
       children: [
-        PostSortBottom(
-          widget.routeNamePop,
-          //_dropDownValue, _icon
-        ),
+        // PostSortBottom(
+        //   widget.routeNamePop,
+        //   //_dropDownValue, _icon
+        // ),
         // Container(
         //   height: 500,
         //   child: TreeView.simple(
@@ -122,5 +122,4 @@ class _ProfilePosts extends State<ProfilePosts> {
     );
     // : LoadingReddit();
   }
-
 }

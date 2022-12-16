@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inview_notifier_list/inview_notifier_list.dart';
 import 'package:provider/provider.dart';
-import '../../providers/profile_post.dart';
+import '../../providers/profile_post_provider.dart';
 import '../../widgets/loading_reddit.dart';
 import '../models/post_model.dart';
 import './post.dart';
@@ -25,7 +25,7 @@ class _PostListState extends State<PostList> {
         _isLoading = true;
       });
       Provider.of<ProfilePostProvider>(context, listen: false)
-          .fetchProfilePosts(widget.userName)
+          .fetchProfilePosts(widget.userName, 'New', 1, 25)
           .then((value) {
         print('hi');
         postsData = Provider.of<ProfilePostProvider>(context, listen: false)

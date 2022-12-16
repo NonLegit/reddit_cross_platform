@@ -16,7 +16,7 @@ class PostImages extends StatefulWidget {
   final String title;
   final bool spoiler;
   final bool nsfw;
-  final FlairId flair;
+  final FlairId? flair;
   const PostImages({
     super.key,
     required this.links,

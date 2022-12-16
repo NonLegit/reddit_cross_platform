@@ -26,7 +26,7 @@ class OtherProfileprovider with ChangeNotifier {
       DioClient.init(prefs);
       print(otherUserName);
       // print(userName);
-      await DioClient.get(path:'/users/${otherUserName}/about')
+      await DioClient.get(path: '/users/${otherUserName}/about')
           .then((response) {
         print(response.data['user']);
         loadProfile = OtherProfileData.fromJson(response.data['user']);
@@ -71,8 +71,8 @@ class OtherProfileprovider with ChangeNotifier {
       print(prefs);
       DioClient.init(prefs);
       await DioClient.post(
-        path: '/subreddits/${subredditName}/moderators/${moderatorName}',data: {}
-      ).then((value) => print(value));
+          path: '/subreddits/${subredditName}/moderators/${moderatorName}',
+          data: {}).then((value) => print(value));
       notifyListeners();
       return true;
     } catch (error) {
@@ -87,9 +87,7 @@ class OtherProfileprovider with ChangeNotifier {
       print(prefs);
       print(userName);
       DioClient.init(prefs);
-      await DioClient.post(
-        path: '/users/${userName}/block_user',data: {}
-      );
+      await DioClient.post(path: '/users/${userName}/block_user', data: {});
       notifyListeners();
       return true;
     } catch (error) {
@@ -104,9 +102,8 @@ class OtherProfileprovider with ChangeNotifier {
       print(prefs);
       print(userName);
       DioClient.init(prefs);
-      await DioClient.post(
-        path: 'users/${userName}/follow',data: {}
-      );
+      print('users/${userName}/follow');
+      await DioClient.post(path: 'users/${userName}/follow', data: {});
       notifyListeners();
       return true;
     } catch (error) {
@@ -114,15 +111,14 @@ class OtherProfileprovider with ChangeNotifier {
       return false;
     }
   }
+
   Future<bool> unFollowUser(String userName) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       print(prefs);
       print(userName);
       DioClient.init(prefs);
-      await DioClient.post(
-        path: '/users/${userName}/unfollow',data: {}
-      );
+      await DioClient.post(path: '/users/${userName}/unfollow', data: {});
       notifyListeners();
       return true;
     } catch (error) {

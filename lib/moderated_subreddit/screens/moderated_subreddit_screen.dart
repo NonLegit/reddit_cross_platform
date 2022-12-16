@@ -13,7 +13,6 @@ import '../widgets/moderated_subreddit_app.dart';
 import '../providers/moderated_subreddit_provider.dart';
 import '../../home/widgets/end_drawer.dart';
 
-
 class ModeratedSubredditScreen extends StatefulWidget {
   static const routeName = '/moderatedsubreddit';
   @override
@@ -23,6 +22,12 @@ class ModeratedSubredditScreen extends StatefulWidget {
 
 class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
     with TickerProviderStateMixin {
+  //================Loading Data===================================//
+  var _isLoading = false;
+  var _isInit = true;
+  var subredditUserName;
+  ModeratedSubredditData? loadedSubreddit;
+
   //=====================End Drawer=============//
   bool isOnline = true;
   final HomeController controller = Get.put(
@@ -103,6 +108,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
                     controller: _controller,
                     isLoading: _isLoading,
                     tabBar: _tabBar),
-        endDrawer: _isLoading ? LoadingReddit() : endDrawer(controller:controller ));
+        endDrawer:
+            _isLoading ? LoadingReddit() : endDrawer(controller: controller));
   }
 }

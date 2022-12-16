@@ -21,7 +21,8 @@ class homeLayoutScreen extends StatefulWidget {
   State<homeLayoutScreen> createState() => _homeLayoutScreenState();
 }
 
-class _homeLayoutScreenState extends State<homeLayoutScreen> with TickerProviderStateMixin{
+class _homeLayoutScreenState extends State<homeLayoutScreen>
+    with TickerProviderStateMixin {
   final HomeController controller = Get.put(
     HomeController(),
   );
@@ -52,9 +53,9 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> with TickerProvider
   void showEndDrawer(BuildContext context) {
     Scaffold.of(context).openEndDrawer();
   }
-  late AnimationController loadingSpinnerAnimationController;
- final ScrollController _controller = ScrollController();
 
+  late AnimationController loadingSpinnerAnimationController;
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -70,13 +71,15 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> with TickerProvider
         AnimationController(duration: const Duration(seconds: 2), vsync: this);
     loadingSpinnerAnimationController.repeat();
     if (controller.homePosts.isEmpty) {
-     controller.getPosts();
+      controller.getPosts();
     }
   }
+
   void dispose() {
     loadingSpinnerAnimationController.dispose();
     super.dispose();
   }
+
 // for dropdown list
   String dropValue = "Home";
   // Lists for DropDown Menu at appBar
@@ -95,144 +98,146 @@ class _homeLayoutScreenState extends State<homeLayoutScreen> with TickerProvider
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-        appBar: AppBar(
-            // To make style for status bar
-            systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: Colors.white,
-              statusBarIconBrightness: Brightness.dark,
-            ),
-            elevation: 1.0,
-            backgroundColor: Colors.white,
-            leading: Builder(builder: (context) {
-              return IconButton(
-                onPressed: () => showDrawer(context),
-                icon: Icon(Icons.menu_rounded, color: Colors.black, size: 30),
-              );
-            }),
-            title: ElevatedButton.icon(
-              onPressed: () {
-                print(
-                    "posts in home list length :${controller.homePosts.length}");
-                print(
-                    "moderator list length :${controllerForPost.moderatedSubreddits.length}");
-                print(
-                    "modsub length ${controllerForPost.moderatedSubreddits.length}");
-                print("name of ${controllerForPost.moderatedSubreddits[0]}");
-              },
-              icon: Text(
-                "Home",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 17.0,
-                    fontWeight: FontWeight.w600),
+          appBar: AppBar(
+              // To make style for status bar
+              systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: Colors.white,
+                statusBarIconBrightness: Brightness.dark,
               ),
-              label: Icon(
-                IconBroken.Arrow___Down_2,
-                color: Colors.black,
-              ),
-              style: ButtonStyle(
-                elevation: MaterialStateProperty.all<double>(0),
-                fixedSize: MaterialStateProperty.all(Size(100.0, 20.0)),
-                backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
-              ),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  IconBroken.Search,
-                  color: Colors.black87,
-                  size: 28.0,
-                ),
-              ),
-              Builder(builder: (context) {
+              elevation: 1.0,
+              backgroundColor: Colors.white,
+              leading: Builder(builder: (context) {
                 return IconButton(
-                  onPressed: () => showEndDrawer(context),
-                  icon: Stack(
-                    alignment: AlignmentDirectional.bottomEnd,
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            '${controller.myProfile!.profilePicture}'),
-                        radius: 30.0,
-                      ),
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 6,
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.only(end: 2, bottom: 2),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.green,
-                          radius: 4,
-                        ),
-                      )
-                    ],
-                  ),
+                  onPressed: () => showDrawer(context),
+                  icon: Icon(Icons.menu_rounded, color: Colors.black, size: 30),
                 );
               }),
-            ]),
-        bottomNavigationBar: buttomNavBar(),
-        endDrawer: endDrawer(controller: controller,),
-        drawer: //RecentlyVisitedDrawer(controller: this.controller,),
-            (controller.isRecentlyVisitedDrawer.value == true)
-                ? RecentlyVisitedDrawer(
-                    controller: this.controller,
-                  )
-                : MyDrawer(
-                    controller: this.controller,
-                    controllerForCreatePost: this.controllerForPost),
-        body: RefreshIndicator(
-          onRefresh: controller.getPosts,
-          child:controller.isLoading.value
-              ? Center(
-            child:LoadingReddit(),
-          )
-              :controller.error.value
-              ? ListView(
-            children: const <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 150),
-                child: Text("Unexpected Error Try Again.."),
+              title: ElevatedButton.icon(
+                onPressed: () {
+                  print(
+                      "posts in home list length :${controller.homePosts.length}");
+                  print(
+                      "moderator list length :${controllerForPost.moderatedSubreddits.length}");
+                  print(
+                      "modsub length ${controllerForPost.moderatedSubreddits.length}");
+                  print("name of ${controllerForPost.moderatedSubreddits[0]}");
+                },
+                icon: Text(
+                  "Home",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.w600),
+                ),
+                label: Icon(
+                  IconBroken.Arrow___Down_2,
+                  color: Colors.black,
+                ),
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all<double>(0),
+                  fixedSize: MaterialStateProperty.all(Size(100.0, 20.0)),
+                  backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
+                ),
               ),
-            ],
-          )
-              :controller.homePosts.isEmpty
-              ? const Text( "No Posts to show")
-              : ListView.builder(
-            controller: _controller,
-            itemCount:controller.homePosts.length,
-            itemBuilder: (
-                final BuildContext ctx,
-                final int index,
-                ) {
-              return  Post.home(
-                            data: controller.homePosts[index],
-
-              );
-            },
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    IconBroken.Search,
+                    color: Colors.black87,
+                    size: 28.0,
+                  ),
+                ),
+                Builder(builder: (context) {
+                  return IconButton(
+                    onPressed: () => showEndDrawer(context),
+                    icon: Stack(
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              '${controller.myProfile!.profilePicture}'),
+                          radius: 30.0,
+                        ),
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 6,
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.only(
+                              end: 2, bottom: 2),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.green,
+                            radius: 4,
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }),
+              ]),
+          bottomNavigationBar: buttomNavBar(),
+          endDrawer: endDrawer(
+            controller: controller,
           ),
-        ),
-        // body: (controller.homePosts.length > 0)
-        //     ? RefreshIndicator(
-        //       onRefresh: () async {
-        //         controller.getPosts();
-        //       },
-        //       child: ListView.separated(
-        //           itemBuilder: (BuildContext context, int index) => Post.home(
-        //             data: controller.homePosts[index],
-        //           ),
-        //           separatorBuilder: (BuildContext context, int index) => SizedBox(
-        //             height: 10,
-        //           ),
-        //           itemCount: controller.homePosts.length,
-        //
-        //       ),
-        //     )
-        //     : LoadingReddit()
-        // Center(child: Text("No Posts to show"),)
-
+          drawer: //RecentlyVisitedDrawer(controller: this.controller,),
+              (controller.isRecentlyVisitedDrawer.value == true)
+                  ? RecentlyVisitedDrawer(
+                      controller: this.controller,
+                    )
+                  : MyDrawer(
+                      controller: this.controller,
+                      controllerForCreatePost: this.controllerForPost),
+          body: RefreshIndicator(
+            onRefresh: controller.getPosts,
+            child: controller.isLoading.value
+                ? Center(
+                    child: LoadingReddit(),
+                  )
+                : controller.error.value
+                    ? ListView(
+                        children: const <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 150),
+                            child: Text("Unexpected Error Try Again.."),
+                          ),
+                        ],
+                      )
+                    : controller.homePosts.isEmpty
+                        ? const Text("No Posts to show")
+                        : ListView.builder(
+                            controller: _controller,
+                            itemCount: controller.homePosts.length,
+                            itemBuilder: (
+                              final BuildContext ctx,
+                              final int index,
+                            ) {
+                              return Post.home(
+                                data: controller.homePosts[index],
+                                inView: false,
+                                updateDate: () {},
+                              );
+                            },
+                          ),
+          ),
+          // body: (controller.homePosts.length > 0)
+          //     ? RefreshIndicator(
+          //       onRefresh: () async {
+          //         controller.getPosts();
+          //       },
+          //       child: ListView.separated(
+          //           itemBuilder: (BuildContext context, int index) => Post.home(
+          //             data: controller.homePosts[index],
+          //           ),
+          //           separatorBuilder: (BuildContext context, int index) => SizedBox(
+          //             height: 10,
+          //           ),
+          //           itemCount: controller.homePosts.length,
+          //
+          //       ),
+          //     )
+          //     : LoadingReddit()
+          // Center(child: Text("No Posts to show"),)
         ));
   }
 }

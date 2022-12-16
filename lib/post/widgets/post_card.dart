@@ -13,7 +13,7 @@ class PostCard extends StatelessWidget {
   final String link;
   final String title;
   final bool isblured;
-  final FlairId flair;
+  final FlairId? flair;
   final bool nsfw;
   final bool spoiler;
   const PostCard({
