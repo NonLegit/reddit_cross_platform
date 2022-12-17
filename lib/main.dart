@@ -80,6 +80,9 @@ import 'moderation_settings/screens/add_edit_banned_screen.dart';
 import 'moderation_settings/screens/add_edit_moderator_screen.dart';
 import 'moderation_settings/screens/add_edit_muted_screen.dart';
 import 'moderation_settings/screens/add_edit_aproved_screen.dart';
+import 'moderation_settings/screens/add_edit_post_flair.dart';
+import 'moderation_settings/screens/post_flair.dart';
+import 'moderation_settings/screens/post_flair_settings.dart';
 //=====================================Providers====================================================//
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
@@ -89,6 +92,7 @@ import './create_community/provider/create_community_provider.dart';
 import './moderation_settings/provider/moderation_settings_provider.dart';
 import './notification/provider/notification_provider.dart';
 import 'logins/providers/authentication.dart';
+import 'moderation_settings/provider/post_flair_provider.dart';
 //import './models/push_notification_model.dart';
 
 String returnCorrectText(type, name, user) {
@@ -319,6 +323,7 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider.value(value: ProfilePostProvider()),
             ChangeNotifierProvider.value(value: PostProvider()),
             ChangeNotifierProvider.value(value: SubredditPostProvider()),
+            ChangeNotifierProvider.value(value: PostFlairProvider()),
           ],
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
@@ -358,6 +363,10 @@ class _MyAppState extends State<MyApp> {
             // home: MutedScreen(),
             // home: ApprovedScreen(),
             routes: {
+              PostFlairSettings.routeName: (context) => PostFlairSettings(),
+              AddAndEditPostFllair.routeName: (context) =>
+                  AddAndEditPostFllair(),
+               PostFlairModerator.routeName: (context) => PostFlairModerator(),
               EditApprovedScreen.routeName: (context) => EditApprovedScreen(),
               EditBannedScreen.routeName: (context) => EditBannedScreen(),
               EditMutedScreen.routeName: (context) => EditMutedScreen(),
