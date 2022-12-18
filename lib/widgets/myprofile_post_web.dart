@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../post/models/post_model.dart';
 import '../post/widgets/post.dart';
-import '../providers/profile_post.dart';
+import '../providers/profile_post_provider.dart';
 import 'loading_reddit.dart';
 import 'sort_bottom_web.dart';
 import '../myprofile/models/myprofile_data.dart';
@@ -31,15 +31,15 @@ class _MyProfilePostWebState extends State<MyProfilePostWeb> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<ProfilePostProvider>(context, listen: false)
-          .fetchProfilePosts('Amr')
-          .then((value) {
-        posts = Provider.of<ProfilePostProvider>(context, listen: false)
-            .gettingProfilePostData;
-        setState(() {
-          _isLoading = false;
-        });
-      });
+      // Provider.of<ProfilePostProvider>(context, listen: false)
+      //     .fetchProfilePosts('Amr')
+      //     .then((value) {
+      //   posts = Provider.of<ProfilePostProvider>(context, listen: false)
+      //       .gettingProfilePostData;
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+     // });
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -100,7 +100,9 @@ class _MyProfilePostWebState extends State<MyProfilePostWeb> {
                                       shrinkWrap: true,
                                       itemBuilder: ((context, index) =>
                                           Post.profile(
+                                            inView: false,
                                             data: posts![index],
+                                            updateDate: print,
                                           )),
                                       itemCount: posts?.length,
                                     ),

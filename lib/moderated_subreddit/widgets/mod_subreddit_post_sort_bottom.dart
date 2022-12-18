@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_code_style/analysis_options.yaml';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ModSubredditPostSortBottom extends StatefulWidget {

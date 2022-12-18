@@ -30,6 +30,7 @@ class SubredditSubscriberContainer extends StatelessWidget {
       subtitle: Text("$memberCount " + "members . " + "subscribed"),
       onTap: () {
         controller.subredditToSubmitPost = RxString(nameOfSubreddit);
+        controller.getFlairsOfSubreddit();
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => FinalPost()));
       },

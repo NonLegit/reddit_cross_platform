@@ -18,49 +18,36 @@ class _SubredditPopupMenuButtonState extends State<SubredditPopupMenuButton> {
   Widget build(BuildContext context) {
     return PopupMenuButton(
       onSelected: (value) {
-      if (value.toString() == '/communitymodmessage' ||
-          value.toString() == '/communityinfo')
+      if (value.toString() == '/communitymodmessage' 
+      // ||value.toString() == '/communityinfo'
+      ) {
         Navigator.pushNamed(context, value.toString());
-      else if (value.toString() == 'Share')
+      } else if (value.toString() == 'Share') {
         shareCommunitySheetButton(context);
-      // else
-      //   _showLeaveDialog('message');
+      }
     }, itemBuilder: (BuildContext bc) {
       return const [
         PopupMenuItem(
+          value: 'Share',
           child: ListTile(
             leading: Icon(Icons.share_outlined),
             title: Text('Share community'),
           ),
-          value: 'Share',
         ),
         PopupMenuItem(
-          child: ListTile(
-            leading: Icon(Icons.report_outlined),
-            title: Text('Community info'),
-          ),
-          value: '/communityinfo',
-        ),
-        PopupMenuItem(
+          value: '/communitymodmessage',
           child: ListTile(
             leading: Icon(Icons.mail_outline),
             title: Text('Contact mods'),
           ),
-          value: '/communitymodmessage',
         ),
-        // PopupMenuItem(
-        //   child: ListTile(
-        //     leading: Icon(Icons.fast_rewind),
-        //     title: Text('Leave'),
-        //   ),
-        //   value: 'Leave',
-        // )
       ];
     },
-    icon: Icon(Icons.more_vert,color: Colors.white,),
+    icon: const Icon(Icons.more_vert,color: Colors.white,),
     );
   }
 // to copy Link of Subreddit
+//byu using copy clipboard
   Future<void> shareCommunitySheetButton(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -73,52 +60,5 @@ class _SubredditPopupMenuButtonState extends State<SubredditPopupMenuButton> {
       },
     );
   }
-  //to Disjoin from subreddit
-  // void _showLeaveDialog(String message) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (ctx) => AlertDialog(
-  //       //title:Text('Are you sure you want to leave the r/${widget.communityName.toString()} community?'),
-  //       content: Text(
-  //           'Are you sure you want to leave the r/${widget.communityName.toString()} community?'),
-  //       actions: <Widget>[
-  //         Container(
-  //           width: 35.w,
-  //           height: 6.h,
-  //           child: ElevatedButton(
-  //             style: ButtonStyle(
-  //               backgroundColor: MaterialStateProperty.all(
-  //                   Color.fromARGB(255, 236, 235, 235)),
-  //               foregroundColor: MaterialStateProperty.all(Colors.grey),
-  //               shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-  //                   borderRadius: BorderRadius.all(Radius.circular(22)))),
-  //             ),
-  //             child: Text('Cancel'),
-  //             onPressed: () {
-  //               Navigator.of(ctx).pop();
-  //             },
-  //           ),
-  //         ),
-  //         Container(
-  //           width: 35.w,
-  //           height: 6.h,
-  //           child: ElevatedButton(
-  //             style: ButtonStyle(
-  //               backgroundColor:
-  //                   MaterialStateProperty.all(Color.fromARGB(255, 242, 16, 0)),
-  //               foregroundColor: MaterialStateProperty.all(Colors.white),
-  //               shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-  //                   borderRadius: BorderRadius.all(Radius.circular(22)))),
-  //             ),
-  //             child: Text('Leave'),
-  //             onPressed: () {
-  //               Navigator.of(ctx).pop();
-  //             },
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
 
 }

@@ -5,76 +5,114 @@ import '../../other_profile/screens/others_profile_screen.dart';
 import '../../messages/screens/new_message_screen.dart';
 import '../widgets/three_dot_down_menu.dart';
 import '../../icons/settings_icons.dart';
+import 'package:provider/provider.dart';
+import '../provider/change_user_management.dart';
+import '../../widgets/custom_snack_bar.dart';
+import '../screens/approved_users_screen.dart';
+import '../widgets/input_text_field.dart';
+import '../../widgets/custom_snack_bar.dart';
 
-class ApprovedList extends StatelessWidget {
+class ApprovedList extends StatefulWidget {
   final List<Map<String, Object>> allapproved;
-  ApprovedList({super.key, required this.allapproved});
+  final String subredditName;
+  ApprovedList(
+      {super.key, required this.subredditName, required this.allapproved});
+
+  @override
+  State<ApprovedList> createState() => _ApprovedListState();
+}
+
+class _ApprovedListState extends State<ApprovedList> {
+  Future<void> deleteApproved(int index) async {
+    final provider =
+        Provider.of<ChangeUserManagementProvider>(context, listen: false);
+    String sucessMessage =
+        'unApprove ${widget.allapproved[index]['userName']}  done succesfully';
+    print(sucessMessage);
+    await provider
+        .addRemoveApproved(widget.subredditName,
+            widget.allapproved[index]['userName'] as String, context, false)
+        .then((value) {});
+    Navigator.pop(context);
+    if (provider.isError == false) {
+      widget.allapproved.removeAt(index);
+      setState(() {});
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false, text: sucessMessage, disableStatus: true),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemBuilder: (_, index) {
-        final _id = allapproved[index]['_id'] as String;
-        final _userName = allapproved[index]['userName'] as String;
-        String _Date = allapproved[index]['joiningDate'] as String;
-        final profilePicture = allapproved[index]['profilePicture'];
-        return ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              elevation: 0,
-              // backgroundColor: Colors.red
-            ),
-            onPressed: () {
-              Navigator.of(context).pushNamed(OthersProfileScreen.routeName,
-                  arguments: _userName);
-            },
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(profilePicture as String),
-                backgroundColor: Colors.black,
+    return Expanded(
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemBuilder: (_, index) {
+          final _id = widget.allapproved[index]['_id'] as String;
+          final _userName = widget.allapproved[index]['userName'] as String;
+          String _Date = widget.allapproved[index]['approvedDate'] as String;
+          final profilePicture = widget.allapproved[index]['profilePicture'];
+          return ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                // backgroundColor: Colors.red
               ),
-              title: Text(_userName),
-              subtitle: Text('$_Date  '),
-              trailing: ThreeDotDownMenu(
-                cntx: context,
-                list: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                            NewMessageScreen.routeName,
-                            arguments: _userName);
-                      },
-                      child: ListTile(
-                        leading: Icon(Icons.email),
-                        title: Text('Send messsage'),
-                        trailing: Icon(Icons.arrow_forward),
-                      )),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                            OthersProfileScreen.routeName,
-                            arguments: _userName);
-                      },
-                      child: ListTile(
-                        leading: Icon(SettingsIcons.account_circle),
-                        title: Text('Virw profile'),
-                      )),
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: ListTile(
-                        leading:
-                            Icon(Icons.highlight_remove, color: Colors.red),
-                        title: Text(
-                          'Remove',
-                          style: TextStyle(color: Colors.red),
-                        ),
-                      ))
-                ],
-              ),
-            ));
-      },
-      itemCount: allapproved.length,
+              onPressed: () {
+                Navigator.of(context).pushNamed(OthersProfileScreen.routeName,
+                    arguments: _userName);
+              },
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(profilePicture as String),
+                  backgroundColor: Colors.black,
+                ),
+                title: Text(_userName),
+                subtitle: Text('$_Date  '),
+                trailing: ThreeDotDownMenu(
+                  cntx: context,
+                  list: [
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                              NewMessageScreen.routeName,
+                              arguments: _userName);
+                        },
+                        child: ListTile(
+                          leading: Icon(Icons.email),
+                          title: Text('Send messsage'),
+                          trailing: Icon(Icons.arrow_forward),
+                        )),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                              OthersProfileScreen.routeName,
+                              arguments: _userName);
+                        },
+                        child: ListTile(
+                          leading: Icon(SettingsIcons.account_circle),
+                          title: Text('View profile'),
+                        )),
+                    ElevatedButton(
+                        onPressed: () {
+                          deleteApproved(index);
+                        },
+                        child: ListTile(
+                          leading:
+                              Icon(Icons.highlight_remove, color: Colors.red),
+                          title: Text(
+                            'Remove',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ))
+                  ],
+                ),
+              ));
+        },
+        itemCount: widget.allapproved.length,
+      ),
     );
   }
 }

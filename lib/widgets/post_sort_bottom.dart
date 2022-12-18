@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_code_style/analysis_options.yaml';
+import 'package:provider/provider.dart';
+import '../providers/profile_post_provider.dart';
+import '../providers/subreddit_post_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class PostSortBottom extends StatefulWidget {
+  final String type;
   final String routeNamePop;
-  // String _dropDownValue;
-  // IconData? _icon;
-  PostSortBottom(
-    this.routeNamePop,
-    //  this._dropDownValue,
-    //   this._icon
-  );
+  final String userName;
+  final int _limit = 25;
+  final int page;
+  PostSortBottom({
+    required this.page,
+    required this.type,
+    required this.routeNamePop,
+    required this.userName,
+  });
   @override
   State<PostSortBottom> createState() => PostSortBottomState();
 }
 
-class PostSortBottomState extends State<PostSortBottom> {
+class PostSortBottomState extends State<PostSortBottom>
+    with AutomaticKeepAliveClientMixin {
   var _dropDownValue = 'HOT POST';
   var _icon = Icons.local_fire_department_rounded;
-  int? tappedIndex;
+  int? tappedIndex = 0;
   int? tappedIndexTop;
   List<String> litems = ["Hot", "New", 'Top'];
   List<IconData?> liItemIcons = [
@@ -35,14 +41,27 @@ class PostSortBottomState extends State<PostSortBottom> {
     'All time'
   ];
   String? topValue = 'Past hour';
-//    final String routeNamePop;
-//  _PostSortBottomState(this.routeNamePop);
   @override
   void initState() {
     super.initState();
-    tappedIndex = 0;
   }
 
+  bool _isInit = true;
+  bool _isLoading = false;
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      print(
+          '===============================insideSortButton=============================');
+      //  tappedIndex = 0;
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,18 +82,18 @@ class PostSortBottomState extends State<PostSortBottom> {
                     children: [
                       Icon(
                         _icon,
-                        color: Color.fromARGB(255, 121, 121, 121),
+                        color: const Color.fromARGB(255, 121, 121, 121),
                         size: 25,
                       ),
                       Text(
-                        '${_dropDownValue}',
+                        _dropDownValue,
                         style: const TextStyle(
                             color: Color.fromARGB(255, 121, 121, 121),
                             fontWeight: FontWeight.bold,
                             fontSize: 12),
                         textAlign: TextAlign.end,
                       ),
-                      Icon(
+                      const Icon(
                         color: Color.fromARGB(255, 121, 121, 121),
                         Icons.keyboard_arrow_down_rounded,
                         size: 25,
@@ -94,8 +113,6 @@ class PostSortBottomState extends State<PostSortBottom> {
           onTap: () {},
           child: Container(
             padding: const EdgeInsets.all(20),
-            // height: MediaQuery.of(context).size.height * 0.35,
-            // width: MediaQuery.of(context).size.width * 0.30,
             height: 35.h,
             width: 30.w,
             margin: const EdgeInsets.all(5),
@@ -125,7 +142,7 @@ class PostSortBottomState extends State<PostSortBottom> {
                         ),
                         trailing: Visibility(
                           visible: tappedIndex == index,
-                          child: Icon(
+                          child: const Icon(
                             Icons.done,
                             color: Colors.blue,
                           ),
@@ -139,14 +156,10 @@ class PostSortBottomState extends State<PostSortBottom> {
                               fontWeight: FontWeight.bold),
                         ),
                         onTap: () {
-                          if (index != 2) {
-                            setState(() {
-                              choosePostType(index);
-                            });
-                            return Navigator.pop(context);
-                          } else {
-                            topTimeBottomSheet(context, index);
-                          }
+                          setState(() {
+                            choosePostType(index);
+                          });
+                          return Navigator.pop(context);
                         },
                       ));
                     }),
@@ -163,81 +176,17 @@ class PostSortBottomState extends State<PostSortBottom> {
     tappedIndex = index;
     _icon = liItemIcons[index] as IconData;
     _dropDownValue = '${litems[index].toUpperCase()} POSTS ';
+    if (widget.type == 'User') {
+      Provider.of<ProfilePostProvider>(context, listen: false)
+          .fetchProfilePosts(widget.userName, litems[tappedIndex as int],widget.page,widget._limit)
+          .then((value) {});
+    } else {
+      Provider.of<SubredditPostProvider>(context, listen: false)
+          .fetchSubredditePosts(
+              widget.userName, litems[tappedIndex as int].toLowerCase(),widget.page,widget._limit)
+          .then((value) {});
+    }
     return tappedIndex as int;
   }
 
-  Future<void> topTimeBottomSheet(BuildContext context, int index) {
-    return showModalBottomSheet<void>(
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {},
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            height: 100.h,
-            width: 30.w,
-            margin: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5), color: Colors.white),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Text('TOP POSTS FROM',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      )),
-                  const Divider(),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: litemsTop.length,
-                      itemBuilder: (context, index1) {
-                        return Container(
-                            child: ListTile(
-                          leading: Icon(
-                            size: 25,
-                            tappedIndexTop != index1
-                                ? Icons.circle_outlined
-                                : Icons.check_circle_rounded,
-                            color: tappedIndexTop != index1
-                                ? Colors.grey
-                                : Colors.black,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              // topValue =
-                              //     litemsTop[
-                              //         index1];
-                              chooseTimeOfTopPosts(index, index1);
-                            });
-                            return Navigator.popUntil(context,
-                                ModalRoute.withName(widget.routeNamePop));
-                          },
-                          title: Text(
-                            litemsTop[index1],
-                            style: TextStyle(
-                                color: tappedIndexTop == index1
-                                    ? Colors.black
-                                    : Colors.grey,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ));
-                      })
-                ]),
-          ),
-        );
-      },
-    );
-  }
-
-  int chooseTimeOfTopPosts(int index, int index1) {
-    tappedIndex = index;
-    tappedIndexTop = index1;
-    _icon = liItemIcons[index] as IconData;
-    _dropDownValue =
-        '${litems[index].toUpperCase()} POSTS ${litemsTop[index1].toUpperCase()}';
-    return tappedIndexTop as int;
-  }
 }

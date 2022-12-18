@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:post/logins/providers/authentication.dart';
 import 'package:post/settings/screens/change_email.dart';
 import 'package:post/settings/screens/change_password.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -13,12 +14,53 @@ import '../../icons/google_facebook_icons.dart';
 import './blocked_accounts.dart';
 import '../../icons/arrow_head_down_word_icons.dart';
 import './choose_country.dart';
+import '../provider/user_settings_provider.dart';
+import 'package:provider/provider.dart';
+import '../../widgets/custom_snack_bar.dart';
 // Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
 
-class AccountSettings extends StatelessWidget {
+class AccountSettings extends StatefulWidget {
   static const routeName = '/AccountSettings';
+  final UserSettingsProvider? provider;
 
-  const AccountSettings({Key? key}) : super(key: key);
+  AccountSettings({Key? key, this.provider}) : super(key: key);
+
+  @override
+  State<AccountSettings> createState() => _AccountSettingsState();
+}
+
+class _AccountSettingsState extends State<AccountSettings> {
+  Future<void> changeGender(String newValue) async {
+    widget.provider?.userPrefrence!.gender = newValue;
+    await widget.provider!
+        .ChangePrefs(widget.provider!.userPrefrence!.toJson(), context);
+    setState(() {});
+    if (widget.provider!.isError == false) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false,
+            text: 'change your gender succefuhly',
+            disableStatus: true),
+      );
+    }
+  }
+
+  Future<void> allowPeopleFllow() async {
+    widget.provider!.userPrefrence!.canbeFollowed =
+        !widget.provider!.userPrefrence!.canbeFollowed!;
+    await widget.provider!
+        .ChangePrefs(widget.provider!.userPrefrence!.toJson(), context);
+    setState(() {});
+    if (widget.provider!.isError == false) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false,
+            text: 'change allow fllowing you  succefuhly',
+            disableStatus: true),
+      );
+    }
+  }
+
   void showSheet(BuildContext cntx) {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -48,7 +90,13 @@ class AccountSettings extends StatelessWidget {
               title: 'Update email address',
               trailingIcon: Icon(Icons.arrow_forward_outlined),
               handler: () {
-                Navigator.of(context).pushNamed(ChangeEmail.routeName);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChangeEmail(
+                            provider: widget.provider,
+                          )),
+                );
               },
               onlyIconPressed: false,
             ),
@@ -57,7 +105,13 @@ class AccountSettings extends StatelessWidget {
               title: 'Change password',
               trailingIcon: Icon(Icons.arrow_forward_outlined),
               handler: () {
-                Navigator.of(context).pushNamed(ChangePassword.routeName);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChangePassword(
+                            provider: widget.provider,
+                          )),
+                );
               },
               onlyIconPressed: false,
             ),
@@ -65,13 +119,31 @@ class AccountSettings extends StatelessWidget {
               leadingIcon: Icon(Icons.location_on_outlined),
               title: 'Country',
               subtitle: 'Select the country you live in.',
-              trailingIcon: Icon(Icons.arrow_forward_outlined),
+              trailingIcon: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(widget.provider!.userPrefrence!.country!),
+                  Icon(Icons.arrow_forward_outlined),
+                ],
+              ),
               handler: () {
-                Navigator.of(context).pushNamed(ChooseCountry.routeName);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChooseCountry(
+                            provider: widget.provider,
+                            handler: () {
+                              setState(() {});
+                            },
+                          )),
+                );
               },
               onlyIconPressed: false,
             ),
             DorpDownListView(
+              changeChoosen: (newValue) {
+                changeGender(newValue);
+              },
               leadingIcon: Icon(SettingsIcons.account_circle),
               title: 'Gender',
               trailingIcon: Container(
@@ -81,45 +153,54 @@ class AccountSettings extends StatelessWidget {
                     child: Icon(ArrowHeadDownWord.down_open)),
               ),
               choosenIndex: IntWrapper(),
-              choosenElement: 'Man',
+              choosenElement: widget.provider!.userPrefrence!.gender!,
               listType: TypeStaus.selected,
               sheetList: [
-                {'title': 'Man', 'selected': false},
-                {'title': 'Woman', 'selected': false},
+                {'title': 'male', 'selected': false},
+                {'title': 'female', 'selected': false},
               ],
             ),
-            TitleText(lable: 'CONNECTED ACCOUNTS'),
-            IconListView(
-              leadingIcon: Icon(GoogleFacebookIcons.google),
-              title: 'Google',
-              trailingIcon: Text(
-                'Connect',
-                style: TextStyle(color: Colors.blue[900]),
-              ),
-              onlyIconPressed: true,
-              handler: () {},
-            ),
-            IconListView(
-              leadingIcon: Icon(GoogleFacebookIcons.facebook),
-              title: 'Facebook',
-              trailingIcon: Text(
-                'Connect',
-                style: TextStyle(color: Colors.blue[900]),
-              ),
-              onlyIconPressed: true,
-              handler: () {},
-            ),
+            // TitleText(lable: 'CONNECTED ACCOUNTS'),
+            // IconListView(
+            //   leadingIcon: Icon(GoogleFacebookIcons.google),
+            //   title: 'Google',
+            //   trailingIcon: Text(
+            //     'Connect',
+            //     style: TextStyle(color: Colors.blue[900]),
+            //   ),
+            //   onlyIconPressed: true,
+            //   handler: () {},
+            // ),
+            // IconListView(
+            //   leadingIcon: Icon(GoogleFacebookIcons.facebook),
+            //   title: 'Facebook',
+            //   trailingIcon: Text(
+            //     'Connect',
+            //     style: TextStyle(color: Colors.blue[900]),
+            //   ),
+            //   onlyIconPressed: true,
+            //   handler: () {},
+            // ),
             TitleText(lable: 'BLOCKING AND PERMISSIONS'),
             IconListView(
               leadingIcon: Icon(Icons.block_flipped),
               title: 'Manged blocked accounts',
               trailingIcon: Icon(Icons.arrow_forward_outlined),
               handler: () {
-                Navigator.of(context).pushNamed(BlockedAccounts.routeName);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BlockedAccounts(
+                            provider: widget.provider,
+                          )),
+                );
               },
             ),
             SwichListView(
-              choosen: true,
+              changeSwiching: () {
+                allowPeopleFllow();
+              },
+              choosen: widget.provider!.userPrefrence!.canbeFollowed!,
               leadingIcon: Icon(SettingsIcons.account_circle),
               title: 'Allow people to follow you',
               subtitle:

@@ -12,13 +12,14 @@ import '../../createpost/controllers/posts_controllers.dart';
 import '../../icons/icon_broken.dart';
 
 class MyDrawer extends StatelessWidget {
-  // const MyDrawer({Key? key}) : super(key: key);
-  final HomeController controller = Get.put(
-    HomeController(),
-  );
-  final PostController controllerForCreatePost = Get.put(
-    PostController(),
-  );
+
+   final HomeController controller ;
+  final PostController controllerForCreatePost ;
+   MyDrawer({
+     Key? key,
+     required this.controller,
+     required this.controllerForCreatePost,
+   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -32,7 +33,7 @@ class MyDrawer extends StatelessWidget {
             const Divider(
               height: 3,
             ),
-            Obx(
+                       Obx(
               () => ExpansionTile(
                   initiallyExpanded: true,
                   onExpansionChanged: (value) {
@@ -48,7 +49,11 @@ class MyDrawer extends StatelessWidget {
                   trailing:
                       (controller.isRecentlyVisitedPannelExpanded.value == true)
                           ? TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+
+                                controller.isRecentlyVisitedDrawer.value=true;
+                                print("the value of isRecentlyVisitedDrawer ${controller.isRecentlyVisitedDrawer.value}");
+                              },
                               child: Text(
                                 "See all",
                                 style: TextStyle(color: Colors.black),
@@ -66,7 +71,7 @@ class MyDrawer extends StatelessWidget {
                               "https://png.pngtree.com/element_our/20190530/ourmid/pngtree-correct-icon-image_1267804.jpg"))),
             ),
             Obx(
-              () => ExpansionTile(
+                  () => ExpansionTile(
                 initiallyExpanded: true,
                 onExpansionChanged: (value) {
                   controller.isModeratingPannelExpanded.value = value;
@@ -80,13 +85,13 @@ class MyDrawer extends StatelessWidget {
                 ),
                 trailing: (controller.isModeratingPannelExpanded.value == true)
                     ? const Icon(
-                        IconBroken.Arrow___Down_2,
-                        color: Colors.black,
-                      )
+                  IconBroken.Arrow___Down_2,
+                  color: Colors.black,
+                )
                     : const Icon(
-                        IconBroken.Arrow___Right_2,
-                        color: Colors.black,
-                      ),
+                  IconBroken.Arrow___Right_2,
+                  color: Colors.black,
+                ),
                 children: [
                   const ListTile(
                     horizontalTitleGap: 0.0,
@@ -115,34 +120,34 @@ class MyDrawer extends StatelessWidget {
                       Icons.mail,
                     ),
                     title:
-                        Text("Modmail", style: TextStyle(color: Colors.black)),
+                    Text("Modmail", style: TextStyle(color: Colors.black)),
                   ),
                   Column(
                       children:
-                          (controllerForCreatePost.moderatedSubreddits.length >
-                                  0)
-                              ? List.generate(
-                                  controllerForCreatePost
-                                      .moderatedSubreddits.length,
-                                  (index) => CommunityContainer(
-                                      nameOfSubreddit: controllerForCreatePost
-                                          .moderatedSubreddits[index]
-                                          .subredditName!,
-                                      iconOfSubreddit: (controllerForCreatePost
-                                                  .moderatedSubreddits[index]
-                                                  .icon !=
-                                              null)
-                                          ? controllerForCreatePost
-                                              .moderatedSubreddits[index].icon!
-                                          : ''),
-                                )
-                              : [])
+                      (controllerForCreatePost.moderatedSubreddits.length >
+                          0)
+                          ? List.generate(
+                        controllerForCreatePost
+                            .moderatedSubreddits.length,
+                            (index) => CommunityContainer(
+                            nameOfSubreddit: controllerForCreatePost
+                                .moderatedSubreddits[index]
+                                .subredditName!,
+                            iconOfSubreddit: (controllerForCreatePost
+                                .moderatedSubreddits[index]
+                                .icon !=
+                                null)
+                                ? controllerForCreatePost
+                                .moderatedSubreddits[index].icon!
+                                : ''),
+                      )
+                          : [])
                 ],
                 //  children:List.generate(20, (index) => CommunityContainer(nameOfSubreddit: "as", iconOfSubreddit: "sa"))
               ),
             ),
             Obx(
-              () => ExpansionTile(
+                  () => ExpansionTile(
                 initiallyExpanded: true,
                 onExpansionChanged: (value) {
                   controller.isYourCommunitiesPannelExpanded.value = value;
@@ -155,15 +160,15 @@ class MyDrawer extends StatelessWidget {
                       color: Colors.black),
                 ),
                 trailing:
-                    (controller.isYourCommunitiesPannelExpanded.value == true)
-                        ? Icon(
-                            IconBroken.Arrow___Down_2,
-                            color: Colors.black,
-                          )
-                        : Icon(
-                            IconBroken.Arrow___Right_2,
-                            color: Colors.black,
-                          ),
+                (controller.isYourCommunitiesPannelExpanded.value == true)
+                    ? Icon(
+                  IconBroken.Arrow___Down_2,
+                  color: Colors.black,
+                )
+                    : Icon(
+                  IconBroken.Arrow___Right_2,
+                  color: Colors.black,
+                ),
                 children: [
                   ListTile(
                       onTap: () {
@@ -178,13 +183,13 @@ class MyDrawer extends StatelessWidget {
                       title: Text("Create a community")),
                   Column(
                       children: List.generate(
-                    controllerForCreatePost.subscribedSubreddits.length,
-                    (index) => SubScribedCommunityContainer(
-                        nameOfSubreddit: controllerForCreatePost
-                            .subscribedSubreddits[index].subredditName!,
-                        iconOfSubreddit: controllerForCreatePost
-                            .subscribedSubreddits[index].icon!),
-                  ))
+                        controllerForCreatePost.subscribedSubreddits.length,
+                            (index) => SubScribedCommunityContainer(
+                            nameOfSubreddit: controllerForCreatePost
+                                .subscribedSubreddits[index].subredditName!,
+                            iconOfSubreddit: controllerForCreatePost
+                                .subscribedSubreddits[index].icon!),
+                      ))
                 ],
                 //  children:List.generate(20, (index) => CommunityContainer(nameOfSubreddit: "as", iconOfSubreddit: "sa"))
               ),
@@ -192,38 +197,37 @@ class MyDrawer extends StatelessWidget {
             (controller.following.length == 0)
                 ? SizedBox()
                 : Obx(
-                    () => ExpansionTile(
-                        initiallyExpanded: true,
-                        onExpansionChanged: (value) {
-                          controller.isFollowingPannelExpanded.value = value;
-                        },
-                        title: Text(
-                          "Following",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                              color: Colors.black),
-                        ),
-                        trailing:
-                            (controller.isFollowingPannelExpanded.value == true)
-                                ? Icon(
-                                    IconBroken.Arrow___Down_2,
-                                    color: Colors.black,
-                                  )
-                                : Icon(
-                                    IconBroken.Arrow___Right_2,
-                                    color: Colors.black,
-                                  ),
-                        children: List.generate(
-                          2,
-                          (index) => CommunityContainer(
-                              nameOfSubreddit: "Eman",
-                              iconOfSubreddit:
-                                  "https://png.pngtree.com/element_our/20190530/ourmid/pngtree-correct-icon-image_1267804.jpg"),
-                        )
-                        //  children:List.generate(20, (index) => CommunityContainer(nameOfSubreddit: "as", iconOfSubreddit: "sa"))
-                        ),
+                  () => ExpansionTile(
+                  initiallyExpanded: true,
+                  onExpansionChanged: (value) {
+                    controller.isFollowingPannelExpanded.value = value;
+                  },
+                  title: Text(
+                    "Following",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        color: Colors.black),
                   ),
+                  trailing:
+                  (controller.isFollowingPannelExpanded.value == true)
+                      ? Icon(
+                    IconBroken.Arrow___Down_2,
+                    color: Colors.black,
+                  )
+                      : Icon(
+                    IconBroken.Arrow___Right_2,
+                    color: Colors.black,
+                  ),
+                  children: List.generate(
+                    2,
+                        (index) => CommunityContainer(
+                        nameOfSubreddit: "Eman",
+                        iconOfSubreddit:
+                        "https://png.pngtree.com/element_our/20190530/ourmid/pngtree-correct-icon-image_1267804.jpg"),
+                  )
+              ),
+            ),
             ListTile(
                 onTap: () {},
                 horizontalTitleGap: 0.0,

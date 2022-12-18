@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../provider/user_settings_provider.dart';
+import 'package:provider/provider.dart';
 
 class IconListView extends StatelessWidget {
   // const IconListView({Key? key}) : super(key: key);
@@ -7,14 +9,18 @@ class IconListView extends StatelessWidget {
   final String subtitle;
   final Widget trailingIcon;
   final Function handler;
+
   final onlyIconPressed;
+  final UserSettingsProvider? provider;
+
   IconListView(
       {required this.leadingIcon,
       required this.title,
       this.subtitle = '',
       required this.trailingIcon,
       required this.handler,
-      this.onlyIconPressed = false});
+      this.onlyIconPressed = false,
+      this.provider});
   @override
   Widget build(BuildContext context) {
     return Container(

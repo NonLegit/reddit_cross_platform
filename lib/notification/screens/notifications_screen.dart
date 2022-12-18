@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/notification_class_model.dart';
 
 import 'package:provider/provider.dart';
@@ -27,6 +29,7 @@ import '../../create_community/screens/create_community.dart';
 import '../../subreddit/screens/subreddit_screen.dart';
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import '../../messages/screens/new_message_screen.dart';
+import '../../home/controller/home_controller.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -43,6 +46,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   // dynamic icModerating = Icon(IconBroken.Arrow___Right_2);
   // dynamic icYourCommunities = Icon(IconBroken.Arrow___Right_2);
   // bools
+  final HomeController controller = Get.put(
+    HomeController(),
+  );
   bool isRecentlyVisitedPannelExpanded = true;
   bool isModeratingPannelExpanded = false;
   bool isOnline = true;
@@ -132,14 +138,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   int unreadNotification = 0;
   bool returned = false;
-  List<NotificationModel> usersAllNotificatiion = [];
+  List<NotificationModel> usersNotificationEarlier = [];
+  List<NotificationModel> usersNotificationToday = [];
   var currentIndex = 4;
   bool _isInit = true;
 
   @override
   void initState() {
+    //  _updateCount();
     super.initState();
   }
+
+  // _updateCount() {
+  //   //final prefs = await SharedPreferences.getInstance();
+  //   unreadNotification = Provider.of<NotificationProvider>(context).count!;
+  //   print('In notifications          $unreadNotification');
+  // }
 
   @override
   void didChangeDependencies() async {
@@ -147,11 +161,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
       setState(() {
         returned = false;
       });
-      Provider.of<NotificationProvider>(context, listen: false)
+      //  _updateCount();
+      await Provider.of<NotificationProvider>(context, listen: false)
           .getNotification(context)
           .then((value) {
-        usersAllNotificatiion =
-            Provider.of<NotificationProvider>(context, listen: false).list;
+        usersNotificationToday =
+            Provider.of<NotificationProvider>(context, listen: false).listToday;
+        usersNotificationEarlier =
+            Provider.of<NotificationProvider>(context, listen: false)
+                .listEariler;
         setState(() {
           returned = true;
         });
@@ -168,20 +186,37 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
-  _markAllAsRead() async {
+  _markAsRead() async {
     await Provider.of<NotificationProvider>(context, listen: false)
         .markAllAsRead(context);
-    usersAllNotificatiion.forEach((element) {
-      if (element.seen!) {
+  }
+
+  markAllAsRead() {
+    _markAsRead();
+    print('hiiiiiiiiiiiii');
+    usersNotificationEarlier.forEach((element) {
+      print(element.seen);
+      if (!element.seen!) {
         setState(() {
-          element.seen = false;
+          element.seen = true;
         });
       }
     });
+    usersNotificationToday.forEach((element) {
+      print(element);
+      if (!element.seen!) {
+        setState(() {
+          element.seen = true;
+        });
+      }
+    });
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    //_updateCount();
+    //final data = Provider.of<NotificationProvider>(context,listen: false);
     //var cubit =layoutCubit.get(context);
     MediaQueryData queryData = MediaQuery.of(context);
     final height = queryData.size.height;
@@ -202,7 +237,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     ListTileWidget(
                       icon: Icons.drafts_outlined,
                       title: 'Mark all inbox tabs as read',
-                      onpressed: _markAllAsRead(),
+                      onpressed: () => markAllAsRead(),
                     )
                   ], height: height * 0.016),
                   Builder(builder: (context) {
@@ -256,9 +291,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         shape: BadgeShape.circle,
                         borderRadius: BorderRadius.circular(4),
                         showBadge: unreadNotification != 0 ? true : false,
-                        badgeContent: const Text(
-                          '3',
-                          style: TextStyle(color: Colors.white),
+                        badgeContent: Text(
+                          unreadNotification.toString(),
+                          style: TextStyle(color: Colors.red),
                         ),
                         child: const Padding(
                           padding: EdgeInsets.only(bottom: 6),
@@ -279,13 +314,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
               ),
               bottomNavigationBar: const buttomNavBar(),
-              endDrawer: const endDrawer(),
+              endDrawer: endDrawer(controller: controller),
               drawer: const drawer(),
               body: TabBarView(children: [
                 !returned
                     ? const LoadingReddit()
                     : NotificationsMainScreen(
-                        usersAllNotificatiion: usersAllNotificatiion,
+                        usersNotificationEarlier: usersNotificationEarlier,
+                        usersNotificationToday: usersNotificationToday,
                         changeNumOfNotification: _changeNumOfNotification),
                 const MessagesMainScreen(),
               ]),
@@ -397,7 +433,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         Container(
                           color: Colors.white,
                           child: NotificationsMainScreen(
-                              usersAllNotificatiion: usersAllNotificatiion,
+                              usersNotificationEarlier:
+                                  usersNotificationEarlier,
+                              usersNotificationToday: usersNotificationToday,
                               changeNumOfNotification:
                                   _changeNumOfNotification),
                         ),

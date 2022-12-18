@@ -7,10 +7,14 @@ import '../widgets/setting_text_input.dart';
 import '../widgets/setting_password_input.dart';
 import '../../widgets/custom_snack_bar.dart';
 import 'package:email_validator/email_validator.dart';
+import '../provider/user_settings_provider.dart';
+import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
   static const routeName = '/ChangePassword';
-  const ChangePassword({Key? key}) : super(key: key);
+  final UserSettingsProvider? provider;
+
+  ChangePassword({Key? key, this.provider}) : super(key: key);
 
   @override
   State<ChangePassword> createState() => _ChangePasswordState();

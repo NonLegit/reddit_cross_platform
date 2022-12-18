@@ -1,13 +1,13 @@
 import 'dart:convert';
-
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/create_community/widgets/community_type.dart';
 import 'package:post/moderation_settings/models/moderators.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:post/providers/profile_post.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:post/providers/global_settings.dart';
+import 'package:post/providers/profile_post_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
@@ -45,7 +45,7 @@ import 'myprofile/screens/user_followers_screen.dart';
 import 'show_post/screens/show_post.dart';
 import 'show_post/widgets/edit_post.dart';
 import 'post/provider/post_provider.dart';
-import 'providers/subreddit_post.dart';
+import 'providers/subreddit_post_provider.dart';
 import 'subreddit/screens/subreddit_screen.dart';
 import 'screens/subreddit_search_screen.dart';
 import 'subreddit/screens/community_info_screen.dart';
@@ -80,7 +80,10 @@ import 'moderation_settings/screens/add_edit_banned_screen.dart';
 import 'moderation_settings/screens/add_edit_moderator_screen.dart';
 import 'moderation_settings/screens/add_edit_muted_screen.dart';
 import 'moderation_settings/screens/add_edit_aproved_screen.dart';
+import './search/screens/search.dart';
+import './search/screens/search_inside.dart';
 //=====================================Providers====================================================//
+import './providers/profile_comments_provider.dart';
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
 import './subreddit/providers/subreddit_provider.dart';
@@ -89,7 +92,10 @@ import './create_community/provider/create_community_provider.dart';
 import './moderation_settings/provider/moderation_settings_provider.dart';
 import './notification/provider/notification_provider.dart';
 import 'logins/providers/authentication.dart';
-import './notification/provider/push_notification.dart';
+import './moderation_settings/provider/change_user_management.dart';
+import './settings/provider/user_settings_provider.dart';
+import './search/provider/search_provider.dart';
+//import './models/push_notification_model.dart';
 
 String returnCorrectText(type, name, user) {
   String text = '';
@@ -123,8 +129,10 @@ String returnCorrectDescription(type, description, name) {
 
 //@pragma('vm:entry-point')
 NotificationModel notificationModel = NotificationModel();
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   // print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
+NotificationProvider provider = NotificationProvider();
+final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
+//Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+// print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
 //   await Firebase.initializeApp();
 //   await FirebaseMessaging.instance.getToken();
 //   //print('hidojsljfkbgdvdbhnjkjhgvfcvgbhnjmk');
@@ -132,7 +140,8 @@ NotificationModel notificationModel = NotificationModel();
 //   print('Handling a background message ${message.messageId}');
 //   RemoteNotification? notification = message.notification;
 //   notificationModel =
-//       NotificationModel.fromJson(json.decode(message.data['val']));
+//       PushNotificationModel.fromJson(json.decode(message.data['val']));
+//   provider.incrementCounter();
 //   flutterLocalNotificationsPlugin.show(
 //       notification.hashCode,
 //       returnCorrectText(notificationModel.type, notificationModel.requiredName,
@@ -169,7 +178,6 @@ NotificationModel notificationModel = NotificationModel();
 //     print('settings doneeeeeeeeeee');
 //     return;
 //   }
-//   print('Print the channel $channel');
 //   await flutterLocalNotificationsPlugin
 //       .resolvePlatformSpecificImplementation<
 //           AndroidFlutterLocalNotificationsPlugin>()
@@ -188,11 +196,19 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setInt('counter', 10);
   final int? cont = prefs.getInt('counter');
-  // await Firebase.initializeApp();
+  await prefs.setInt('not', 0);
+  provider.initState();
+  //await Firebase.initializeApp();
   // await NotificationToken.getTokenOfNotification();
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  runApp(MyApp());
+  // final RemoteMessage? remoteMessage =
+  //   await FirebaseMessaging.instance.getInitialMessage();
+  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  runApp(
+    ChangeNotifierProvider<GlobalSettings>(
+      create: (context) => GlobalSettings(true, true),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -205,68 +221,85 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int counter = 0;
   @override
-  // void initState() {
-  //   //AndroidNotificationChannel channel;
-  //   // TODO: implement initState
-  //   super.initState();
-  //   var initializationSettingsAndroid =
-  //       AndroidInitializationSettings('@mipmap/ic_launcher');
-  //   var initializationSettings =
-  //       InitializationSettings(android: initializationSettingsAndroid);
-  //   flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //     print(message.data);
-  //     RemoteNotification? notification = message.notification;
-  //     AndroidNotification? android = message.notification?.android;
-  //     print(notification.hashCode);
-  //     if (message.data != null) {
-  //       print(message.data['val']);
-  //       notificationModel =
-  //           NotificationModel.fromJson(json.decode(message.data['val']));
-  //       print('hiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
-  //       print(channel.id);
-  //       print(channel.name);
-  //       print(channel.description);
-  //       print(message.data['val']);
+  void initState() {
+    //AndroidNotificationChannel channel;
+    // TODO: implement initState
+    super.initState();
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      //print(message.data);
 
-  //       flutterLocalNotificationsPlugin.show(
-  //           notification.hashCode,
-  //           returnCorrectText(
-  //               notificationModel.type,
-  //               notificationModel.requiredName,
-  //               notificationModel.followeruserName),
-  //           //notificationModel.type,
-  //           //notificationModel.description,
-  //           returnCorrectDescription(notificationModel.type,
-  //               notificationModel.description, notificationModel.requiredName),
-  //           NotificationDetails(
-  //               android: AndroidNotificationDetails(
-  //             channel.id,
-  //             channel.name,
-  //             channelDescription: channel.description,
-  //             color: Colors.blue,
-  //             playSound: true,
-  //             //     icon: ('assets/images/reddit.png'),
-  //           )));
-  //     }
-  //   });
-  //   onOpeningMessage(context) {
-  //     FirebaseMessaging.onMessageOpenedApp.listen(
-  //       (RemoteMessage message) async {
-  //         print('BYEEEEEEEEEEEEEEEEEEEEEEE');
-  //         print(message.data);
-  //         RemoteNotification? notification = message.notification;
-  //         AndroidNotification? android = message.notification?.android;
-  //         if (message.data != null) {
-  //           Navigator.of(context)
-  //               .popAndPushNamed(NavigateToCorrectScreen.routeName);
-  //         }
-  //       },
-  //     );
-  //   }
-  //   //push.onMessageListener();
-  //   // push.onOpeningMessage(context);
-  // }
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      // print(notification.hashCode);
+      if (message.data != null) {
+        // print(message.data['val']);
+        notificationModel =
+            NotificationModel.fromJson(json.decode(message.data['val']));
+        print('foregroud');
+        //provider.incrementCounter();
+        print('returned from counter in foreground');
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            returnCorrectText(
+                notificationModel.type,
+                notificationModel.requiredName,
+                notificationModel.followeruserName),
+            //notificationModel.type,
+            //notificationModel.description,
+            returnCorrectDescription(notificationModel.type,
+                notificationModel.description, notificationModel.requiredName),
+            NotificationDetails(
+                android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              color: Colors.blue,
+              playSound: true,
+              //     icon: ('assets/images/reddit.png'),
+            )));
+        FirebaseMessaging.onMessageOpenedApp.listen(
+          (RemoteMessage message) async {
+            print('BYEEEEEEEEEEEEEEEEEEEEEEE');
+            print(message.data);
+            RemoteNotification? notification = message.notification;
+            AndroidNotification? android = message.notification?.android;
+            if (message.data['val'] != null) {
+              print('heereeeeeeeeeeeeee');
+              Navigator.of(navState.currentState!.context)
+                  .pushNamed(NavigateToCorrectScreen.routeName);
+            }
+          },
+        );
+      }
+    });
+    // initializationSettingsAndroid =
+    //     AndroidInitializationSettings('@mipmap/ic_launcher');
+    // initializationSettings =
+    //     InitializationSettings(android: initializationSettingsAndroid);
+    // flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    //  FirebaseMessaging.instance
+    //     .getInitialMessage();
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (RemoteMessage message) async {
+        print('BYEEEEEEEEEEEEEEEEEEEEEEE');
+        print(message.data);
+        RemoteNotification? notification = message.notification;
+        AndroidNotification? android = message.notification?.android;
+        if (message.data['val'] != null) {
+          print('heereeeeeeeeeeeeee');
+          Navigator.of(navState.currentState!.context)
+              .pushNamed(NavigateToCorrectScreen.routeName);
+        }
+      },
+    );
+  }
+  //push.onMessageListener();
+  // push.onOpeningMessage(context);
 
   @override
   Widget build(BuildContext context) {
@@ -281,6 +314,9 @@ class _MyAppState extends State<MyApp> {
         Device.deviceType == DeviceType.web;
         return MultiProvider(
           providers: [
+            ChangeNotifierProvider.value(value: SearchProvider()),
+            ChangeNotifierProvider.value(value: UserSettingsProvider()),
+            ChangeNotifierProvider.value(value: ChangeUserManagementProvider()),
             ChangeNotifierProvider.value(value: MyProfileProvider()),
             ChangeNotifierProvider.value(value: OtherProfileprovider()),
             ChangeNotifierProvider.value(value: SubredditProvider()),
@@ -290,11 +326,13 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider.value(value: NotificationProvider()),
             ChangeNotifierProvider.value(value: Auth()),
             ChangeNotifierProvider.value(value: ProfilePostProvider()),
+            ChangeNotifierProvider.value(value: ProfileCommentsProvider()),
             ChangeNotifierProvider.value(value: PostProvider()),
             ChangeNotifierProvider.value(value: SubredditPostProvider()),
           ],
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
+            navigatorKey: navState,
             title: 'Logins',
             theme: theme.copyWith(
               primaryColor: Colors.red,
@@ -315,13 +353,14 @@ class _MyAppState extends State<MyApp> {
             //   home: homeLayoutScreen(),
             // home: HomeScreen(),
             // home: Login(),
+            // home: SearchInside(),
             // home: CreateCommunity(),
-            // home: Login(),
             // home: ForgotUserName(),
             // home: SignUp(),
             // home: Gender(),
             // home: ModeratorTools(),
             // home: Settings(),
+
             // home: ChangeEmail(),
             // home: ComuunityTypesScreen(),
             // home: LocationScreen(),
@@ -329,13 +368,28 @@ class _MyAppState extends State<MyApp> {
             // home: BannedScreen(),
             // home: MutedScreen(),
             // home: ApprovedScreen(),
+            // home: EditApprovedScreen(subredditName: 'Cooking'),
+            // home:EditBannedScreen(),
+            // home:EditMutedScreen(),
+            // home: EditModeratorScreen(subredditName: 'Cooking'),
+            home: SearchInside(),
             routes: {
-              EditApprovedScreen.routeName: (context) => EditApprovedScreen(),
-              EditBannedScreen.routeName: (context) => EditBannedScreen(),
-              EditMutedScreen.routeName: (context) => EditMutedScreen(),
-              EditModeratorScreen.routeName: (context) => EditModeratorScreen(),
+              SearchInside.routeName: (context) => SearchInside(),
+              MutedScreen.routeName: (context) => MutedScreen(),
+
+              EditApprovedScreen.routeName: (context) =>
+                  EditApprovedScreen(subredditName: ''),
+              EditBannedScreen.routeName: (context) =>
+                  EditBannedScreen(subredditName: ''),
+              EditMutedScreen.routeName: (context) =>
+                  EditMutedScreen(subredditName: ''),
+              EditModeratorScreen.routeName: (context) =>
+                  EditModeratorScreen(subredditName: ''),
               ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
-              ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
+              MutedScreen.routeName: (context) => MutedScreen(),
+              BannedScreen.routeName: (context) => BannedScreen(),
+              ApprovedScreen.routeName: (context) => ApprovedScreen(),
+
               ComuunityTypesScreen.routeName: (context) =>
                   ComuunityTypesScreen(),
               LocationScreen.routeName: (context) => LocationScreen(),
@@ -346,7 +400,8 @@ class _MyAppState extends State<MyApp> {
               ShowPostDetails.routeName: (context) => ShowPostDetails(),
               ChangeEmail.routeName: (context) => ChangeEmail(),
               ChangePassword.routeName: (context) => ChangePassword(),
-              ChooseCountry.routeName: (context) => ChooseCountry(),
+              ChooseCountry.routeName: (context) =>
+                  ChooseCountry(handler: () {}),
               BlockedAccounts.routeName: (context) => BlockedAccounts(),
               AccountSettings.routeName: (context) => AccountSettings(),
               Settings.routeName: (context) => Settings(),
@@ -385,18 +440,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-// class _MyHomeApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('MyShop'),
-//       ),
-//       body: const Center(
-//         child: Text('Let\'s build a shop!'),
-//       ),
-//     );
-//   }
-// }
