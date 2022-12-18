@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../logins/screens/login.dart';
+import './custom_snack_bar.dart';
 
 class HandleError {
   static errorHandler(DioError? error, BuildContext context) {
@@ -27,9 +28,10 @@ class HandleError {
 
   static handleError(String errorText, BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(errorText, style: TextStyle(color: Colors.white)),
-          backgroundColor: Colors.red),
+      CustomSnackBar(isError: true, text: errorText, disableStatus: true),
+      // SnackBar(
+      //     content: Text(errorText, style: TextStyle(color: Colors.white)),
+      //     backgroundColor: Colors.red),
     );
   }
 }

@@ -13,12 +13,13 @@ class Banned {
       this.baninfo});
 
   Banned.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+    sId = json['id'];
     userName = json['userName'];
     profilePicture = json['profilePicture'];
-    banDate = json['banDate'];
+    // banDate = json['banDate'];
+    banDate = '2022-12-06T08:55:28.000Z';
     baninfo =
-        json['baninfo'] != null ? new Baninfo.fromJson(json['baninfo']) : null;
+        json['banInfo'] != null ? new Baninfo.fromJson(json['banInfo']) : null;
   }
 
   Map<String, dynamic> toJson() {

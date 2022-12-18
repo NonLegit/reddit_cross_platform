@@ -54,4 +54,8 @@ class DioClient {
       {required String path, Map<String, dynamic>? data}) async {
     return await dio!.patch(path, data: data);
   }
+  static Future<Response> delete({required String path}) async{
+    return await dio!.delete(path);
+
+  }
 }
