@@ -122,17 +122,16 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
           Provider.of<ModerationSettingProvider>(context, listen: false);
       fetchingDone = false;
       subredditName = provider.getSubredditName(context);
-      print(subredditName);
       provider.getUserName().then((value) {
         userName = value;
         provider
             .getUser(subredditName, UserCase.moderator, context)
+
             .then((value) {
           moderators = provider.moderators;
           print(moderators);
           extractModeratorsLists();
           fetchingDone = true;
-
           if (_isBuild) setState(() {});
         });
       });

@@ -109,7 +109,7 @@ class ModerationSettingProvider with ChangeNotifier {
         }
       });
       print('after response');
-      notifyListeners();
+     // notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
     } catch (error) {

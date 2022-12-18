@@ -344,7 +344,7 @@ class _MyAppState extends State<MyApp> {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-            // home: homeLayoutScreen(),
+            home: homeLayoutScreen(),
             // home: Description(),
             // home: HomeScreen(),
             // home: NotificationScreen(),
@@ -385,6 +385,7 @@ class _MyAppState extends State<MyApp> {
                   EditMutedScreen(subredditName: ''),
               EditModeratorScreen.routeName: (context) =>
                   EditModeratorScreen(subredditName: ''),
+
               ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
               MutedScreen.routeName: (context) => MutedScreen(),
               BannedScreen.routeName: (context) => BannedScreen(),

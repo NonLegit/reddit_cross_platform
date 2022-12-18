@@ -77,32 +77,32 @@ class ProfileCommentsState extends State<ProfileComments> {
 
   ScrollController _scrollController = new ScrollController();
   bool loadMore() {
-    // if (_hasNextPage == true &&
-    //     _isLoading == false &&
-    //     _isLoadMoreRunning == false &&
-    //     _scrollController.position.extentAfter < 300) {
-    //   setState(() {
-    //     toggleLoadingMore(); // Display a progress indicator at the bottom
-    //   });
+  //   if (_hasNextPage == true &&
+  //       _isLoading == false &&
+  //       _isLoadMoreRunning == false &&
+  //       _scrollController.position.extentAfter < 300) {
+  //     setState(() {
+  //       toggleLoadingMore(); // Display a progress indicator at the bottom
+  //     });
 
-    //   _page += 1; // Increase _page by 1
+  //     _page += 1; // Increase _page by 1
 
-    //   try {
-    //     Provider.of<ProfileCommentsProvider>(context, listen: false)
-    //         .fetchandSetProfileComments(widget.userName, _page, _limit)
-    //         .then((value) {
-    //       commentsData =
-    //           Provider.of<ProfileCommentsProvider>(context, listen: false)
-    //               .gettingProfileComments;
-    //       if (commentsData == null) {
-    //         setState(() {
-    //           _hasNextPage = false;
-    //         });
-    //       }
-    //     });
-    //   } catch (err) {
-    //     print('Something went wrong!');
-    //   }
+      // try {
+      //   Provider.of<ProfileCommentsProvider>(context, listen: false)
+      //       .fetchandSetProfileComments(widget.userName, _page, _limit)
+      //       .then((value) {
+      //     commentsData =
+      //         Provider.of<ProfileCommentsProvider>(context, listen: false)
+      //             .gettingProfileComments;
+      //     if (commentsData == null) {
+      //       setState(() {
+      //         _hasNextPage = false;
+      //       });
+      //     }
+      //   });
+      // } catch (err) {
+      //   print('Something went wrong!');
+      // }
 
     //   setState(() {
     //     toggleLoadingMore();
@@ -123,28 +123,28 @@ class ProfileCommentsState extends State<ProfileComments> {
     _scrollController = ScrollController()..addListener(loadMore);
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   // TODO: implement didChangeDependencies
-  //   if (_isInit) {
-  //     setState(() {
-  //       _isLoading = true;
-  //     });
-  //     Provider.of<ProfileCommentsProvider>(context, listen: false)
-  //         .fetchandSetProfileComments(widget.userName, _page, _limit)
-  //         .then((value) {
-  //       commentsData =
-  //           Provider.of<ProfileCommentsProvider>(context, listen: false)
-  //               .gettingProfileComments;
-  //       setState(() {
-  //         _isLoading = false;
-  //       });
-  //     });
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
 
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    // if (_isInit) {
+    //   setState(() {
+    //     _isLoading = true;
+    //   });
+    //   Provider.of<ProfileCommentsProvider>(context, listen: false)
+    //       .fetchandSetProfileComments(widget.userName,_page,_limit)
+    //       .then((value) {
+    //     commentsData =
+    //         Provider.of<ProfileCommentsProvider>(context, listen: false)
+    //             .gettingProfileComments;
+    //     setState(() {
+    //       _isLoading = false;
+    //     });
+    //   });
+    // }
+    // _isInit = false;
+    super.didChangeDependencies();
+  }
   @override
   void dispose() {
     _scrollController.dispose();

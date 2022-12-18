@@ -93,7 +93,8 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
           : '';
       // subbredditName = 'Cooking';
       Provider.of<ModerationSettingProvider>(context, listen: false)
-          .getCommunity(subbredditName!, context)
+
+          .getCommunity(subbredditName!,context)
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)
