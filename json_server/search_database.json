@@ -1,0 +1,58 @@
+{
+    "search_posts": [
+        {
+            "id": "search",
+            "userName": "ahmed abbas",
+            "postKarma": 1,
+            "commentkarma": 1
+        },
+        {
+            "id": "search",
+            "userName": "ahmed abbas",
+            "postKarma": 1,
+            "commentkarma": 1
+        }
+    ],
+    "search_comments": [
+        {
+            "id": "search",
+            "userName": "ahmed abbas",
+            "postKarma": 1,
+            "commentkarma": 1
+        },
+        {
+            "id": "search",
+            "userName": "ahmed abbas",
+            "postKarma": 1,
+            "commentkarma": 1
+        }
+    ],
+    "search_communities": [
+        {
+            "id": "search",
+            "userName": "ahmed abbas",
+            "postKarma": 1,
+            "commentkarma": 1
+        },
+        {
+            "id": "search",
+            "userName": "ahmed abbas",
+            "postKarma": 1,
+            "commentkarma": 1
+        }
+    ],
+    "search_peoples": [
+        {
+            "id": "search",
+            "userName": "ahmed abbas",
+            "postKarma": 1,
+            "commentkarma": 1
+        },
+        {
+            "id": "search",
+            "userName": "ahmed abbas",
+            "postKarma": 1,
+            "commentkarma": 1
+        }
+    ]
+}

@@ -24,21 +24,22 @@ class ApprovedScreen extends StatefulWidget {
 class ApprovedScreenState extends State<ApprovedScreen> {
   bool fetchingDone = true;
   bool _isInit = true;
+  bool isBuild = false;
   // ignore: non_constant_identifier_names
   List<Approved>? approved = [];
   List<Map<String, Object>> allapproved = [];
   String subredditName = '';
 
-  void extractmuted() {
+  void extractApproved() {
     approved!.forEach((element) {
       print(element);
-      final _id = element.sId as String;
-      final _userName = element.userName as String;
+      final _id = element.user!.sId as String;
+      final _userName = element.user!.userName as String;
       String _joiningDate = '';
-      final _profilePicture = element.profilePicture;
+      final _profilePicture = element.user!.profilePicture;
 
       /// get the date as an one string
-      final date = DateTime.parse(element.joiningDate as String);
+      final date = DateTime.parse(element.approvedDate as String);
       if (DateTime.now().year - date.year > 0) {
         _joiningDate = '${DateTime.now().year - date.year}yr';
       } else if (DateTime.now().month - date.month > 0) {
@@ -54,7 +55,7 @@ class ApprovedScreenState extends State<ApprovedScreen> {
       allapproved.add({
         "_id": _id,
         "userName": _userName,
-        "joiningDate": _joiningDate,
+        "approvedDate": _joiningDate,
         "profilePicture": _profilePicture as String,
       });
     });
@@ -64,25 +65,46 @@ class ApprovedScreenState extends State<ApprovedScreen> {
   @override
   void initState() {
     fetchingDone = false;
-    final provider =
-        Provider.of<ModerationSettingProvider>(context, listen: false);
+    // final provider =
+    //     Provider.of<ModerationSettingProvider>(context, listen: false);
 
-    subredditName = provider.getSubredditName(context);
-    provider
-        .getModerators(subredditName, UserCase.approved, context)
-        .then((value) {
-      approved = provider.approved;
-      print(approved);
-      extractmuted();
-      fetchingDone = true;
-      setState(() {});
-    });
+    // subredditName = provider.getSubredditName(context);
+    // provider.getUser(subredditName, UserCase.approved, context).then((value) {
+    //   approved = provider.approved;
+    //   print(approved);
+    //   extractApproved();
+    //   fetchingDone = true;
+    //   if (isBuild) setState(() {});
+    // });
 
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (_isInit) {
+      setState(() {
+        fetchingDone = false;
+      });
+      final provider =
+          Provider.of<ModerationSettingProvider>(context, listen: false);
+      subredditName = provider.getSubredditName(context);
+      provider.getUser(subredditName, UserCase.approved, context).then((value) {
+        approved = provider.approved;
+        print(approved);
+        extractApproved();
+        fetchingDone = true;
+        if (isBuild) setState(() {});
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    isBuild = true;
     return (!fetchingDone)
         ? const LoadingReddit()
         //Calls TopicMainScreen widget to build Topics Screen
@@ -96,21 +118,25 @@ class ApprovedScreenState extends State<ApprovedScreen> {
                     style: ElevatedButton.styleFrom(
                         elevation: 0, shape: CircleBorder()),
                     onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(EditApprovedScreen.routeName);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditApprovedScreen(
+                              subredditName: subredditName,
+                            ),
+                          ));
                     },
                     child: Icon(Plus.plus))
               ],
             ),
-            body: SizedBox(
-              height: 80.h,
-              child: Column(
-                children: [
-                  // Text(name),
-
-                  ApprovedList(allapproved: allapproved),
-                ],
-              ),
+            body: Column(
+              children: [
+                // Container(height: 10.h, color: Colors.red),
+                ApprovedList(
+                  allapproved: allapproved,
+                  subredditName: subredditName,
+                ),
+              ],
             ));
   }
 }

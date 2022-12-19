@@ -24,6 +24,7 @@ class MutedScreen extends StatefulWidget {
 class MutedScreenState extends State<MutedScreen> {
   bool fetchingDone = true;
   bool _isInit = true;
+  bool isBuild = false;
   // ignore: non_constant_identifier_names
   List<Muted>? muted = [];
   List<Map<String, Object>> allmuted = [];
@@ -65,26 +66,35 @@ class MutedScreenState extends State<MutedScreen> {
 
   @override
   void initState() {
-    fetchingDone = false;
-    final provider =
-        Provider.of<ModerationSettingProvider>(context, listen: false);
-
-    subredditName = provider.getSubredditName(context);
-    provider
-        .getModerators(subredditName, UserCase.muted, context)
-        .then((value) {
-      muted = provider.muted;
-      print(muted);
-      extractmuted();
-      fetchingDone = true;
-      setState(() {});
-    });
-
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (_isInit) {
+      setState(() {
+        fetchingDone = false;
+      });
+      final provider =
+          Provider.of<ModerationSettingProvider>(context, listen: false);
+
+      subredditName = provider.getSubredditName(context);
+      provider.getUser(subredditName, UserCase.muted, context).then((value) {
+        muted = provider.muted;
+        print(muted);
+        extractmuted();
+        fetchingDone = true;
+        if (isBuild) setState(() {});
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    isBuild = true;
     return (!fetchingDone)
         ? const LoadingReddit()
         //Calls TopicMainScreen widget to build Topics Screen
@@ -98,21 +108,26 @@ class MutedScreenState extends State<MutedScreen> {
                     style: ElevatedButton.styleFrom(
                         elevation: 0, shape: CircleBorder()),
                     onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(EditMutedScreen.routeName);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditMutedScreen(
+                              subredditName: subredditName,
+                            ),
+                          ));
                     },
                     child: Icon(Plus.plus))
               ],
             ),
-            body: SizedBox(
-              height: 80.h,
-              child: Column(
-                children: [
-                  // Text(name),
-
-                  MutedList(allMuted: allmuted),
-                ],
-              ),
-            ));
+            body: Column(
+              children: [
+                // Text(name),
+                MutedList(
+                  allMuted: allmuted,
+                  subredditname: subredditName,
+                ),
+              ],
+            ),
+          );
   }
 }

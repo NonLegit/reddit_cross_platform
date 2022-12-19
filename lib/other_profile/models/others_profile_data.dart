@@ -1,6 +1,6 @@
 //import 'package:flutter_code_style/analysis_options.yaml';
 class OtherProfileData {
-  String? id;
+  //String? id;
   String? userName;
   String? email;
   String? profilePicture;
@@ -15,7 +15,8 @@ class OtherProfileData {
   int? commentkarma;
   bool isFollowed = false;
   OtherProfileData(
-      {required this.id,
+      {
+        //required this.id,
       required this.userName,
       required this.email,
       required this.profilePicture,
@@ -45,18 +46,18 @@ class OtherProfileData {
 //   "isFollowed": true
 // }
   OtherProfileData.fromJson(Map<String, dynamic> json) {
-        print(json['id'].runtimeType);
-    print(json['userName'].runtimeType);
-    print(json['email'].runtimeType);
-    print(json['profilePicture'].runtimeType);
-    print(json['profileBackground'].runtimeType);
-    print(json['followersCount'].runtimeType);
-    print(json['createdAt'].runtimeType);
-    print(json['postKarma'].runtimeType);
-    print(json['commentKarma'].runtimeType);
-    print(json['description'].runtimeType);
-    print(json['isFollowed'].runtimeType);
-    id = json['id'].toString();
+       // print(json['id'].runtimeType);
+    // print(json['userName'].runtimeType);
+    // print(json['email'].runtimeType);
+    // print(json['profilePicture'].runtimeType);
+    // print(json['profileBackground'].runtimeType);
+    // print(json['followersCount'].runtimeType);
+    // print(json['createdAt'].runtimeType);
+    // print(json['postKarma'].runtimeType);
+    // print(json['commentKarma'].runtimeType);
+    // print(json['description'].runtimeType);
+    // print(json['isFollowed'].runtimeType);
+    //id = json['id'].toString();
     userName = json['userName'];
     email = json['email'];
     profilePicture = json['profilePicture'];
@@ -75,7 +76,7 @@ class OtherProfileData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    //data['id'] = this.id;
     data['userName'] = this.userName;
     data['email'] = this.email;
     data['profilePicture'] = this.profilePicture;

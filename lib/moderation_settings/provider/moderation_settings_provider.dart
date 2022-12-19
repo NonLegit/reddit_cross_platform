@@ -38,7 +38,7 @@ class ModerationSettingProvider with ChangeNotifier {
         print(response.data['data']);
         moderatorToolsModel1 =
             ModeratorToolsModel.fromJson(response.data['data']);
-        isError = (response.statusCode! < 300);
+        isError = !(response.statusCode! < 300);
         if (isError) {
           errorMessage = json.decode(response.data)['errorMessage'];
         }
@@ -57,7 +57,7 @@ class ModerationSettingProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getModerators(
+  Future<void> getUser(
       String userName, UserCase userCase, BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -71,44 +71,47 @@ class ModerationSettingProvider with ChangeNotifier {
       } else if (userCase == UserCase.banned) {
         path += 'banned';
       } else if (userCase == UserCase.approved) {
-        path += 'approved';
+        path += 'approved_users';
       } else if (userCase == UserCase.muted) {
         path += 'muted';
       }
+      print('before response');
+      print(path);
       await DioClient.get(path: path).then((response) {
-        print(response.data);
-        print(response.data.runtimeType);
+        print('inside response');
+
+        print(response.data['data']);
+        print(response.data['data'].runtimeType);
         if (userCase == UserCase.moderator) {
-          moderators = (response.data as List<dynamic>).map((e) {
+          moderators = (response.data['data'] as List<dynamic>).map((e) {
             Map<String, Object> myMap = Map<String, Object>.from(e);
             print(myMap.runtimeType);
             return Moderators.fromJson(myMap);
           }).toList();
         } else if (userCase == UserCase.banned) {
-          banned = (response.data as List<dynamic>).map((e) {
+          banned = (response.data['data'] as List<dynamic>).map((e) {
             Map<String, Object> myMap = Map<String, Object>.from(e);
             print(myMap.runtimeType);
             return Banned.fromJson(myMap);
           }).toList();
         } else if (userCase == UserCase.muted) {
-          muted = (response.data as List<dynamic>).map((e) {
+          muted = (response.data['data'] as List<dynamic>).map((e) {
             Map<String, Object> myMap = Map<String, Object>.from(e);
             print(myMap.runtimeType);
             return Muted.fromJson(myMap);
           }).toList();
         } else if (userCase == UserCase.approved) {
-          approved = (response.data as List<dynamic>).map((e) {
+          approved = (response.data['data'] as List<dynamic>).map((e) {
             Map<String, Object> myMap = Map<String, Object>.from(e);
             print(myMap.runtimeType);
             return Approved.fromJson(myMap);
           }).toList();
         }
       });
-      notifyListeners();
+      print('after response');
+     // notifyListeners();
     } on DioError catch (e) {
-      if (e.response!.statusCode != 404) {
-        HandleError.errorHandler(e, context);
-      }
+      HandleError.errorHandler(e, context);
     } catch (error) {
       HandleError.handleError(error.toString(), context);
     }
@@ -120,10 +123,10 @@ class ModerationSettingProvider with ChangeNotifier {
   }
 
   String getSubredditName(context) {
-    // return ModalRoute.of(context)?.settings.arguments != null
-    //     ? ModalRoute.of(context)?.settings.arguments as String
-    //     : '';
-    return 'Cooking';
+    return ModalRoute.of(context)?.settings.arguments != null
+        ? ModalRoute.of(context)?.settings.arguments as String
+        : '';
+    // return 'Cooking';
   }
 
   Future<void> patchCommunity(
@@ -136,7 +139,7 @@ class ModerationSettingProvider with ChangeNotifier {
       //  final response =
       await DioClient.patch(path: '/subreddits/$subredditName', data: data)
           .then((response) {
-        isError = (response.statusCode! < 300);
+        isError = !(response.statusCode! < 300);
         if (isError) {
           errorMessage = json.decode(response.data)['errorMessage'];
           print(isError);

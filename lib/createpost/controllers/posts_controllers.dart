@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 //import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:post/createpost/model/subreddits_of_user.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import '../../home/models/flairs.dart';
 import '../../networks/dio_client.dart';
@@ -22,17 +23,16 @@ class PostController extends GetxController {
   List<userSubredditsResponse> moderatedSubreddits =
       <userSubredditsResponse>[].obs;
   RxString subredditToSubmitPost = "".obs;
-  RxString iconOfSubredditToSubmittPost="".obs;
-  RxBool showMore=false.obs;
+  RxString iconOfSubredditToSubmittPost = "".obs;
+  RxBool showMore = false.obs;
   RxBool isPostSpoiler = false.obs;
   RxBool isPostNSFW = false.obs;
   RxBool isLoading = true.obs;
   final services = PostServices();
   Rx<TextEditingController> postTitle = TextEditingController().obs;
   Rx<TextEditingController> textPost = TextEditingController().obs;
-  Rx<quill.QuillController> quillController=quill.QuillController.basic().obs;
+  Rx<quill.QuillController> quillController = quill.QuillController.basic().obs;
   Rx<TextEditingController> urlPost = TextEditingController().obs;
- // Rx<HtmlEditorController> HtmlController = HtmlEditorController().obs;
   RxString typeOfPost = ''.obs;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyUrl = GlobalKey<FormState>();
@@ -44,45 +44,53 @@ class PostController extends GetxController {
   final videoFile = Rx<File?>(null);
   final videoController = Rx<VideoPlayerController?>(null);
 //Flairs belonging to subreddit
- List<FlairModel>flairsOfSubreddit=<FlairModel>[].obs;
- RxString idOfFlair="".obs;
-  RxString textOfFlair="".obs;
-  RxString textColorOfFlair="None".obs;
-  RxString backgroundColorOfFlair="None".obs;
- RxBool isSubredditHasFlair=false.obs;
-  List<bool>checking=<bool>[].obs;
+  List<FlairModel> flairsOfSubreddit = <FlairModel>[].obs;
+  RxString idOfFlair = "".obs;
+  RxString textOfFlair = "".obs;
+  RxString textColorOfFlair = "None".obs;
+  RxString backgroundColorOfFlair = "None".obs;
+  RxBool isSubredditHasFlair = false.obs;
+  List<bool> checking = <bool>[].obs;
+  RxBool isFromHomeDirect = true.obs;
+
+  RxInt checkFromWhich = 0.obs;
+  RxString name = "".obs;
+  RxString icon = "".obs;
+
   @override
   void onInit() {
     _fetchHouses();
-   getSubreddits();
+    getSubreddits();
     super.onInit();
   }
-getFlairsOfSubreddit() async{
-  final prefs = await SharedPreferences.getInstance();
-  DioClient.init(prefs);
-  try{
-    print('/subreddit/${subredditToSubmitPost}/flairs');
-    await DioClient.get(path:'/subreddits/${subredditToSubmitPost}/flair').then((value){
-      print("Flairs returned are $value");
-     value.data['data'].forEach((val)
-         {
-           flairsOfSubreddit.add(FlairModel.fromJson(val));
-         });
-    });
-    checking = List<bool>.filled(flairsOfSubreddit.length+1, false);
-    print("the size of returned list of flairs of subreddit is ${flairsOfSubreddit.length}");
-    print("the size of checking list is  ${checking.length}");
-  }
-  catch(e){
-    print("error in fetching the flairs of ${subredditToSubmitPost} subreddit -> $e");
+
+  getFlairsOfSubreddit() async {
+    final prefs = await SharedPreferences.getInstance();
+    DioClient.init(prefs);
+    try {
+      print('/subreddit/${subredditToSubmitPost}/flairs');
+      await DioClient.get(path: '/subreddits/${subredditToSubmitPost}/flair')
+          .then((value) {
+        print("Flairs returned are $value");
+        value.data['data'].forEach((val) {
+          flairsOfSubreddit.add(FlairModel.fromJson(val));
+        });
+      });
+      checking = List<bool>.filled(flairsOfSubreddit.length + 1, false);
+      print(
+          "the size of returned list of flairs of subreddit is ${flairsOfSubreddit.length}");
+      print("the size of checking list is  ${checking.length}");
+    } catch (e) {
+      print(
+          "error in fetching the flairs of ${subredditToSubmitPost} subreddit -> $e");
+    }
   }
 
-}
   getSubreddits() async {
     final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
     try {
-      await DioClient.get(path:'$mySubreddits/subscriber').then((value) {
+      await DioClient.get(path: '$mySubreddits/subscriber').then((value) {
         print(value);
         value.data['data'].forEach((value1) {
           subscribedSubreddits.add(userSubredditsResponse.fromJson(value1));
@@ -90,7 +98,7 @@ getFlairsOfSubreddit() async{
         });
       });
 
-      await DioClient.get(path:'$mySubreddits/moderator').then((value) {
+      await DioClient.get(path: '$mySubreddits/moderator').then((value) {
         print(value);
         value.data['data'].forEach((value1) {
           moderatedSubreddits.add(userSubredditsResponse.fromJson(value1));
@@ -112,7 +120,7 @@ getFlairsOfSubreddit() async{
           kind: typeOfPost.value,
           owner: subredditToSubmitPost.value,
           ownerType: 'Subreddit',
-          spoiler:isPostSpoiler.value,
+          spoiler: isPostSpoiler.value,
           nsfw: isPostNSFW.value,
           // sendReplies: '',
           // title: postTitle.value.text,
@@ -153,9 +161,10 @@ getFlairsOfSubreddit() async{
       isLoading(false);
     }
   }
+
   Future getVideo() async {
     Future<XFile?> videoFiles =
-    ImagePicker().pickVideo(source: ImageSource.gallery);
+        ImagePicker().pickVideo(source: ImageSource.gallery);
     videoFiles.then((file) async {
       videoFile.value = File(file!.path);
       videoController.value = VideoPlayerController.file(videoFile.value!);
@@ -188,6 +197,4 @@ getFlairsOfSubreddit() async{
     typeOfPost.close();
     super.dispose();
   }
-
-
 }

@@ -39,38 +39,16 @@ class _SubredditScreenState extends State<SubredditScreen>
         isScrollable: true,
         tabs: tabs,
         labelColor: Colors.black,
-        labelPadding: const EdgeInsets.only(left: 28, right: 28),
+        labelPadding:EdgeInsets.symmetric(horizontal: 18.w),
         labelStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         indicatorColor: Colors.blue,
       );
-  //==================notification=========================//
-  // String dropDownValue = "Low";
-  // IconData icon = Icons.notifications;
+  //==============================Loading Data===================================//
   var _isLoading = false;
   var _isInit = true;
-  //=========================================//
   var subredditUserName;
 SubredditData? loadedSubreddit;
-  // = SubredditData(
-  //     id: 10,
-  //     name: 'Cooking',
-  //     subredditPicture:
-  //         'https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg',
-  //     subredditBackPicture:
-  //         'https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fassets.marthastewart.com%2Fstyles%2Fwmax-750%2Fd30%2Feasy-basic-pancakes-horiz-1022%2Feasy-basic-pancakes-horiz-1022_0.jpg%3Fitok%3DXQMZkp_j',
-  //     description: 'I\'m Chef',
-  //     subredditLink:
-  //         'https://previews.123rf.com/images/seamartini/seamartini1609/seamartini160900764/64950290-chef-toque-vector-sketch-icon-cook-cap-kitchen-cooking-hat-emblem-for-restaurant-design-element-bake.jpg',
-  //     numOfMembers: 10398,
-  //     numOfOnlines: 1789,
-  //     rules: [
-  //       SubredditAboutRules('no codeing', 'i hate coding'),
-  //       SubredditAboutRules('no codeing', 'i hate cod'),
-  //       SubredditAboutRules('no codeing', 'i hate code'),
-  //       SubredditAboutRules('no codeing', 'i hate code')
-  //     ],
-  //     moderators: ['Ali', 'omer', 'zeinab', 'mazen'],
-  //     isJoined: true);
+//===============================================================================//
   @override
   void initState() {
     super.initState();

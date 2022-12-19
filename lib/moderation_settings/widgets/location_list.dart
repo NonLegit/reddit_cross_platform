@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LocationList extends StatelessWidget {
   final List<String> regions;
   final Function(String) changeLocation;
-  String value;
+  String? value;
   LocationList(
       {super.key,
       required this.regions,
@@ -29,8 +29,8 @@ class LocationList extends StatelessWidget {
             // Array list of items
             items: regions.map((String items) {
               return DropdownMenuItem(
-                value: items,
-                child: Text(items),
+                value: items.toLowerCase(),
+                child: Text(items.toLowerCase()),
               );
             }).toList(),
             // After selecting the desired option,it will

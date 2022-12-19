@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:post/moderation_settings/screens/moderator_tools_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../models/moderated_subreddit_data.dart';
@@ -11,11 +12,11 @@ class PositionForModeratedSubredditInfo extends StatelessWidget {
     required this.userName,
     Key? key,
   }) : super(key: key);
-
+ NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 150,
+      top: 20.h,
       right: 0,
       left: 0,
       bottom: 0,
@@ -26,23 +27,27 @@ class PositionForModeratedSubredditInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 15),
-                width: 100.w,
-                height: 9.h,
+                margin: const EdgeInsets.only(top: 15),
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.09,
+                // width: 100.w,
+                // height: 9.h,
                 child: ListTile(
                     title: Text('r/${loadedSubreddit!.name.toString()}',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                     subtitle: Text(
-                      '${int.parse(loadedSubreddit!.numOfMembers.toString())} members .${int.parse(loadedSubreddit!.numOfOnlines.toString())} online ',
+                      '${myFormat.format(int.parse(loadedSubreddit!.numOfMembers.toString()))} members .${myFormat.format(int.parse(loadedSubreddit!.numOfOnlines.toString()))} online ',
                     ),
                     trailing: Container(
-                      margin: EdgeInsets.only(bottom: 30),
-                      width: 35.w,
-                      height: 4.h,
+                      margin: const EdgeInsets.only(bottom:  30),
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      height: MediaQuery.of(context).size.height * 0.04,
+                      // width: 35.w,
+                      // height: 4.h,
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              Color.fromARGB(255, 9, 149, 104)),
+                              const Color.fromARGB(255, 9, 149, 104)),
                           foregroundColor:
                               MaterialStateProperty.all(Colors.white),
                           shape: MaterialStateProperty.all(
@@ -51,7 +56,7 @@ class PositionForModeratedSubredditInfo extends StatelessWidget {
                                       BorderRadius.all(Radius.circular(22)))),
                         ),
                         child: Row(
-                          children: [
+                          children: const [
                             Icon(
                               Icons.build,
                               color: Colors.white,
@@ -68,7 +73,7 @@ class PositionForModeratedSubredditInfo extends StatelessWidget {
                     )),
               ),
               Container(
-                  padding: EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Text(
                     '${loadedSubreddit!.description.toString()}',
                     overflow: TextOverflow.ellipsis,

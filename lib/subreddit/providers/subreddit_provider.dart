@@ -5,6 +5,7 @@ import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../models/subreddit_data.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //using in heighest widget to use
 class SubredditProvider with ChangeNotifier {
@@ -14,7 +15,7 @@ class SubredditProvider with ChangeNotifier {
     return loadSubreddit;
   }
 
-Future<void> fetchAndSetSubredddit(String subredditUserName) async {
+  Future<void> fetchAndSetSubredddit(String subredditUserName) async {
     try {
       subredditName = subredditUserName;
       final prefs = await SharedPreferences.getInstance();
@@ -31,16 +32,23 @@ Future<void> fetchAndSetSubredddit(String subredditUserName) async {
       //throw (error);
     }
   }
-  Future<void> joinAndDisjoinSubreddit(String subredditUserName,  Map<String, dynamic>? query) async {
+
+  Future<void> joinAndDisjoinSubreddit(
+      String subredditUserName, String action) async {
     try {
-   final prefs = await SharedPreferences.getInstance();
-      print(prefs);
+      final prefs = await SharedPreferences.getInstance();
+      
       DioClient.init(prefs);
-      await DioClient.post(path:'subreddits/${subredditUserName}/subscribe',query: query
-       //data: data
-       );
+      print('==============================$subredditUserName=======================================================');
+      await DioClient.post(
+          path: '/subreddits/${subredditUserName}/subscribe',
+          query: {'action': action},
+          data: {});
       notifyListeners();
+      print(
+          '========================Successed Join/ disjoin ================================');
     } catch (error) {
+      print(error);
     }
   }
 }

@@ -1,3 +1,10 @@
+import 'dart:async';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
+
 class PostModel {
   String? sId;
   String? ownerType;
@@ -26,37 +33,95 @@ class PostModel {
   String? postVoteStatus;
   bool? isSpam;
   String? url;
+  String? video;
+  Size? maxHeightImageSize;
+  int imageNumber;
+  VideoPlayerController? videoController;
 
-  PostModel(
-      {this.sId,
-      this.ownerType,
-      this.replies,
-      this.title,
-      this.kind,
-      this.text,
-      this.images,
-      this.createdAt,
-      this.locked,
-      this.isDeleted,
-      this.sendReplies,
-      this.nsfw,
-      this.spoiler,
-      this.votes,
-      this.views,
-      this.commentCount,
-      this.shareCount,
-      this.suggestedSort,
-      this.scheduled,
-      this.flairId,
-      this.isHidden,
-      this.isSaved,
-      this.owner,
-      this.author,
-      this.postVoteStatus,
-      this.isSpam,
-      this.url});
+  PostModel({
+    this.sId,
+    this.ownerType,
+    this.replies,
+    this.title,
+    this.kind,
+    this.text,
+    this.images,
+    this.createdAt,
+    this.locked,
+    this.isDeleted,
+    this.sendReplies,
+    this.nsfw,
+    this.spoiler,
+    this.votes,
+    this.views,
+    this.commentCount,
+    this.shareCount,
+    this.suggestedSort,
+    this.scheduled,
+    this.flairId,
+    this.isHidden,
+    this.isSaved,
+    this.owner,
+    this.author,
+    this.postVoteStatus,
+    this.isSpam,
+    this.url,
+    this.video,
+    this.maxHeightImageSize,
+    this.imageNumber = 0,
+    this.videoController,
+  });
 
-  PostModel.fromJson(Map<String, dynamic> json) {
+  Future<Size> _calculateImageSize(link) {
+    Completer<Size> completer = Completer();
+    Image image = Image(
+        image: CachedNetworkImageProvider(
+            link.toString())); // I modified this line
+    image.image.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener(
+        (ImageInfo image, bool synchronousCall) {
+          var myImage = image.image;
+          Size size = Size(myImage.width.toDouble(), myImage.height.toDouble());
+
+          completer.complete(size);
+        },
+      ),
+    );
+    return completer.future;
+  }
+
+  Future<List<Size>> getSizeList(dynamic links) async {
+    List<Size> heightList = [];
+    for (var link in links) {
+      heightList.add(await _calculateImageSize(link));
+    }
+    return Future.value(heightList);
+  }
+
+  Future<Size> getMaxHeight(dynamic links) async {
+    double max = 0;
+    double widthOfMax = 0;
+    Size temp = const Size(0, 0);
+    List<Size> list = await getSizeList(links);
+    print(list);
+    for (var size in list) {
+      if (size.height > max) {
+        max = size.height;
+        widthOfMax = size.width;
+      }
+    }
+    temp = Size(widthOfMax, max);
+
+    return Future.value(temp);
+  }
+
+  Future<VideoPlayerController> getController(url) async {
+    VideoPlayerController controller = VideoPlayerController.network(url);
+    await controller.initialize();
+    return controller;
+  }
+
+  Future<void> fromJson(Map<String, dynamic> json) async {
     print(json['_id'].runtimeType);
     print(json['ownerType'].runtimeType);
     print(json['replies'].runtimeType);
@@ -114,6 +179,17 @@ class PostModel {
     postVoteStatus = json['postVoteStatus'];
     isSpam = json['isSpam'];
     url = (json['url'] != null) ? json['url'] : '';
+    video = (json['video'] != null) ? json['video'] : '';
+    if (kind == 'image') {
+      maxHeightImageSize = await getMaxHeight(images ?? ['']);
+    }
+    imageNumber = 0;
+    if (kind == 'video') {
+      videoController = await getController(video);
+    }
+  }
+  dispose(){
+    
   }
 }
 
@@ -166,4 +242,7 @@ class Author {
     name = json['name'];
     icon = json['icon'];
   }
+  
 }
+
+

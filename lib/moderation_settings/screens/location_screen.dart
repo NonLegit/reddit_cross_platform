@@ -26,10 +26,11 @@ class LocationScreenState extends State<LocationScreen> {
   String? initialpostTypes;
   String? subbredditName;
   bool isSlected = false;
+  bool isBuild = false;
   ModeratorToolsModel? moderatorToolsModel;
 
-  String initialLocation = '';
-  String location = '';
+  String? initialLocation = '';
+  String? location = '';
   bool fetchingDone = true;
   bool _isInit = true;
   final List<String> regions = Countries().countries;
@@ -63,17 +64,19 @@ class LocationScreenState extends State<LocationScreen> {
           : '';
       // subbredditName = 'Cooking';
       Provider.of<ModerationSettingProvider>(context, listen: false)
-          .getCommunity(subbredditName!,context)
+          .getCommunity(subbredditName!, context)
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)
                 .moderatorToolsModel;
 
-        initialLocation = moderatorToolsModel!.region!;
+        initialLocation = moderatorToolsModel!.region!.toLowerCase();
+        if (initialLocation == 'unknown') {
+          initialLocation = null;
+        }
         location = initialLocation;
-        setState(() {
-          fetchingDone = true;
-        });
+        fetchingDone = true;
+        if (isBuild) setState(() {});
       });
     }
     _isInit = false;
@@ -86,7 +89,7 @@ class LocationScreenState extends State<LocationScreen> {
         Provider.of<ModerationSettingProvider>(context, listen: false);
     await provider.patchCommunity({
       "region": location,
-    }, subbredditName!,context).then((response) {});
+    }, subbredditName!, context).then((response) {});
 
     if (provider.isError == true) {
       // ignore: use_build_context_synchronously
@@ -111,6 +114,7 @@ class LocationScreenState extends State<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    isBuild = true;
     return WillPopScope(
       onWillPop: () async {
         final shouldPop = isSlected

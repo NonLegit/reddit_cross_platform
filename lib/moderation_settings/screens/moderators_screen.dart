@@ -28,6 +28,7 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
   int index = 0;
   bool fetchingDone = true;
   bool _isInit = true;
+  bool _isBuild = false;
   // ignore: non_constant_identifier_names
   List<Moderators>? moderators = [];
   List<Map<String, Object>> allModerators = [];
@@ -47,7 +48,9 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
       final _profilePicture = element.profilePicture;
 
       /// get the date as an one string
+      print('before parse');
       final joiningDate = DateTime.parse(element.joiningDate as String);
+      // final joiningDate = DateTime.parse('2022-12-06T08:55:28.000Z');
       if (DateTime.now().year - joiningDate.year > 0) {
         _joiningDate = '${DateTime.now().year - joiningDate.year}yr';
       } else if (DateTime.now().month - joiningDate.month > 0) {
@@ -105,23 +108,36 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
 
   @override
   void initState() {
-    final provider =
-        Provider.of<ModerationSettingProvider>(context, listen: false);
-    fetchingDone = false;
-    subredditName = provider.getSubredditName(context);
-    provider.getUserName().then((value) {
-      userName = value;
-      provider
-          .getModerators(subredditName, UserCase.moderator, context)
-          .then((value) {
-        moderators = provider.moderators;
-        print(moderators);
-        extractModeratorsLists();
-        fetchingDone = true;
-        setState(() {});
-      });
-    });
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (_isInit) {
+      setState(() {
+        fetchingDone = false;
+      });
+      final provider =
+          Provider.of<ModerationSettingProvider>(context, listen: false);
+      fetchingDone = false;
+      subredditName = provider.getSubredditName(context);
+      provider.getUserName().then((value) {
+        userName = value;
+        provider
+            .getUser(subredditName, UserCase.moderator, context)
+
+            .then((value) {
+          moderators = provider.moderators;
+          print(moderators);
+          extractModeratorsLists();
+          fetchingDone = true;
+          if (_isBuild) setState(() {});
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   Future<String> getuserName() async {
@@ -132,7 +148,7 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // userName();
+    _isBuild = true;
     return (!fetchingDone)
         ? const LoadingReddit()
         //Calls TopicMainScreen widget to build Topics Screen
@@ -146,8 +162,13 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
                     style: ElevatedButton.styleFrom(
                         elevation: 0, shape: CircleBorder()),
                     onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(EditModeratorScreen.routeName);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditModeratorScreen(
+                              subredditName: subredditName,
+                            ),
+                          ));
                     },
                     child: Icon(Plus.plus))
               ],
@@ -190,10 +211,14 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
                     ],
                   ),
                   if (index == 0)
-                    ModeratorsList(allModerator: allModerators, isEdit: false),
+                    ModeratorsList(
+                        allModerator: allModerators,
+                        subredditName: subredditName,
+                        isEdit: false),
                   if (index == 1)
                     ModeratorsList(
                       allModerator: editableModerators,
+                      subredditName: subredditName,
                       isEdit: true,
                     ),
                 ],
