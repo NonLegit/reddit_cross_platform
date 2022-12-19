@@ -1,3 +1,4 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ import '../../createpost/controllers/posts_controllers.dart';
 import '../widgets/recently_visited_list.dart';
 
 class homeLayoutScreen extends StatefulWidget {
-  static const routeName = '/homescreen';
+  static const routeName = '/homepage';
   @override
   State<homeLayoutScreen> createState() => _homeLayoutScreenState();
 }
@@ -61,10 +62,11 @@ class _homeLayoutScreenState extends State<homeLayoutScreen>
   void initState() {
     super.initState();
 
-    _controller.addListener(() {
-      if (_controller.position.pixels >=
-          _controller.position.maxScrollExtent - 50) {
-        controller.getMorePosts();
+    controller.myScroll.addListener(() {
+      if (controller.myScroll.position.pixels >=
+          controller.myScroll.position.maxScrollExtent - 50) {
+        controller.pageNumber.value++;
+        controller.getPosts();
       }
     });
     loadingSpinnerAnimationController =
@@ -93,8 +95,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen>
       children: [Text("Popular")],
     ))
   ];
-  //users/best?page=1&limit=20
-  var currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
@@ -114,6 +115,11 @@ class _homeLayoutScreenState extends State<homeLayoutScreen>
               }),
               title: ElevatedButton.icon(
                 onPressed: () {
+                  controller.sortHomePostsBy.value = "top";
+                  controller.sortHomePostsBy.update((val) {});
+                  controller.pageNumber.value = 1;
+                  controller.getPosts();
+
                   print(
                       "posts in home list length :${controller.homePosts.length}");
                   print(
@@ -135,7 +141,7 @@ class _homeLayoutScreenState extends State<homeLayoutScreen>
                 ),
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all<double>(0),
-                  fixedSize: MaterialStateProperty.all(Size(100.0, 20.0)),
+                  fixedSize: MaterialStateProperty.all(const Size(100.0, 20.0)),
                   backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
                 ),
               ),
@@ -154,18 +160,20 @@ class _homeLayoutScreenState extends State<homeLayoutScreen>
                     icon: Stack(
                       alignment: AlignmentDirectional.bottomEnd,
                       children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              '${controller.myProfile!.profilePicture}'),
-                          radius: 30.0,
-                        ),
+                        // (controller.myProfile!.profilePicture == "")
+                        //     ? LoadingReddit()
+                        //     : CircleAvatar(
+                        //         backgroundImage: NetworkImage(
+                        //             "${controller.myProfile!.profilePicture}"),
+                        //         radius: 30.0,
+                        //       ),
                         CircleAvatar(
                           backgroundColor: Colors.white,
                           radius: 6,
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.only(
-                              end: 2, bottom: 2),
+                          padding:
+                              EdgeInsetsDirectional.only(end: 2, bottom: 2),
                           child: CircleAvatar(
                             backgroundColor: Colors.green,
                             radius: 4,
@@ -176,7 +184,11 @@ class _homeLayoutScreenState extends State<homeLayoutScreen>
                   );
                 }),
               ]),
-          bottomNavigationBar: buttomNavBar(),
+          bottomNavigationBar: const buttomNavBar(
+            fromProfile: 0,
+            icon: '',
+            nameOfSubreddit: '',
+          ),
           endDrawer: endDrawer(
             controller: controller,
           ),
@@ -189,24 +201,40 @@ class _homeLayoutScreenState extends State<homeLayoutScreen>
                       controller: this.controller,
                       controllerForCreatePost: this.controllerForPost),
           body: RefreshIndicator(
-            onRefresh: controller.getPosts,
+            backgroundColor: Colors.white,
+            color: Colors.blue[900],
+            onRefresh: () async {
+              controller.homePosts.clear();
+              controller.pageNumber.value = 1;
+              controller.pageNumber.update((val) {});
+              controller.getPosts();
+              controller.update();
+            },
             child: controller.isLoading.value
                 ? Center(
-                    child: LoadingReddit(),
+                    child: CircularProgressIndicator(
+                      valueColor: loadingSpinnerAnimationController.drive(
+                        ColorTween(
+                          //begin: Colors.blueAccent,
+                          end: Colors.blueAccent,
+                        ),
+                      ),
+                    ),
                   )
                 : controller.error.value
                     ? ListView(
                         children: const <Widget>[
                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: 150),
+                            padding: EdgeInsets.all(150),
                             child: Text("Unexpected Error Try Again.."),
                           ),
                         ],
                       )
                     : controller.homePosts.isEmpty
-                        ? const Text("No Posts to show")
+                        ? LoadingReddit()
+                        //const Text( "No Posts to show")
                         : ListView.builder(
-                            controller: _controller,
+                            controller: controller.myScroll,
                             itemCount: controller.homePosts.length,
                             itemBuilder: (
                               final BuildContext ctx,
@@ -214,30 +242,10 @@ class _homeLayoutScreenState extends State<homeLayoutScreen>
                             ) {
                               return Post.home(
                                 data: controller.homePosts[index],
-                                inView: false,
-                                updateDate: () {},
                               );
                             },
                           ),
           ),
-          // body: (controller.homePosts.length > 0)
-          //     ? RefreshIndicator(
-          //       onRefresh: () async {
-          //         controller.getPosts();
-          //       },
-          //       child: ListView.separated(
-          //           itemBuilder: (BuildContext context, int index) => Post.home(
-          //             data: controller.homePosts[index],
-          //           ),
-          //           separatorBuilder: (BuildContext context, int index) => SizedBox(
-          //             height: 10,
-          //           ),
-          //           itemCount: controller.homePosts.length,
-          //
-          //       ),
-          //     )
-          //     : LoadingReddit()
-          // Center(child: Text("No Posts to show"),)
         ));
   }
 }

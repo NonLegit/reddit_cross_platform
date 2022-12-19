@@ -7,12 +7,17 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import '../../createpost/screens/createpost.dart';
 import '../../notification/screens/notifications_screen.dart';
 import '../../icons/icon_broken.dart';
+import '../controller/home_controller.dart';
 import '../screens/home_layout.dart';
 class buttomNavBar extends StatefulWidget {
   const buttomNavBar({
-  //required this.fromProfile
+  required this.fromProfile,
+  required this.icon,
+  required this.nameOfSubreddit,
   Key? key}) : super(key: key);
- //final int fromProfile;
+ final int fromProfile;
+  final String icon;
+  final String nameOfSubreddit;
   @override
   State<buttomNavBar> createState() => _buttomNavBarState();
 }
@@ -32,52 +37,28 @@ class _buttomNavBarState extends State<buttomNavBar> {
             switch (index) {
               case 0:
                 {
-                  print("index = $index");
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => homeLayoutScreen()));
+                  Get.find<HomeController>().myScroll.animateTo(0, duration: Duration(seconds: 2), curve:Curves.easeOut );
                 }
                 break;
               case 1:
                 {
-                  print("index = $index");
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => homeLayoutScreen()));
-
+                  Get.to(homeLayoutScreen());
                 }
                 break;
               case 2:
                 {
                   print("index = $index");
-                //  Get.to(CreatePostSCreen(),arguments: [widget.fromProfile]);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder:
-                              (context) => CreatePostSCreen()));
-
+                  Get.to(CreatePostSCreen(),arguments: [widget.fromProfile,widget.icon,widget.nameOfSubreddit]);
                 }
                 break ;
               case 3:
                 {
-                  print("index = $index");
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => chatScreen()));
-
+                  Get.to(homeLayoutScreen());
                 }
                 break;
               case 4:
                 {
-                  print("index = $index");
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NotificationScreen()));
+                 Get.to(NotificationScreen());
 
                 }
                 break;

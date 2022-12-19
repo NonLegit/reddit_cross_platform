@@ -27,11 +27,9 @@ class SubScribedCommunityContainer extends StatelessWidget {
           ),
         ),
         title: Text("$nameOfSubreddit"),
-        onTap: () =>
-            Navigator.of(context).pushNamed(
-                SubredditScreen.routeName,
-                arguments: nameOfSubreddit)
-
+        onTap: () {
+          Get.to(SubredditScreen(), arguments: nameOfSubreddit);
+        }
 
     );
   }
