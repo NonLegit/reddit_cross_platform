@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+
+import '../controllers/posts_controllers.dart';
 
 class schedulePostScreen extends StatefulWidget {
   const schedulePostScreen({Key? key}) : super(key: key);
@@ -10,6 +13,10 @@ class schedulePostScreen extends StatefulWidget {
 }
 
 class _schedulePostScreenState extends State<schedulePostScreen> {
+  final PostController controller = Get.put(
+      PostController(),permanent: false
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +80,15 @@ class _schedulePostScreenState extends State<schedulePostScreen> {
                 )*/
               ],
             ),
-          )
+          ),
+          Obx(()=> Text("${controller.tryanderror.value.text}")),
+          Obx(() => TextField(
+            controller: controller.tryanderror.value,
+            onChanged: (value)
+            {
+              controller.tryanderror.update((val) { });
+            },
+          )),
         ]));
   }
 }

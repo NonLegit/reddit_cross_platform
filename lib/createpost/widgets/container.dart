@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:post/createpost/model/subreddits_of_user.dart';
+import 'package:post/createpost/screens/createpost.dart';
 import '../controllers/posts_controllers.dart';
 import '../screens/finalpost.dart';
 
@@ -33,8 +34,14 @@ class SubredditModeratorContainer extends StatelessWidget {
         controller.subredditToSubmitPost = RxString(nameOfSubreddit);
         controller.iconOfSubredditToSubmittPost=RxString(iconOfSubreddit);
         controller.getFlairsOfSubreddit();
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => FinalPost()));
+       if(controller.isFromHomeDirect.value==true)
+         {
+           Get.to(FinalPost());
+         }
+       else
+         {
+           Get.to(CreatePostSCreen(),arguments: [1,"${iconOfSubreddit}","${nameOfSubreddit}"]);
+         }
       },
     );
   }

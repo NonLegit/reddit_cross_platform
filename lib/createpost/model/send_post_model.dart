@@ -1,22 +1,36 @@
 class SendPostModel {
-  SendPostModel({
-    this.title,
-    this.kind,
-    this.text,
-    this.url,
-    this.owner,
-    this.ownerType,
-    this.nsfw,
-    this.spoiler,
-    this.sendReplies,
-    this.flairId,
-    this.flairText,
-    this.suggestedSort,
-    this.scheduled,
-    this.sharedFrom,
-  });
+  String? title;
+  String? kind;
+  String? text;
+  String? url;
+  String? owner;
+  String? ownerType;
+  bool? nsfw;
+  bool? spoiler;
+  bool? sendReplies;
+  String? flairId;
+  String? flairText;
+  String? suggestedSort;
+  bool? scheduled;
+  String? sharedFrom;
 
-  SendPostModel.fromJson(dynamic json) {
+  SendPostModel(
+      {this.title,
+        this.kind,
+        this.text,
+        this.url,
+        this.owner,
+        this.ownerType,
+        this.nsfw,
+        this.spoiler,
+        this.sendReplies,
+        this.flairId,
+        this.flairText,
+        this.suggestedSort,
+        this.scheduled,
+        this.sharedFrom});
+
+  SendPostModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     kind = json['kind'];
     text = json['text'];
@@ -33,37 +47,22 @@ class SendPostModel {
     sharedFrom = json['sharedFrom'];
   }
 
-  String? title;
-  String? kind;
-  String? text;
-  String? url;
-  String? owner;
-  String? ownerType;
-  bool? nsfw;
-  bool? spoiler;
-  String? sendReplies;
-  String? flairId;
-  String? flairText;
-  String? suggestedSort;
-  String? scheduled;
-  String? sharedFrom;
-
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['title'] = title;
-    map['kind'] = kind;
-    map['text'] = text;
-    map['url'] = url;
-    map['owner'] = owner;
-    map['ownerType'] = ownerType;
-    map['nsfw'] = nsfw;
-    map['spoiler'] = spoiler;
-    map['sendReplies'] = sendReplies;
-    map['flairId'] = flairId;
-    map['flairText'] = flairText;
-    map['suggestedSort'] = suggestedSort;
-    map['scheduled'] = scheduled;
-    map['sharedFrom'] = sharedFrom;
-    return map;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['title'] = this.title;
+    data['kind'] = this.kind;
+    data['text'] = this.text;
+    data['url'] = this.url;
+    data['owner'] = this.owner;
+    data['ownerType'] = this.ownerType;
+    data['nsfw'] = this.nsfw;
+    data['spoiler'] = this.spoiler;
+    data['sendReplies'] = this.sendReplies;
+    data['flairId'] = this.flairId;
+    data['flairText'] = this.flairText;
+    data['suggestedSort'] = this.suggestedSort;
+    data['scheduled'] = this.scheduled;
+    data['sharedFrom'] = this.sharedFrom;
+    return data;
   }
 }

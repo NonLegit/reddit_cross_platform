@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:post/createpost/controllers/posts_controllers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
@@ -13,50 +15,42 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PostServices {
   // were final instead of static var
-  static var dio = Dio();
+
+final PostController controller =Get.put(PostController(),permanent: false) ;
+
+static var dio = Dio();
   //static var client =http.Client();
   sendPost(SendPostModel model, BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
     try {
-      int x = 2;
       final response =
           await DioClient.post(path: createPost, data: model.toJson());
-
-      //data: json.encode(model.toJson())
-      //     data: {
-      // "title": "<string>",
-      // "kind": "<string>",
-      // "text": "<string>",
-      // "url": "<string>",
-      // "owner": "<string>",
-      // "ownerType": "<string>",
-      // "nsfw": "<boolean>",
-      // "spoiler": "<boolean>",
-      // "sendReplies": "<boolean>",
-      // "flairId": "<string>",
-      // "flairText": "<string>",
-      // "suggestedSort": "<string>",
-      // "scheduled": "<boolean>",
-      // "sharedFrom": "<string>"
-      // }
-      //);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // print(response.data);
+         print("response of sending post ${response.data}");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text("sent successfuly",
                   style: TextStyle(color: Colors.white)),
               backgroundColor: Colors.green),
         );
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => homeLayoutScreen()));
-      } else {
+      if(controller.typeOfPost.value=="image")
+        {
+         try
+         {
+           final response2 =
+           await DioClient.post(path: '/posts/${response.data["data"]["_id"]}/images');
+         }
+         catch(e)
+          {
+         print("error in uploading media");
+          }
+        }
         // print(response.statusCode);
         // print(json.decode(response.data)['message']);
       }
     } catch (e) {
-      print(e);
+      print("error in sending the post -> $e");
     }
   }
 

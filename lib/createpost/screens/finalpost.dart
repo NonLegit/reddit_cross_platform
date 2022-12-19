@@ -12,11 +12,17 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'flair_list.dart';
 
-class FinalPost extends StatelessWidget {
+class FinalPost extends StatefulWidget {
+  @override
+  State<FinalPost> createState() => _FinalPostState();
+}
+
+class _FinalPostState extends State<FinalPost> {
   // const FinalPost({Key? key}) : super(key: key);
   final PostController controller = Get.put(
-    PostController(),
+    PostController(),permanent: false
   );
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
@@ -33,7 +39,7 @@ class FinalPost extends StatelessWidget {
                       child: IconButton(
 
                         color: Colors.black, onPressed: () {
-                          navigator!.pop(context);
+                         Get.back();
                       }, icon:Icon( IconBroken.Arrow___Left_2,size: 32.0),
                       ),
                     ),
@@ -48,11 +54,10 @@ class FinalPost extends StatelessWidget {
                           controller.postTitle.value.clear();
                           controller.urlPost.value.clear();
                           controller.textPost.value.clear();
+                          controller.isPostSpoiler.value=false;
+                          controller.isPostNSFW.value=false;
                           // Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => homeLayoutScreen()));
+                          Get.to(homeLayoutScreen());
                         },
                         elevation: 0.0,
                         height: 40.0,
@@ -88,7 +93,7 @@ class FinalPost extends StatelessWidget {
                           ),
                           ElevatedButton.icon(
                             onPressed: () {
-                              Navigator.pop(context);
+                             Get.back();
                               controller.isPostNSFW.value = false;
                               controller.isPostSpoiler.value = false;
                             },
@@ -288,9 +293,16 @@ class FinalPost extends StatelessWidget {
                   leading: Icon(Icons.access_time_outlined),
                   trailing: Icon(IconBroken.Arrow___Right_2),
                 ),
+
               ],
             ),
           ),
         ));
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.flairsOfSubreddit.clear();
+    super.dispose();
   }
 }

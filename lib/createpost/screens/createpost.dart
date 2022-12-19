@@ -1,26 +1,41 @@
 ///////////////////////BY ME///////////////////////////////////////////
 import 'dart:convert';
-import 'dart:io';
+
+import 'package:post/delta_to_html.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:post/discover/discover.dart';
 import 'package:post/home/screens/home_layout.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:async';
-
 import '../../icons/icon_broken.dart';
 import '../controllers/posts_controllers.dart';
 import '../screens/posttocommunity.dart';
 import '../widgets/type_of_post.dart';
 import 'finalpost.dart';
 
+
+
+import 'package:flutter_quill/flutter_quill.dart' as quill;
+
+
 class CreatePostSCreen extends StatefulWidget {
+
+ // const CreatePostSCreen({
+ //    Key? key,
+ //     this.name="",
+ //    this.icon="",
+ //  }) : super(key: key);
+ //  final String icon;
+ //  final String name;
   @override
   State<CreatePostSCreen> createState() => _CreatePostSCreenState();
+
 }
 
 class _CreatePostSCreenState extends State<CreatePostSCreen> {
@@ -28,16 +43,35 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
   final ImagePicker imagePicker = ImagePicker();
   final ImagePicker videoPicker = ImagePicker();
   final PostController controller = Get.put(
-    PostController(),
+    PostController(),permanent: false
   );
+
   Future<void>? initializeVideoPlayerFuture;
+
+@override
+  void initState()
+{
+
+    // TODO: implement initState
+  if(Get.arguments[0]==0)
+    {
+      controller.isFromHomeDirect.value=true;
+    }
+  else
+    {
+      controller.isFromHomeDirect.value=false;
+      controller.iconOfSubredditToSubmittPost.value=Get.arguments[1] ;
+      controller.subredditToSubmitPost.value=Get.arguments[2] ;
+    }
+  super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Obx(()=>
        WillPopScope(
         onWillPop: () async {
-            final value = (controller.textPost.value.text != "" || controller.imageFileList!.length>0 || controller.videoFile.value != null || controller.urlPost.value.text != "")?await
+            final value = (controller.textPost.value.document.toDelta().toString() != "" || controller.imageFileList!.length>0 || controller.videoFile.value != null || controller.urlPost.value.text != "")?await
               showDialog(context: context,
                 builder: (context)
                 {
@@ -69,7 +103,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                                     Expanded(
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          Navigator.pop(context);
+                                          Get.back();
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.grey[200],
@@ -97,7 +131,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                                           controller.imageFileList!.clear();
                                           controller.videoFile.value=null;
                                           controller.urlPost.value.clear();
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>homeLayoutScreen()));
+                                         Get.to(homeLayoutScreen());
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.red[700],
@@ -145,7 +179,8 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                       //  Get.delete<PostController>();
+                       Get.back();
                       },
                       color: Colors.black45, icon: Icon(
                       Icons.close,
@@ -161,11 +196,18 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                               )
                             : MaterialButton(
                                 onPressed: () {
-                                  if (  controller.formKeyUrl.currentState!.validate() ) {
+                                  if (  controller.formKeyUrl.currentState!.validate() && controller.postTitle.value.text !="") {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(content: Text('Processing Data')),
                                     );
-                                    Get.to(BuildSubreddit());
+                                    if(controller.isFromHomeDirect.value==true)
+                                      {
+                                        Get.to(BuildSubreddit());
+                                      }
+                                    else
+                                      {
+                                        Get.to(FinalPost());
+                                      }
                                   }
                                 },
                                 elevation: 0.0,
@@ -187,6 +229,91 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
 
                   ],
                 ),
+                SizedBox(height: 10,),
+                Visibility(
+                  visible: !controller.isFromHomeDirect.value,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 14),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: ()
+                          {
+                            Get.to(BuildSubreddit());
+                          },
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: NetworkImage('${controller.iconOfSubredditToSubmittPost}'),
+                                radius: 16.0,
+                              ),
+                              SizedBox(
+                                width: 4.0,
+                              ),
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  Get.to(BuildSubreddit());
+                                },
+                                icon: Text(
+                                  controller.subredditToSubmitPost.value,
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                                label: const Icon(
+                                  IconBroken.Arrow___Down_2,
+                                  color: Colors.black,
+                                  size: 15,
+                                ),
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all<double>(0),
+                                  backgroundColor:
+                                  MaterialStateProperty.all(Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                            onPressed: () => showModalBottomSheet(
+                                context: context,
+                                builder: (context) => Center(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    children: [
+                                      const Expanded(
+                                          child: Center(
+                                              child: Text(
+                                                  "Community Standards"))),
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                          MaterialStateProperty.all(
+                                            Colors.blue[900],
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "understand",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )),
+                            child: const Text(
+                              "Rules",
+                              style: TextStyle(color: Colors.blue),
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
+             const SizedBox(height: 10,),
              Padding(
                     padding: const EdgeInsetsDirectional.only(start: 10.0),
                     child: TextFormField(
@@ -221,6 +348,23 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                   height: 10.0,
                 ),
                 Expanded(child: BuildFormType(controller: controller,)),
+                    MaterialButton(
+                        child: Text("press"),
+                        onPressed: (){
+
+                      print(controller.textPost.value.document.toDelta().toJson());
+                      print("===============================================================");
+                      print((DeltaToHTML.encodeJson(controller.textPost.value.document.toDelta().toJson())));
+                      print((jsonEncode(controller.textPost.value.document.toDelta().toJson())).toString().runtimeType);
+                      print(controller.textPost.value.getPlainText);
+                      print(controller.textPost.value.getPlainText());
+                      print(controller.textPost.value.document.toPlainText());
+                      print(controller.textPost.value.document);
+                      print(controller.urlPost.value.text);
+                      print(controller.textPost.value.document.toPlainText().runtimeType);
+                      print(controller.textPost.value.document.runtimeType);
+                      print(controller.textPost.value.runtimeType);
+                    }),
                     Padding(
                         padding: const EdgeInsetsDirectional.only(start: 20, bottom: 10),
                         child: Row(
@@ -268,7 +412,12 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
       ),
     );
   }
-
+ @override
+  void dispose() {
+    // TODO: implement dispose
+   Get.delete<PostController>();
+   super.dispose();
+  }
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages!.isNotEmpty) {

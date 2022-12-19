@@ -2,37 +2,38 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-//import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:post/createpost/model/subreddits_of_user.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import '../../delta_to_html.dart';
 import '../../home/models/flairs.dart';
 import '../../networks/dio_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
-
 import '../../networks/const_endpoint_data.dart';
 import '../model/send_post_model.dart';
 import '../services/post_services.dart';
-//import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
 class PostController extends GetxController {
+  Rx<TextEditingController> tryanderror = TextEditingController().obs;
   List<userSubredditsResponse> subscribedSubreddits =
       <userSubredditsResponse>[].obs;
   List<userSubredditsResponse> moderatedSubreddits =
       <userSubredditsResponse>[].obs;
   RxString subredditToSubmitPost = "".obs;
-  RxString iconOfSubredditToSubmittPost = "".obs;
-  RxBool showMore = false.obs;
+  RxString iconOfSubredditToSubmittPost="".obs;
+  RxBool showMore=false.obs;
   RxBool isPostSpoiler = false.obs;
   RxBool isPostNSFW = false.obs;
   RxBool isLoading = true.obs;
   final services = PostServices();
   Rx<TextEditingController> postTitle = TextEditingController().obs;
-  Rx<TextEditingController> textPost = TextEditingController().obs;
-  Rx<quill.QuillController> quillController = quill.QuillController.basic().obs;
+//  Rx<TextEditingController> textPost = TextEditingController().obs;
+  Rx<quill.QuillController> textPost=quill.QuillController.basic().obs;
   Rx<TextEditingController> urlPost = TextEditingController().obs;
+  // Rx<HtmlEditorController> htmlController = HtmlEditorController().obs;
   RxString typeOfPost = ''.obs;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyUrl = GlobalKey<FormState>();
@@ -44,53 +45,56 @@ class PostController extends GetxController {
   final videoFile = Rx<File?>(null);
   final videoController = Rx<VideoPlayerController?>(null);
 //Flairs belonging to subreddit
-  List<FlairModel> flairsOfSubreddit = <FlairModel>[].obs;
-  RxString idOfFlair = "".obs;
-  RxString textOfFlair = "".obs;
-  RxString textColorOfFlair = "None".obs;
-  RxString backgroundColorOfFlair = "None".obs;
-  RxBool isSubredditHasFlair = false.obs;
-  List<bool> checking = <bool>[].obs;
-  RxBool isFromHomeDirect = true.obs;
-
-  RxInt checkFromWhich = 0.obs;
-  RxString name = "".obs;
-  RxString icon = "".obs;
-
+ List<FlairModel>flairsOfSubreddit=<FlairModel>[].obs;
+ RxString idOfFlair="".obs;
+  RxString textOfFlair="".obs;
+  RxString textColorOfFlair="None".obs;
+  RxString backgroundColorOfFlair="None".obs;
+ RxBool isSubredditHasFlair=false.obs;
+  RxBool isFromHomeDirect=true.obs;
+  List<bool>checking=<bool>[].obs;
+  RxInt checkFromWhich=0.obs;
+  dynamic argumentData = Get.arguments;
   @override
-  void onInit() {
+  void onInit()
+  {
     _fetchHouses();
-    getSubreddits();
+   getSubreddits();
     super.onInit();
   }
-
-  getFlairsOfSubreddit() async {
-    final prefs = await SharedPreferences.getInstance();
-    DioClient.init(prefs);
-    try {
-      print('/subreddit/${subredditToSubmitPost}/flairs');
-      await DioClient.get(path: '/subreddits/${subredditToSubmitPost}/flair')
-          .then((value) {
-        print("Flairs returned are $value");
-        value.data['data'].forEach((val) {
-          flairsOfSubreddit.add(FlairModel.fromJson(val));
-        });
-      });
-      checking = List<bool>.filled(flairsOfSubreddit.length + 1, false);
-      print(
-          "the size of returned list of flairs of subreddit is ${flairsOfSubreddit.length}");
-      print("the size of checking list is  ${checking.length}");
-    } catch (e) {
-      print(
-          "error in fetching the flairs of ${subredditToSubmitPost} subreddit -> $e");
-    }
+  // @override
+  // onClose()
+  // {
+  //
+  //   typeOfPost.value='';
+  //   super.onClose();
+  // }
+getFlairsOfSubreddit() async{
+  final prefs = await SharedPreferences.getInstance();
+  DioClient.init(prefs);
+  try{
+    print('/subreddit/${subredditToSubmitPost}/flairs');
+    await DioClient.get(path:'/subreddits/${subredditToSubmitPost}/flair').then((value){
+      print("Flairs returned are $value");
+     value.data['data'].forEach((val)
+         {
+           flairsOfSubreddit.add(FlairModel.fromJson(val));
+         });
+    });
+    checking = List<bool>.filled(flairsOfSubreddit.length+1, false);
+    print("the size of returned list of flairs of subreddit is ${flairsOfSubreddit.length}");
+    print("the size of checking list is  ${checking.length}");
+  }
+  catch(e){
+    print("error in fetching the flairs of ${subredditToSubmitPost} subreddit -> $e");
   }
 
+}
   getSubreddits() async {
     final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
     try {
-      await DioClient.get(path: '$mySubreddits/subscriber').then((value) {
+      await DioClient.get(path:'$mySubreddits/subscriber').then((value) {
         print(value);
         value.data['data'].forEach((value1) {
           subscribedSubreddits.add(userSubredditsResponse.fromJson(value1));
@@ -98,7 +102,7 @@ class PostController extends GetxController {
         });
       });
 
-      await DioClient.get(path: '$mySubreddits/moderator').then((value) {
+      await DioClient.get(path:'$mySubreddits/moderator').then((value) {
         print(value);
         value.data['data'].forEach((value1) {
           moderatedSubreddits.add(userSubredditsResponse.fromJson(value1));
@@ -112,31 +116,44 @@ class PostController extends GetxController {
     }
   }
 
+  // Future addImages(name,desc,address,images) async {
+  //
+  //   var formData = FormData.fromMap({
+  //     'name': name,
+  //     'desc': desc,
+  //     'address': address,
+  //     'files': [
+  //       for (var item in images)
+  //         {
+  //           await MultipartFile.fromFile(item.path,
+  //               filename: basename(item.path))
+  //         }.toList()
+  //     ],
+  //   });
+  //
+  //
+  //   await Dio.post("${host}/add",data:formData).then((data) {
+  //     ad_data = data.data;
+  //   });
+  //   return ad_data;
+  // }
   sendPost(BuildContext context) {
     services.sendPost(
         SendPostModel(
-          title: postTitle.value.text,
-          text: textPost.value.text, //textPost.value.text,
-          kind: typeOfPost.value,
-          owner: subredditToSubmitPost.value,
-          ownerType: 'Subreddit',
-          spoiler: isPostSpoiler.value,
-          nsfw: isPostNSFW.value,
-          // sendReplies: '',
-          // title: postTitle.value.text,
-          // text: textPost.value.text,
-          // flairId: "",
-          // flairText: "",
-          // kind: "",
-          // nsfw: isPostNSFW.value,
-          // owner: "",
-          // ownerType: "subreddit",
-          // scheduled: "",
-          // sendReplies: "",
-          // sharedFrom: "",
-          // spoiler: isPostSpoiler.value,
-          // suggestedSort: "",
-          // url: "",
+             title:postTitle.value.text,
+             kind:typeOfPost.value,
+             text:(DeltaToHTML.encodeJson(textPost.value.document.toDelta().toJson())).toString(),
+             url:urlPost.value.text,
+             owner:subredditToSubmitPost.value,
+             ownerType:(subredditToSubmitPost.value == "Myprofile")?"user":"subreddit",
+             nsfw:isPostNSFW.value,
+             spoiler:isPostSpoiler.value,
+             sendReplies:true,
+             flairId:idOfFlair.value,
+             flairText:textOfFlair.value,
+             suggestedSort:"best",
+             scheduled:false,
+             sharedFrom:"1"
         ),
         context);
   }
@@ -161,10 +178,9 @@ class PostController extends GetxController {
       isLoading(false);
     }
   }
-
   Future getVideo() async {
     Future<XFile?> videoFiles =
-        ImagePicker().pickVideo(source: ImageSource.gallery);
+    ImagePicker().pickVideo(source: ImageSource.gallery);
     videoFiles.then((file) async {
       videoFile.value = File(file!.path);
       videoController.value = VideoPlayerController.file(videoFile.value!);
@@ -197,4 +213,6 @@ class PostController extends GetxController {
     typeOfPost.close();
     super.dispose();
   }
+
+
 }
