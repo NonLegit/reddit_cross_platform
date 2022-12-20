@@ -53,7 +53,7 @@ class Post extends StatefulWidget {
   }
 
   @override
-  State<Post> createState() => _PostState(data, updateDate);
+  State<Post> createState() => _PostState(data);
 }
 
 class _PostState extends State<Post> {
@@ -83,7 +83,7 @@ class _PostState extends State<Post> {
 
         for (var mod in moderators!) {
           widget.data.isModerator = false;
-            print('=============Is mod:${mod.userName}=======================');
+          print('=============Is mod:${mod.userName}=======================');
 
           if (mod.userName == widget.userName) {
             widget.data.isModerator = true;

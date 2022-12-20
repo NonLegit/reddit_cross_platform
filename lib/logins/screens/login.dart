@@ -86,7 +86,7 @@ class LoginState extends State<Login> {
       isSubmit = true;
       errorMessage = provider.errorMessage;
       if (!isError) {
-        Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
+        Navigator.of(context).pushNamed(HomeLayoutScreen.routeName);
       }
       setState(() {});
     });
@@ -101,7 +101,7 @@ class LoginState extends State<Login> {
       final provider = Provider.of<Auth>(context, listen: false);
       await provider.alreadyAuth();
       if (provider.alreadyAuthed) {
-        Navigator.of(context).pushReplacementNamed(homeLayoutScreen.routeName);
+        Navigator.of(context).pushReplacementNamed(HomeLayoutScreen.routeName);
       }
 
       return provider.alreadyAuthed;

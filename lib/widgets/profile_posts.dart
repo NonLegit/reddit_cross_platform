@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../providers/Profile_provider.dart';
 import '../post/models/post_model.dart';
 
+// import '..'
 class ProfilePosts extends StatefulWidget {
   final String routeNamePop;
   final String userName;
@@ -22,7 +23,7 @@ class ProfilePosts extends StatefulWidget {
     //required this.controller,
   }) : super(key: key);
   @override
-  State<ProfilePosts> createState() => _ProfilePosts();
+  State<ProfilePosts> createState() => ProfilePostsState();
 }
 
 class ProfilePostsState extends State<ProfilePosts> {
@@ -69,7 +70,7 @@ class ProfilePostsState extends State<ProfilePosts> {
         _isLoading = true;
       });
       Provider.of<ProfileProvider>(context, listen: false)
-          .fetchProfilePosts(widget.userName, 'Hot', _page, 25,context)
+          .fetchProfilePosts(widget.userName, 'Hot', _page, 25, context)
           .then((value) {
         posts = Provider.of<ProfileProvider>(context, listen: false)
             .gettingProfilePostData;
@@ -105,9 +106,11 @@ class ProfilePostsState extends State<ProfilePosts> {
                     userName: widget.userName,
                   ),
                 ),
-                userName:widget.userName,
+                userName: widget.userName,
                 updateData: _loadMore,
-                data: posts as List<PostModel>,type: 'profile',)
+                data: posts as List<PostModel>,
+                type: 'profile',
+              )
             : Center(
                 child: Column(
                   children: [

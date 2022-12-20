@@ -31,6 +31,7 @@ import '../../subreddit/screens/subreddit_screen.dart';
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import '../../messages/screens/message_main_screen.dart';
 import '../../home/controller/home_controller.dart';
+import '../../messages/screens/new_message_screen.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -325,7 +326,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ),
               ),
-              bottomNavigationBar: const buttomNavBar(),
+              bottomNavigationBar: const buttomNavBar(
+                fromProfile: 0,
+                icon: '',
+                nameOfSubreddit: '',
+                x: 2,
+              ),
               endDrawer: endDrawer(controller: controller),
               drawer: const drawer(),
               body: TabBarView(children: [

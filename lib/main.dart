@@ -9,7 +9,6 @@ import 'package:post/messages/screens/show_message_body.dart';
 import 'package:post/moderation_settings/models/moderators.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:post/providers/global_settings.dart';
-import 'package:post/providers/profile_post_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
@@ -50,7 +49,7 @@ import 'myprofile/screens/user_followers_screen.dart';
 import 'show_post/screens/show_post.dart';
 import 'show_post/widgets/edit_post.dart';
 import 'post/provider/post_provider.dart';
-import 'providers/subreddit_post_provider.dart';
+// import 'providers/subreddit_post_provider.dart';
 import 'subreddit/screens/subreddit_screen.dart';
 import 'screens/subreddit_search_screen.dart';
 import 'subreddit/screens/community_info_screen.dart';
@@ -89,8 +88,11 @@ import 'moderation_settings/screens/post_flair_settings.dart';
 import './search/screens/search.dart';
 import './search/screens/search_inside.dart';
 import './discover/screens/discover_screen.dart';
+import 'moderation_settings/screens/add_edit_aproved_screen.dart';
+import 'moderation_settings/screens/add_edit_moderator_screen.dart';
+
 //=====================================Providers====================================================//
-import './providers/profile_comments_provider.dart';
+// import './providers/profile_comments_provider.dart';
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
 // import './providers/profile_comments_provider.dart';
@@ -431,16 +433,15 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider.value(value: ModerationSettingProvider()),
             ChangeNotifierProvider.value(value: NotificationProvider()),
             ChangeNotifierProvider.value(value: Auth()),
-            ChangeNotifierProvider.value(value: ProfilePostProvider()),
-            ChangeNotifierProvider.value(value: ProfileCommentsProvider()),
+            // ChangeNotifierProvider.value(value: ProfileCommentsProvider()),
             ChangeNotifierProvider.value(value: PostProvider()),
-            ChangeNotifierProvider.value(value: SubredditPostProvider()),
+            // ChangeNotifierProvider.value(value: SubredditPostProvider()),
             ChangeNotifierProvider.value(value: PostFlairProvider()),
             ChangeNotifierProvider.value(value: MessageProvider()),
-          //  ChangeNotifierProvider.value(value: ProfilePostProvider()),
+            //  ChangeNotifierProvider.value(value: ProfilePostProvider()),
             ChangeNotifierProvider.value(value: PostProvider()),
-            ChangeNotifierProvider.value(value: SubredditPostsProvider ()),
-           // ChangeNotifierProvider.value(value: ProfileCommentsProvider()),
+            ChangeNotifierProvider.value(value: SubredditPostsProvider()),
+            // ChangeNotifierProvider.value(value: ProfileCommentsProvider()),
             ChangeNotifierProvider.value(value: ProfileProvider()),
             ChangeNotifierProvider.value(value: DiscoverProvider()),
           ],
@@ -459,7 +460,7 @@ class _MyAppState extends State<MyApp> {
                   onSurface: Colors.white),
             ),
             // home: NotificationScreen(),
-            home: homeLayoutScreen(),
+            // home: HomeLayoutScreen(),
             // home: Description(),
             // home: HomeScreen(),
             //home: NotificationScreen(),
@@ -467,10 +468,10 @@ class _MyAppState extends State<MyApp> {
             // home: CreateCommunity(),
             // home: NewMessageScreen(),
             // home: EditPost(),
-            // home: Login(),
+            home: Login(),
             //  home: SearchInside(quiry: 'mohab'),
             //home: const DiscoverScreen(),
-          // home: homeLayoutScreen(),
+            // home: homeLayoutScreen(),
             // home: Description(),
             // home: HomeScreen(),
             // home: MyProfileScreen(),
@@ -479,7 +480,7 @@ class _MyAppState extends State<MyApp> {
             // home: CreateCommunity(),
             //home: homeLayoutScreen(),
             // home: HomeScreen(),
-          home: Login(),
+            // home: Login(),
             // home: CreateCommunity(),
             // home: Login(),
             // home: ForgotUserName(),
@@ -520,10 +521,14 @@ class _MyAppState extends State<MyApp> {
               EditModeratorScreen.routeName: (context) =>
                   EditModeratorScreen(subredditName: ''),
 
-              EditApprovedScreen.routeName: (context) => EditApprovedScreen(),
-              EditBannedScreen.routeName: (context) => EditBannedScreen(),
-              EditMutedScreen.routeName: (context) => EditMutedScreen(),
-              EditModeratorScreen.routeName: (context) => EditModeratorScreen(),
+              EditApprovedScreen.routeName: (context) =>
+                  EditApprovedScreen(subredditName: ''),
+              EditBannedScreen.routeName: (context) =>
+                  EditBannedScreen(subredditName: ''),
+              EditMutedScreen.routeName: (context) =>
+                  EditMutedScreen(subredditName: ''),
+              EditModeratorScreen.routeName: (context) =>
+                  EditModeratorScreen(subredditName: ''),
               ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
               MutedScreen.routeName: (context) => MutedScreen(),
               BannedScreen.routeName: (context) => BannedScreen(),
@@ -544,7 +549,7 @@ class _MyAppState extends State<MyApp> {
               BlockedAccounts.routeName: (context) => BlockedAccounts(),
               AccountSettings.routeName: (context) => AccountSettings(),
               Settings.routeName: (context) => Settings(),
-              homeLayoutScreen.routeName: (context) => homeLayoutScreen(),
+              HomeLayoutScreen.routeName: (context) => HomeLayoutScreen(),
               EmptyScreen.routeName: (context) => EmptyScreen(),
               ForgotPassword.routeName: (context) => ForgotPassword(),
               ForgotUserName.routeName: (context) => ForgotUserName(),

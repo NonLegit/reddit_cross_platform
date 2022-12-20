@@ -21,7 +21,7 @@ class GenderState extends State<Gender> {
   void submitGender(type, context) async {
     final provider = Provider.of<Auth>(context, listen: false);
     provider.changeGender(type).then((value) {
-      if (value) Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
+      if (value) Navigator.of(context).pushNamed(HomeLayoutScreen.routeName);
     });
   }
 

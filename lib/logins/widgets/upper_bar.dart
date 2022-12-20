@@ -28,7 +28,7 @@ class UpperBar extends StatelessWidget {
                     : currentStatus == UpperbarStatus.signup
                         ? SignUp()
                         : currentStatus == UpperbarStatus.skip
-                            ? homeLayoutScreen()
+                            ? HomeLayoutScreen()
                             : EmptyScreen(),
               );
             },
