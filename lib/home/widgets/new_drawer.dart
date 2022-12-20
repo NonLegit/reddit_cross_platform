@@ -10,6 +10,8 @@ import 'package:post/networks/const_endpoint_data.dart';
 import '../../create_community/screens/create_community.dart';
 import '../../createpost/controllers/posts_controllers.dart';
 import '../../icons/icon_broken.dart';
+import '../screens/all.dart';
+import '../screens/saved.dart';
 
 class MyDrawer extends StatelessWidget {
 
@@ -229,7 +231,9 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-                onTap: () {},
+                onTap: () {
+                   Get.to(All());
+                },
                 horizontalTitleGap: 0.0,
                 leading: Icon(
                   Icons.stacked_bar_chart,

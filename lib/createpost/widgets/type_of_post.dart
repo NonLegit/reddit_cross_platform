@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-//import 'package:html_editor_enhanced/html_editor.dart';
+// import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:video_player/video_player.dart';
 import '../controllers/posts_controllers.dart';
 
@@ -22,21 +22,21 @@ class BuildFormType extends StatelessWidget {
         key: controller.formKeyUrl,
         child: Padding(
             padding: const EdgeInsetsDirectional.only(start: 10.0),
-            child: controller.typeOfPost.value == "url"
+            child: controller.typeOfPost.value == "link"
                 ? Padding(
                     padding: const EdgeInsetsDirectional.only(start: 10.0),
                     child: TextFormField(
                       keyboardType: TextInputType.url,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(
-                            RegExp('[a-z A-Z 0-9]'))
-                      ],
+                      // inputFormatters: <TextInputFormatter>[
+                      //   FilteringTextInputFormatter.allow(
+                      //       RegExp(r'^[a-zA-Z0-9_\-=@,\.;]+$'))
+                      // ],
                       onChanged: (value) {
                         controller.urlPost.refresh();
                       },
                       validator: (value) {
-                        String pattern =
-                            r"((https?:www\.)|(https?:\/\/)|(www\.))[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?";
+                        // String pattern =
+                        //     r"((https?:www\.)|(https?:\/\/)|(www\.))[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?";
                         RegExp regExp = RegExp(
                             "((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)");
                         if (value!.isEmpty) {
@@ -124,30 +124,42 @@ class BuildFormType extends StatelessWidget {
                                           .value!.value.aspectRatio,
                                       // Use the VideoPlayer widget to display the video.
                                       child: Stack(
-                                        children: [
-                                          VideoPlayer(controller
-                                              .videoController.value!),
-                                          Center(
-                                            child: IconButton(
-                                              onPressed: () {
-                                                controller.playVideo();
-                                              },
-                                              icon: controller.videoController
-                                                      .value!.value.isPlaying
-                                                  ? const Icon(
-                                                      Icons.pause,
-                                                      color: Colors.white,
-                                                      size: 30,
-                                                    )
-                                                  : const Icon(
-                                                      Icons.play_arrow,
-                                                      color: Colors.white,
-                                                      size: 30,
-                                                    ),
+                                          alignment:
+                                              AlignmentDirectional.topEnd,
+                                          children: [
+                                            Stack(
+                                              children: [
+                                                VideoPlayer(controller
+                                                    .videoController.value!),
+                                                Center(
+                                                  child: IconButton(
+                                                    onPressed: () {
+                                                      controller.playVideo();
+                                                    },
+                                                    icon: controller
+                                                            .videoController
+                                                            .value!
+                                                            .value
+                                                            .isPlaying
+                                                        ? const Icon(
+                                                            Icons.pause,
+                                                            color: Colors.white,
+                                                            size: 30,
+                                                          )
+                                                        : const Icon(
+                                                            Icons.play_arrow,
+                                                            color: Colors.white,
+                                                            size: 30,
+                                                          ),
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                          )
-                                        ],
-                                      ),
+                                            IconButton(onPressed: (){
+                                              controller.videoFile.value=null;
+                                              controller.videoController.value=null;
+                                            }, icon: Icon(Icons.close))
+                                          ]),
                                     );
                                   } else {
                                     // If the VideoPlayerController is still initializing, show a
@@ -158,7 +170,7 @@ class BuildFormType extends StatelessWidget {
                                 },
                               )
                             : SizedBox()
-                        : (controller.typeOfPost == "text")
+                        : (controller.typeOfPost == "self")
                             ? Padding(
                                 padding: const EdgeInsetsDirectional.only(
                                     start: 10.0),
@@ -166,100 +178,50 @@ class BuildFormType extends StatelessWidget {
                                   children: [
                                     quill.QuillToolbar.basic(
                                       multiRowsDisplay: false,
-                                      controller:
-                                          controller.quillController.value,
+                                      controller: controller.textPost.value,
                                     ),
                                     Expanded(
-                                        child: SizedBox(
-                                          // height: 150,
-                                          // width: 150,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(30.0),
-                                              child: quill.QuillEditor(
-                                                  showCursor: true,
-                                                  paintCursorAboveText: true,
-                                                  focusNode:FocusNode(),
-                                                 scrollController:ScrollController(),
-                                                  scrollable: true,
-                                                  padding:  EdgeInsetsDirectional.only(start: 10.0),
-                                                 autoFocus:true,
-                                                   expands:true,
-                                                    controller: controller.quillController.value,
-                                                    readOnly: false,
-
-                                                ),
-                                              ),
-                                            ),
-
-                                        )
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(30.0),
+                                        child: quill.QuillEditor(
+                                          customStyles: quill.DefaultStyles(
+                                              color: Colors.red),
+                                          showCursor: true,
+                                          paintCursorAboveText: true,
+                                          focusNode: FocusNode(),
+                                          scrollController: ScrollController(),
+                                          scrollable: true,
+                                          padding: EdgeInsetsDirectional.only(
+                                              start: 10.0),
+                                          autoFocus: true,
+                                          expands: true,
+                                          controller: controller.textPost.value,
+                                          readOnly: false,
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 )
-             // child: HtmlEditor(
-             //    controller: controller.HtmlController.value,
-             //    htmlEditorOptions: const HtmlEditorOptions(
-             //      hint: "Add something, if you'd like",
-             //      shouldEnsureVisible: true,
-             //      mobileLongPressDuration: Duration(milliseconds: 500),
-             //      spellCheck: true,
-             //    ),
-             //    htmlToolbarOptions: const HtmlToolbarOptions(
-             //      buttonColor:Colors.black,
-             //      toolbarPosition: ToolbarPosition.aboveEditor,
-             //      defaultToolbarButtons: <Toolbar>[
-             //
-             //        // ColorButtons(
-             //        //   foregroundColor:true,
-             //        //   highlightColor: true,
-             //        //
-             //        // ),
-             //        FontButtons(
-             //          clearAll: false,
-             //          strikethrough: false,
-             //          subscript: false,
-             //          superscript: false,
-             //        ),
-             //        InsertButtons(
-             //          hr: false,
-             //          table: false,
-             //        ),
-             //        ParagraphButtons(
-             //          caseConverter: false,
-             //          decreaseIndent: false,
-             //          increaseIndent: false,
-             //          lineHeight: false,
-             //          textDirection: false,
-             //        ),
-             //        FontSettingButtons(fontSizeUnit: false),
-             //      ],
-             //    ),
-             //    otherOptions: OtherOptions(
-             //      height: MediaQuery.of(context).size.height * .75,
-             //    ),
-             //    callbacks: Callbacks(
-             //      onChangeContent: (final String? changed) async {
-             //        final String html = await controller.HtmlController.value.getText();
-             //      },
-             //    ),
-             //  )
-                            // child: TextFormField(
-                            //   controller: controller.textPost.value,
-                            //   enabled: true,
-                            //   style: const TextStyle(fontSize: 16.0),
-                            //   showCursor: true,
-                            //   cursorColor: Colors.blue,
-                            //   cursorHeight: 20.0,
-                            //   toolbarOptions:
-                            //   const ToolbarOptions(copy: true, cut: true, paste: true),
-                            //   keyboardType: TextInputType.multiline,
-                            //   textInputAction: TextInputAction.newline,
-                            //   autofocus: true,
-                            //   maxLines: null,
-                            //   textAlign: TextAlign.start,
-                            //   decoration: const InputDecoration(
-                            //       hintText: "Add optional body text",
-                            //       border: InputBorder.none),
-                            // ),
-            )
+
+                                // child: TextFormField(
+                                //   controller: controller.textPost.value,
+                                //   enabled: true,
+                                //   style: const TextStyle(fontSize: 16.0),
+                                //   showCursor: true,
+                                //   cursorColor: Colors.blue,
+                                //   cursorHeight: 20.0,
+                                //   toolbarOptions:
+                                //   const ToolbarOptions(copy: true, cut: true, paste: true),
+                                //   keyboardType: TextInputType.multiline,
+                                //   textInputAction: TextInputAction.newline,
+                                //   autofocus: true,
+                                //   maxLines: null,
+                                //   textAlign: TextAlign.start,
+                                //   decoration: const InputDecoration(
+                                //       hintText: "Add optional body text",
+                                //       border: InputBorder.none),
+                                // ),
+                                )
                             : SizedBox()),
       ),
     );

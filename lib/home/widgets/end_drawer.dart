@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:post/home/controller/home_controller.dart';
+import 'package:post/home/screens/saved.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
+import '../../home/screens/history.dart';
 import '../../create_community/screens/create_community.dart';
 import '../../icons/icon_broken.dart';
 import '../../myprofile/screens/myprofile_screen.dart';
@@ -278,7 +281,7 @@ class endDrawer extends StatelessWidget {
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                 Get.to(Saved());
                 },
               ),
               ListTile(
@@ -289,7 +292,7 @@ class endDrawer extends StatelessWidget {
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                 Get.to(History());
                 },
               ),
               SizedBox(
