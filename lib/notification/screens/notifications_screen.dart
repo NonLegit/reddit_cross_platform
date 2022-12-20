@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:get/get.dart';
+import 'package:post/messages/screens/new_message_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../messages/Provider/message_provider.dart';
 import '../models/notification_class_model.dart';
 
 import 'package:provider/provider.dart';
@@ -19,7 +21,7 @@ import '../provider/notification_provider.dart';
 import '../widgets/list_tile_widget.dart';
 import '../../networks/dio_client.dart';
 import '../widgets/three_dots_widget.dart';
-import './messages_main_screen.dart';
+// import './messages_main_screen.dart';
 import './notifications_main_screen.dart';
 import '../../networks/const_endpoint_data.dart';
 import '../../home/widgets/component.dart';
@@ -28,7 +30,7 @@ import '../../myprofile/screens/myprofile_screen.dart';
 import '../../create_community/screens/create_community.dart';
 import '../../subreddit/screens/subreddit_screen.dart';
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
-import '../../messages/screens/new_message_screen.dart';
+import '../../messages/screens/message_main_screen.dart';
 import '../../home/controller/home_controller.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -213,6 +215,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
     Navigator.of(context).pop();
   }
 
+  _saveNewMessage(username, subject, message, messageShow) {
+    Provider.of<MessageProvider>(context, listen: false).createMessage(
+        {'to': username, 'text': message, 'subject': subject},
+        context).then((value) {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     //_updateCount();
@@ -232,7 +242,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       icon: Icons.create_outlined,
                       title: 'New message',
                       onpressed: () => Navigator.of(context)
-                          .popAndPushNamed(NewMessageScreen.routeName),
+                          .popAndPushNamed(NewMessageScreen.routeName)
+                          .then((value) {
+                        setState(() {});
+                      }),
                     ),
                     ListTileWidget(
                       icon: Icons.drafts_outlined,
@@ -323,7 +336,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         usersNotificationEarlier: usersNotificationEarlier,
                         usersNotificationToday: usersNotificationToday,
                         changeNumOfNotification: _changeNumOfNotification),
-                const MessagesMainScreen(),
+                const MessageMainScreen(),
               ]),
             ),
           )
@@ -379,7 +392,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             InkWell(
                               onTap: () {
                                 Navigator.of(context)
-                                    .pushNamed(MessagesMainScreen.routeName);
+                                    .pushNamed(MessageMainScreen.routeName);
                               },
                               onHover: (value) {
                                 setState(() {

@@ -3,9 +3,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ReplyBack extends StatelessWidget {
-  const ReplyBack({
+ReplyBack({
     super.key,
+    this.commentId,
+    this.postId
   });
+  String? commentId;
+  String? postId; 
 
   @override
   Widget build(BuildContext context) {

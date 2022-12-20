@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../other_profile/screens/others_profile_screen.dart';
 import '../constants/types_of_notification.dart';
 import '../../create_community/widgets/bar_widget.dart';
 import '../models/notification_class_model.dart';
@@ -44,13 +45,24 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
         index.seen = true;
       });
       await Provider.of<NotificationProvider>(context, listen: false)
-          .markAndHideThisNotification(context, index.sId, 'mark_as_read',1);
+          .markAndHideThisNotification(context, index.sId, 'mark_as_read', 1)
+          .then((value) {
+        setState(() {});
+      });
     }
   }
 
   _navigateToCorrectScreen(NotificationModel index, context, i) {
     _markAsRead(index, context);
     if (i == 0) {
+      if (index.type == 'follow') {
+        //Navigate to user profile
+        print(index.requiredName!.substring(2, index.requiredName!.length));
+
+        Navigator.popAndPushNamed(context, OthersProfileScreen.routeName,
+            arguments:
+                index.requiredName!.substring(2, index.requiredName!.length));
+      }
       Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
     }
   }
@@ -105,13 +117,16 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
     return howOld;
   }
 
-  _hideThisNotification(notificationId,i) async {
+  _hideThisNotification(notificationId, i) async {
     await Provider.of<NotificationProvider>(context, listen: false)
-        .markAndHideThisNotification(context, notificationId, 'hide',i);
+        .markAndHideThisNotification(context, notificationId, 'hide', i)
+        .then((value) {
+      setState(() {});
+    });
   }
 
-  hideThisNotification(notificationId,i) {
-    _hideThisNotification(notificationId,i);
+  hideThisNotification(notificationId, i) {
+    _hideThisNotification(notificationId, i);
     print('in hides');
     Navigator.of(context).pop();
   }
@@ -157,12 +172,13 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               if (!widget.usersNotificationToday.isEmpty)
-                                const Text('    Today',style: TextStyle(
+                                const Text('    Today',
+                                    style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold)),
                               if (!widget.usersNotificationToday.isEmpty)
                                 notificationBody(height, width,
-                                    widget.usersNotificationToday,0),
+                                    widget.usersNotificationToday, 0),
                               if (!widget.usersNotificationEarlier.isEmpty)
                                 SizedBox(
                                   height: height * 0.02,
@@ -175,7 +191,7 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                                 ),
                               if (!widget.usersNotificationEarlier.isEmpty)
                                 notificationBody(height, width,
-                                    widget.usersNotificationEarlier,1),
+                                    widget.usersNotificationEarlier, 1),
                             ]),
                       ),
                     ),
@@ -185,7 +201,7 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
   }
 
   // Widget return the main body of each notification
-  ListView notificationBody(height, width, usersAllNotificatiion,i) {
+  ListView notificationBody(height, width, usersAllNotificatiion, i) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
@@ -227,7 +243,9 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                                         .followerIcon!,
                                     height: height,
                                     width: width),
-                                width)!,
+                                width,
+                                usersAllNotificatiion[index].commentId,
+                                usersAllNotificatiion[index].postId)!,
                           ],
                         ),
                       ],
@@ -256,7 +274,7 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                                 icon: Icons.visibility_off_outlined,
                                 title: 'Hide this notification',
                                 onpressed: () => hideThisNotification(
-                                    usersAllNotificatiion[index].sId,i),
+                                    usersAllNotificatiion[index].sId, i),
                               ),
                               // //only in community notifications this option is shown
                               // if (usersAllNotificatiion[index]['type'] ==
@@ -324,7 +342,8 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
 
 //Notification Text : To build the header and the description body of notification
 //Reply back : Button reply back that appears to reply on a comment
-Widget? notificationMain(text, description, type, time, Widget image, width) {
+Widget? notificationMain(
+    text, description, type, time, Widget image, width, commentId, postId) {
   print(description);
   if (type == 'commentReply') {
     return Column(
@@ -334,7 +353,7 @@ Widget? notificationMain(text, description, type, time, Widget image, width) {
           text: text,
           time: time,
           image: image,
-          button: const ReplyBack(),
+          button: ReplyBack(commentId: commentId, postId: postId),
           index: 1,
           width: width,
         ),
