@@ -309,17 +309,11 @@ class CreateCommunityState extends State<CreateCommunity> {
                 )),
           )
         : CreateCommunityWeb(
-            formKey: _formKey,
             communityNameController: _communityNameController,
             errorMessage: errorMessage,
             count: count,
             checked: plus18Community,
-            changeCounterValue: changeCounterValue,
-            onClick: _changeCommunityType,
-            toggleSwitch: _toggleSwitch,
             saveCommunity: _saveCommunity,
-            validateCommunity: _validateCommunityName,
-            validateTextField: validateTextField,
           );
   }
 
@@ -337,7 +331,7 @@ class CreateCommunityState extends State<CreateCommunity> {
       try {
         bool found =
             await Provider.of<CreateCommunityProvider>(context, listen: false)
-                .getCommunity(_communityNameController.text);
+                .getCommunity(_communityNameController.text, context);
         if (found) {
           setState(() {
             uniqueCommunityName = false;
@@ -367,11 +361,11 @@ class CreateCommunityState extends State<CreateCommunity> {
         name: _communityNameController.text,
         type: choosenCommunityType);
     await Provider.of<CreateCommunityProvider>(context, listen: false)
-        .postCommunity(createCommunityModel.toJson())
+        .postCommunity(createCommunityModel.toJson(), context)
         .then((value) {
       //if(value)
       // print('Community $value');
-      Navigator.of(context).pushNamed(ModeratedSubredditScreen.routeName,
+      Navigator.of(context).popAndPushNamed(ModeratedSubredditScreen.routeName,
           //  arguments: 'Cooking'
           arguments: _communityNameController.text);
     });

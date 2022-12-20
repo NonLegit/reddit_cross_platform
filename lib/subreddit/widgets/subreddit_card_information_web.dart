@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
-import '../models/subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 
 class SubredditCardInformationWeb extends StatelessWidget {
   final SubredditData? loadedSubreddit;

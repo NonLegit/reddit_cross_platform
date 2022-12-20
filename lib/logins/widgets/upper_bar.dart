@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../icons/reddit_icons.dart';
 import '../screens/signup.dart';
 import '../screens/login.dart';
-import '../models/status.dart';
+import '../../moderation_settings/widgets/status.dart';
 import '../../screens/emptyscreen.dart';
 import '../../home/screens/home_layout.dart';
 
@@ -28,7 +28,7 @@ class UpperBar extends StatelessWidget {
                     : currentStatus == UpperbarStatus.signup
                         ? SignUp()
                         : currentStatus == UpperbarStatus.skip
-                            ? homeLayoutScreen()
+                            ? HomeLayoutScreen()
                             : EmptyScreen(),
               );
             },

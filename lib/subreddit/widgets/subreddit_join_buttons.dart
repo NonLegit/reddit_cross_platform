@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import '../providers/subreddit_provider.dart';
-
+import '../../widgets/custom_snack_bar.dart';
 class JoinButtons extends StatefulWidget {
   bool isJoined;
   String communityuserName;
@@ -55,7 +55,7 @@ class JoinButtonsState extends State<JoinButtons> {
             Container(
               width: 20.w,
               height: 5.h,
-              margin: EdgeInsets.only(top: 8),
+              margin: const EdgeInsets.only(top: 8),
               child: OutlinedButton(
                 style: ButtonStyle(
                   side: MaterialStateProperty.all(
@@ -65,28 +65,47 @@ class JoinButtonsState extends State<JoinButtons> {
                       borderRadius: BorderRadius.all(Radius.circular(22)))),
                 ),
                 child: (isJoinedstate)
-                    ? Text(
+                    ? const Text(
                         'Joined',
                         style: TextStyle(fontSize: 13),
                       )
-                    : Text('Join'),
+                    : const Text('Join'),
                 onPressed: () async {
                   if (isJoinedstate) {
-                    _showLeaveDialog(widget.communityuserName);
+                    _showLeaveDialog();
                   } else {
-                    await Provider.of<SubredditProvider>(context, listen: false)
-                        .joinAndDisjoinSubreddit(widget.communityuserName,
-                            {"action": "sub"}).then((value) {
-                      setState(() {
-                        isJoinedstate = true;
-                      });
-                    });
+                    await subscribe(context);
                   }
                 },
               ),
             ),
           ],
         ));
+  }
+
+  Future<void> subscribe(BuildContext context) async {
+        print('===============================Subcribe==================================');
+    bool sub = await Provider.of<SubredditProvider>(context, listen: false)
+        .joinAndDisjoinSubreddit(widget.communityuserName, 'sub', context);
+    if (sub) {
+      join();
+       ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false, text: 'Join Successfully', disableStatus: true),
+      );
+    }
+    else{
+        ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(isError: true, text: 'Join Failed', disableStatus: true),
+      );}
+  }
+
+  bool join() {
+    setState(() {
+      isJoinedstate = true;
+    });
+    
+    return isJoinedstate;
   }
 
 // Change Notification Mod  of subreddit
@@ -168,13 +187,13 @@ class JoinButtonsState extends State<JoinButtons> {
   }
 
   //to Disjoin from subreddit
-  void _showLeaveDialog(String communityName) {
+  void _showLeaveDialog() {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         //title:Text('Are you sure you want to leave the r/${widget.communityName.toString()} community?'),
         content: Text(
-            'Are you sure you want to leave the r/${communityName.toString()} community?'),
+            'Are you sure you want to leave the r/${widget.communityuserName.toString()} community?'),
         actions: <Widget>[
           Container(
             width: 35.w,
@@ -182,12 +201,12 @@ class JoinButtonsState extends State<JoinButtons> {
             child: ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
-                    Color.fromARGB(255, 236, 235, 235)),
+                    const Color.fromARGB(255, 236, 235, 235)),
                 foregroundColor: MaterialStateProperty.all(Colors.grey),
                 shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(ctx).pop();
               },
@@ -198,23 +217,15 @@ class JoinButtonsState extends State<JoinButtons> {
             height: 6.h,
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Color.fromARGB(255, 242, 16, 0)),
+                backgroundColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 242, 16, 0)),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
                 shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
-              child: Text('Leave'),
+              child: const Text('Leave'),
               onPressed: () async {
-                await Provider.of<SubredditProvider>(context, listen: false)
-                    .joinAndDisjoinSubreddit(
-                        communityName, {"action": "unsub"}).then((value) {
-                  setState(() {
-                    disJoin();
-                  });
-                });
-
-                Navigator.of(ctx).pop();
+                await unSubescribe( ctx);
               },
             ),
           )
@@ -223,8 +234,29 @@ class JoinButtonsState extends State<JoinButtons> {
     );
   }
 
+  Future<void> unSubescribe(BuildContext ctx) async {
+    print('===============================Un Subcribe==================================');
+    bool unSub = await Provider.of<SubredditProvider>(context, listen: false)
+        .joinAndDisjoinSubreddit(widget.communityuserName, 'unsub', context);
+    if (unSub) {
+      disJoin();
+       ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false, text: 'Leave Successfully', disableStatus: true),
+      );
+    }
+    else{
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar(
+          isError: true, text: 'Leave Failed', disableStatus: true));
+    }
+    Navigator.of(ctx).pop();
+  }
+
   bool disJoin() {
-    isJoinedstate = false;
+    setState(() {
+          isJoinedstate = false;
+    });
+
     return isJoinedstate;
   }
 }

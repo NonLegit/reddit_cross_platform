@@ -3,17 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:post/createpost/model/send_post_model.dart';
+import '../../delta_to_html.dart';
 import '../../home/screens/home_layout.dart';
 import '../../icons/icon_broken.dart';
 import '../controllers/posts_controllers.dart';
-import './schedulepost.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class FinalPost extends StatelessWidget {
+import 'flair_list.dart';
+
+class FinalPost extends StatefulWidget {
+  @override
+  State<FinalPost> createState() => _FinalPostState();
+}
+
+class _FinalPostState extends State<FinalPost> {
   // const FinalPost({Key? key}) : super(key: key);
   final PostController controller = Get.put(
-    PostController(),
+    PostController(),permanent: false
   );
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
@@ -27,10 +37,11 @@ class FinalPost extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsetsDirectional.only(start: 10.0),
-                      child: Icon(
-                        IconBroken.Arrow___Left_2,
-                        size: 32.0,
-                        color: Colors.black,
+                      child: IconButton(
+
+                        color: Colors.black, onPressed: () {
+                         Get.back();
+                      }, icon:Icon( IconBroken.Arrow___Left_2,size: 32.0),
                       ),
                     ),
                     SizedBox(
@@ -40,15 +51,29 @@ class FinalPost extends StatelessWidget {
                       padding: EdgeInsetsDirectional.only(end: 1.w),
                       child: MaterialButton(
                         onPressed: () {
-                          controller.sendPost(context);
+                          print( controller.postTitle.value.text);
+                          print(( controller.postTitle.value.text as String).runtimeType);
+                          print(controller.typeOfPost.value);
+                          print((DeltaToHTML.encodeJson(controller.textPost.value.document.toDelta().toJson())).toString());
+                          print(controller.urlPost.value.text);
+                          print(controller.idOfSubredditToSubmittPost.value);
+                          print((controller.subredditToSubmitPost.value == "Myprofile")?"User":"Subreddit");
+                          print(controller.isPostNSFW.value);
+                          print(controller.isPostSpoiler.value);
+                          print("send replies ->true");
+                          print("flair id ${controller.idOfFlair.value}");
+                          print("text of flair ${controller.textOfFlair.value}");
+                          print("suggested sort hot");
+                          print("scheduled false");
+                          print("print data on submit");
+                           controller.sendPost(context);
                           controller.postTitle.value.clear();
                           controller.urlPost.value.clear();
                           controller.textPost.value.clear();
+                          controller.isPostSpoiler.value=false;
+                          controller.isPostNSFW.value=false;
                           // Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => homeLayoutScreen()));
+                          Get.to(HomeLayoutScreen());
                         },
                         elevation: 0.0,
                         height: 40.0,
@@ -76,15 +101,15 @@ class FinalPost extends StatelessWidget {
                       Row(
                         children: [
                           CircleAvatar(
-                            backgroundColor: Colors.blue,
-                            radius: 20.0,
+                            backgroundImage: NetworkImage('${controller.iconOfSubredditToSubmittPost}'),
+                            radius: 16.0,
                           ),
                           SizedBox(
-                            width: 8.0,
+                            width: 4.0,
                           ),
                           ElevatedButton.icon(
                             onPressed: () {
-                              Navigator.pop(context);
+                             Get.back();
                               controller.isPostNSFW.value = false;
                               controller.isPostSpoiler.value = false;
                             },
@@ -242,31 +267,78 @@ class FinalPost extends StatelessWidget {
                 SizedBox(
                   height: 8.0,
                 ),
-                ListTile(
-                  horizontalTitleGap: 0.0,
-                  title: Text("Add flair"),
-                  leading: Icon(IconBroken.Edit),
-                  trailing: Icon(IconBroken.Arrow___Right_2),
+                Obx(()=>
+                   Visibility(
+                     visible: (controller.flairsOfSubreddit.length>0)?true:false,
+                     child: ListTile(
+                       onTap: ()
+                       {
+                         Get.to(FlairList());
+                       },
+                      horizontalTitleGap: 0.0,
+                      title:Text(controller.textOfFlair.isEmpty?"Add Flar":
+                      controller.textOfFlair.value,
+                        style: TextStyle(
+                          color: controller.textColorOfFlair.value=="None"?
+                         Colors.black87:
+                          HexColor(controller.textColorOfFlair.value),
+                          backgroundColor: controller.backgroundColorOfFlair.value=="None"?
+                          Colors.white:
+                          HexColor(controller.backgroundColorOfFlair.value),
+                        ),
+                      ),
+                      // Text("Add flair"),
+                      leading: Icon(IconBroken.Edit),
+                      trailing: Icon(IconBroken.Arrow___Right_2),
+                  ),
+                   ),
                 ),
-                Divider(
+                const Divider(
                   height: 10.0,
                   color: Colors.grey,
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => schedulePostScreen()));
-                  },
-                  horizontalTitleGap: 0.0,
-                  title: Text("Schedule Post"),
-                  leading: Icon(Icons.access_time_outlined),
-                  trailing: Icon(IconBroken.Arrow___Right_2),
                 ),
               ],
             ),
           ),
         ));
+  }
+  savePost() async {
+   print( controller.postTitle.value.text);
+    print(controller.typeOfPost.value);
+    print((DeltaToHTML.encodeJson(controller.textPost.value.document.toDelta().toJson())).toString());
+    print(controller.urlPost.value.text);
+    print(controller.idOfSubredditToSubmittPost.value);
+    print((controller.subredditToSubmitPost.value == "Myprofile")?"User":"Subreddit");
+    print(controller.isPostNSFW.value);
+    print(controller.isPostSpoiler.value);
+    print("send replies ->true");
+    print("flair id ${controller.idOfFlair.value}");
+    print("text of flair ${controller.textOfFlair.value}");
+    print("suggested sort hot");
+   print("scheduled false");
+
+    final model = SendPostModel(
+                 title:controller.postTitle.value.text,
+                 kind:controller.typeOfPost.value,
+                 text:(DeltaToHTML.encodeJson(controller.textPost.value.document.toDelta().toJson())).toString(),
+                 url:(controller.typeOfPost.value=="link")?controller.urlPost.value.text:"",
+                 owner:controller.idOfSubredditToSubmittPost.value,
+                 ownerType:(controller.subredditToSubmitPost.value == "Myprofile")?"User":"Subreddit",
+                 nsfw:controller.isPostNSFW.value,
+                 spoiler:controller.isPostSpoiler.value,
+                 sendReplies:true,
+                 flairId:controller.idOfFlair.value,
+                 flairText:controller.textOfFlair.value,
+                 suggestedSort:"hot",
+                 scheduled:false,
+    );
+     print("AFTER TO JASON ${model.toJson()}");
+      Get.to(HomeLayoutScreen());
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.flairsOfSubreddit.clear();
+    super.dispose();
   }
 }

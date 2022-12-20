@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../widgets/subreddit_copy_share.dart';
 import '../../moderated_subreddit/providers/moderated_subreddit_provider.dart';
+import '../../widgets/custom_snack_bar.dart';
 
 class ModeratedSubredditPopupMenuButton extends StatefulWidget {
   final String linkOfCommuinty;
   final String communityName;
   final String userName;
   final bool isJoined;
-  ModeratedSubredditPopupMenuButton(
-      {required this.linkOfCommuinty,
-      required this.communityName,
-      required this.userName,
-      required this.isJoined});
+  ModeratedSubredditPopupMenuButton({
+    required this.linkOfCommuinty,
+    required this.communityName,
+    required this.userName,
+    required this.isJoined,
+  });
   @override
   State<ModeratedSubredditPopupMenuButton> createState() =>
       ModeratedSubredditPopupMenuButtonState();
@@ -38,68 +39,57 @@ class ModeratedSubredditPopupMenuButtonState
     super.initState();
   }
 
-  // var selectedItem = '';
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
       onSelected: (value) {
-        // your logic
-        // setState(() {
-        //   selectedItem = value.toString();
-        // });
         if (value.toString() == '/communitymodmessage' ||
-            value.toString() == '/ModNotification')
+            value.toString() == '/ModNotification') {
           Navigator.pushNamed(context, value.toString());
-        else if (value.toString() == 'Share')
+        } else if (value.toString() == 'Share') {
           shareCommunitySheetButton(context);
-        else if (value.toString() == 'Leave')
+        } else if (value.toString() == 'Leave') {
           _showLeaveDialog(widget.communityName);
-        else if (value.toString() == 'join') {
+        } else if (value.toString() == 'join') {
           _join(widget.communityName);
-        } else
+        } else {
           _bellBottomSheet(context);
+        }
       },
       itemBuilder: (BuildContext bc) {
         return [
-          PopupMenuItem(
+          const PopupMenuItem(
+            value: 'Share',
             child: ListTile(
               leading: Icon(Icons.share_outlined),
               title: Text('Share community'),
             ),
-            value: 'Share',
           ),
           PopupMenuItem(
+            value: (!isJoinedstate) ? 'join' : 'Leave',
             child: ListTile(
               leading: Icon(
                   (!isJoinedstate) ? Icons.add_box_rounded : Icons.fast_rewind),
               title: Text((!isJoinedstate) ? 'join' : 'Leave'),
             ),
-            value: (!isJoinedstate) ? 'join' : 'Leave',
           ),
-          PopupMenuItem(
+          const PopupMenuItem(
+            value: '/communitymodmessage',
             child: ListTile(
               leading: Icon(Icons.mail_outline),
               title: Text('Contact mods'),
             ),
-            value: '/communitymodmessage',
           ),
           PopupMenuItem(
+            value: 'Community notifications',
             child: ListTile(
               leading: Icon(icon),
-              title: Text('Community notifications'),
+              title: const Text('Community notifications'),
             ),
-            value: 'Community notifications',
           ),
-          PopupMenuItem(
-            child: ListTile(
-              leading: Icon(Icons.notifications_none_outlined),
-              title: Text('Manage mod notifications'),
-            ),
-            value: '/ModNotification',
-          )
         ];
       },
-      icon: Icon(
+      icon: const Icon(
         Icons.more_vert,
         color: Colors.white,
       ),
@@ -121,6 +111,7 @@ class ModeratedSubredditPopupMenuButtonState
   }
 
 // to disjoin of subreddit
+// have two option one:leave subreddit two: cancel
   void _showLeaveDialog(String communityName) {
     showDialog(
       context: context,
@@ -135,12 +126,12 @@ class ModeratedSubredditPopupMenuButtonState
             child: ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
-                    Color.fromARGB(255, 236, 235, 235)),
+                    const Color.fromARGB(255, 236, 235, 235)),
                 foregroundColor: MaterialStateProperty.all(Colors.grey),
                 shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(ctx).pop();
               },
@@ -151,23 +142,15 @@ class ModeratedSubredditPopupMenuButtonState
             height: 6.h,
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Color.fromARGB(255, 242, 16, 0)),
+                backgroundColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 242, 16, 0)),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
                 shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
-              child: Text('Leave'),
+              child: const Text('Leave'),
               onPressed: () async {
-           await Provider.of<ModeratedSubredditProvider>(
-                        context,
-                        listen: false)
-                    .joinAndDisjoinModeratedSubreddit(
-                        communityName, {"action": "unsub"}).then((value) { setState(() {
-                    disJoin();
-                  });});
-            
-                Navigator.of(ctx).pop();
+                await unSubscribe(communityName, ctx);
               },
             ),
           )
@@ -176,20 +159,59 @@ class ModeratedSubredditPopupMenuButtonState
     );
   }
 
-  bool disJoin() {
-    isJoinedstate = false;
+  Future<void> unSubscribe(String communityName, BuildContext ctx) async {
+    bool unSub =
+        await Provider.of<ModeratedSubredditProvider>(context, listen: false)
+            .joinAndDisjoinModeratedSubreddit(communityName, 'unsub', context);
+    if (unSub) {
+      changeDisJoinStatus();
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false, text: 'Leave Successfully', disableStatus: true),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar(
+          isError: true, text: 'Leave Failed', disableStatus: true));
+    }
+    Navigator.of(ctx).pop();
+  }
+
+// to disjoin change the isJoined status
+  bool changeDisJoinStatus() {
+    setState(() {
+      isJoinedstate = false;
+    });
+
     return isJoinedstate;
   }
 
+// to join subreddit
   void _join(String communityName) async {
-
-        await Provider.of<ModeratedSubredditProvider>(context, listen: false)
-            .joinAndDisjoinModeratedSubreddit(
-                communityName, {"action": "sub"}).then((value) {
+    bool sub = await Provider.of<ModeratedSubredditProvider>(context,
+            listen: false)
+        .joinAndDisjoinModeratedSubreddit(widget.communityName, 'sub', context);
+    if (sub) {
       setState(() {
-        isJoinedstate = true;
+        changeJoinStatus();
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false, text: 'Join Successfully', disableStatus: true),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(isError: true, text: 'Join Failed', disableStatus: true),
+      );
+    }
+  }
+
+// to join change the isJoined status
+  bool changeJoinStatus() {
+    setState(() {
+      isJoinedstate = true;
     });
+
+    return isJoinedstate;
   }
 
 //to change Notification mode

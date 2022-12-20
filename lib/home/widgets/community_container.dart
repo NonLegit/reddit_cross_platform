@@ -30,11 +30,10 @@ class CommunityContainer extends StatelessWidget {
         ),
       ),
       title: Text("$nameOfSubreddit"),
-      onTap: () =>
-        Navigator.of(context).pushNamed(
-            ModeratedSubredditScreen.routeName,
-            arguments: nameOfSubreddit)
-
+      onTap: ()
+      {
+        Get.to(ModeratedSubredditScreen(), arguments: nameOfSubreddit);
+      }
 
     );
   }

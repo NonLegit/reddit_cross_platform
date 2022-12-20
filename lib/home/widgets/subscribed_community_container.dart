@@ -8,10 +8,7 @@ import 'package:post/subreddit/screens/subreddit_screen.dart';
 import '../../create_community/screens/create_community.dart';
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 class SubScribedCommunityContainer extends StatelessWidget {
-  // const SubredditContainer({Key? key}) : super(key: key);
-  final HomeController controller = Get.put(
-    HomeController(),
-  );
+
   String nameOfSubreddit="";
   String iconOfSubreddit='';
   SubScribedCommunityContainer(
@@ -30,11 +27,9 @@ class SubScribedCommunityContainer extends StatelessWidget {
           ),
         ),
         title: Text("$nameOfSubreddit"),
-        onTap: () =>
-            Navigator.of(context).pushNamed(
-                SubredditScreen.routeName,
-                arguments: nameOfSubreddit)
-
+        onTap: () {
+          Get.to(SubredditScreen(), arguments: nameOfSubreddit);
+        }
 
     );
   }

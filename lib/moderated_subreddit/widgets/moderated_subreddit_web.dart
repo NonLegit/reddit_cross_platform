@@ -4,7 +4,7 @@ import '../../models/subreddit_about _rules.dart';
 import '../../widgets/subreddit_about.dart';
 import '../../widgets/subreddit_join_button_web.dart';
 import '../../subreddit/widgets/subreddit_join_buttons.dart';
-import '../models/moderated_subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../widgets/moderated_subreddite_post_web.dart';
 class ModeratedSubredditWeb extends StatelessWidget {
   String userName;
@@ -20,7 +20,7 @@ class ModeratedSubredditWeb extends StatelessWidget {
   // print(userName);
   //===============Drawer Bar=====================//
   bool isOnline = true;
-  ModeratedSubredditData? loadedSubreddit;
+  SubredditData? loadedSubreddit;
   final TabBar tabBar;
   bool isLoading;
   TabController? controller;

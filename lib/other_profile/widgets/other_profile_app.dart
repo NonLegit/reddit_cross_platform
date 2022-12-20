@@ -24,23 +24,30 @@ class OtherProfileApp extends StatelessWidget {
     required this.tabBar,
     required this.loadProfile,
   }) : super(key: key);
-
+  final GlobalKey<NestedScrollViewState> documentsNestedKey = GlobalKey();
+  ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
+            key: documentsNestedKey,
+        controller: _scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
+              foregroundColor: Colors.white,
                 elevation: 4,
-                backgroundColor: Colors.blue,
-                title: Visibility(
-                  visible: innerBoxIsScrolled,
-                  child: Text('u/${loadProfile.displayName}',
-                      style: TextStyle(
+                backgroundColor:Colors.blue,
+                // innerBoxIsScrolled?Colors.blue:Colors.white,
+                title: 
+                // Visibility(
+                //   visible: innerBoxIsScrolled,
+                //   child: 
+                  Text('u/${loadProfile.displayName}',
+                      style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),
-                ),
+               //),
                 expandedHeight: (loadProfile.description == null ||
                         loadProfile.description == '')
                     ? 54.h
@@ -53,7 +60,7 @@ class OtherProfileApp extends StatelessWidget {
                       pinned: true,
                       snap: false,
                       bottom: PreferredSize(
-                          preferredSize: tabBar.preferredSize,
+                          preferredSize: const Size(double.infinity, kToolbarHeight),
                           child: ColoredBox(
                             color: Colors.white,
                             child: tabBar,
@@ -70,8 +77,8 @@ class OtherProfileApp extends StatelessWidget {
                                 // color: Colors.blue,
                                 height: (loadProfile.description == null ||
                                         loadProfile.description == '')
-                                    ? 51.h
-                                    : (51 +
+                                    ? 56.h
+                                    : (56 +
                                             (loadProfile.description
                                                     .toString()
                                                     .length /
@@ -109,12 +116,14 @@ class OtherProfileApp extends StatelessWidget {
           ];
         },
         body: isLoading
-            ? LoadingReddit()
+            ? const LoadingReddit()
             : TabBarView(controller: controller, children: [
                 ProfilePosts(
                     routeNamePop: OthersProfileScreen.routeName,
-                    userName: userName),
-                ProfileComments(),
+                    userName: userName,
+                   // controller: _scrollController,
+                    ),
+                ProfileComments(userName: userName),
                 OthersProfileAbout(
                     int.parse(loadProfile.postKarma.toString()),
                     int.parse(loadProfile.commentkarma.toString()),

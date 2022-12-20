@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/status.dart';
+import '../../moderation_settings/widgets/status.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/upper_bar.dart';
 import '../widgets/upper_text.dart';
@@ -21,7 +21,7 @@ class GenderState extends State<Gender> {
   void submitGender(type, context) async {
     final provider = Provider.of<Auth>(context, listen: false);
     provider.changeGender(type).then((value) {
-      if (value) Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
+      if (value) Navigator.of(context).pushNamed(HomeLayoutScreen.routeName);
     });
   }
 

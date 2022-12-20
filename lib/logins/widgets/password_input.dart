@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/status.dart';
+import '../../moderation_settings/widgets/status.dart';
 import '../../models/wrapper.dart';
 
 class PasswordInput extends StatefulWidget {
