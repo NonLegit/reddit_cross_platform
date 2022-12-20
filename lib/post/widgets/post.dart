@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:post/post/widgets/post_body_in_screen.dart';
 import 'package:post/post/widgets/post_mod_tools.dart';
-import 'package:visibility_detector/visibility_detector.dart';
+import 'package:provider/provider.dart';
+import '../../moderation_settings/models/moderators.dart';
+import '../../moderation_settings/models/user.dart';
+import '../../moderation_settings/provider/moderation_settings_provider.dart';
 import '../models/post_model.dart';
 import './post_header.dart';
 import './post_footer.dart';
 import './post_body.dart';
-import 'post_card.dart';
-import 'post_images.dart';
 
 /// This is the main post Widget.
 ///
@@ -14,31 +16,39 @@ import 'post_images.dart';
 class Post extends StatefulWidget {
   final PostModel data;
   bool _inHome = false, _inProfile = false;
-  final Function updateDate;
+  //final Function updateDate;
   final bool inView;
+  final String userName;
+  final bool inScreen;
 
   /// This is the constructor for home page.
-  Post.home(
-      {super.key,
-      required this.data,
-      required this.updateDate,
-      required this.inView}) {
+  Post.home({
+    super.key,
+    required this.data,
+    required this.inView,
+    required this.userName,
+    this.inScreen = false,
+  }) {
     _inHome = true;
   }
 
   /// This is the constructor for community page.
-  Post.community(
-      {super.key,
-      required this.data,
-      required this.updateDate,
-      required this.inView});
+  Post.community({
+    super.key,
+    required this.data,
+    required this.inView,
+    this.inScreen = false,
+    required this.userName,
+  });
 
   /// This is the constructor for profile page.
-  Post.profile(
-      {super.key,
-      required this.data,
-      required this.updateDate,
-      required this.inView}) {
+  Post.profile({
+    super.key,
+    required this.data,
+    required this.inView,
+    this.inScreen = false,
+    required this.userName,
+  }) {
     _inProfile = true;
   }
 
@@ -48,25 +58,42 @@ class Post extends StatefulWidget {
 
 class _PostState extends State<Post> {
   PostModel data;
-  Function updateData;
+  //Function updateData;
   bool isApprove = false;
-  _PostState(this.data, this.updateData);
-  spoiler() {
-    setState(() {
-      data.spoiler = !(data.spoiler as bool);
-    });
+  _PostState(
+    this.data,
+  );
+
+  update() {
+    setState(() {});
   }
 
-  nsfw() {
-    setState(() {
-      data.nsfw = !(data.nsfw as bool);
-    });
-  }
+  @override
+  void didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    if (widget.data.isModerator == null &&
+        widget.data.ownerType == 'Subreddit') {
+      final provider =
+          await Provider.of<ModerationSettingProvider>(context, listen: false);
+      await provider
+          .getUser(
+              widget.data.owner?.name as String, UserCase.moderator, context)
+          .then((value) async {
+        List<Moderators>? moderators = provider.moderators;
 
-  approve() {
-    setState(() {
-      isApprove = !(isApprove);
-    });
+        for (var mod in moderators!) {
+          widget.data.isModerator = false;
+            print('=============Is mod:${mod.userName}=======================');
+
+          if (mod.userName == widget.userName) {
+            widget.data.isModerator = true;
+            break;
+          }
+        }
+        setState(() {});
+      });
+    }
+    super.didChangeDependencies();
   }
 
   updateImageNumber(int number) {
@@ -75,47 +102,63 @@ class _PostState extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
-    updateData(data.sId, data);
     // return PostImages(
     //   links: data.images!.cast<String>(),
     //   maxHeightImageSize: data.maxHeightImageSize as Size,
     //   updateImageNumber: updateImageNumber,
     //   imageNumber: data.imageNumber,
     // );
-    return Container(
-      margin: const EdgeInsetsDirectional.only(bottom: 10),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          PostHeader(
-            inHome: widget._inHome,
-            inProfile: widget._inProfile,
-            authorName: widget.data.author?.name as String,
-            ownerName: widget.data.owner?.name as String,
-            createDate: widget.data.createdAt as String,
-            ownerIcon: widget.data.owner?.icon as String,
-            isSaved: widget.data.isSaved as bool,
-          ),
-          PostBody(
-            inView: widget.inView,
-            data: data,
-            updateImageNumber: updateImageNumber,
-          ),
-          PostFooter(
-              votes: widget.data.votes as int,
-              comments: widget.data.commentCount as int,
-              id: widget.data.sId as String,
-              postVoteStatus: int.parse(widget.data.postVoteStatus as String)),
-          PostModTools(
-            isApproved: isApprove,
-            isNSFW: data.nsfw as bool,
-            isSpoiler: data.spoiler as bool,
-            approve: approve,
-            nsfw: nsfw,
-            spoiler: spoiler,
-          ),
-        ],
-      ),
-    );
+    return widget.data.isDeleted ?? false
+        ? SizedBox()
+        : Container(
+            margin: const EdgeInsetsDirectional.only(bottom: 10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                PostHeader(
+                  inScreen: widget.inScreen,
+                  update: update,
+                  isMyPost: (widget.data.author?.name == widget.userName),
+                  inHome: widget._inHome,
+                  inProfile: widget._inProfile,
+                  authorName: widget.data.author?.name as String,
+                  ownerName: widget.data.owner?.name as String,
+                  createDate: widget.data.createdAt as String,
+                  ownerIcon: widget.data.owner?.icon as String,
+                  isSaved: widget.data.isSaved as bool,
+                  data: widget.data,
+                ),
+                widget.inScreen
+                    ? PostBodyInScreen(
+                        data: data, inView: true, userName: widget.userName)
+                    : PostBody(
+                        userName: widget.userName,
+                        inView: widget.inView,
+                        data: data,
+                      ),
+                PostFooter(
+                    inScreen: widget.inScreen,
+                    data: widget.data,
+                    isMyPost: (widget.data.author?.name == widget.userName),
+                    votes: widget.data.votes as int,
+                    comments: widget.data.commentCount as int,
+                    id: widget.data.sId as String,
+                    postVoteStatus:
+                        int.parse(widget.data.postVoteStatus as String)),
+                (widget.data.isModerator ?? false)
+                    ? PostModTools(
+                        inScreen: widget.inScreen,
+                        isRemoved: widget.data.removed as bool,
+                        isCommentsLocked: widget.data.locked as bool,
+                        isMyPost: (widget.data.author?.name == widget.userName),
+                        data: data,
+                        isApproved: data.approved as bool,
+                        isNSFW: data.nsfw as bool,
+                        isSpoiler: data.spoiler as bool,
+                        update: update)
+                    : const SizedBox(),
+              ],
+            ),
+          );
   }
 }

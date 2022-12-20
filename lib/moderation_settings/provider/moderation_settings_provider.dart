@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-
 import '../../networks/dio_client.dart';
 import '../../networks/const_endpoint_data.dart';
 import '../models/moderator_tools.dart';
@@ -85,7 +83,7 @@ class ModerationSettingProvider with ChangeNotifier {
         if (userCase == UserCase.moderator) {
           moderators = (response.data['data'] as List<dynamic>).map((e) {
             Map<String, Object> myMap = Map<String, Object>.from(e);
-            print(myMap.runtimeType);
+            print(myMap);
             return Moderators.fromJson(myMap);
           }).toList();
         } else if (userCase == UserCase.banned) {

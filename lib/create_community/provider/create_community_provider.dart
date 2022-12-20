@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
 import '../../networks/dio_client.dart';
 import '../../networks/const_endpoint_data.dart';
 import '../models/create_community_model.dart';

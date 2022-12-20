@@ -55,8 +55,6 @@ import 'subreddit/screens/subreddit_screen.dart';
 import 'screens/subreddit_search_screen.dart';
 import 'subreddit/screens/community_info_screen.dart';
 import 'screens/contact_mod_message_screen.dart';
-import 'other_profile/providers/other_profile_provider.dart';
-import 'myprofile/providers/myprofile_provider.dart';
 import 'moderated_subreddit/screens/mod_notification_screen.dart';
 import 'moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import './settings/screens/settings.dart';
@@ -90,10 +88,15 @@ import 'moderation_settings/screens/post_flair.dart';
 import 'moderation_settings/screens/post_flair_settings.dart';
 import './search/screens/search.dart';
 import './search/screens/search_inside.dart';
+import './discover/screens/discover_screen.dart';
 //=====================================Providers====================================================//
 import './providers/profile_comments_provider.dart';
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
+// import './providers/profile_comments_provider.dart';
+// import './providers/profile_post_provider.dart';
+import './providers/Profile_provider.dart';
+import 'providers/subreddit_posts_provider.dart';
 import './subreddit/providers/subreddit_provider.dart';
 import './moderated_subreddit/providers/moderated_subreddit_provider.dart';
 import './create_community/provider/create_community_provider.dart';
@@ -104,6 +107,7 @@ import 'moderation_settings/provider/post_flair_provider.dart';
 import './moderation_settings/provider/change_user_management.dart';
 import './settings/provider/user_settings_provider.dart';
 import './search/provider/search_provider.dart';
+import './discover/providers/discover_provider.dart';
 //import './models/push_notification_model.dart';
 
 String returnCorrectText(type, name, user) {
@@ -274,6 +278,7 @@ Future<void> main() async {
   // final RemoteMessage? remoteMessage =
   //   await FirebaseMessaging.instance.getInitialMessage();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(
     ChangeNotifierProvider<GlobalSettings>(
       create: (context) => GlobalSettings(true, true),
@@ -432,6 +437,12 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider.value(value: SubredditPostProvider()),
             ChangeNotifierProvider.value(value: PostFlairProvider()),
             ChangeNotifierProvider.value(value: MessageProvider()),
+          //  ChangeNotifierProvider.value(value: ProfilePostProvider()),
+            ChangeNotifierProvider.value(value: PostProvider()),
+            ChangeNotifierProvider.value(value: SubredditPostsProvider ()),
+           // ChangeNotifierProvider.value(value: ProfileCommentsProvider()),
+            ChangeNotifierProvider.value(value: ProfileProvider()),
+            ChangeNotifierProvider.value(value: DiscoverProvider()),
           ],
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
@@ -458,6 +469,17 @@ class _MyAppState extends State<MyApp> {
             // home: EditPost(),
             // home: Login(),
             //  home: SearchInside(quiry: 'mohab'),
+            //home: const DiscoverScreen(),
+          // home: homeLayoutScreen(),
+            // home: Description(),
+            // home: HomeScreen(),
+            // home: MyProfileScreen(),
+            // home: NotificationScreen(),
+            // home:ShowPostDetails(),
+            // home: CreateCommunity(),
+            //home: homeLayoutScreen(),
+            // home: HomeScreen(),
+          home: Login(),
             // home: CreateCommunity(),
             // home: Login(),
             // home: ForgotUserName(),
@@ -498,6 +520,10 @@ class _MyAppState extends State<MyApp> {
               EditModeratorScreen.routeName: (context) =>
                   EditModeratorScreen(subredditName: ''),
 
+              EditApprovedScreen.routeName: (context) => EditApprovedScreen(),
+              EditBannedScreen.routeName: (context) => EditBannedScreen(),
+              EditMutedScreen.routeName: (context) => EditMutedScreen(),
+              EditModeratorScreen.routeName: (context) => EditModeratorScreen(),
               ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
               MutedScreen.routeName: (context) => MutedScreen(),
               BannedScreen.routeName: (context) => BannedScreen(),

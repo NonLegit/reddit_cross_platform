@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:post/networks/const_endpoint_data.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../widgets/subreddit_copy_share.dart';
 import '../../moderated_subreddit/providers/moderated_subreddit_provider.dart';
+import '../../widgets/custom_snack_bar.dart';
 
 class ModeratedSubredditPopupMenuButton extends StatefulWidget {
   final String linkOfCommuinty;
@@ -166,6 +165,13 @@ class ModeratedSubredditPopupMenuButtonState
             .joinAndDisjoinModeratedSubreddit(communityName, 'unsub', context);
     if (unSub) {
       changeDisJoinStatus();
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false, text: 'Leave Successfully', disableStatus: true),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar(
+          isError: true, text: 'Leave Failed', disableStatus: true));
     }
     Navigator.of(ctx).pop();
   }
@@ -173,7 +179,7 @@ class ModeratedSubredditPopupMenuButtonState
 // to disjoin change the isJoined status
   bool changeDisJoinStatus() {
     setState(() {
-          isJoinedstate = false;
+      isJoinedstate = false;
     });
 
     return isJoinedstate;
@@ -188,15 +194,23 @@ class ModeratedSubredditPopupMenuButtonState
       setState(() {
         changeJoinStatus();
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false, text: 'Join Successfully', disableStatus: true),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(isError: true, text: 'Join Failed', disableStatus: true),
+      );
     }
   }
 
 // to join change the isJoined status
   bool changeJoinStatus() {
     setState(() {
-        isJoinedstate = true;
+      isJoinedstate = true;
     });
-  
+
     return isJoinedstate;
   }
 

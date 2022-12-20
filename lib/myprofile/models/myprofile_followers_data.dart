@@ -15,7 +15,7 @@ class MyProfileFollowersData {
     profilePicture=json['profilePicture'];
     userName = json['userName'];
     displayName = json['displayName'];
-    karama = json['ownerType'];
+    karama =int.parse(json['commentKarma'].toString())+int.parse(json['postKarma'].toString());
     isFollowed = json['isFollowed'];
   }
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 class PostModel {
@@ -37,40 +36,45 @@ class PostModel {
   Size? maxHeightImageSize;
   int imageNumber;
   VideoPlayerController? videoController;
+  bool? isModerator;
+  bool? approved;
+  bool? removed;
 
-  PostModel({
-    this.sId,
-    this.ownerType,
-    this.replies,
-    this.title,
-    this.kind,
-    this.text,
-    this.images,
-    this.createdAt,
-    this.locked,
-    this.isDeleted,
-    this.sendReplies,
-    this.nsfw,
-    this.spoiler,
-    this.votes,
-    this.views,
-    this.commentCount,
-    this.shareCount,
-    this.suggestedSort,
-    this.scheduled,
-    this.flairId,
-    this.isHidden,
-    this.isSaved,
-    this.owner,
-    this.author,
-    this.postVoteStatus,
-    this.isSpam,
-    this.url,
-    this.video,
-    this.maxHeightImageSize,
-    this.imageNumber = 0,
-    this.videoController,
-  });
+  PostModel(
+      {this.sId,
+      this.ownerType,
+      this.replies,
+      this.title,
+      this.kind,
+      this.text,
+      this.images,
+      this.createdAt,
+      this.locked,
+      this.isDeleted,
+      this.sendReplies,
+      this.nsfw,
+      this.spoiler,
+      this.votes,
+      this.views,
+      this.commentCount,
+      this.shareCount,
+      this.suggestedSort,
+      this.scheduled,
+      this.flairId,
+      this.isHidden,
+      this.isSaved,
+      this.owner,
+      this.author,
+      this.postVoteStatus,
+      this.isSpam,
+      this.url,
+      this.video,
+      this.maxHeightImageSize,
+      this.imageNumber = 0,
+      this.videoController,
+      this.isModerator,
+      this.approved,
+      this.removed});
 
   Future<Size> _calculateImageSize(link) {
     Completer<Size> completer = Completer();
@@ -158,11 +162,11 @@ class PostModel {
     text = json['text'];
     images = json['images'];
     createdAt = json['createdAt'];
-    locked = json['locked'];
-    isDeleted = json['isDeleted'];
-    sendReplies = json['sendReplies'];
-    nsfw = json['nsfw'];
-    spoiler = json['spoiler'];
+    locked = json['locked'] ?? false;
+    isDeleted = json['isDeleted'] ?? false;
+    sendReplies = json['sendReplies'] ?? false;
+    nsfw = json['nsfw'] ?? false;
+    spoiler = json['spoiler'] ?? false;
     votes = json['votes'];
     views = json['views'];
     commentCount = json['commentCount'];
@@ -171,13 +175,13 @@ class PostModel {
     scheduled = json['scheduled'];
     flairId =
         json['flairId'] != null ? new FlairId.fromJson(json['flairId']) : null;
-    isHidden = json['isHidden'];
-    isSaved = json['isSaved'];
+    isHidden = json['isHidden'] ?? false;
+    isSaved = json['isSaved'] ?? false;
     owner = json['owner'] != null ? new Owner.fromJson(json['owner']) : null;
     author =
         json['author'] != null ? new Author.fromJson(json['author']) : null;
-    postVoteStatus = json['postVoteStatus'];
-    isSpam = json['isSpam'];
+    postVoteStatus = json['postVoteStatus'].toString();
+    isSpam = json['isSpam'] ?? false;
     url = (json['url'] != null) ? json['url'] : '';
     video = (json['video'] != null) ? json['video'] : '';
     if (kind == 'image') {
@@ -187,9 +191,8 @@ class PostModel {
     if (kind == 'video') {
       videoController = await getController(video);
     }
-  }
-  dispose(){
-    
+    approved = json['isApproved'] ?? false;
+    removed = json['isRemoved'] ?? false;
   }
 }
 

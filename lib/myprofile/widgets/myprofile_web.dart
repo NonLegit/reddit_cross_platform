@@ -40,7 +40,7 @@ class MyProfileWeb extends StatelessWidget {
               )
             : TabBarView(controller: controller, children: [
                 OverviewMyProfileWeb(loadProfile: loadProfile),
-                MyProfilePostWeb(),
+                // MyProfilePostWeb(),
                 MyProfileCommentWeb(),
                 MyProfileCommentWeb(),
                 MyProfileCommentWeb(),

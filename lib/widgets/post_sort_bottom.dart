@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/profile_post_provider.dart';
-import '../providers/subreddit_post_provider.dart';
+import '../providers/Profile_provider.dart';
+import '../providers/subreddit_posts_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class PostSortBottom extends StatefulWidget {
@@ -112,10 +112,10 @@ class PostSortBottomState extends State<PostSortBottom>
         return GestureDetector(
           onTap: () {},
           child: Container(
-            padding: const EdgeInsets.all(20),
-            height: 35.h,
+            padding: const EdgeInsets.all(30),
+            height: 40.h,
             width: 30.w,
-            margin: const EdgeInsets.all(5),
+            margin: const EdgeInsets.all(15),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5), color: Colors.white),
             child: Column(
@@ -177,13 +177,13 @@ class PostSortBottomState extends State<PostSortBottom>
     _icon = liItemIcons[index] as IconData;
     _dropDownValue = '${litems[index].toUpperCase()} POSTS ';
     if (widget.type == 'User') {
-      Provider.of<ProfilePostProvider>(context, listen: false)
-          .fetchProfilePosts(widget.userName, litems[tappedIndex as int],widget.page,widget._limit)
+      Provider.of<ProfileProvider>(context, listen: false)
+          .fetchProfilePosts(widget.userName, litems[tappedIndex as int],widget.page,widget._limit,context)
           .then((value) {});
     } else {
-      Provider.of<SubredditPostProvider>(context, listen: false)
+      Provider.of<SubredditPostsProvider>(context, listen: false)
           .fetchSubredditePosts(
-              widget.userName, litems[tappedIndex as int].toLowerCase(),widget.page,widget._limit)
+              widget.userName, litems[tappedIndex as int].toLowerCase(),widget.page,widget._limit,context)
           .then((value) {});
     }
     return tappedIndex as int;

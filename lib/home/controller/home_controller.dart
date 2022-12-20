@@ -177,6 +177,8 @@ RxInt pageNumberAll=1.obs;
     }
   }
   Future getPosts() async {
+    isLoading.value = true;
+    error.value = false;
     final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
     try {

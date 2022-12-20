@@ -9,9 +9,9 @@ import 'package:post/post/widgets/post_tags_and_title.dart';
 import 'package:post/widgets/loading_reddit.dart';
 
 class PostImages extends StatefulWidget {
+  final PostModel data;
   final List<String> links;
   final Size maxHeightImageSize;
-  final Function updateImageNumber;
   final int imageNumber;
   final String title;
   final bool spoiler;
@@ -21,12 +21,12 @@ class PostImages extends StatefulWidget {
     super.key,
     required this.links,
     required this.maxHeightImageSize,
-    required this.updateImageNumber,
     required this.imageNumber,
     required this.title,
     required this.spoiler,
     required this.nsfw,
     required this.flair,
+    required this.data,
   });
 
   @override
@@ -41,7 +41,7 @@ class _PostImageState extends State<PostImages> {
 
   void updateImageNumber(value) => setState(() {
         imageNumber = value;
-        widget.updateImageNumber(value);
+        widget.data.imageNumber = value;
         imageCounterVisible = true;
         var timer;
         timer = Timer(const Duration(milliseconds: 3000), () {

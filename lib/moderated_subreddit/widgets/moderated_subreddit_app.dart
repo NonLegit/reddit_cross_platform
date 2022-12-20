@@ -57,7 +57,7 @@ class ModeratedSubredditApp extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                   width: 60.w,
-                  height: 4.h,
+                  height: 5.h,
                   //color: Color.fromARGB(157, 255, 245, 245),
                   child: InkWell(
                     onTap: () {
@@ -72,8 +72,9 @@ class ModeratedSubredditApp extends StatelessWidget {
                         ),
                         Text(
                           'r/${loadedSubreddit!.name}',
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                              color: Colors.white, fontWeight: FontWeight.bold,fontSize: 20),
                         ),
                       ],
                     ),

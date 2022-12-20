@@ -39,7 +39,7 @@ class OtherProfileWeb extends StatelessWidget {
               )
             : TabBarView(controller: controller, children: [
                 OverviewMyProfileWeb(loadProfile: loadProfile),
-                MyProfilePostWeb(),
+              //  MyProfilePostWeb(),
                 MyProfileCommentWeb(),
                 OthersProfileAbout(
                     int.parse(loadProfile.postKarma.toString()),

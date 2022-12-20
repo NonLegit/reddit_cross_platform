@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../models/others_profile_data.dart';
 import '../widgets/invite_button.dart';
-import '../widgets/follow_button.dart';
+import '../../widgets/follow_button.dart';
 import '../providers/other_profile_provider.dart';
 
 class PositionInFlexAppBarOtherProfile extends StatelessWidget {
@@ -43,7 +43,7 @@ top: 9.h,
             //Follow and invite
             Row(
               children: [
-                FollowButton(userName: loadProfile.userName.toString(),isFollowed: loadProfile.isFollowed),
+                FollowButton(profileUsed: 'OtherProfile', userName: loadProfile.userName.toString(),isFollowed: loadProfile.isFollowed),
                 Container(
                     width: 15.w,
                     height: 6.h,

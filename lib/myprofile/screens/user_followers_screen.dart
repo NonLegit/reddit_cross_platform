@@ -5,8 +5,10 @@ import 'package:post/other_profile/widgets/other_profile_app.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../widgets/loading_reddit.dart';
+import '../../widgets/follow_button.dart';
 import '../models/myprofile_followers_data.dart';
 import '../providers/myprofile_provider.dart';
+import '../../other_profile/screens/others_profile_screen.dart';
 
 class UserFollowersScreen extends StatefulWidget {
   static const routeName = '/userfollowers';
@@ -59,7 +61,7 @@ class _UserFollowersScreenState extends State<UserFollowersScreen> {
         _isLoading = true;
       });
       Provider.of<MyProfileProvider>(context, listen: false)
-          .fetchAndSetFollowersData()
+          .fetchAndSetFollowersData(context)
           .then((value) {
         followersData = Provider.of<MyProfileProvider>(context, listen: false)
             .gettingMyProfileFollowersData;
@@ -129,35 +131,32 @@ class _UserFollowersScreenState extends State<UserFollowersScreen> {
                                   child: Column(
                                     children: [
                                       ListTile(
-                                        leading: CircleAvatar(
-                                          radius: 20,
-                                          backgroundImage: NetworkImage(
-                                              followersData![index]
-                                                  .profilePicture
-                                                  .toString()),
-                                        ),
-                                        title: Text(followersData![index]
-                                            .displayName
-                                            .toString()),
-                                        subtitle: Text(
-                                            '${followersData![index].userName.toString()} . ${followersData![index].karama} karma'),
-                                        trailing:
-                                            (followersData![index].isFollowed ==
-                                                    true)
-                                                ? const Text('Following')
-                                                : const Text('Follow'),
-                                      ),
+                                          onTap: () =>
+                                              Navigator.of(context).pushNamed(OthersProfileScreen.routeName,arguments:followersData![index].userName.toString() ),
+                                          leading: CircleAvatar(
+                                            radius: 20,
+                                            backgroundImage: NetworkImage(
+                                                followersData![index]
+                                                    .profilePicture
+                                                    .toString()),
+                                          ),
+                                          title: Text(followersData![index]
+                                              .displayName
+                                              .toString()),
+                                          subtitle: Text(
+                                              '${followersData![index].userName.toString()} . ${followersData![index].karama} karma'),
+                                          trailing: FollowButton(
+                                              userName: followersData![index]
+                                                  .userName
+                                                  .toString(),
+                                              profileUsed: 'MyProfile',
+                                              isFollowed: followersData![index]
+                                                  .isFollowed as bool)),
                                       const Divider()
                                     ],
                                   ),
                                 ),
-                                onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                      OthersProfileScreen.routeName,
-                                      arguments: followersData![index]
-                                          .userName
-                                          .toString());
-                                },
+                                onTap: () {},
                               )),
                           itemCount: followersData?.length,
                         ),
@@ -170,11 +169,11 @@ class _UserFollowersScreenState extends State<UserFollowersScreen> {
                         SizedBox(
                           height: 30.h,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.reddit,
                           size: 200,
                         ),
-                        Text(
+                        const Text(
                           'Wow,such empty',
                           style: TextStyle(color: Colors.grey),
                         )

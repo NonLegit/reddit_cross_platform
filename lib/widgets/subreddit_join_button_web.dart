@@ -60,14 +60,13 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
                         style: TextStyle(fontSize: 13),
                       )
                     : const Text('Join'),
-                onPressed: () async {
+                onPressed: ()async {
                   if (isJoinedstate) {
                     disJoin();
                   } else {
-                    await Provider.of<SubredditProvider>(context, listen: false)
-                        .joinAndDisjoinSubreddit(
-                            widget.communityName, 'sub', context)
-                        .then((value) {
+                   await Provider.of<SubredditProvider>(context, listen: false)
+                        .joinAndDisjoinSubreddit(widget.communityName,
+                          'sub',context).then((value) {
                       setState(() {
                         isJoinedstate = true;
                       });
@@ -116,18 +115,17 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
             height: 6.h,
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                    const Color.fromARGB(255, 242, 16, 0)),
+                backgroundColor:
+                    MaterialStateProperty.all(const Color.fromARGB(255, 242, 16, 0)),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
                 shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
               child: const Text('Leave'),
-              onPressed: () async {
+               onPressed: () async {
                 await Provider.of<SubredditProvider>(context, listen: false)
                     .joinAndDisjoinSubreddit(
-                        widget.communityName, 'unsub', context)
-                    .then((value) {
+                       widget.communityName,'unsub',context).then((value) {
                   setState(() {
                     disJoin();
                   });

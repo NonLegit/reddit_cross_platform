@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:get/get.dart';
-import 'package:post/messages/screens/new_message_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../messages/Provider/message_provider.dart';
 import '../models/notification_class_model.dart';

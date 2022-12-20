@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:post/comments/screens/add_comment_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../comments/widgets/comments_list.dart';
 import '../../notification/widgets/list_tile_widget.dart';
+import '../../post/models/post_model.dart';
+import '../../post/widgets/post.dart';
 import '../widgets/edit_post.dart';
 
 class ShowPostDetails extends StatefulWidget {
   static const routeName = '/showpost-screen';
-  const ShowPostDetails({super.key});
+
+  const ShowPostDetails({
+    super.key,
+  });
 
   @override
   State<ShowPostDetails> createState() => _ShowPostDetailsState();
 }
 
 class _ShowPostDetailsState extends State<ShowPostDetails> {
+  late String userName;
+  late PostModel data;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    //===============================Fetch subreddit data =======================================//
+
+    var temp =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    userName = temp['userName'];
+    data = temp['data'];
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +80,63 @@ class _ShowPostDetailsState extends State<ShowPostDetails> {
           ),
         ],
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Post.home(
+                data: data, userName: userName, inView: true, inScreen: true),
+            CommentsList(
+              postId: data.sId ?? '',
+              userName: userName,
+            )
+          ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+          padding: const EdgeInsetsDirectional.all(5),
+          child: GestureDetector(
+            onTap: () {
+              Get.to(AddCommentScreen(),
+                  arguments: {'parentId': data.sId, 'title': data.title});
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                border: Border.all(
+                  color: Colors.grey,
+                ),
+              ),
+              child: const Padding(
+                padding: EdgeInsetsDirectional.all(5),
+                child: Text(
+                  'Add a comment',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+            ),
+          )
+
+          //  TextFormField(
+          //   onChanged: (value) {},
+          //   onTap: () {
+          //     Get.to(AddCommentScreen(),
+          //         arguments: {'parentId': data.sId, 'title': data.title});
+          //   },
+          //   enabled: false,
+          //   style: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w700),
+          //   showCursor: true,
+
+          //   textAlign: TextAlign.start,
+          //   decoration: InputDecoration(
+          //     hintText: 'Add a comment',
+          //     enabledBorder: OutlineInputBorder(
+          //       borderSide:
+          //           BorderSide(width: 2, color: Colors.grey), //<-- SEE HERE
+          //       borderRadius: BorderRadius.circular(10.0),
+          //     ),
+          //   ),
+          // ),
+          ),
     );
   }
 }

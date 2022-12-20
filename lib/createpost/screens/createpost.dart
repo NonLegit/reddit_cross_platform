@@ -402,6 +402,51 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                         ),
                       ),
 
+                const SizedBox(
+                  height: 10.0,
+                ),
+
+                const SizedBox(
+                  height: 10.0,
+                ),
+                Expanded(child: BuildFormType(controller: controller,)),
+                    Padding(
+                        padding: const EdgeInsetsDirectional.only(start: 20, bottom: 10),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                controller.typeOfPost.value = "text";
+                              },
+                              icon: const Icon(IconBroken.Document),
+                            ),
+                            IconButton(
+                                onPressed: () async {
+                                  controller.imageFileList!.clear();
+                                  selectImages();
+                                  print(
+                                      "lenght of list is ${controller.imageFileList!.length}");
+                                  controller.typeOfPost.value = "image";
+                                },
+                                icon: const Icon(IconBroken.Image_2)),
+                            IconButton(
+                              onPressed: () {
+                                controller.videoFile.value=null;
+                                controller.videoController.value=null;
+                                controller.getVideo();
+                                controller.typeOfPost.value = "video";
+                              },
+                              icon: const Icon(IconBroken.Video),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                controller.typeOfPost.value = "url";
+                              },
+                              icon: const Icon(IconBroken.Bookmark),
+                            ),
+                          ],
+                        ),
+                      ),
 
 
               ],

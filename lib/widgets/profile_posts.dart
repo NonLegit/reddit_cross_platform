@@ -6,9 +6,9 @@ import 'package:post/widgets/loading_reddit.dart';
 //import 'package:flutter_code_style/analysis_options.yaml';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import './post_sort_bottom.dart';
-import '../post/widgets/post.dart';
+import '../post/widgets/post_list.dart';
 import 'package:provider/provider.dart';
-import '../providers/profile_post_provider.dart';
+import '../providers/Profile_provider.dart';
 import '../post/models/post_model.dart';
 
 class ProfilePosts extends StatefulWidget {
@@ -25,101 +25,105 @@ class ProfilePosts extends StatefulWidget {
   State<ProfilePosts> createState() => _ProfilePosts();
 }
 
-class _ProfilePosts extends State<ProfilePosts> {
-//     final  String routeNamePop;
-//  _PostsState(this.routeNamePop);
-  final _dropDownValue = 'HOT POST';
-  final _icon = Icons.local_fire_department_rounded;
-  // bool _isInit = true;
-  // bool _isLoading = false;
-  // List<PostModel>? posts = [];
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {
-  //     setState(() {
-  //       _isLoading = true;
-  //     });
-  //     Provider.of<ProfilePostProvider>(context, listen: false)
-  //         .fetchProfilePosts(widget.userName)
-  //         .then((value) {
-  //       posts = Provider.of<ProfilePostProvider>(context, listen: false)
-  //           .gettingProfilePostData;
-  //       setState(() {
-  //         _isLoading = false;
-  //       });
-  //     });
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
+class ProfilePostsState extends State<ProfilePosts> {
+  int _page = 1;
 
-  final sampleTree = TreeNode.root()
-    ..addAll([
-      TreeNode(key: "0A")..add(TreeNode(key: "0A1A")),
-      TreeNode(key: "0C")
-        ..addAll([
-          TreeNode(key: "0C1A"),
-          TreeNode(key: "0C1B"),
-          TreeNode(key: "0C1C")
-            ..addAll([
-              TreeNode(key: "0C1C2A")
-                ..addAll([
-                  TreeNode(key: "0C1C2A3A"),
-                  TreeNode(key: "0C1C2A3B"),
-                  TreeNode(key: "0C1C2A3C"),
-                ]),
-            ]),
-        ]),
-      TreeNode(key: "0D"),
-      TreeNode(key: "0E"),
-    ]);
+  bool _isLoadMoreRunning = false;
+
+  bool _isInit = true;
+  bool _isLoading = false;
+  List<PostModel>? posts = [];
+  late ScrollController _scrollController;
+  void _loadMore() {
+    if (_isLoading == false && _isLoadMoreRunning == false) {
+      setState(() {
+        toggleLoadingMore(); // Display a progress indicator at the bottom
+      });
+      setState(() {
+        _page += 1;
+      });
+      // Increase _page by
+
+      setState(() {
+        toggleLoadingMore();
+      });
+    }
+  }
+
+  bool toggleLoadingMore() => _isLoadMoreRunning = !_isLoadMoreRunning;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(
+        '==============================inint profile Post======================');
+    print(widget.userName);
+    // _scrollController = ScrollController()..addListener(_loadMore);
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<ProfileProvider>(context, listen: false)
+          .fetchProfilePosts(widget.userName, 'Hot', _page, 25,context)
+          .then((value) {
+        posts = Provider.of<ProfileProvider>(context, listen: false)
+            .gettingProfilePostData;
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      // scrollDirection: Axis.vertical,
-      children: [
-        // PostSortBottom(
-        //   widget.routeNamePop,
-        //   //_dropDownValue, _icon
-        // ),
-        // Container(
-        //   height: 500,
-        //   child: TreeView.simple(
-        //     key: UniqueKey(),
-        //     tree: sampleTree,
-        //     builder: (context, level, item) => PostHeader(
-        //       authorName: 'Amr',
-        //       createDate: '2022-12-06T14:21:02.113Z',
-        //       isSaved: false,
-        //       ownerIcon: '',
-        //       ownerName: 'test',
-        //       inProfile: false,
-        //       inHome: false,
-        //     ),
-        //   ),
-        // ),
-
-        PostList(userName: widget.userName),
-        // SingleChildScrollView(
-        //   child: ListView.builder(
-        //     physics: const ClampingScrollPhysics(),
-        //     shrinkWrap: true,
-        //     itemBuilder: ((context, index) => Post.profile(
-        //           key: UniqueKey(),
-        //           data: posts![index],
-        //         )),
-        //     itemCount: posts?.length,
-        //   ),
-        // ),
-
-        // widget.posts.forEach((post) {
-        //   Post.community(
-        //     data: post,
-        //   );
-        // }),
-      ],
-    );
-    // : LoadingReddit();
+    posts = Provider.of<ProfileProvider>(context, listen: true)
+        .gettingProfilePostData;
+    return (_isLoading || _isLoadMoreRunning)
+        ? LoadingReddit()
+        : (posts != null)
+            ? PostList(
+                topOfTheList: Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: PostSortBottom(
+                    page: _page,
+                    type: 'User',
+                    routeNamePop: widget.routeNamePop,
+                    userName: widget.userName,
+                  ),
+                ),
+                userName:widget.userName,
+                updateData: _loadMore,
+                data: posts as List<PostModel>,type: 'profile',)
+            : Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    const Icon(
+                      Icons.reddit,
+                      size: 100,
+                    ),
+                    const Text(
+                      'Wow,such empty',
+                      style: TextStyle(color: Colors.grey),
+                    )
+                  ],
+                ),
+              );
   }
 }

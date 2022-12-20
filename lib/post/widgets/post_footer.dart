@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/typicons_icons.dart';
 import 'package:intl/intl.dart';
+import 'package:post/post/models/post_model.dart';
 import 'package:post/post/provider/post_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -14,14 +15,23 @@ class PostFooter extends StatefulWidget {
 
   /// the number of comments on the post
   final int comments;
+
+  /// Check if it's a post created by the user
+  final bool isMyPost;
+
   final int postVoteStatus;
   final String id;
+  final PostModel data;
+  final bool inScreen;
   const PostFooter(
       {super.key,
       required this.votes,
       required this.comments,
       required this.postVoteStatus,
-      required this.id});
+      required this.id,
+      required this.isMyPost,
+      required this.data,
+      required this.inScreen});
   @override
   State<PostFooter> createState() =>
       _PostFooterState(postVoteStatus: postVoteStatus, votes: votes);
@@ -32,57 +42,74 @@ class _PostFooterState extends State<PostFooter> {
   int votes;
   _PostFooterState({required this.postVoteStatus, required this.votes});
 
-  upVote() {
+  upVote() async {
     if (postVoteStatus != 1) {
-      Provider.of<PostProvider>(context, listen: false)
-          .updateVotes(widget.id, 1);
-      setState(() {
-        if (postVoteStatus == -1)
-          votes = votes + 2;
-        else
-          ++votes;
-        postVoteStatus = 1;
-      });
+      if (await Provider.of<PostProvider>(context, listen: false)
+          .updateVotes(widget.id, 1)) {
+        setState(() {
+          if (postVoteStatus == -1) {
+            votes = votes + 2;
+            widget.data.votes = (widget.data.votes! + 2);
+          } else {
+            ++votes;
+            widget.data.votes = (widget.data.votes! + 1);
+          }
+          postVoteStatus = 1;
+          widget.data.postVoteStatus = 1.toString();
+        });
+      }
     } else {
-      Provider.of<PostProvider>(context, listen: false)
-          .updateVotes(widget.id, 0);
-      setState(() {
-        postVoteStatus = 0;
-        --votes;
-      });
+      if (await Provider.of<PostProvider>(context, listen: false)
+          .updateVotes(widget.id, 0)) {
+        setState(() {
+          postVoteStatus = 0;
+          widget.data.postVoteStatus = 0.toString();
+          widget.data.votes = (widget.data.votes! - 1);
+          --votes;
+        });
+      }
     }
-    print('up voted');
   }
 
-  downVote() {
+  downVote() async {
     if (postVoteStatus != -1) {
-      Provider.of<PostProvider>(context, listen: false)
-          .updateVotes(widget.id, -1);
-      setState(() {
-        if (postVoteStatus == 1)
-          votes = votes - 2;
-        else
-          --votes;
-        postVoteStatus = -1;
-      });
+      if (await Provider.of<PostProvider>(context, listen: false)
+          .updateVotes(widget.id, -1)) {
+        setState(() {
+          if (postVoteStatus == 1) {
+            votes = votes - 2;
+            widget.data.votes = (widget.data.votes! - 2);
+          } else {
+            --votes;
+            widget.data.votes = (widget.data.votes! - 1);
+          }
+          postVoteStatus = -1;
+          widget.data.postVoteStatus = (-1).toString();
+        });
+      }
     } else {
-      Provider.of<PostProvider>(context, listen: false)
-          .updateVotes(widget.id, 0);
-      setState(() {
-        postVoteStatus = 0;
-        ++votes;
-      });
+      if (await Provider.of<PostProvider>(context, listen: false)
+          .updateVotes(widget.id, 0)) {
+        setState(() {
+          postVoteStatus = 0;
+          widget.data.postVoteStatus = 0.toString();
+
+          ++votes;
+          widget.data.votes = (widget.data.votes! + 1);
+        });
+      }
     }
-    print('down voted');
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Material(
-        color: Theme.of(context).colorScheme.brightness == Brightness.light
-            ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.surface,
+        color: (!widget.inScreen && (widget.data.isSpam ?? false))
+            ? Colors.blueGrey[50]
+            : Theme.of(context).colorScheme.brightness == Brightness.light
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.surface,
         child: Container(
           margin: EdgeInsetsDirectional.only(start: 10, end: 10),
           child: Row(

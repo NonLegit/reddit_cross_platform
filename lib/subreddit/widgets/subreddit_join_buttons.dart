@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import '../providers/subreddit_provider.dart';
-
+import '../../widgets/custom_snack_bar.dart';
 class JoinButtons extends StatefulWidget {
   bool isJoined;
   String communityuserName;
@@ -88,12 +88,16 @@ class JoinButtonsState extends State<JoinButtons> {
     bool sub = await Provider.of<SubredditProvider>(context, listen: false)
         .joinAndDisjoinSubreddit(widget.communityuserName, 'sub', context);
     if (sub) {
-          print('===============================Subcribe sucess==================================');
       join();
+       ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false, text: 'Join Successfully', disableStatus: true),
+      );
     }
     else{
-        print('=============================== Subcribe failed ==================================');
-    }
+        ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(isError: true, text: 'Join Failed', disableStatus: true),
+      );}
   }
 
   bool join() {
@@ -235,12 +239,15 @@ class JoinButtonsState extends State<JoinButtons> {
     bool unSub = await Provider.of<SubredditProvider>(context, listen: false)
         .joinAndDisjoinSubreddit(widget.communityuserName, 'unsub', context);
     if (unSub) {
-          print('===============================Un Subcribe sucess==================================');
       disJoin();
-          Navigator.of(ctx).pop();
+       ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false, text: 'Leave Successfully', disableStatus: true),
+      );
     }
     else{
-          print('===============================Un Subcribe failed==================================');
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar(
+          isError: true, text: 'Leave Failed', disableStatus: true));
     }
     Navigator.of(ctx).pop();
   }

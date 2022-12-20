@@ -44,9 +44,10 @@ class SubredditProvider with ChangeNotifier {
           '==============================$subredditUserName=======================================================');
       print('/subreddits/${subredditUserName}/subscribe/$action');
       await DioClient.post(
-          path: '/subreddits/${subredditUserName}/subscribe',
-          query: {'action': action},
-          data: {});
+        path: '/subreddits/${subredditUserName}/subscribe',
+        data: {},
+        query: {'action': action},
+      );
       notifyListeners();
       print(
           '========================Successed Join/ disjoin ================================');

@@ -126,7 +126,6 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
         userName = value;
         provider
             .getUser(subredditName, UserCase.moderator, context)
-
             .then((value) {
           moderators = provider.moderators;
           print(moderators);

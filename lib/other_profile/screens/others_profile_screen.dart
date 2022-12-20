@@ -68,7 +68,7 @@ class _OthersProfileScreenState extends State<OthersProfileScreen>
       userName = ModalRoute.of(context)?.settings.arguments as String;
       print(userName);
       Provider.of<OtherProfileprovider>(context, listen: false)
-          .fetchAndSetOtherProfile(userName)
+          .fetchAndSetOtherProfile(userName,context)
           .then((value) {
         loadProfile = Provider.of<OtherProfileprovider>(context, listen: false)
             .gettingOtherProfileData;

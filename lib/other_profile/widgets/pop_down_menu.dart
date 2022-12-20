@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/other_profile_provider.dart';
 import '../screens/others_profile_screen.dart';
 import '../../screens/emptyscreen.dart';
+import '../../widgets/custom_snack_bar.dart';
 
 class PopDownMenu extends StatefulWidget {
   final String userName;
@@ -46,7 +47,7 @@ class _PopDownMenuState extends State<PopDownMenu> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           ListTile(
-                            leading: Icon(
+                            leading: const Icon(
                               size: 25,
                               Icons.local_post_office_outlined,
                               color: Colors.black,
@@ -64,33 +65,13 @@ class _PopDownMenuState extends State<PopDownMenu> {
                             ),
                           ),
                           ListTile(
-                            leading: Icon(
-                              size: 25,
-                              Icons.favorite_border_outlined,
-                              color: Colors.black,
-                            ),
-                            onTap: () {
-                              return Navigator.pop(context);
-                            },
-                            title: const Text(
-                              'Get them help and support',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          ListTile(
-                            leading: Icon(
+                            leading: const Icon(
                               size: 25,
                               Icons.block_outlined,
                               color: Colors.black,
                             ),
                             onTap: () {
                               _showLeaveDialog();
-                              SnackBar(
-                                content: Text('yes'),
-                              );
-                              // return Navigator.pop(context);
                             },
                             title: const Text(
                               'Block account',
@@ -99,22 +80,6 @@ class _PopDownMenuState extends State<PopDownMenu> {
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
-                          ListTile(
-                            leading: Icon(
-                              size: 25,
-                              Icons.flag_outlined,
-                              color: Colors.black,
-                            ),
-                            onTap: () {
-                              return Navigator.pop(context);
-                            },
-                            title: const Text(
-                              'Report acount',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          )
                         ],
                       ),
                     ),
@@ -122,7 +87,7 @@ class _PopDownMenuState extends State<PopDownMenu> {
                 },
               );
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.more_vert_rounded,
               color: Colors.white,
             ),
@@ -145,10 +110,10 @@ class _PopDownMenuState extends State<PopDownMenu> {
             children: [
               Text(
                 'Block u/${widget.userName}?',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.black),
               ),
-              Text(
+              const Text(
                 'They won\'t be able to contact you or view your profile, posts, or comments.',
                 style: TextStyle(
                     fontWeight: FontWeight.normal, color: Colors.black),
@@ -163,12 +128,12 @@ class _PopDownMenuState extends State<PopDownMenu> {
             child: ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
-                    Color.fromARGB(255, 236, 235, 235)),
+                    const Color.fromARGB(255, 236, 235, 235)),
                 foregroundColor: MaterialStateProperty.all(Colors.grey),
                 shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(ctx).pop();
               },
@@ -179,47 +144,31 @@ class _PopDownMenuState extends State<PopDownMenu> {
             height: 6.h,
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Color.fromARGB(255, 242, 16, 0)),
+                backgroundColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 242, 16, 0)),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
                 shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
-              child: Text('Block account'),
+              child: const Text('Block account'),
               onPressed: () async {
                 Navigator.popUntil(context,
                     ModalRoute.withName(OthersProfileScreen.routeName));
                 bool block = await Provider.of<OtherProfileprovider>(context,
                         listen: false)
-                    .blockUser(widget.userName);
-                if (!block)
-                  print('block failed');
-                else {
-                  final snackBar = SnackBar(
-                    backgroundColor: Colors.white,
-                    elevation: 6.0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    behavior: SnackBarBehavior.floating,
-                    content: Container(
-                      width: 40.w,
-                      child: Row(children: <Widget>[
-                        Icon(
-                          Icons.reddit_rounded,
-                          color: Colors.blue,
-                          size: 30,
-                        ),
-                        const Text(
-                          'The author of this post has been blocked',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                      ]),
-                    ),
+                    .blockUser(widget.userName, context);
+                if (!block) {
+                  ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar(
+                      isError: false,
+                      text: 'Invitation Successfully',
+                      disableStatus: true));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    CustomSnackBar(
+                        isError: false,
+                        text: 'Invitation Successfully',
+                        disableStatus: true),
                   );
-                  ScaffoldMessenger.of(widget.buildContext)
-                      .showSnackBar(snackBar);
                 }
               },
             ),
