@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../settings/widgets/setting_text_input.dart';
-import '../../logins/models/status.dart';
+import '../widgets/status.dart';
 import '../widgets/alert_dialog.dart';
 import '../models/moderator_tools.dart';
 import 'package:provider/provider.dart';

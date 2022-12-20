@@ -11,17 +11,32 @@ import '../../logins/screens/login.dart';
 import '../../logins/providers/authentication.dart';
 // Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
 import '../../widgets/custom_snack_bar.dart';
+import '../models/search_post.dart';
+import './post_view.dart';
+import 'package:flutter_html/flutter_html.dart';
+import './empty_search.dart';
 
 class PostsList extends StatefulWidget {
   static const routeName = '/postslist';
   String quiry;
-  PostsList({Key? key, this.quiry = ''}) : super(key: key);
+  SearchProvider provider;
+  int limit;
+  PostsList(
+      {Key? key, required this.limit, this.quiry = '', required this.provider})
+      : super(key: key);
 
   @override
   State<PostsList> createState() => _PostsListState();
 }
 
 class _PostsListState extends State<PostsList> {
+  int _page = 1;
+  final int _limit = 25;
+  bool isInit = true;
+  bool _isLoading = false;
+  bool _isLoadMoreRunning = false;
+  bool toggleLoadingMore() => _isLoadMoreRunning = !_isLoadMoreRunning;
+  /////////////
   bool fetchingDone = true;
 
   bool _isInit = true;
@@ -30,29 +45,61 @@ class _PostsListState extends State<PostsList> {
   int index = 0;
   bool showNSFW = true;
   bool autoPlay = true;
-  String SorthomePosts = 'Best';
-  SearchProvider? provider = null;
-  // @override
-  // void didChangeDependencies() {
-  //   final Map<String, dynamic> data = <String, dynamic>{};
-  //   if (_isInit) {
-  //     setState(() {
-  //       fetchingDone = false;
-  //     });
-  //     provider = Provider.of<UserSettingsProvider>(context, listen: false);
-  //     provider!.getAllPrefs(context).then((value) {
-  //       provider!.userPrefrence;
-  //       print(provider!.userPrefrence);
-  //       fetchingDone = true;
-  //       SorthomePosts = provider!.userPrefrence!.sortHomePosts!;
-  //       autoPlay = provider!.userPrefrence!.autoplayMedia!;
-  //       showNSFW = provider!.userPrefrence!.adultContent!;
-  //       if (isBuild) setState(() {});
-  //     });
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
+  ScrollController _scrollController = new ScrollController();
+
+  void loadMore() async {
+    if (_isLoading == false &&
+        _isLoadMoreRunning == false &&
+        _scrollController.position.extentAfter < 300) {
+      setState(() {
+        toggleLoadingMore(); // Display a progress indicator at the bottom
+      });
+      setState(() {
+        _page += 1; // Increase _page by 1
+      });
+
+      try {
+        await widget.provider
+            .getsearch(
+                context: context,
+                quiry: widget.quiry,
+                page: _page,
+                limit: widget.limit,
+                withPage: true,
+                type: 'posts')
+            .then((_) async {});
+      } catch (err) {
+        print('Something went wrong!');
+      }
+
+      setState(() {
+        toggleLoadingMore();
+      });
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (widget.provider.initPost) {
+      setState(() {
+        fetchingDone = false;
+      });
+      widget.provider
+          .getsearch(
+              quiry: widget.quiry,
+              limit: widget.limit,
+              type: 'posts',
+              context: context)
+          .then((value) {
+        if (widget.provider.isError) {}
+        fetchingDone = true;
+
+        if (isBuild) setState(() {});
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +107,50 @@ class _PostsListState extends State<PostsList> {
     return (!fetchingDone)
         ? const LoadingReddit()
         //Calls TopicMainScreen widget to build Topics Screen
-        : SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Center(child: Text('posts'))],
-            ),
-          );
+        : (widget.provider.searhPost!.data!.length == 0)
+            ? EmptySearch(message: 'there is no posts for \"${widget.quiry}\"')
+            : ListView.builder(
+                physics: const ClampingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemBuilder: (_, index) {
+                  PostData postData = widget.provider.searhPost!.data![index];
+                  String date = '';
+                  // if (index + 1 % widget.limit == 0) {
+                  //   loadMore();
+                  // }
+                  return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          elevation: 0, backgroundColor: Colors.white),
+                      onPressed: () {
+                        // Navigator.of(context).pushNamed(SubredditScreen.routeName,
+                        //     arguments: '${peopleData.fixedName}');
+                      },
+                      child: Column(mainAxisSize: MainAxisSize.min,
+                          // mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            PostView(
+                              postData: postData,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  '${postData.votes} votes . ${postData.commentCount} comments ',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                            ),
+                            const Divider(
+                              height: 3,
+                              thickness: 0,
+                              endIndent: 0,
+                              color: Colors.black,
+                            ),
+                          ]));
+                },
+                itemCount: widget.provider.searhPost!.data!.length,
+              );
   }
 }

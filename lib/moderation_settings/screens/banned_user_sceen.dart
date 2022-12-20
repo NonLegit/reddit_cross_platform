@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../logins/models/status.dart';
+import '../widgets/status.dart';
 import '../widgets/alert_dialog.dart';
 import '../../widgets/loading_reddit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';

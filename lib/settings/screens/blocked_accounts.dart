@@ -35,36 +35,7 @@ class _BlockedAccountsState extends State<BlockedAccounts> {
   bool isBuild = false;
 
   List<Map<String, Object>> blockedAcounts = [];
-  void getBlockedAcounts() async {
-    // blockedAcounts =
-    // [
-    //   {
-    //     'imageUrl':
-    //         'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/14731344_1268156939902850_4843578088361110846_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEky4_3cTAH8AsHcH3UuXIKcLp-k-70xXVwun6T7vTFdcArTit-okcWlHaag26qfJeWLi2DDiYbw59pVU7sfWCM&_nc_ohc=1XlYxiGxy8EAX-_d8zz&_nc_oc=AQkYQ6qW4jQladaWIoltd2OvIh0LwAsNJpWkk9LpRsxmsvIEkKee_v9W2b0tH2sw1E0&_nc_ht=scontent.fcai19-6.fna&oh=00_AfBJHNRDkpnbmnXua9NObdrBX7KltBX87QLOKzmJdENzBg&oe=63B555D2',
-    //     'name': 'ahmed',
-    //     'isBlock': BoolWrapper()
-    //   },
-    //   {
-    //     'imageUrl':
-    //         'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/14731344_1268156939902850_4843578088361110846_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEky4_3cTAH8AsHcH3UuXIKcLp-k-70xXVwun6T7vTFdcArTit-okcWlHaag26qfJeWLi2DDiYbw59pVU7sfWCM&_nc_ohc=1XlYxiGxy8EAX-_d8zz&_nc_oc=AQkYQ6qW4jQladaWIoltd2OvIh0LwAsNJpWkk9LpRsxmsvIEkKee_v9W2b0tH2sw1E0&_nc_ht=scontent.fcai19-6.fna&oh=00_AfBJHNRDkpnbmnXua9NObdrBX7KltBX87QLOKzmJdENzBg&oe=63B555D2',
-    //     'name': 'yasser',
-    //     'isBlock': BoolWrapper()
-    //   },
-    //   {
-    //     'imageUrl':
-    //         'https://scontent.fcai19-6.fna.fbcdn.net/v/t1.18169-9/14731344_1268156939902850_4843578088361110846_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEky4_3cTAH8AsHcH3UuXIKcLp-k-70xXVwun6T7vTFdcArTit-okcWlHaag26qfJeWLi2DDiYbw59pVU7sfWCM&_nc_ohc=1XlYxiGxy8EAX-_d8zz&_nc_oc=AQkYQ6qW4jQladaWIoltd2OvIh0LwAsNJpWkk9LpRsxmsvIEkKee_v9W2b0tH2sw1E0&_nc_ht=scontent.fcai19-6.fna&oh=00_AfBJHNRDkpnbmnXua9NObdrBX7KltBX87QLOKzmJdENzBg&oe=63B555D2',
-    //     'name': 'yasser',
-    //     'isBlock': BoolWrapper()
-    //   }
-    // ];
-  }
-//  ScaffoldMessenger.of(context).showSnackBar(
-//             CustomSnackBar(
-//                 isError: false,
-//                 text:
-//                     'Add ${inputUserNameController.text} as approved succefuly',
-//                 disableStatus: true),
-//           );
+
   void handler(index) async {
     if ((blockedAcounts[index]['isBlock'] as BoolWrapper).b == true) {
       await widget.provider!.blockUnblock(
@@ -124,28 +95,48 @@ class _BlockedAccountsState extends State<BlockedAccounts> {
   @override
   Widget build(BuildContext context) {
     isBuild = true;
-    getBlockedAcounts();
     return (!fetchingDone)
         ? const LoadingReddit()
+        :
         //Calls TopicMainScreen widget to build Topics Screen
-        : Scaffold(
+        Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
               title: Text('Blocked accounts'),
             ),
-            body: ListView.builder(
-              itemBuilder: (_, index) {
-                return BlockedAccountItem(
-                  imageUrl: blockedAcounts[index]['imageUrl'] as String,
-                  name: blockedAcounts[index]['name'] as String,
-                  isBlock: blockedAcounts[index]['isBlock'] as BoolWrapper,
-                  handler: () {
-                    handler(index);
-                  },
-                );
-              },
-              itemCount: blockedAcounts.length,
-            ),
+            body: (blockedAcounts.length == 0)
+                ? Center(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 30.h,
+                        ),
+                        const Icon(
+                          Icons.reddit,
+                          size: 100,
+                          color: Colors.grey,
+                        ),
+                        const Text(
+                          'Wow,such empty',
+                          style: TextStyle(color: Colors.grey),
+                        )
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    itemBuilder: (_, index) {
+                      return BlockedAccountItem(
+                        imageUrl: blockedAcounts[index]['imageUrl'] as String,
+                        name: blockedAcounts[index]['name'] as String,
+                        isBlock:
+                            blockedAcounts[index]['isBlock'] as BoolWrapper,
+                        handler: () {
+                          handler(index);
+                        },
+                      );
+                    },
+                    itemCount: blockedAcounts.length,
+                  ),
           );
   }
 }

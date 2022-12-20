@@ -4,36 +4,81 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import '../../networks/dio_client.dart';
 import '../../networks/const_endpoint_data.dart';
-// import '../models/moderator_tools.dart';
-// import '../models/moderators.dart';
-// import '../models/approved.dart';
-// import '../models/banned.dart';
-// import '../models/muted.dart';
+import '../models/search_community.dart';
+import '../models/search_people.dart';
+import '../models/search_post.dart';
+import '../models/search_comment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/handle_error.dart';
 
 class SearchProvider with ChangeNotifier {
-  // ModeratorToolsModel? moderatorToolsModel1;
+  bool initPost = true;
+  bool initComments = true;
+  bool initCommunity = true;
+  bool initPeople = true;
+  SearchCommunity? searchCommunity = SearchCommunity.fromJson({"data": []});
+  SearchPeople? searchPeople = SearchPeople.fromJson({"data": []});
+  SearchPost? searhPost = SearchPost.fromJson({"data": []});
+  SearchComment? searhComment = SearchComment.fromJson({"data": []});
   bool isError = false;
   String errorMessage = '';
-  // ModeratorToolsModel? get moderatorToolsModel {
-  //   return moderatorToolsModel1;
-  // }
-  Future<void> getsearch(String quiry, BuildContext context) async {
+  Future<void> getsearch(
+      {String quiry = '',
+      String type = 'posts',
+      required BuildContext context,
+      String sort = 'new',
+      String time = 'day',
+      int page = 1,
+      int limit = 10,
+      bool withPage = false}) async {
+    if (!withPage &&
+        ((type == 'posts' && (initPost == false)) ||
+            (type == 'communities' && (initCommunity == false)) ||
+            (type == 'people' && (initPeople == false)) ||
+            (type == 'comments' && (initComments == false)))) {
+      return;
+    }
     try {
-      String path = '/search/$quiry/posts';
+      String path = '/search';
+      path = path +
+          '?q=$quiry&type=$type&sort=$sort&time=$time&page=$page&limit=$limit';
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
       print(path);
-      await DioClient.get(
-        path: path,
-      ).then((response) {
-        print('suze');
+      // sort=$sort&time=$time&page=$page&limit=$limit
+
+      await DioClient.get(path: path, query: {
+        // "type": type,
+        // "q": quiry,
+        // 'sort': sort,
+        // 'time': time,
+        // 'page': page,
+        // 'limit': limit
+      }).then((response) {
+        print(response);
         isError = !(response.statusCode! < 310);
         if (isError == false) {
-          print(response.data.runtimeType);
-          print(response.data);
-          // errorMessage = json.decode(response.data)['errorMessage'];
+          if (type == 'communities') {
+            ///
+            searchCommunity!.data?.addAll(
+                SearchCommunity.fromJson(response.data).data
+                    as List<CommunityData>);
+            initCommunity = false;
+          } else if (type == 'people') {
+            searchPeople!.data
+              ?..addAll(SearchPeople.fromJson(response.data).data
+                  as List<PeopleData>);
+            initPeople = false;
+          } else if (type == 'posts') {
+            searhPost!.data
+              ?..addAll(SearchPost.fromJson(response.data) as List<PostData>);
+            initPost = false;
+          } else if (type == 'comments') {
+            searhComment!.data
+              ?..addAll(SearchComment.fromJson(response.data).data
+                  as List<CommentData>);
+            initComments = false;
+          }
         }
       });
       notifyListeners();
@@ -49,177 +94,80 @@ class SearchProvider with ChangeNotifier {
       // HandleError.handleError(error.toString(), context);
     }
   }
-  // Future<void> invideModerator(String subredditName, String userName,
-  //     ModeratorPermissions permissions, BuildContext context) async {
-  //   try {
-  //     final prefs = await SharedPreferences.getInstance();
-  //     DioClient.init(prefs);
-  //     print('/subreddits/$subredditName/moderators/$userName');
-  //     await DioClient.post(
-  //         path: '/subreddits/$subredditName/moderators/$userName',
-  //         data: {"permissions": permissions.toJson()}).then((response) {
-  //       isError = !(response.statusCode! < 300);
-  //       if (isError) {
-  //         errorMessage = json.decode(response.data)['errorMessage'];
-  //       }
-  //       print(isError);
-  //       print(errorMessage);
-  //     });
-  //     notifyListeners();
-  //   } on DioError catch (e) {
-  //     isError = true;
-  //     errorMessage = e.message;
-  //     HandleError.errorHandler(e, context);
-  //   } catch (error) {
-  //     isError = true;
-  //     errorMessage = error.toString();
-  //     HandleError.handleError(error.toString(), context);
-  //   }
-  // }
 
-  // Future<void> deleteModerator(
-  //     String subredditName, String userName, BuildContext context) async {
-  //   try {
-  //     String path = '/subreddits/${subredditName}/moderators/${userName}';
-  //     final prefs = await SharedPreferences.getInstance();
-  //     DioClient.init(prefs);
-  //     print(path);
-  //     await DioClient.delete(path: path).then((response) {
-  //       isError = !(response.statusCode! < 300);
-  //       if (isError) {
-  //         errorMessage = json.decode(response.data)['errorMessage'];
-  //       }
-  //       print(isError);
-  //       print(errorMessage);
-  //     });
-  //     notifyListeners();
-  //   } on DioError catch (e) {
-  //     isError = true;
-  //     errorMessage = e.message;
-  //     HandleError.errorHandler(e, context);
-  //   } catch (error) {
-  //     isError = true;
-  //     errorMessage = error.toString();
-  //     HandleError.handleError(error.toString(), context);
-  //   }
-  // }
+  Future<void> joinDisjoinSubreddit(int index, BuildContext context) async {
+    if (searchCommunity!.data != null &&
+        index < searchCommunity!.data!.length) {
+      try {
+        String action = '';
+        if (searchCommunity!.data?[index].isJoined == true) {
+          action = 'unsub';
+        } else {
+          action = 'sub';
+        }
+        String path =
+            '/subreddits/${searchCommunity!.data?[index].fixedName}/subscribe';
+        final prefs = await SharedPreferences.getInstance();
+        DioClient.init(prefs);
+        print(path);
+        await DioClient.post(path: path, data: {}, query: {'action': action})
+            .then((response) {
+          print('suze');
+          isError = !(response.statusCode! < 310);
+          if (isError == false) {
+            print(response.data.runtimeType);
+            print(response.data);
+            searchCommunity!.data?[index].isJoined =
+                (searchCommunity!.data?[index].isJoined == false);
+          }
+        });
+        notifyListeners();
+      } on DioError catch (e) {
+        searchCommunity!.data?[index].isJoined =
+            (searchCommunity!.data?[index].isJoined == false);
+        isError = false;
+        print('erro');
+        isError = true;
+        errorMessage = e.message;
+        HandleError.errorHandler(e, context);
+      } catch (error) {
+        print('erro2');
+        isError = true;
+        errorMessage = error.toString();
+        HandleError.handleError(error.toString(), context);
+      }
+    }
+  }
 
-  // Future<void> changePermissionsModerator(String subredditName, String userName,
-  //     ModeratorPermissions permissions, BuildContext context) async {
-  //   try {
-  //     final prefs = await SharedPreferences.getInstance();
-  //     DioClient.init(prefs);
-  //     print('/subreddits/$subredditName/moderators/$userName');
-  //     await DioClient.patch(
-  //         path: '/subreddits/$subredditName/moderators/$userName',
-  //         data: {"permissions": permissions.toJson()}).then((response) {
-  //       isError = !(response.statusCode! < 300);
-  //       if (isError) {
-  //         errorMessage = json.decode(response.data)['errorMessage'];
-  //       }
-  //       print(isError);
-  //       print(errorMessage);
-  //     });
-  //     notifyListeners();
-  //   } on DioError catch (e) {
-  //     isError = true;
-  //     errorMessage = e.message;
-  //     HandleError.errorHandler(e, context);
-  //   } catch (error) {
-  //     isError = true;
-  //     errorMessage = error.toString();
-  //     HandleError.handleError(error.toString(), context);
-  //   }
-  // }
-
-  // Future<void> addRemoveApproved(String subredditName, String userName,
-  //     BuildContext context, bool willApprove) async {
-  //   try {
-  //     final prefs = await SharedPreferences.getInstance();
-  //     DioClient.init(prefs);
-  //     String action = (willApprove == true) ? 'approve' : 'disapprove';
-  //     print('/subreddits/$subredditName/$userName/$action/approve_user');
-  //     await DioClient.post(
-  //             data: {},
-  //             path: '/subreddits/$subredditName/$userName/$action/approve_user')
-  //         .then((response) {
-  //       isError = !(response.statusCode! < 300);
-  //       if (isError) {
-  //         errorMessage = json.decode(response.data)['errorMessage'];
-  //       }
-  //       print(isError);
-  //       print(errorMessage);
-  //     });
-  //     notifyListeners();
-  //   } on DioError catch (e) {
-  //     isError = true;
-  //     errorMessage = e.message;
-  //     HandleError.errorHandler(e, context);
-  //   } catch (error) {
-  //     isError = true;
-  //     errorMessage = error.toString();
-  //     HandleError.handleError(error.toString(), context);
-  //   }
-  // }
-
-  // Future<void> addRemoveMuted(String subredditName, String userName,
-  //     BuildContext context, MuteInfo mutedInfo, bool willMute) async {
-  //   try {
-  //     final prefs = await SharedPreferences.getInstance();
-  //     DioClient.init(prefs);
-  //     String action = (willMute == true) ? 'mute' : 'unmute';
-  //     print('/subreddits/$subredditName/mute_settings/$action/$userName');
-  //     await DioClient.post(
-  //             data: mutedInfo.toJson(),
-  //             path:
-  //                 '/subreddits/$subredditName/mute_settings/$action/$userName')
-  //         .then((response) {
-  //       isError = !(response.statusCode! < 300);
-  //       if (isError) {
-  //         errorMessage = json.decode(response.data)['errorMessage'];
-  //       }
-  //       print(isError);
-  //       print(errorMessage);
-  //     });
-  //     notifyListeners();
-  //   } on DioError catch (e) {
-  //     isError = true;
-  //     errorMessage = e.message;
-  //     HandleError.errorHandler(e, context);
-  //   } catch (error) {
-  //     isError = true;
-  //     errorMessage = error.toString();
-  //     HandleError.handleError(error.toString(), context);
-  //   }
-  // }
-
-  // Future<void> addRemoveBanned(String subredditName, String userName,
-  //     BuildContext context, Baninfo banInfo, bool willbane) async {
-  //   try {
-  //     final prefs = await SharedPreferences.getInstance();
-  //     DioClient.init(prefs);
-  //     String action = (willbane == true) ? 'ban' : 'unban';
-  //     print('/subreddits/$subredditName/Ban_settings/$action/$userName');
-  //     await DioClient.post(
-  //             data: banInfo.toJson(), //ther will be data here
-  //             path: '/subreddits/$subredditName/Ban_settings/$action/$userName')
-  //         .then((response) {
-  //       isError = !(response.statusCode! < 300);
-  //       if (isError) {
-  //         errorMessage = json.decode(response.data)['errorMessage'];
-  //       }
-  //       print(isError);
-  //       print(errorMessage);
-  //     });
-  //     notifyListeners();
-  //   } on DioError catch (e) {
-  //     isError = true;
-  //     errorMessage = e.message;
-  //     HandleError.errorHandler(e, context);
-  //   } catch (error) {
-  //     isError = true;
-  //     errorMessage = error.toString();
-  //     HandleError.handleError(error.toString(), context);
-  //   }
-  // }
+  Future<void> followUnfollow(int index, BuildContext context) async {
+    try {
+      // String path = '/search/$quiry/posts';
+      // final prefs = await SharedPreferences.getInstance();
+      // DioClient.init(prefs);
+      // print(path);
+      // await DioClient.post(
+      //   path: path,
+      // data:{},
+      // ).then((response) {
+      //   print('suze');
+      //   isError = !(response.statusCode! < 310);
+      //   if (isError == false) {
+      //     print(response.data.runtimeType);
+      //     print(response.data);
+      //     // errorMessage = json.decode(response.data)['errorMessage'];
+      //   }
+      // });
+      notifyListeners();
+    } on DioError catch (e) {
+      print('erro');
+      isError = true;
+      errorMessage = e.message;
+      // HandleError.errorHandler(e, context);
+    } catch (error) {
+      print('erro2');
+      isError = true;
+      errorMessage = error.toString();
+      // HandleError.handleError(error.toString(), context);
+    }
+  }
 }

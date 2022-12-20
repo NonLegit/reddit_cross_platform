@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/position_for_moderated_subredditInfo.dart';
 import '../widgets/moderated_subreddit_pop_up_menu_button.dart';
 import '../../widgets/subreddit_posts.dart';
-import '../models/moderated_subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../screens/moderated_subreddit_screen.dart';
 import '../../screens/subreddit_search_screen.dart';
 import '../../models/subreddit_about _rules.dart';
@@ -11,7 +11,7 @@ import '../../widgets/subreddit_about.dart';
 
 class ModeratedSubredditApp extends StatelessWidget {
   final String userName;
-  ModeratedSubredditData? loadedSubreddit;
+  SubredditData? loadedSubreddit;
   bool isOnline = true;
   final TabBar tabBar;
   bool isLoading;

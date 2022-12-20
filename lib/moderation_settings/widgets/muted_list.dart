@@ -16,6 +16,7 @@ import '../screens/add_edit_banned_screen.dart';
 import 'package:provider/provider.dart';
 import '../provider/change_user_management.dart';
 import '../../widgets/custom_snack_bar.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class MutedList extends StatefulWidget {
   final List<Map<String, Object>> allMuted;
@@ -57,80 +58,103 @@ class _MutedListState extends State<MutedList> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemBuilder: (_, index) {
-          final _id = widget.allMuted[index]['_id'] as String;
-          final _userName = widget.allMuted[index]['userName'] as String;
-          String _Date = widget.allMuted[index]['joiningDate'] as String;
-          final _profilePicture = widget.allMuted[index]['profilePicture'];
-          final MuteInfo _muteInfo =
-              widget.allMuted[index]['muteinfo'] as MuteInfo;
-          return ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                // backgroundColor: Colors.red
+      child: (widget.allMuted.length == 0)
+          ? Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                  const Icon(
+                    Icons.reddit,
+                    size: 100,
+                    color: Colors.grey,
+                  ),
+                  const Text(
+                    'Wow,such empty',
+                    style: TextStyle(color: Colors.grey),
+                  )
+                ],
               ),
-              onPressed: () {
-                Navigator.of(context).pushNamed(OthersProfileScreen.routeName,
-                    arguments: _userName);
-              },
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(_profilePicture as String),
-                  backgroundColor: Colors.black,
-                ),
-                title: Text(_userName),
-                subtitle: Text('$_Date '),
-                trailing: ThreeDotDownMenu(
-                  cntx: context,
-                  list: [
-                    ElevatedButton(
-                        onPressed: () {
-                          print(_userName);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditMutedScreen(
-                                  subredditName: widget.subredditname,
-                                  userName: _userName,
-                                  mutedInfo: _muteInfo,
+            )
+          : ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemBuilder: (_, index) {
+                final _id = widget.allMuted[index]['_id'] as String;
+                final _userName = widget.allMuted[index]['userName'] as String;
+                String _Date = widget.allMuted[index]['joiningDate'] as String;
+                final _profilePicture =
+                    widget.allMuted[index]['profilePicture'];
+                final MuteInfo _muteInfo =
+                    widget.allMuted[index]['muteinfo'] as MuteInfo;
+                return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      // backgroundColor: Colors.red
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                          OthersProfileScreen.routeName,
+                          arguments: _userName);
+                    },
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(_profilePicture as String),
+                        backgroundColor: Colors.black,
+                      ),
+                      title: Text(_userName),
+                      subtitle: Text('$_Date '),
+                      trailing: ThreeDotDownMenu(
+                        cntx: context,
+                        list: [
+                          ElevatedButton(
+                              onPressed: () {
+                                print(_userName);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EditMutedScreen(
+                                        subredditName: widget.subredditname,
+                                        userName: _userName,
+                                        mutedInfo: _muteInfo,
+                                      ),
+                                    ));
+                              },
+                              child: ListTile(
+                                leading: Icon(Penciel.pencil),
+                                title: Text('See details'),
+                                trailing: Icon(Icons.arrow_forward),
+                              )),
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(
+                                    OthersProfileScreen.routeName,
+                                    arguments: _userName);
+                              },
+                              child: ListTile(
+                                leading: Icon(SettingsIcons.account_circle),
+                                title: Text('View profile'),
+                              )),
+                          ElevatedButton(
+                              onPressed: () {
+                                deleteMute(index);
+                              },
+                              child: ListTile(
+                                leading:
+                                    Icon(Icons.volume_up, color: Colors.red),
+                                title: Text(
+                                  'Unmute',
+                                  style: TextStyle(color: Colors.red),
                                 ),
-                              ));
-                        },
-                        child: ListTile(
-                          leading: Icon(Penciel.pencil),
-                          title: Text('See details'),
-                          trailing: Icon(Icons.arrow_forward),
-                        )),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(
-                              OthersProfileScreen.routeName,
-                              arguments: _userName);
-                        },
-                        child: ListTile(
-                          leading: Icon(SettingsIcons.account_circle),
-                          title: Text('View profile'),
-                        )),
-                    ElevatedButton(
-                        onPressed: () {
-                          deleteMute(index);
-                        },
-                        child: ListTile(
-                          leading: Icon(Icons.volume_up, color: Colors.red),
-                          title: Text(
-                            'Unmute',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        ))
-                  ],
-                ),
-              ));
-        },
-        itemCount: widget.allMuted.length,
-      ),
+                              ))
+                        ],
+                      ),
+                    ));
+              },
+              itemCount: widget.allMuted.length,
+            ),
     );
   }
 }

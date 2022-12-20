@@ -12,7 +12,7 @@ const middlewares = jsonServer.defaults();
 server.use(jsonServer.bodyParser);
 server.use(middlewares);
 
-const searchrouter = jsonServer.router('search_database.json');
+// const searchrouter = jsonServer.router('search_database.json');
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 //endpoints flags
@@ -28,6 +28,7 @@ var is_banned = false;
 var is_mutted = false;
 var is_approved = false;
 var is_search = false;
+var is_join = false;
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 //helpers
@@ -191,14 +192,39 @@ server.get('/subreddits/:subredditName/flairs', (req, res) => {
 	res.redirect('/flairs');
 });
 //////search
-server.get('/search/:quiry/posts', (req, res) => {
+server.get('/search', (req, res) => {
 	is_search = true;
-	console.log(req.params.subredditName);
-	res.redirect('/search_posts');
+	console.log(req.query.type);
+	if (req.query.type == 'posts') {
+		console.log('this is posts');
+		res.redirect('/search_posts');
+	} else if (req.query.type == 'comments') {
+		console.log('this is comments');
+		res.redirect('/search_comments');
+	} else if (req.query.type == 'communities') {
+		console.log('this is communities');
+		res.redirect('/search_communities');
+	} else {
+		console.log('this is people');
+		res.redirect('/search_peoples');
+	}
+
+
 });/////////////////////////////////////////////////////////////////////////////////////////////////
-
 // Post Requests
-
+server.post('/subreddits/:subredditName/subscribe', (req, res) => {
+	is_join = true;
+	// if (req.query.action == 'sub') {
+	// 	res.status(200).jsonp({
+	// 		status: 'success',
+	// 	});
+	// } else if (req.query.action == 'unsub') {
+	// 	res.status(200).jsonp({
+	// 		status: 'success',
+	// 	});
+	// }
+	console.log(req);
+})
 server.post('/subreddits', (req, res) => {
 	console.log(req);
 });
@@ -367,16 +393,37 @@ server.patch('/subreddits/:subredditName', (req, res) => {
 
 //use Router
 
-// server.use(router);
-server.use(searchrouter);
+server.use(router);
+// server_search.use(searchrouter);
 // Start Server
 
 server.listen(3000, () => {
 	console.log('JSON Server is running');
 });
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
-
+// searchrouter.render = (req, res) => {
+// 	res.jsonp(
+// 		(function () {
+// 			if (req.method === 'GET') {
+// 				if (is_search) {
+// 					is_search = false;
+// 					return getSearch(req, res);
+// 				} else {
+// 					console.log('y');
+// 					return defaultGET(req, res);
+// 				}
+// 			} else if (req.method === 'POST') {
+// 				if (req.originalUrl.includes('/subreddits')) {
+// 					return subredditPOST(req, res);
+// 				} else if (req.originalUrl.includes('/post')) {
+// 					return postPOST(req, res);
+// 				} else if (req.originalUrl.includes('/users/singnup')) {
+// 					return signup(req, res);
+// 				} else return res.locals.data;
+// 			} else return res.locals.data;
+// 		})()
+// 	);
+// };
 //Change response after json
 router.render = (req, res) => {
 	res.jsonp(
@@ -425,6 +472,8 @@ router.render = (req, res) => {
 					return postPOST(req, res);
 				} else if (req.originalUrl.includes('/users/singnup')) {
 					return signup(req, res);
+				} else if (is_join) {
+					return join(req, res);
 				} else return res.locals.data;
 			} else return res.locals.data;
 		})()
@@ -486,11 +535,14 @@ const getModerators = (req, res) => {
 const getSearch = (req, res) => {
 	data = res.locals.data;
 	console.log(data);
+	return data;
+
+};
+const join = (req, res) => {
 	return {
 		status: 'success',
-		posts: Array.isArray(data) ? data : [data],
-	};
-};
+	}
+}
 
 
 const getDataPOST = (req, res) => {
@@ -523,3 +575,5 @@ const username_available = (req, res) => {
 		available: false,
 	});
 };
+
+
