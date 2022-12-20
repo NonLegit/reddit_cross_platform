@@ -3,7 +3,7 @@ import 'package:post/widgets/loading_reddit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../models/subreddit_about _rules.dart';
 import '../../widgets/subreddit_about.dart';
-import '../models/subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../widgets/subreddit_join_buttons.dart';
 import '../widgets/subreddit_post_web.dart';
 import '../../widgets/subreddit_join_button_web.dart';

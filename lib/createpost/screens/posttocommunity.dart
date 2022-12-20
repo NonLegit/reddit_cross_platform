@@ -70,20 +70,85 @@ class BuildSubreddit extends StatelessWidget {
               Obx(()=>
                  Column(
                   children: [
-                    ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context , index) => SubredditModeratorContainer(nameOfSubreddit:controller.moderatedSubreddits[index].subredditName!,memberCount: controller.moderatedSubreddits[index].membersCount!,iconOfSubreddit:controller.moderatedSubreddits[index].icon!,) ,
-                      itemCount: controller.moderatedSubreddits.length,
-                    ),
-                    ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context , index) => SubredditSubscriberContainer(nameOfSubreddit:controller.subscribedSubreddits[index].subredditName!,memberCount: controller.subscribedSubreddits[index].membersCount!,iconOfSubreddit:controller.subscribedSubreddits[index].icon!,) ,
-                      itemCount: controller.subscribedSubreddits.length,
-                    ),
+                    (controller.showMore.value)?
+                    Column(
+                      children: [
+                        ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context , index) => SubredditModeratorContainer(nameOfSubreddit:controller.moderatedSubreddits[index].subredditName!,memberCount: controller.moderatedSubreddits[index].membersCount!,iconOfSubreddit:controller.moderatedSubreddits[index].icon!, idOfSubreddit: controller.moderatedSubreddits[index].iId!,) ,
+                          itemCount: controller.moderatedSubreddits.length,
+                        ),
+                        ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context , index) => SubredditSubscriberContainer(nameOfSubreddit:controller.subscribedSubreddits[index].subredditName!,memberCount: controller.subscribedSubreddits[index].membersCount!,iconOfSubreddit:controller.subscribedSubreddits[index].icon!, idOfSubreddit: controller.subscribedSubreddits[index].iId!,) ,
+                          itemCount: controller.subscribedSubreddits.length,
+                        ),
+                      ],
+                    )
+                        :
+                    Column(
+                      children: [
+                        ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context , index) =>(index<3)?SubredditModeratorContainer(nameOfSubreddit:controller.moderatedSubreddits[index].subredditName!,memberCount: controller.moderatedSubreddits[index].membersCount!,iconOfSubreddit:controller.moderatedSubreddits[index].icon!, idOfSubreddit: controller.moderatedSubreddits[index].iId!,):SizedBox() ,
+                          itemCount: controller.moderatedSubreddits.length,
+                        ),
+                        ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context , index) =>(index<2)? SubredditSubscriberContainer(nameOfSubreddit:controller.subscribedSubreddits[index].subredditName!,memberCount: controller.subscribedSubreddits[index].membersCount!,iconOfSubreddit:controller.subscribedSubreddits[index].icon!, idOfSubreddit: controller.subscribedSubreddits[index].iId!,):SizedBox() ,
+                          itemCount: controller.subscribedSubreddits.length,
+                        ),
+                        SizedBox(height: 20,),
+                        Visibility(
+                          visible: (controller.moderatedSubreddits.length+controller.subscribedSubreddits.length>4)? true:false,
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: SizedBox
+                              (
+                              width: double.infinity,
+                              height: 50,
+                              child: ElevatedButton(
+                                onPressed: ()
+                                {
+                                    controller.showMore.value=true;
+                                },
+                                style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(30),
+                                            side: BorderSide(color: Colors.blue)
+                                        )
+                                    )
+                                ),
+                                // style: ElevatedButton.styleFrom(
+                                //   backgroundColor: Colors.white,
+                                //   shape: RoundedRectangleBorder(
+                                //     borderRadius: BorderRadius.circular(30),
+                                //   ),
+                                // ),
+                                child:
+                                 Text(
+                                  'See more',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+
                   ],
                 ),
               ),

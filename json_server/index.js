@@ -12,6 +12,7 @@ const middlewares = jsonServer.defaults();
 server.use(jsonServer.bodyParser);
 server.use(middlewares);
 
+// const searchrouter = jsonServer.router('search_database.json');
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 //endpoints flags
@@ -22,6 +23,12 @@ var is_subreddits_subredditName_top = false;
 var is_subreddits_subredditName_flairs = false;
 var is_users_otherUserName_about = false;
 var is_subreddits_name = false;
+var is_moderators = false;
+var is_banned = false;
+var is_mutted = false;
+var is_approved = false;
+var is_search = false;
+var is_join = false;
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 //helpers
@@ -104,6 +111,23 @@ server.get('/subreddits/:subredditName', (req, res) => {
 	is_subreddits_name = true;
 	res.redirect(`/subreddits?name=${req.params.subredditName}`);
 });
+server.get('/subreddits/:subredditName/moderators', (req, res) => {
+	is_moderators = true;
+	res.redirect(`/moderators`);
+});
+server.get('/subreddits/:subredditName/banned', (req, res) => {
+	is_banned = true;
+	res.redirect(`/banned`);
+});
+server.get('/subreddits/:subredditName/muted', (req, res) => {
+	is_mutted = true;
+	res.redirect(`/muted`);
+});
+server.get('/subreddits/:subredditName/approved', (req, res) => {
+	is_approved = true;
+	res.redirect(`/approved`);
+});
+
 server.get('/users/notifications', (req, res) => {
 	res.redirect(`/notifications`);
 });
@@ -167,11 +191,40 @@ server.get('/subreddits/:subredditName/flairs', (req, res) => {
 	console.log(req.params.subredditName);
 	res.redirect('/flairs');
 });
+//////search
+server.get('/search', (req, res) => {
+	is_search = true;
+	console.log(req.query.type);
+	if (req.query.type == 'posts') {
+		console.log('this is posts');
+		res.redirect('/search_posts');
+	} else if (req.query.type == 'comments') {
+		console.log('this is comments');
+		res.redirect('/search_comments');
+	} else if (req.query.type == 'communities') {
+		console.log('this is communities');
+		res.redirect('/search_communities');
+	} else {
+		console.log('this is people');
+		res.redirect('/search_peoples');
+	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
 
+});/////////////////////////////////////////////////////////////////////////////////////////////////
 // Post Requests
-
+server.post('/subreddits/:subredditName/subscribe', (req, res) => {
+	is_join = true;
+	// if (req.query.action == 'sub') {
+	// 	res.status(200).jsonp({
+	// 		status: 'success',
+	// 	});
+	// } else if (req.query.action == 'unsub') {
+	// 	res.status(200).jsonp({
+	// 		status: 'success',
+	// 	});
+	// }
+	console.log(req);
+})
 server.post('/subreddits', (req, res) => {
 	console.log(req);
 });
@@ -283,6 +336,11 @@ server.post(
 	}
 );
 
+//---------------------------- patch
+server.patch('/subreddits/:subredditName', (req, res) => {
+	is_subreddits_name = true;
+	res.redirect(`/subreddits?name=${req.params.subredditName}`);
+});
 // server.use((req, res, next) => {
 // 	if (req.method === 'POST') {
 // 		if (req.originalUrl.includes('/subreddits')) {
@@ -336,15 +394,36 @@ server.post(
 //use Router
 
 server.use(router);
-
+// server_search.use(searchrouter);
 // Start Server
 
 server.listen(3000, () => {
 	console.log('JSON Server is running');
 });
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
-
+// searchrouter.render = (req, res) => {
+// 	res.jsonp(
+// 		(function () {
+// 			if (req.method === 'GET') {
+// 				if (is_search) {
+// 					is_search = false;
+// 					return getSearch(req, res);
+// 				} else {
+// 					console.log('y');
+// 					return defaultGET(req, res);
+// 				}
+// 			} else if (req.method === 'POST') {
+// 				if (req.originalUrl.includes('/subreddits')) {
+// 					return subredditPOST(req, res);
+// 				} else if (req.originalUrl.includes('/post')) {
+// 					return postPOST(req, res);
+// 				} else if (req.originalUrl.includes('/users/singnup')) {
+// 					return signup(req, res);
+// 				} else return res.locals.data;
+// 			} else return res.locals.data;
+// 		})()
+// 	);
+// };
 //Change response after json
 router.render = (req, res) => {
 	res.jsonp(
@@ -367,6 +446,21 @@ router.render = (req, res) => {
 				} else if (is_users_otherUserName_about) {
 					is_users_otherUserName_about = false;
 					return getUser(req, res);
+				} else if (is_moderators) {
+					is_moderators = false;
+					return getModerators(req, res);
+				} else if (is_mutted) {
+					is_mutted = false;
+					return getModerators(req, res);
+				} else if (is_banned) {
+					is_banned = false;
+					return getModerators(req, res);
+				} else if (is_approved) {
+					is_approved = false;
+					return getModerators(req, res);
+				} else if (is_search) {
+					is_search = false;
+					return getSearch(req, res);
 				} else {
 					console.log('y');
 					return defaultGET(req, res);
@@ -378,6 +472,8 @@ router.render = (req, res) => {
 					return postPOST(req, res);
 				} else if (req.originalUrl.includes('/users/singnup')) {
 					return signup(req, res);
+				} else if (is_join) {
+					return join(req, res);
 				} else return res.locals.data;
 			} else return res.locals.data;
 		})()
@@ -431,6 +527,24 @@ const getUser = (req, res) => {
 	};
 };
 
+const getModerators = (req, res) => {
+	data = res.locals.data;
+	console.log(data);
+	return data;
+};
+const getSearch = (req, res) => {
+	data = res.locals.data;
+	console.log(data);
+	return data;
+
+};
+const join = (req, res) => {
+	return {
+		status: 'success',
+	}
+}
+
+
 const getDataPOST = (req, res) => {
 	data = res.locals.data;
 	return {
@@ -461,3 +575,5 @@ const username_available = (req, res) => {
 		available: false,
 	});
 };
+
+

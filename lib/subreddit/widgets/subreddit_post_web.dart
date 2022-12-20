@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 //import 'package:flutter_code_style/analysis_options.yaml';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../widgets/sort_bottom_web.dart';
-import '../models/subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../widgets/subreddit_card_information_web.dart';
+
 class SubredditePostWeb extends StatefulWidget {
   final SubredditData? loadedSubreddit;
   const SubredditePostWeb({
@@ -24,7 +25,6 @@ class _SubredditePostWebState extends State<SubredditePostWeb> {
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
-
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
@@ -71,11 +71,12 @@ class _SubredditePostWebState extends State<SubredditePostWeb> {
               ),
             ),
             Expanded(
-                child: SubredditCardInformationWeb(loadedSubreddit: widget.loadedSubreddit,)),
+                child: SubredditCardInformationWeb(
+              loadedSubreddit: widget.loadedSubreddit,
+            )),
           ],
         ),
       ],
     );
   }
 }
-

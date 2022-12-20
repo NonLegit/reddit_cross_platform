@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
-import '../../logins/models/status.dart';
+import '../../moderation_settings/widgets/status.dart';
 
 class SettingTextInput extends StatefulWidget {
   // const TextInput({Key? key}) : super(key: key);
   final String lable;
-  TextEditingController inputController;
+  TextEditingController? inputController;
   final Function changeInput;
   final Function ontap;
   InputStatus currentStatus;
-
-  SettingTextInput(
-      {this.lable = '',
-      required this.currentStatus,
-      required this.ontap,
-      required this.changeInput,
-      required this.inputController});
+  int? maxLength;
+  int? maxLines;
+  int? minLines;
+  String? initialValue;
+  SettingTextInput({
+    this.lable = '',
+    required this.currentStatus,
+    required this.ontap,
+    required this.changeInput,
+    this.inputController = null,
+    this.maxLength = null,
+    this.minLines = 1,
+    this.maxLines = null,
+    this.initialValue = null,
+  });
 
   @override
   State<SettingTextInput> createState() => _SettingTextInputState();
@@ -31,9 +39,13 @@ class _SettingTextInputState extends State<SettingTextInput> {
           onFocusChange: (hasfocus) {
             widget.ontap(hasfocus);
           },
-          child: TextField(
+          child: TextFormField(
             onChanged: (_) {
-              widget.changeInput();
+              if (widget.inputController == null) {
+                widget.changeInput(_);
+              } else {
+                widget.changeInput();
+              }
               setState(() {});
             },
             controller: widget.inputController,
@@ -59,6 +71,11 @@ class _SettingTextInputState extends State<SettingTextInput> {
                 ),
               ),
             ),
+            initialValue: widget.initialValue,
+            keyboardType: TextInputType.multiline,
+            minLines: widget.minLines,
+            maxLines: widget.maxLines,
+            maxLength: widget.maxLength,
           ),
         ),
       ),

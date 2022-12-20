@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:post/createpost/model/subreddits_of_user.dart';
 import '../controllers/posts_controllers.dart';
+import '../screens/createpost.dart';
 import '../screens/finalpost.dart';
 
 class SubredditSubscriberContainer extends StatelessWidget {
@@ -13,10 +14,12 @@ class SubredditSubscriberContainer extends StatelessWidget {
   String nameOfSubreddit = "";
   String iconOfSubreddit = '';
   int memberCount = 0;
+  String idOfSubreddit='';
   SubredditSubscriberContainer({
     required this.nameOfSubreddit,
     required this.iconOfSubreddit,
     required this.memberCount,
+     required this.idOfSubreddit
   });
   @override
   Widget build(BuildContext context) {
@@ -29,9 +32,17 @@ class SubredditSubscriberContainer extends StatelessWidget {
       title: Text("$nameOfSubreddit"),
       subtitle: Text("$memberCount " + "members . " + "subscribed"),
       onTap: () {
+        controller.idOfSubredditToSubmittPost=RxString(idOfSubreddit);
         controller.subredditToSubmitPost = RxString(nameOfSubreddit);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => FinalPost()));
+        controller.getFlairsOfSubreddit();
+        if(controller.isFromHomeDirect.value==true)
+        {
+          Get.to(FinalPost());
+        }
+        else
+        {
+          Get.to(CreatePostSCreen(),arguments: [1,"${iconOfSubreddit}","${nameOfSubreddit}"]);
+        }
       },
     );
   }

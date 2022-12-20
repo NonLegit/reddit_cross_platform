@@ -9,7 +9,7 @@ import '../widgets/password_input.dart';
 import '../widgets/continue_with_facebook.dart';
 import '../widgets/continue_with_google.dart';
 import '../../models/wrapper.dart';
-import '../models/status.dart';
+import '../../moderation_settings/widgets/status.dart';
 import 'package:email_validator/email_validator.dart';
 import 'gender.dart';
 import '../providers/authentication.dart';

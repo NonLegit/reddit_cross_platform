@@ -6,7 +6,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'forgot_username.dart';
-import '../models/status.dart';
+import '../../moderation_settings/widgets/status.dart';
 import 'package:email_validator/email_validator.dart';
 import '../providers/authentication.dart';
 import 'package:provider/provider.dart';
