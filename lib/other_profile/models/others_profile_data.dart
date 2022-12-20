@@ -16,7 +16,7 @@ class OtherProfileData {
   bool isFollowed = false;
   OtherProfileData(
       {
-        //required this.id,
+      //required this.id,
       required this.userName,
       required this.email,
       required this.profilePicture,
@@ -46,7 +46,7 @@ class OtherProfileData {
 //   "isFollowed": true
 // }
   OtherProfileData.fromJson(Map<String, dynamic> json) {
-       // print(json['id'].runtimeType);
+    // print(json['id'].runtimeType);
     // print(json['userName'].runtimeType);
     // print(json['email'].runtimeType);
     // print(json['profilePicture'].runtimeType);
@@ -64,12 +64,9 @@ class OtherProfileData {
     profileBackPicture = json['profileBackground'];
     description = json['description'];
     displayName = json['displayName'];
-    followersCount = int.parse( json['followersCount'].toString());
-   // createdAt = json['toDayTime'];
-    //numOfDaysInReddit = json['numOfDaysInReddit'];
+    followersCount = int.parse(json['followersCount'].toString());
     createdAt = json['createdAt'];
-    postKarma =int.parse(json['postKarma'].toString());
-    displayName = json['displayName'];
+    postKarma = int.parse(json['postKarma'].toString());
     commentkarma = int.parse(json['commentKarma'].toString());
     isFollowed = json['isFollowed'];
   }

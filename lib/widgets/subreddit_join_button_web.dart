@@ -45,7 +45,7 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
             Container(
               width: 8.w,
               height: 5.h,
-              margin: EdgeInsets.only(top: 8),
+              margin: const EdgeInsets.only(top: 8),
               child: OutlinedButton(
                 style: ButtonStyle(
                   side: MaterialStateProperty.all(
@@ -55,18 +55,18 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
                       borderRadius: BorderRadius.all(Radius.circular(22)))),
                 ),
                 child: (isJoinedstate)
-                    ? Text(
+                    ? const Text(
                         'Joined',
                         style: TextStyle(fontSize: 13),
                       )
-                    : Text('Join'),
+                    : const Text('Join'),
                 onPressed: ()async {
                   if (isJoinedstate) {
                     disJoin();
                   } else {
                    await Provider.of<SubredditProvider>(context, listen: false)
                         .joinAndDisjoinSubreddit(widget.communityName,
-                          'sub').then((value) {
+                          'sub',context).then((value) {
                       setState(() {
                         isJoinedstate = true;
                       });
@@ -98,12 +98,12 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
             child: ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
-                    Color.fromARGB(255, 236, 235, 235)),
+                    const Color.fromARGB(255, 236, 235, 235)),
                 foregroundColor: MaterialStateProperty.all(Colors.grey),
                 shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(ctx).pop();
               },
@@ -115,16 +115,16 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
             child: ElevatedButton(
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all(Color.fromARGB(255, 242, 16, 0)),
+                    MaterialStateProperty.all(const Color.fromARGB(255, 242, 16, 0)),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
                 shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(22)))),
               ),
-              child: Text('Leave'),
+              child: const Text('Leave'),
                onPressed: () async {
                 await Provider.of<SubredditProvider>(context, listen: false)
                     .joinAndDisjoinSubreddit(
-                       widget.communityName,'unsub').then((value) {
+                       widget.communityName,'unsub',context).then((value) {
                   setState(() {
                     disJoin();
                   });

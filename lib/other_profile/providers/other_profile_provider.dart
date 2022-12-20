@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import '../../networks/const_endpoint_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
 import '../../networks/dio_client.dart';
 import '../models/others_profile_data.dart';
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/moderated_subreddit_user_data.dart';
+import '../../widgets/handle_error.dart';
 
 //using in heighest widget to use
 class OtherProfileprovider with ChangeNotifier {
@@ -19,36 +18,30 @@ class OtherProfileprovider with ChangeNotifier {
     return moderatedSubbredditUserData;
   }
 
-  Future<void> fetchAndSetOtherProfile(String otherUserName) async {
+  Future<void> fetchAndSetOtherProfile(
+      String otherUserName, BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      print(prefs);
       DioClient.init(prefs);
-      print(otherUserName);
-      // print(userName);
-      await DioClient.get(path:'/users/${otherUserName}/about')
+      await DioClient.get(path: '/users/${otherUserName}/about')
           .then((response) {
-        print(response.data['user']);
         loadProfile = OtherProfileData.fromJson(response.data['user']);
         notifyListeners();
       });
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
     } catch (error) {
-      print('eeeeeeeeeeeeeeeee');
-      print(error);
-      throw (error);
+      HandleError.handleError(error.toString(), context);
     }
   }
 
-  Future<void> fetchAndSetModeratedSubredditUser() async {
+  Future<void> fetchAndSetModeratedSubredditUser(BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-      print('12ssdsadsadsada ');
       await DioClient.get(
         path: '/subreddits/mine/moderator',
       ).then((response) {
-        print('erorrr  ${response.statusCode}');
-        print(response);
         List<ModeratedSubbredditUserData> tempData = [];
         response.data['data'].forEach((subreedit) {
           tempData.add(ModeratedSubbredditUserData.fromJson(subreedit));
@@ -56,77 +49,86 @@ class OtherProfileprovider with ChangeNotifier {
         moderatedSubbredditUserData = tempData;
         notifyListeners();
       });
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
     } catch (error) {
-      // print('12 ');
-      // print('heelo');
-      print(error);
-      throw (error);
+      HandleError.handleError(error.toString(), context);
     }
   }
 
   Future<bool> invitation(
-      String subredditUserName, String moderatorName) async {
+      String subredditName, String userName, BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      print(prefs);
       DioClient.init(prefs);
+      print('/subreddits/$subredditName/moderators/$userName');
       await DioClient.post(
-        path: '/subreddits/${subredditName}/moderators/${moderatorName}',data: {}
-      ).then((value) => print(value));
+          path: '/subreddits/$subredditName/moderators/$userName',
+          data: {
+            "permissions": {
+              "all": true,
+              "access": true,
+              "config": true,
+              "flair": true,
+              "posts": true
+            }
+          }).then((response) {
+      });
       notifyListeners();
       return true;
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
+      return false;
     } catch (error) {
-      print('error in invitaion : $error');
+      HandleError.handleError(error.toString(), context);
+      return false;
+    }
+  }
+  Future<bool> blockUser(String userName, BuildContext context) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+      await DioClient.post(path: '/users/${userName}/block_user', data: {});
+      notifyListeners();
+      return true;
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
+      return false;
+    } catch (error) {
+      HandleError.handleError(error.toString(), context);
       return false;
     }
   }
 
-  Future<bool> blockUser(String userName) async {
+  Future<bool> followUser(String userName, BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      print(prefs);
-      print(userName);
       DioClient.init(prefs);
-      await DioClient.post(
-        path: '/users/${userName}/block_user',data: {}
-      );
+      await DioClient.post(path: '/users/${userName}/follow', data: {});
       notifyListeners();
       return true;
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
+      return false;
     } catch (error) {
-      print('blocked error $error');
+      HandleError.handleError(error.toString(), context);
       return false;
     }
   }
 
-  Future<bool> followUser(String userName) async {
+  Future<bool> unFollowUser(String userName, BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      print(prefs);
-      print(userName);
       DioClient.init(prefs);
-      await DioClient.post(
-        path: 'users/${userName}/follow',data: {}
-      );
+
+      await DioClient.post(path: '/users/${userName}/unfollow', data: {});
       notifyListeners();
       return true;
-    } catch (error) {
-      print('Follow error $error');
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
       return false;
-    }
-  }
-  Future<bool> unFollowUser(String userName) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      print(prefs);
-      print(userName);
-      DioClient.init(prefs);
-      await DioClient.post(
-        path: '/users/${userName}/unfollow',data: {}
-      );
-      notifyListeners();
-      return true;
     } catch (error) {
-      print('UnFollow error $error');
+      HandleError.handleError(error.toString(), context);
       return false;
     }
   }

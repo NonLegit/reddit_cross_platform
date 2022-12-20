@@ -71,7 +71,7 @@ class MutedScreenState extends State<MutedScreen> {
 
     subredditName = provider.getSubredditName(context);
     provider
-        .getModerators(subredditName, UserCase.muted, context)
+        .getUser(subredditName, UserCase.muted, context)
         .then((value) {
       muted = provider.muted;
       print(muted);

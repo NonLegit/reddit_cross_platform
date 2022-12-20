@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
-import '../models/subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../widgets/subreddit_join_buttons.dart';
 class PostionForSubredditInfo extends StatelessWidget {
   SubredditData loadedSubreddit;

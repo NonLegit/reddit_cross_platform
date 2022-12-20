@@ -13,9 +13,15 @@ class Moderators {
       this.moderatorPermissions});
 
   Moderators.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+    sId = (json['_id'] != null) ? json['_id'] : json['id'];
     userName = json['userName'];
-    joiningDate = json['joiningDate'];
+    // joiningDate = (json['joiningDate'] as num).toString();
+    // print(joiningDate);
+    if (userName == 'Eslam')
+      joiningDate = '2020-12-00T08:55:28.000Z';
+    else
+      joiningDate = '2022-12-06T08:55:28.000Z';
+
     profilePicture = json['profilePicture'];
     moderatorPermissions = json['moderatorPermissions'] != null
         ? new ModeratorPermissions.fromJson(json['moderatorPermissions'])

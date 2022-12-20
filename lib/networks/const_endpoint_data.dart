@@ -11,6 +11,8 @@ const moderationTools = '/subreddits/{subredditName}';
 var subreddit = '/subreddits/${subredditName}';
 //const moderators = '/subreddits/{subredditName}/about/moderators';
 const mySubreddits = '/subreddits/mine';
+const getPostsInHome='/user/best/posts';
+var getFlairsOfSubreddit='/subreddits/${subredditName}/flairs';
 //=======================Profile=======================//
 const myprofile = '/users/me';
 var userName;

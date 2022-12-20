@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
+import '../../home/controller/home_controller.dart';
 import '../../models/subreddit_about _rules.dart';
 import '../../icons/icon_broken.dart';
-import '../models/subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../../myprofile/screens/myprofile_screen.dart';
 import '../../create_community/screens/create_community.dart';
 import '../../widgets/loading_reddit.dart';
@@ -21,6 +23,11 @@ class SubredditScreen extends StatefulWidget {
 
 class _SubredditScreenState extends State<SubredditScreen>
     with TickerProviderStateMixin {
+  //===============Drawer Bar=====================//
+  bool isOnline = true;
+  final HomeController controller = Get.put(
+    HomeController(),
+  );
   //================Tab bar==================//
   List<Tab> tabs = <Tab>[
     const Tab(text: 'Posts'),
@@ -64,7 +71,7 @@ SubredditData? loadedSubreddit;
       });
       subredditUserName = ModalRoute.of(context)?.settings.arguments as String;
       Provider.of<SubredditProvider>(context, listen: false)
-          .fetchAndSetSubredddit(subredditUserName)
+          .fetchAndSetSubredddit(subredditUserName,context)
           .then((value) {
         loadedSubreddit = Provider.of<SubredditProvider>(context, listen: false)
             .gettingSubredditeData;
@@ -100,7 +107,7 @@ SubredditData? loadedSubreddit;
                     tabBar: _tabBar,
                     loadedSubreddit: loadedSubreddit as SubredditData,
                     userName: subredditUserName),
-        endDrawer: _isLoading ? LoadingReddit() : endDrawer());
+        endDrawer: _isLoading ? LoadingReddit() : endDrawer(controller: controller,));
   }
 
  }

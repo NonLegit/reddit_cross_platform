@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../home/controller/home_controller.dart';
 import '../widgets/moderated_subreddit_web.dart';
-import '../models/moderated_subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../../widgets/loading_reddit.dart';
 import '../widgets/moderated_subreddit_app.dart';
 import '../providers/moderated_subreddit_provider.dart';
@@ -22,8 +24,14 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
   var _isLoading = false;
   var _isInit = true;
   var subredditUserName;
-  ModeratedSubredditData? loadedSubreddit;
-  //=======================Tab bar===================================//
+SubredditData? loadedSubreddit;
+
+  //=====================End Drawer=============//
+  bool isOnline = true;
+  final HomeController controller = Get.put(
+    HomeController(),
+  );
+  //================Tab bar==================//
   List<Tab> tabs = <Tab>[
     const Tab(text: 'Posts'),
     const Tab(text: 'About'),
@@ -62,7 +70,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
       subredditUserName = ModalRoute.of(context)?.settings.arguments as String;
       print(subredditUserName);
       Provider.of<ModeratedSubredditProvider>(context, listen: false)
-          .fetchAndSetModeratedSubredddit(subredditUserName)
+          .fetchAndSetModeratedSubredddit(subredditUserName,context)
           .then((value) {
         loadedSubreddit =
             Provider.of<ModeratedSubredditProvider>(context, listen: false)
@@ -98,6 +106,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
                     controller: _controller,
                     isLoading: _isLoading,
                     tabBar: _tabBar),
-        endDrawer: _isLoading ? LoadingReddit() : endDrawer());
+        endDrawer:
+            _isLoading ? LoadingReddit() : endDrawer(controller: controller));
   }
 }

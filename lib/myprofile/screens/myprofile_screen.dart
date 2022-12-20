@@ -73,7 +73,7 @@ class _MyProfileState extends State<MyProfileScreen>
       });
       userName = ModalRoute.of(context)?.settings.arguments as String;
       Provider.of<MyProfileProvider>(context, listen: false)
-          .fetchAndSetMyProfile()
+          .fetchAndSetMyProfile(context)
           .then((value) {
         loadProfile = Provider.of<MyProfileProvider>(context, listen: false)
             .gettingMyProfileData;

@@ -2,7 +2,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttericon/typicons_icons.dart';
 import 'package:flutter/material.dart';
-import '../providers/profile_comments_provider.dart';
+import '../providers/Profile_provider.dart';
 import '../models/comments_data.dart';
 import '../widgets/loading_reddit.dart';
 
@@ -15,43 +15,12 @@ class ProfileComments extends StatefulWidget {
 }
 
 class ProfileCommentsState extends State<ProfileComments> {
-  int _page = 0;
+  int _page = 1;
   final int _limit = 25;
-  bool _hasNextPage = true;
   bool _isInit = true;
   bool _isLoading = false;
   bool _isLoadMoreRunning = false;
-  List<CommentsData>? commentsData = [
-    CommentsData(
-        title: 'title',
-        owner: 'owner',
-        createdAt: '2022-09-24T14:15:22Z',
-        votes: 3,
-        text: 'text',
-        ownerType: 'User'),
-    CommentsData(
-        title: 'title',
-        owner: 'owner',
-        createdAt: '2021-08-24T14:15:22Z',
-        votes: 3,
-        text: 'text',
-        ownerType: 'Subreddit'),
-    CommentsData(
-        title: 'title',
-        owner: 'owner',
-        createdAt: '2022-11-24T14:15:22Z',
-        votes: 3,
-        text:
-            'textkoijhuytdrrrrrrrrrrooooooooohvgxsedssssssssssgfhhhhhhhhhhjjjjjjoooooo',
-        ownerType: 'Subreddit'),
-    CommentsData(
-        title: 'title',
-        owner: 'owner',
-        createdAt: '2019-08-24T14:15:22Z',
-        votes: 3,
-        text: 'text',
-        ownerType: 'User')
-  ];
+  List<CommentsData>? commentsData;
   String dateOfcomment(String date) {
     final data1 = DateTime.parse(date);
     final date2 = DateTime.now();
@@ -76,40 +45,33 @@ class ProfileCommentsState extends State<ProfileComments> {
   }
 
   ScrollController _scrollController = new ScrollController();
-  bool loadMore() {
-  //   if (_hasNextPage == true &&
-  //       _isLoading == false &&
-  //       _isLoadMoreRunning == false &&
-  //       _scrollController.position.extentAfter < 300) {
-  //     setState(() {
-  //       toggleLoadingMore(); // Display a progress indicator at the bottom
-  //     });
+  void loadMore() async {
+    if (_isLoading == false &&
+        _isLoadMoreRunning == false &&
+        _scrollController.position.extentAfter < 300) {
+      setState(() {
+        toggleLoadingMore(); // Display a progress indicator at the bottom
+      });
+      setState(() {
+        _page += 1; // Increase _page by 1
+      });
 
-  //     _page += 1; // Increase _page by 1
+      try {
+        await Provider.of<ProfileProvider>(context, listen: false)
+            .fetchandSetProfileComments(widget.userName, _page, _limit,context)
+            .then((_) async {
+          commentsData =
+              await Provider.of<ProfileProvider>(context, listen: false)
+                  .gettingProfileComments;
+        });
+      } catch (err) {
+        print('Something went wrong!');
+      }
 
-      // try {
-      //   Provider.of<ProfileCommentsProvider>(context, listen: false)
-      //       .fetchandSetProfileComments(widget.userName, _page, _limit)
-      //       .then((value) {
-      //     commentsData =
-      //         Provider.of<ProfileCommentsProvider>(context, listen: false)
-      //             .gettingProfileComments;
-      //     if (commentsData == null) {
-      //       setState(() {
-      //         _hasNextPage = false;
-      //       });
-      //     }
-      //   });
-      // } catch (err) {
-      //   print('Something went wrong!');
-      // }
-
-    //   setState(() {
-    //     toggleLoadingMore();
-    //   });
-    //   return _isLoadMoreRunning;
-    // }
-     return _isLoadMoreRunning;
+      setState(() {
+        toggleLoadingMore();
+      });
+    }
   }
 
   bool toggleLoadingMore() => _isLoadMoreRunning = !_isLoadMoreRunning;
@@ -124,24 +86,24 @@ class ProfileCommentsState extends State<ProfileComments> {
   }
 
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
-    // if (_isInit) {
-    //   setState(() {
-    //     _isLoading = true;
-    //   });
-    //   Provider.of<ProfileCommentsProvider>(context, listen: false)
-    //       .fetchandSetProfileComments(widget.userName,_page,_limit)
-    //       .then((value) {
-    //     commentsData =
-    //         Provider.of<ProfileCommentsProvider>(context, listen: false)
-    //             .gettingProfileComments;
-    //     setState(() {
-    //       _isLoading = false;
-    //     });
-    //   });
-    // }
-    // _isInit = false;
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      await Provider.of<ProfileProvider>(context, listen: false)
+          .fetchandSetProfileComments(widget.userName, _page, _limit,context)
+          .then((value) async {
+        commentsData =
+            await Provider.of<ProfileProvider>(context, listen: false)
+                .gettingProfileComments;
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
     super.didChangeDependencies();
   }
 
@@ -155,8 +117,27 @@ class ProfileCommentsState extends State<ProfileComments> {
   Widget build(BuildContext context) {
     return (_isLoading || _isLoadMoreRunning)
         ? const LoadingReddit()
-        : (commentsData != null)
-            ? ListView(
+        : (commentsData == null || commentsData!.isEmpty)
+            ? Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    const Icon(
+                      Icons.reddit,
+                      size: 100,
+                      color: Colors.black,
+                    ),
+                    const Text(
+                      'Wow,such empty',
+                      style: TextStyle(color: Colors.grey),
+                    )
+                  ],
+                ),
+              )
+            : ListView(
+                   // controller: _scrollController,
                 scrollDirection: Axis.vertical,
                 children: [
                   SizedBox(
@@ -164,7 +145,7 @@ class ProfileCommentsState extends State<ProfileComments> {
                   ),
                   SingleChildScrollView(
                     child: ListView.builder(
-                      controller: _scrollController,
+                      //controller: _scrollController,
                       physics: const ClampingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
@@ -215,23 +196,6 @@ class ProfileCommentsState extends State<ProfileComments> {
                     ),
                   )
                 ],
-              )
-            : Center(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    const Icon(
-                      Icons.reddit,
-                      size: 100,
-                    ),
-                    const Text(
-                      'Wow,such empty',
-                      style: TextStyle(color: Colors.grey),
-                    )
-                  ],
-                ),
               );
   }
 }

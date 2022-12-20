@@ -69,7 +69,7 @@ class ApprovedScreenState extends State<ApprovedScreen> {
 
     subredditName = provider.getSubredditName(context);
     provider
-        .getModerators(subredditName, UserCase.approved, context)
+        .getUser(subredditName, UserCase.approved, context)
         .then((value) {
       approved = provider.approved;
       print(approved);

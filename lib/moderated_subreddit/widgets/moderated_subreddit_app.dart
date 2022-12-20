@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/position_for_moderated_subredditInfo.dart';
 import '../widgets/moderated_subreddit_pop_up_menu_button.dart';
 import '../../widgets/subreddit_posts.dart';
-import '../models/moderated_subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../screens/moderated_subreddit_screen.dart';
 import '../../screens/subreddit_search_screen.dart';
 import '../../models/subreddit_about _rules.dart';
@@ -11,7 +11,7 @@ import '../../widgets/subreddit_about.dart';
 
 class ModeratedSubredditApp extends StatelessWidget {
   final String userName;
-  ModeratedSubredditData? loadedSubreddit;
+  SubredditData? loadedSubreddit;
   bool isOnline = true;
   final TabBar tabBar;
   bool isLoading;
@@ -57,7 +57,7 @@ class ModeratedSubredditApp extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                   width: 60.w,
-                  height: 4.h,
+                  height: 5.h,
                   //color: Color.fromARGB(157, 255, 245, 245),
                   child: InkWell(
                     onTap: () {
@@ -72,8 +72,9 @@ class ModeratedSubredditApp extends StatelessWidget {
                         ),
                         Text(
                           'r/${loadedSubreddit!.name}',
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                              color: Colors.white, fontWeight: FontWeight.bold,fontSize: 20),
                         ),
                       ],
                     ),

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../../lib/other_profile/widgets/follow_button.dart';
+import '../../../lib/widgets/follow_button.dart';
 void main() {
    group(
     'follow button ...',

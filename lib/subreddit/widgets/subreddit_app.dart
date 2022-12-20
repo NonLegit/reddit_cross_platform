@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../models/subreddit_about _rules.dart';
 import '../../widgets/subreddit_about.dart';
-import '../models/subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../../screens/subreddit_search_screen.dart';
 import '../widgets/subreddit_pop_up_menu_button.dart';
 import '../widgets/postion_for_subreddit_info.dart';
@@ -56,7 +56,7 @@ class SubredditApp extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                   width: 60.w,
-                  height: 4.h,
+                  height: 5.h,
                   // to Go to Search in Subreddit
                   child: InkWell(
                     onTap: () {
@@ -71,8 +71,10 @@ class SubredditApp extends StatelessWidget {
                         ),
                         Text(
                           'r/${loadedSubreddit.name}',
+                          overflow: TextOverflow.clip,
+
                           style: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                              color: Colors.white, fontWeight: FontWeight.bold,fontSize: 20),
                         ),
                       ],
                     ),

@@ -1,28 +1,95 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/mfg_labs_icons.dart';
-import 'package:post/other_profile/screens/others_profile_screen.dart';
+import 'package:provider/provider.dart';
+
+import '../models/post_model.dart';
+import '../provider/post_provider.dart';
 
 class PostModPopUp extends StatefulWidget {
   final bool isApproved;
   final bool isNSFW;
   final bool isSpoiler;
-  final Function approve;
-  final Function nsfw;
-  final Function spoiler;
+  final bool isRemoved;
+  final Function update;
+  final bool isCommentsLocked;
+  final PostModel data;
   const PostModPopUp(
-      {required this.isApproved,
-      required this.approve,
+      {super.key,
+      required this.isApproved,
       required this.isNSFW,
       required this.isSpoiler,
-      required this.nsfw,
-      required this.spoiler});
+      required this.update,
+      required this.isCommentsLocked,
+      required this.data,
+      required this.isRemoved});
 
   @override
-  State<PostModPopUp> createState() => _PostModPopUpState();
+  State<PostModPopUp> createState() => _PostModPopUpState(
+      isApproved, isNSFW, isSpoiler, isCommentsLocked, isRemoved);
 }
 
 class _PostModPopUpState extends State<PostModPopUp> {
+  bool isApproved;
+  bool isNSFW;
+  bool isSpoiler;
+  bool isRemoved;
+  bool isCommentsLocked;
+  _PostModPopUpState(this.isApproved, this.isNSFW, this.isSpoiler,
+      this.isCommentsLocked, this.isRemoved);
+  spoiler() async {
+    if (await Provider.of<PostProvider>(context, listen: false).postAction(
+        widget.data.sId as String, isSpoiler ? 'unspoiler' : 'spoiler')) {
+      isSpoiler = !isSpoiler;
+      widget.data.spoiler = isSpoiler;
+      widget.update();
+    }
+  }
+
+  nsfw() async {
+    if (await Provider.of<PostProvider>(context, listen: false).postAction(
+        widget.data.sId as String, isNSFW ? 'unmark_nsfw' : 'mark_nsfw')) {
+      isNSFW = !isNSFW;
+      widget.data.nsfw = isNSFW;
+      widget.update();
+    }
+  }
+
+  approve() async {
+    if (await Provider.of<PostProvider>(context, listen: false)
+        .postModerationAction(widget.data.sId as String, 'approve')) {
+      widget.data.approved = true;
+      isApproved = true;
+      widget.update();
+    }
+  }
+
+  remove() async {
+    if (await Provider.of<PostProvider>(context, listen: false)
+        .postModerationAction(widget.data.sId as String, 'remove')) {
+      widget.data.removed = true;
+      widget.update();
+    }
+  }
+
+  spam() async {
+    if (await Provider.of<PostProvider>(context, listen: false)
+        .postModerationAction(widget.data.sId as String, 'spam')) {
+      widget.data.isSpam = true;
+      widget.update();
+    }
+  }
+
+  comments() async {
+    if (await Provider.of<PostProvider>(context, listen: false).postAction(
+        widget.data.sId as String,
+        isCommentsLocked ? 'unlock_comments' : 'lock_comments')) {
+      isCommentsLocked = !isCommentsLocked;
+      widget.data.locked = isCommentsLocked;
+      widget.update();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -35,7 +102,7 @@ class _PostModPopUpState extends State<PostModPopUp> {
           children: [
             InkWell(
               onTap: () {
-                widget.spoiler();
+                spoiler();
                 Navigator.pop(context);
               },
               child: Container(
@@ -43,7 +110,7 @@ class _PostModPopUpState extends State<PostModPopUp> {
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsetsDirectional.only(end: 5),
+                      margin: EdgeInsetsDirectional.only(start: 2, end: 5),
                       child: Icon(
                         MfgLabs.attention,
                         size: 18,
@@ -65,7 +132,7 @@ class _PostModPopUpState extends State<PostModPopUp> {
             ),
             InkWell(
               onTap: () {
-                widget.nsfw();
+                nsfw();
                 Navigator.pop(context);
               },
               child: Container(
@@ -73,7 +140,7 @@ class _PostModPopUpState extends State<PostModPopUp> {
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsetsDirectional.only(end: 5),
+                      margin: EdgeInsetsDirectional.only(start: 2, end: 5),
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
@@ -113,7 +180,10 @@ class _PostModPopUpState extends State<PostModPopUp> {
               ),
             ),
             InkWell(
-              onTap: null,
+              onTap: () {
+                comments();
+                Navigator.pop(context);
+              },
               child: Container(
                 margin: EdgeInsetsDirectional.only(bottom: 10, top: 10),
                 child: Row(
@@ -121,7 +191,7 @@ class _PostModPopUpState extends State<PostModPopUp> {
                     Container(
                       margin: EdgeInsetsDirectional.only(end: 5),
                       child: Icon(
-                        FontAwesome.mail,
+                        Icons.lock_outline,
                         color: Theme.of(context).colorScheme.brightness ==
                                 Brightness.light
                             ? Theme.of(context).colorScheme.onPrimary
@@ -129,7 +199,9 @@ class _PostModPopUpState extends State<PostModPopUp> {
                       ),
                     ),
                     Text(
-                      'Lock comments',
+                      widget.isCommentsLocked
+                          ? 'UnLock comments'
+                          : 'Lock comments',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.brightness ==
                                 Brightness.light
@@ -171,7 +243,12 @@ class _PostModPopUpState extends State<PostModPopUp> {
               ),
             ),
             InkWell(
-              onTap: null,
+              onTap: widget.isRemoved
+                  ? null
+                  : () {
+                      remove();
+                      Navigator.pop(context);
+                    },
               child: Container(
                 margin: EdgeInsetsDirectional.only(bottom: 10, top: 10),
                 child: Row(
@@ -179,20 +256,24 @@ class _PostModPopUpState extends State<PostModPopUp> {
                     Container(
                       margin: EdgeInsetsDirectional.only(end: 5),
                       child: Icon(
-                        FontAwesome.mail,
-                        color: Theme.of(context).colorScheme.brightness ==
-                                Brightness.light
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Theme.of(context).colorScheme.onSurface,
+                        Icons.block_flipped,
+                        color: widget.isRemoved
+                            ? Colors.grey[400]
+                            : (Theme.of(context).colorScheme.brightness ==
+                                    Brightness.light
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.onSurface),
                       ),
                     ),
                     Text(
                       'Remove post',
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.brightness ==
-                                Brightness.light
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Theme.of(context).colorScheme.onSurface,
+                        color: widget.isRemoved
+                            ? Colors.grey[400]
+                            : (Theme.of(context).colorScheme.brightness ==
+                                    Brightness.light
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.onSurface),
                       ),
                     ),
                   ],
@@ -200,7 +281,12 @@ class _PostModPopUpState extends State<PostModPopUp> {
               ),
             ),
             InkWell(
-              onTap: null,
+              onTap: widget.data.isSpam ?? false
+                  ? null
+                  : () {
+                      spam();
+                      Navigator.pop(context);
+                    },
               child: Container(
                 margin: EdgeInsetsDirectional.only(bottom: 10, top: 10),
                 child: Row(
@@ -208,20 +294,24 @@ class _PostModPopUpState extends State<PostModPopUp> {
                     Container(
                       margin: EdgeInsetsDirectional.only(end: 5),
                       child: Icon(
-                        FontAwesome.mail,
-                        color: Theme.of(context).colorScheme.brightness ==
-                                Brightness.light
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Theme.of(context).colorScheme.onSurface,
+                        Icons.block_flipped,
+                        color: widget.data.isSpam ?? false
+                            ? Colors.grey[400]
+                            : (Theme.of(context).colorScheme.brightness ==
+                                    Brightness.light
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.onSurface),
                       ),
                     ),
                     Text(
                       'Remove as spam',
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.brightness ==
-                                Brightness.light
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Theme.of(context).colorScheme.onSurface,
+                        color: widget.isRemoved
+                            ? Colors.grey[400]
+                            : (Theme.of(context).colorScheme.brightness ==
+                                    Brightness.light
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.onSurface),
                       ),
                     ),
                   ],
@@ -232,7 +322,7 @@ class _PostModPopUpState extends State<PostModPopUp> {
               onTap: widget.isApproved
                   ? null
                   : () {
-                      widget.approve();
+                      approve();
                       Navigator.pop(context);
                     },
               child: Container(

@@ -1,12 +1,12 @@
 import 'dart:convert';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/create_community/widgets/community_type.dart';
 import 'package:post/moderation_settings/models/moderators.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:post/providers/profile_post.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:post/providers/global_settings.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
@@ -44,13 +44,10 @@ import 'myprofile/screens/user_followers_screen.dart';
 import 'show_post/screens/show_post.dart';
 import 'show_post/widgets/edit_post.dart';
 import 'post/provider/post_provider.dart';
-import 'providers/subreddit_post.dart';
 import 'subreddit/screens/subreddit_screen.dart';
 import 'screens/subreddit_search_screen.dart';
 import 'subreddit/screens/community_info_screen.dart';
 import 'screens/contact_mod_message_screen.dart';
-import 'other_profile/providers/other_profile_provider.dart';
-import 'myprofile/providers/myprofile_provider.dart';
 import 'moderated_subreddit/screens/mod_notification_screen.dart';
 import 'moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import './settings/screens/settings.dart';
@@ -79,15 +76,21 @@ import 'moderation_settings/screens/add_edit_banned_screen.dart';
 import 'moderation_settings/screens/add_edit_moderator_screen.dart';
 import 'moderation_settings/screens/add_edit_muted_screen.dart';
 import 'moderation_settings/screens/add_edit_aproved_screen.dart';
+import './discover/screens/discover_screen.dart';
 //=====================================Providers====================================================//
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
+// import './providers/profile_comments_provider.dart';
+// import './providers/profile_post_provider.dart';
+import './providers/Profile_provider.dart';
+import 'providers/subreddit_posts_provider.dart';
 import './subreddit/providers/subreddit_provider.dart';
 import './moderated_subreddit/providers/moderated_subreddit_provider.dart';
 import './create_community/provider/create_community_provider.dart';
 import './moderation_settings/provider/moderation_settings_provider.dart';
 import './notification/provider/notification_provider.dart';
 import 'logins/providers/authentication.dart';
+import './discover/providers/discover_provider.dart';
 //import './models/push_notification_model.dart';
 
 String returnCorrectText(type, name, user) {
@@ -196,8 +199,12 @@ Future<void> main() async {
   // final RemoteMessage? remoteMessage =
   //   await FirebaseMessaging.instance.getInitialMessage();
   //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider<GlobalSettings>(
+      create: (context) => GlobalSettings(true, true),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -311,9 +318,12 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider.value(value: ModerationSettingProvider()),
             ChangeNotifierProvider.value(value: NotificationProvider()),
             ChangeNotifierProvider.value(value: Auth()),
-            ChangeNotifierProvider.value(value: ProfilePostProvider()),
+          //  ChangeNotifierProvider.value(value: ProfilePostProvider()),
             ChangeNotifierProvider.value(value: PostProvider()),
-            ChangeNotifierProvider.value(value: SubredditPostProvider()),
+            ChangeNotifierProvider.value(value: SubredditPostsProvider ()),
+           // ChangeNotifierProvider.value(value: ProfileCommentsProvider()),
+            ChangeNotifierProvider.value(value: ProfileProvider()),
+            ChangeNotifierProvider.value(value: DiscoverProvider()),
           ],
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
@@ -329,15 +339,17 @@ class _MyAppState extends State<MyApp> {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-            // home: homeLayoutScreen(),
+            //home: const DiscoverScreen(),
+          // home: homeLayoutScreen(),
             // home: Description(),
             // home: HomeScreen(),
+            // home: MyProfileScreen(),
             // home: NotificationScreen(),
             // home:ShowPostDetails(),
             // home: CreateCommunity(),
-            //   home: homeLayoutScreen(),
+            //home: homeLayoutScreen(),
             // home: HomeScreen(),
-            // home: Login(),
+          home: Login(),
             // home: CreateCommunity(),
             // home: Login(),
             // home: ForgotUserName(),
@@ -358,7 +370,10 @@ class _MyAppState extends State<MyApp> {
               EditMutedScreen.routeName: (context) => EditMutedScreen(),
               EditModeratorScreen.routeName: (context) => EditModeratorScreen(),
               ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
-              ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
+              MutedScreen.routeName: (context) => MutedScreen(),
+              BannedScreen.routeName: (context) => BannedScreen(),
+              ApprovedScreen.routeName: (context) => ApprovedScreen(),
+
               ComuunityTypesScreen.routeName: (context) =>
                   ComuunityTypesScreen(),
               LocationScreen.routeName: (context) => LocationScreen(),
@@ -408,18 +423,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-// class _MyHomeApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('MyShop'),
-//       ),
-//       body: const Center(
-//         child: Text('Let\'s build a shop!'),
-//       ),
-//     );
-//   }
-// }

@@ -1,14 +1,19 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../../createpost/screens/createpost.dart';
 import '../../notification/screens/notifications_screen.dart';
 import '../../icons/icon_broken.dart';
 import '../screens/home_layout.dart';
+import '../../discover/screens/discover_screen.dart';
 class buttomNavBar extends StatefulWidget {
-  const buttomNavBar({Key? key}) : super(key: key);
-
+  const buttomNavBar({
+  //required this.fromProfile
+  Key? key}) : super(key: key);
+ //final int fromProfile;
   @override
   State<buttomNavBar> createState() => _buttomNavBarState();
 }
@@ -41,13 +46,14 @@ class _buttomNavBarState extends State<buttomNavBar> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => homeLayoutScreen()));
+                          builder: (context) => DiscoverScreen()));
 
                 }
                 break;
               case 2:
                 {
                   print("index = $index");
+                //  Get.to(CreatePostSCreen(),arguments: [widget.fromProfile]);
                   Navigator.push(
                       context,
                       MaterialPageRoute(

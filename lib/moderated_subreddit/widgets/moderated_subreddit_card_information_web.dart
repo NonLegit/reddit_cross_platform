@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
-import '../models/moderated_subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 
 class ModeratedSubredditCardInformationWeb extends StatelessWidget {
   const ModeratedSubredditCardInformationWeb({
@@ -9,7 +9,7 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
     required this.loadedSubreddit,
   }) : super(key: key);
 
-  final ModeratedSubredditData? loadedSubreddit;
+  final SubredditData? loadedSubreddit;
 
   @override
   Widget build(BuildContext context) {

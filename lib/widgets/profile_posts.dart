@@ -3,9 +3,9 @@ import 'package:post/widgets/loading_reddit.dart';
 //import 'package:flutter_code_style/analysis_options.yaml';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import './post_sort_bottom.dart';
-import '../post/widgets/post.dart';
+import '../post/widgets/post_list.dart';
 import 'package:provider/provider.dart';
-import '../providers/profile_post_provider.dart';
+import '../providers/Profile_provider.dart';
 import '../post/models/post_model.dart';
 
 class ProfilePosts extends StatefulWidget {
@@ -23,8 +23,7 @@ class ProfilePosts extends StatefulWidget {
 }
 
 class ProfilePostsState extends State<ProfilePosts> {
-  int _page = 0;
-  bool _hasNextPage = true;
+  int _page = 1;
 
   bool _isLoadMoreRunning = false;
 
@@ -33,10 +32,7 @@ class ProfilePostsState extends State<ProfilePosts> {
   List<PostModel>? posts = [];
   late ScrollController _scrollController;
   void _loadMore() {
-    if (_hasNextPage == true &&
-        _isLoading == false &&
-        _isLoadMoreRunning == false &&
-        _scrollController.position.extentAfter < 300) {
+    if (_isLoading == false && _isLoadMoreRunning == false) {
       setState(() {
         toggleLoadingMore(); // Display a progress indicator at the bottom
       });
@@ -59,7 +55,8 @@ class ProfilePostsState extends State<ProfilePosts> {
     super.initState();
     print(
         '==============================inint profile Post======================');
-    _scrollController = ScrollController()..addListener(_loadMore);
+    print(widget.userName);
+    // _scrollController = ScrollController()..addListener(_loadMore);
   }
 
   @override
@@ -68,10 +65,10 @@ class ProfilePostsState extends State<ProfilePosts> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<ProfilePostProvider>(context, listen: false)
-          .fetchProfilePosts(widget.userName, 'Hot', _page, 25)
+      Provider.of<ProfileProvider>(context, listen: false)
+          .fetchProfilePosts(widget.userName, 'Hot', _page, 25,context)
           .then((value) {
-        posts = Provider.of<ProfilePostProvider>(context, listen: false)
+        posts = Provider.of<ProfileProvider>(context, listen: false)
             .gettingProfilePostData;
         setState(() {
           _isLoading = false;
@@ -90,36 +87,24 @@ class ProfilePostsState extends State<ProfilePosts> {
 
   @override
   Widget build(BuildContext context) {
-    posts = Provider.of<ProfilePostProvider>(context, listen: true)
+    posts = Provider.of<ProfileProvider>(context, listen: true)
         .gettingProfilePostData;
     return (_isLoading || _isLoadMoreRunning)
         ? LoadingReddit()
         : (posts != null)
-            ? ListView(
-                controller: _scrollController,
-                scrollDirection: Axis.vertical,
-                physics: const ClampingScrollPhysics(),
-                addAutomaticKeepAlives: true,
-                shrinkWrap: true,
-                children: [
-                  PostSortBottom(
+            ? PostList(
+                topOfTheList: Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: PostSortBottom(
                     page: _page,
                     type: 'User',
                     routeNamePop: widget.routeNamePop,
                     userName: widget.userName,
                   ),
-                  SingleChildScrollView(
-                    child: ListView.builder(
-                      physics: const ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: ((context, index) => Post.profile(
-                            data: posts![index],
-                          )),
-                      itemCount: posts?.length,
-                    ),
-                  )
-                ],
-              )
+                ),
+                userName:widget.userName,
+                updateData: _loadMore,
+                data: posts as List<PostModel>,type: 'profile',)
             : Center(
                 child: Column(
                   children: [

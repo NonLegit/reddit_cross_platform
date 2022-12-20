@@ -5,10 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import './states.dart';
 import '../../screens/home_layout.dart';
 // import 'package:reddit/modules/home/home.dart';
-
+import '../../../discover/screens/discover_screen.dart';
 import '../../../chat/chat.dart';
 import '../../../createpost/screens/createpost.dart';
-import '../../../discover/discover.dart';
 import '../../../icons/icon_broken.dart';
 import '../../../notification/screens/notifications_screen.dart';
 
@@ -80,7 +79,7 @@ class layoutCubit extends Cubit<layoutStates> {
   // For handling screesn
   List<Widget> screens = [
     homeLayoutScreen(),
-    discoverScreen(),
+    DiscoverScreen(),
    // createPostScreen(),
     chatScreen(),
     NotificationScreen(),

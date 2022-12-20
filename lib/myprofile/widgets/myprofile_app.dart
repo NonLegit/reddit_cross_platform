@@ -59,7 +59,7 @@ class MyProfileApp extends StatelessWidget {
                 pinned: true,
                 snap: false,
                 bottom: PreferredSize(
-                  preferredSize: tabBar.preferredSize,
+                  preferredSize:Size(40.w,tabBar.preferredSize.height),
                   child: ColoredBox(
                     color: Colors.white,
                     child: tabBar,
@@ -74,8 +74,8 @@ class MyProfileApp extends StatelessWidget {
                           //  color: Colors.blue,
                           height: (loadProfile.description == null ||
                                   loadProfile.description == '')
-                              ? 56.h
-                              : (56 +
+                              ? 56.5.h
+                              : (56.5 +
                                       ((loadProfile.description)
                                               .toString()
                                               .length /

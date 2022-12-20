@@ -74,7 +74,7 @@ class BannedScreenState extends State<BannedScreen> {
 
     subredditName = provider.getSubredditName(context);
     provider
-        .getModerators(subredditName, UserCase.banned, context)
+        .getUser(subredditName, UserCase.banned, context)
         .then((value) {
       banned = provider.banned;
       print(banned);

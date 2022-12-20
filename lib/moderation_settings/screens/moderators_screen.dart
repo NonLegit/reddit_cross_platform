@@ -105,23 +105,51 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
 
   @override
   void initState() {
-    final provider =
-        Provider.of<ModerationSettingProvider>(context, listen: false);
-    fetchingDone = false;
-    subredditName = provider.getSubredditName(context);
-    provider.getUserName().then((value) {
-      userName = value;
-      provider
-          .getModerators(subredditName, UserCase.moderator, context)
-          .then((value) {
-        moderators = provider.moderators;
-        print(moderators);
-        extractModeratorsLists();
-        fetchingDone = true;
-        setState(() {});
-      });
-    });
+    // final provider =
+    //     Provider.of<ModerationSettingProvider>(context, listen: false);
+    // fetchingDone = false;
+    // subredditName = provider.getSubredditName(context);
+    // provider.getUserName().then((value) {
+    //   userName = value;
+    //   provider
+    //       .getModerators(subredditName, UserCase.moderator, context)
+    //       .then((value) {
+    //     moderators = provider.moderators;
+    //     print(moderators);
+    //     extractModeratorsLists();
+    //     fetchingDone = true;
+    //     setState(() {});
+    //   });
+    // });
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (_isInit) {
+      setState(() {
+        fetchingDone = false;
+      });
+      final provider =
+          Provider.of<ModerationSettingProvider>(context, listen: false);
+      fetchingDone = false;
+      subredditName = provider.getSubredditName(context);
+      provider.getUserName().then((value) {
+        userName = value;
+        provider
+            .getUser(subredditName, UserCase.moderator, context)
+            .then((value) {
+          moderators = provider.moderators;
+          print(moderators);
+          extractModeratorsLists();
+          fetchingDone = true;
+          setState(() {});
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   Future<String> getuserName() async {

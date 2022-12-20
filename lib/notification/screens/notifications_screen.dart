@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/notification_class_model.dart';
 
@@ -28,6 +29,7 @@ import '../../create_community/screens/create_community.dart';
 import '../../subreddit/screens/subreddit_screen.dart';
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import '../../messages/screens/new_message_screen.dart';
+import '../../home/controller/home_controller.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -44,6 +46,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   // dynamic icModerating = Icon(IconBroken.Arrow___Right_2);
   // dynamic icYourCommunities = Icon(IconBroken.Arrow___Right_2);
   // bools
+  final HomeController controller = Get.put(
+    HomeController(),
+  );
   bool isRecentlyVisitedPannelExpanded = true;
   bool isModeratingPannelExpanded = false;
   bool isOnline = true;
@@ -140,7 +145,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   void initState() {
-  //  _updateCount();
+    //  _updateCount();
     super.initState();
   }
 
@@ -156,7 +161,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       setState(() {
         returned = false;
       });
-    //  _updateCount();
+      //  _updateCount();
       await Provider.of<NotificationProvider>(context, listen: false)
           .getNotification(context)
           .then((value) {
@@ -281,24 +286,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     unselectedLabelColor: Colors.grey,
                     tabs: [
                       Badge(
-                          toAnimate: false,
-                          position: BadgePosition.topEnd(end: -10, top: -23),
-                          shape: BadgeShape.circle,
-                          borderRadius: BorderRadius.circular(4),
-                          showBadge: unreadNotification != 0 ? true : false,
-                          badgeContent: Text(
-                            unreadNotification.toString(),
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.only(bottom: 6),
-                            child: Text(
-                              'Notifications',
-                              style: TextStyle(fontSize: 15),
-                            ),
+                        toAnimate: false,
+                        position: BadgePosition.topEnd(end: -10, top: -23),
+                        shape: BadgeShape.circle,
+                        borderRadius: BorderRadius.circular(4),
+                        showBadge: unreadNotification != 0 ? true : false,
+                        badgeContent: Text(
+                          unreadNotification.toString(),
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.only(bottom: 6),
+                          child: Text(
+                            'Notifications',
+                            style: TextStyle(fontSize: 15),
                           ),
                         ),
-                      
+                      ),
                       const Padding(
                         padding: EdgeInsets.only(bottom: 6),
                         child: Text(
@@ -310,7 +314,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
               ),
               bottomNavigationBar: const buttomNavBar(),
-              endDrawer: const endDrawer(),
+              endDrawer: endDrawer(controller: controller),
               drawer: const drawer(),
               body: TabBarView(children: [
                 !returned
