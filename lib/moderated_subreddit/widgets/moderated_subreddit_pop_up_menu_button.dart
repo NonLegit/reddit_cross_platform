@@ -39,6 +39,7 @@ class ModeratedSubredditPopupMenuButtonState
     isJoinedstate = widget.isJoined;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
@@ -87,13 +88,6 @@ class ModeratedSubredditPopupMenuButtonState
               title: const Text('Community notifications'),
             ),
           ),
-          // const PopupMenuItem(
-          //   value: '/ModNotification',
-          //   child: ListTile(
-          //     leading: Icon(Icons.notifications_none_outlined),
-          //     title: Text('Manage mod notifications'),
-          //   ),
-          // )
         ];
       },
       icon: const Icon(
@@ -157,16 +151,7 @@ class ModeratedSubredditPopupMenuButtonState
               ),
               child: const Text('Leave'),
               onPressed: () async {
-                await Provider.of<ModeratedSubredditProvider>(context,
-                        listen: false)
-                    .joinAndDisjoinModeratedSubreddit(communityName, 'unsub')
-                    .then((value) {
-                  setState(() {
-                    changeDisJoinStatus();
-                  });
-                });
-
-                Navigator.of(ctx).pop();
+                await unSubscribe(communityName, ctx);
               },
             ),
           )
@@ -175,25 +160,43 @@ class ModeratedSubredditPopupMenuButtonState
     );
   }
 
+  Future<void> unSubscribe(String communityName, BuildContext ctx) async {
+    bool unSub =
+        await Provider.of<ModeratedSubredditProvider>(context, listen: false)
+            .joinAndDisjoinModeratedSubreddit(communityName, 'unsub', context);
+    if (unSub) {
+      changeDisJoinStatus();
+    }
+    Navigator.of(ctx).pop();
+  }
+
 // to disjoin change the isJoined status
   bool changeDisJoinStatus() {
-    isJoinedstate = false;
+    setState(() {
+          isJoinedstate = false;
+    });
+
     return isJoinedstate;
   }
 
 // to join subreddit
   void _join(String communityName) async {
-    await Provider.of<ModeratedSubredditProvider>(context, listen: false)
-        .joinAndDisjoinModeratedSubreddit(communityName, 'sub')
-        .then((value) {
+    bool sub = await Provider.of<ModeratedSubredditProvider>(context,
+            listen: false)
+        .joinAndDisjoinModeratedSubreddit(widget.communityName, 'sub', context);
+    if (sub) {
       setState(() {
         changeJoinStatus();
       });
-    });
+    }
   }
+
 // to join change the isJoined status
   bool changeJoinStatus() {
-    isJoinedstate = true;
+    setState(() {
+        isJoinedstate = true;
+    });
+  
     return isJoinedstate;
   }
 

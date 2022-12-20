@@ -13,11 +13,13 @@ class CommentsData {
       required this.votes,
       required this.text});
   CommentsData.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    owner = json['owner'];
+    owner = json['owner']['name'];
     ownerType = json['ownerType'];
-    createdAt = json['createdAt'];
-    votes = json['votes'];
-    text = json['text'];
+    title = json['title'];
+    json['comments'].forEach((comment) {
+      createdAt = comment['createdAt'];
+      votes = comment['votes'];
+      text = comment['text'];
+    });
   }
 }

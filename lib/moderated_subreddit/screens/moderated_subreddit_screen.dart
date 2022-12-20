@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../../home/controller/home_controller.dart';
-import '../../icons/icon_broken.dart';
 import '../widgets/moderated_subreddit_web.dart';
-import '../models/moderated_subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../../widgets/loading_reddit.dart';
 import '../widgets/moderated_subreddit_app.dart';
 import '../providers/moderated_subreddit_provider.dart';
@@ -26,7 +24,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
   var _isLoading = false;
   var _isInit = true;
   var subredditUserName;
-  ModeratedSubredditData? loadedSubreddit;
+SubredditData? loadedSubreddit;
 
   //=====================End Drawer=============//
   bool isOnline = true;
@@ -72,7 +70,7 @@ class _ModeratedSubredditScreenState extends State<ModeratedSubredditScreen>
       subredditUserName = ModalRoute.of(context)?.settings.arguments as String;
       print(subredditUserName);
       Provider.of<ModeratedSubredditProvider>(context, listen: false)
-          .fetchAndSetModeratedSubredddit(subredditUserName)
+          .fetchAndSetModeratedSubredddit(subredditUserName,context)
           .then((value) {
         loadedSubreddit =
             Provider.of<ModeratedSubredditProvider>(context, listen: false)

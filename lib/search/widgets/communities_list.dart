@@ -12,11 +12,19 @@ import '../../logins/providers/authentication.dart';
 // Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
 import '../../widgets/custom_snack_bar.dart';
 import '../provider/search_provider.dart';
+import '../../subreddit/screens/subreddit_screen.dart';
+import '../models/search_community.dart';
+import 'package:flutter_html/flutter_html.dart';
+import './empty_search.dart';
 
 class CommunitiesList extends StatefulWidget {
   static const routeName = '/communitieslist';
   String quiry;
-  CommunitiesList({Key? key, this.quiry = ''}) : super(key: key);
+  SearchProvider provider;
+  int limit;
+  CommunitiesList(
+      {Key? key, required this.limit, this.quiry = '', required this.provider})
+      : super(key: key);
 
   @override
   State<CommunitiesList> createState() => _CommunitiesListState();
@@ -32,29 +40,45 @@ class _CommunitiesListState extends State<CommunitiesList> {
   bool showNSFW = true;
   bool autoPlay = true;
   String SorthomePosts = 'Best';
-  SearchProvider? provider = null;
-  // @override
+  @override
   void didChangeDependencies() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (_isInit) {
+    if (widget.provider.initCommunity) {
       setState(() {
         fetchingDone = false;
       });
+      widget.provider
+          .getsearch(
+              quiry: widget.quiry,
+              limit: widget.limit,
+              type: 'communities',
+              context: context)
+          .then((value) {
+        if (widget.provider.isError) {}
+        fetchingDone = true;
 
-      provider = Provider.of<SearchProvider>(context, listen: false);
-      // provider!.getAllPrefs(context).then((value) {
-      //   provider!.userPrefrence;
-      //   print(provider!.userPrefrence);
-      provider!.getsearch('ahmed', context).then((value) => {});
-      fetchingDone = true;
-      //   SorthomePosts = provider!.userPrefrence!.sortHomePosts!;
-      //   autoPlay = provider!.userPrefrence!.autoplayMedia!;
-      //   showNSFW = provider!.userPrefrence!.adultContent!;
-      //   if (isBuild) setState(() {});
-      // });
+        if (isBuild) setState(() {});
+      });
     }
     _isInit = false;
     super.didChangeDependencies();
+  }
+
+  Future<void> joinDisjoin(int index) async {
+    await widget.provider.joinDisjoinSubreddit(index, context);
+    String action =
+        (widget.provider.searchCommunity!.data![index].isJoined == false)
+            ? 'disjoined'
+            : 'joined';
+    if (widget.provider.isError == false) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false,
+            text:
+                'you ${action} ${widget.provider.searchCommunity!.data![index].name} sucessfully',
+            disableStatus: true),
+      );
+    }
+    setState(() {});
   }
 
   @override
@@ -63,11 +87,104 @@ class _CommunitiesListState extends State<CommunitiesList> {
     return (!fetchingDone)
         ? const LoadingReddit()
         //Calls TopicMainScreen widget to build Topics Screen
-        : SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Center(child: Text('Communities'))],
-            ),
-          );
+        : (widget.provider.searchCommunity!.data!.length == 0)
+            ? EmptySearch(
+                message: 'there is no communities for \"${widget.quiry}\"')
+            : ListView.builder(
+                physics: const ClampingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemBuilder: (_, index) {
+                  CommunityData commData =
+                      widget.provider.searchCommunity!.data![index];
+                  String members = '';
+                  if (commData.membersCount! > 1000000000) {
+                    members = '${commData.membersCount! / 1000000000}b';
+                  } else if (widget.provider.searchCommunity!.data![index]
+                          .membersCount! >
+                      1000000) {
+                    members = '${commData.membersCount! / 1000000}m';
+                  } else if (widget.provider.searchCommunity!.data![index]
+                          .membersCount! >
+                      1000) {
+                    members = '${commData.membersCount! / 1000}k';
+                  } else {
+                    members = '${commData.membersCount!}';
+                  }
+                  ;
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0, backgroundColor: Colors.white),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(SubredditScreen.routeName,
+                          arguments: '${commData.fixedName}');
+                    },
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage('${commData.icon}'),
+                            backgroundColor: Colors.black,
+                          ),
+                          title: Text('r/${commData.name}'),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(children: [
+                                if (widget.provider.searchCommunity!
+                                    .data![index].nsfw!)
+                                  Text(
+                                    'NSFW   ',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                Text('$members members')
+                              ]),
+                              Text(
+                                '${'${commData.description}'}',
+                              ),
+                            ],
+                          ),
+                          trailing: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                primary: commData.isJoined!
+                                    ? Colors.white
+                                    : Color.fromARGB(255, 56, 93, 164),
+                                side: BorderSide(
+                                    color: Color.fromARGB(255, 56, 93, 164)),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0))),
+                            onPressed: () {
+                              setState(() {
+                                // widget.handler();
+                                joinDisjoin(index);
+                              });
+                            },
+                            child: Container(
+                              // width: 10.w,
+                              child: Text(
+                                  commData.isJoined! ? 'disjoin' : 'join',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: widget.provider.searchCommunity!
+                                              .data![index].isJoined!
+                                          ? Color.fromARGB(255, 56, 93, 164)
+                                          : Colors.white)),
+                            ),
+                          ),
+                        ),
+                        const Divider(
+                          height: 3,
+                          thickness: 0,
+                          endIndent: 0,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                itemCount: widget.provider.searchCommunity!.data!.length,
+              );
   }
 }

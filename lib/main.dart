@@ -303,6 +303,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // Auth().logOut(context);
     final ThemeData theme = ThemeData();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -344,7 +345,7 @@ class _MyAppState extends State<MyApp> {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-            home: homeLayoutScreen(),
+            // home: homeLayoutScreen(),
             // home: Description(),
             // home: HomeScreen(),
             // home: NotificationScreen(),
@@ -353,14 +354,13 @@ class _MyAppState extends State<MyApp> {
             //   home: homeLayoutScreen(),
             // home: HomeScreen(),
             // home: Login(),
-            // home: SearchInside(),
+            home: SearchInside(quiry: 'mohab'),
             // home: CreateCommunity(),
             // home: ForgotUserName(),
             // home: SignUp(),
             // home: Gender(),
             // home: ModeratorTools(),
             // home: Settings(),
-
             // home: ChangeEmail(),
             // home: ComuunityTypesScreen(),
             // home: LocationScreen(),
@@ -372,8 +372,9 @@ class _MyAppState extends State<MyApp> {
             // home:EditBannedScreen(),
             // home:EditMutedScreen(),
             // home: EditModeratorScreen(subredditName: 'Cooking'),
-            home: SearchInside(),
+            // home: Search(),
             routes: {
+              Search.routeName: (context) => Search(),
               SearchInside.routeName: (context) => SearchInside(),
               MutedScreen.routeName: (context) => MutedScreen(),
 

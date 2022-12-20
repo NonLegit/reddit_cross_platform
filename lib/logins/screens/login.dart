@@ -13,7 +13,7 @@ import '../widgets/continue_with_facebook.dart';
 import '../widgets/continue_with_google.dart';
 import '../../models/wrapper.dart';
 import '../../home/screens/home_layout.dart';
-import '../models/status.dart';
+import '../../moderation_settings/widgets/status.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../providers/authentication.dart';
 // import 'package:flutter_signin_button/flutter_signin_button.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/status.dart';
+import '../../moderation_settings/widgets/status.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/upper_bar.dart';
 import '../widgets/upper_text.dart';

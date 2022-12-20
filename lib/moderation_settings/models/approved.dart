@@ -6,9 +6,9 @@ class Approved {
 
   Approved.fromJson(Map<String, dynamic> json) {
     user = (json['user'] != null) ? User.fromJson(json['user']) : null;
-    // approvedDate = json['approvedDate'];
+    approvedDate = json['approvedDate'];
     print(approvedDate);
-    approvedDate = '2022-12-06T08:55:28.000Z';
+    // approvedDate = '2022-12-06T08:55:28.000Z';
   }
 
   Map<String, dynamic> toJson() {

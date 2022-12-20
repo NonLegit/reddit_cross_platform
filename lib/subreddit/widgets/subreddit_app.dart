@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../models/subreddit_about _rules.dart';
 import '../../widgets/subreddit_about.dart';
-import '../models/subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../../screens/subreddit_search_screen.dart';
 import '../widgets/subreddit_pop_up_menu_button.dart';
 import '../widgets/postion_for_subreddit_info.dart';
