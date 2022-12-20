@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../logins/models/status.dart';
+import '../../moderation_settings/widgets/status.dart';
 
 class SettingTextInput extends StatefulWidget {
   // const TextInput({Key? key}) : super(key: key);

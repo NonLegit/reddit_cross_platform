@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../home/controller/home_controller.dart';
 import '../../models/subreddit_about _rules.dart';
 import '../../icons/icon_broken.dart';
-import '../models/subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../../myprofile/screens/myprofile_screen.dart';
 import '../../create_community/screens/create_community.dart';
 import '../../widgets/loading_reddit.dart';
@@ -71,7 +71,7 @@ SubredditData? loadedSubreddit;
       });
       subredditUserName = ModalRoute.of(context)?.settings.arguments as String;
       Provider.of<SubredditProvider>(context, listen: false)
-          .fetchAndSetSubredddit(subredditUserName)
+          .fetchAndSetSubredddit(subredditUserName,context)
           .then((value) {
         loadedSubreddit = Provider.of<SubredditProvider>(context, listen: false)
             .gettingSubredditeData;

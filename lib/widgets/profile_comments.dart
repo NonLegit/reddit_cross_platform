@@ -109,7 +109,7 @@ class ProfileCommentsState extends State<ProfileComments> {
     //   });
     //   return _isLoadMoreRunning;
     // }
-     return _isLoadMoreRunning;
+    return _isLoadMoreRunning;
   }
 
   bool toggleLoadingMore() => _isLoadMoreRunning = !_isLoadMoreRunning;
@@ -122,6 +122,7 @@ class ProfileCommentsState extends State<ProfileComments> {
         '==============================inint profile Post======================');
     _scrollController = ScrollController()..addListener(loadMore);
   }
+
 
   @override
   void didChangeDependencies() {
@@ -144,7 +145,6 @@ class ProfileCommentsState extends State<ProfileComments> {
     // _isInit = false;
     super.didChangeDependencies();
   }
-
   @override
   void dispose() {
     _scrollController.dispose();

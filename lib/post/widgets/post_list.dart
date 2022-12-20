@@ -24,12 +24,14 @@ class _PostListState extends State<PostList> {
       setState(() {
         _isLoading = true;
       });
+      print('hooooooooooooooooo');
       Provider.of<ProfilePostProvider>(context, listen: false)
           .fetchProfilePosts(widget.userName, 'New', 1, 25)
           .then((value) {
-        print('hi');
+        print('hiiiiiiiiii');
         postsData = Provider.of<ProfilePostProvider>(context, listen: false)
             .gettingProfilePostData;
+        print(postsData);
         setState(() {
           _isLoading = false;
         });

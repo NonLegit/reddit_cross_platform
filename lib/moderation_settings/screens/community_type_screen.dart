@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../settings/widgets/setting_text_input.dart';
-import '../../logins/models/status.dart';
+import '../widgets/status.dart';
 import '../widgets/alert_dialog.dart';
 import '../models/moderator_tools.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +54,7 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
 
   bool fetchingDone = true;
   bool _isInit = true;
-
+  bool isBuild = false;
   void changeType(newIndex) {
     index = newIndex;
     changeCommunityType();
@@ -109,9 +109,8 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
         initialIsPlus18 = moderatorToolsModel!.nsfw!;
         index = initialIndex;
         isPlus18 = initialIsPlus18;
-        setState(() {
-          fetchingDone = true;
-        });
+        fetchingDone = true;
+        if (isBuild) setState(() {});
       });
     }
     _isInit = false;
@@ -125,7 +124,7 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
     await provider.patchCommunity({
       "type": sliderValues[index.toInt()]['title'],
       "nsfw": isPlus18,
-    }, subbredditName!,context).then((response) {});
+    }, subbredditName!, context).then((response) {});
     if (provider.isError == true) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
@@ -150,6 +149,8 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
   double _value = 3;
   @override
   Widget build(BuildContext context) {
+    isBuild = true;
+
     return WillPopScope(
       onWillPop: () async {
         final shouldPop = isSlected

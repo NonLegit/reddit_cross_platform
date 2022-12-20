@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../settings/widgets/setting_text_input.dart';
-import '../../logins/models/status.dart';
+import '../widgets/status.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,6 +24,7 @@ class DescriptionState extends State<Description> {
   // TextEditingController descriptionController = TextEditingController();
   String descriptionController = '';
   InputStatus descriptionStatus = InputStatus.original;
+  bool isBuild = false;
 
   String? initialDescription;
   String? subbredditName;
@@ -52,7 +53,7 @@ class DescriptionState extends State<Description> {
     final provider =
         Provider.of<ModerationSettingProvider>(context, listen: false);
     await provider.patchCommunity({"description": '$descriptionController'},
-        subbredditName!,context).then((response) {});
+        subbredditName!, context).then((response) {});
 
     if (provider.isError == true) {
       // ignore: use_build_context_synchronously
@@ -99,7 +100,7 @@ class DescriptionState extends State<Description> {
 
       // subbredditName = 'Cooking';
       Provider.of<ModerationSettingProvider>(context, listen: false)
-          .getCommunity(subbredditName!,context)
+          .getCommunity(subbredditName!, context)
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)
@@ -107,9 +108,8 @@ class DescriptionState extends State<Description> {
 
         initialDescription = moderatorToolsModel!.description;
         print(initialDescription);
-        setState(() {
-          fetchingDone = true;
-        });
+        fetchingDone = true;
+        if (isBuild) setState(() {});
       });
     }
     _isInit = false;
@@ -118,6 +118,8 @@ class DescriptionState extends State<Description> {
 
   @override
   Widget build(BuildContext context) {
+    isBuild = true;
+
     // Future<void> getDescription = prepareDescription();
     // initialDescription = 'asd';
     return WillPopScope(

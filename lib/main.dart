@@ -88,7 +88,10 @@ import 'moderation_settings/screens/add_edit_aproved_screen.dart';
 import 'moderation_settings/screens/add_edit_post_flair.dart';
 import 'moderation_settings/screens/post_flair.dart';
 import 'moderation_settings/screens/post_flair_settings.dart';
+import './search/screens/search.dart';
+import './search/screens/search_inside.dart';
 //=====================================Providers====================================================//
+import './providers/profile_comments_provider.dart';
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
 import './subreddit/providers/subreddit_provider.dart';
@@ -98,6 +101,9 @@ import './moderation_settings/provider/moderation_settings_provider.dart';
 import './notification/provider/notification_provider.dart';
 import 'logins/providers/authentication.dart';
 import 'moderation_settings/provider/post_flair_provider.dart';
+import './moderation_settings/provider/change_user_management.dart';
+import './settings/provider/user_settings_provider.dart';
+import './search/provider/search_provider.dart';
 //import './models/push_notification_model.dart';
 
 String returnCorrectText(type, name, user) {
@@ -397,6 +403,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // Auth().logOut(context);
     final ThemeData theme = ThemeData();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -408,6 +415,9 @@ class _MyAppState extends State<MyApp> {
         Device.deviceType == DeviceType.web;
         return MultiProvider(
           providers: [
+            ChangeNotifierProvider.value(value: SearchProvider()),
+            ChangeNotifierProvider.value(value: UserSettingsProvider()),
+            ChangeNotifierProvider.value(value: ChangeUserManagementProvider()),
             ChangeNotifierProvider.value(value: MyProfileProvider()),
             ChangeNotifierProvider.value(value: OtherProfileprovider()),
             ChangeNotifierProvider.value(value: SubredditProvider()),
@@ -417,6 +427,7 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider.value(value: NotificationProvider()),
             ChangeNotifierProvider.value(value: Auth()),
             ChangeNotifierProvider.value(value: ProfilePostProvider()),
+            ChangeNotifierProvider.value(value: ProfileCommentsProvider()),
             ChangeNotifierProvider.value(value: PostProvider()),
             ChangeNotifierProvider.value(value: SubredditPostProvider()),
             ChangeNotifierProvider.value(value: PostFlairProvider()),
@@ -445,6 +456,7 @@ class _MyAppState extends State<MyApp> {
             // home: NewMessageScreen(),
             // home: EditPost(),
             // home: Login(),
+          //  home: SearchInside(quiry: 'mohab'),
             // home: CreateCommunity(),
             home: Login(),
             // home: ForgotUserName(),
@@ -458,6 +470,11 @@ class _MyAppState extends State<MyApp> {
             // home: ModeratorsScreen(),
             // home: BannedScreen(),cd hi
             // home: ApprovedScreen(),
+            // home: EditApprovedScreen(subredditName: 'Cooking'),
+            // home:EditBannedScreen(),
+            // home:EditMutedScreen(),
+            // home: EditModeratorScreen(subredditName: 'Cooking'),
+            // home: Search(),
             routes: {
               ReplyMessageScreen.routeName: (context) => ReplyMessageScreen(),
               ShowMessageBody.routeName: (context) => ShowMessageBody(),
@@ -466,10 +483,20 @@ class _MyAppState extends State<MyApp> {
               AddAndEditPostFllair.routeName: (context) =>
                   AddAndEditPostFllair(),
               PostFlairModerator.routeName: (context) => PostFlairModerator(),
-              EditApprovedScreen.routeName: (context) => EditApprovedScreen(),
-              EditBannedScreen.routeName: (context) => EditBannedScreen(),
-              EditMutedScreen.routeName: (context) => EditMutedScreen(),
-              EditModeratorScreen.routeName: (context) => EditModeratorScreen(),
+
+              Search.routeName: (context) => Search(),
+              SearchInside.routeName: (context) => SearchInside(),
+              MutedScreen.routeName: (context) => MutedScreen(),
+
+              EditApprovedScreen.routeName: (context) =>
+                  EditApprovedScreen(subredditName: ''),
+              EditBannedScreen.routeName: (context) =>
+                  EditBannedScreen(subredditName: ''),
+              EditMutedScreen.routeName: (context) =>
+                  EditMutedScreen(subredditName: ''),
+              EditModeratorScreen.routeName: (context) =>
+                  EditModeratorScreen(subredditName: ''),
+
               ModeratorsScreen.routeName: (context) => ModeratorsScreen(),
               MutedScreen.routeName: (context) => MutedScreen(),
               BannedScreen.routeName: (context) => BannedScreen(),
@@ -485,7 +512,8 @@ class _MyAppState extends State<MyApp> {
               ShowPostDetails.routeName: (context) => ShowPostDetails(),
               ChangeEmail.routeName: (context) => ChangeEmail(),
               ChangePassword.routeName: (context) => ChangePassword(),
-              ChooseCountry.routeName: (context) => ChooseCountry(),
+              ChooseCountry.routeName: (context) =>
+                  ChooseCountry(handler: () {}),
               BlockedAccounts.routeName: (context) => BlockedAccounts(),
               AccountSettings.routeName: (context) => AccountSettings(),
               Settings.routeName: (context) => Settings(),

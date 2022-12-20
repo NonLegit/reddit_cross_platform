@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../logins/models/status.dart';
+import '../../moderation_settings/widgets/status.dart';
 import '../../models/wrapper.dart';
 import '../widgets/setting_text_input.dart';
 import '../widgets/setting_password_input.dart';

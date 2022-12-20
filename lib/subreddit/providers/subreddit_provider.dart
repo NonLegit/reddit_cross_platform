@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import '../../widgets/handle_error.dart';
+import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
-import '../models/subreddit_data.dart';
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../models/subreddit_data.dart';
 
 //using in heighest widget to use
 class SubredditProvider with ChangeNotifier {
@@ -15,7 +14,8 @@ class SubredditProvider with ChangeNotifier {
     return loadSubreddit;
   }
 
-  Future<void> fetchAndSetSubredddit(String subredditUserName) async {
+  Future<void> fetchAndSetSubredddit(
+      String subredditUserName, BuildContext context) async {
     try {
       subredditName = subredditUserName;
       final prefs = await SharedPreferences.getInstance();
@@ -27,19 +27,22 @@ class SubredditProvider with ChangeNotifier {
         loadSubreddit = SubredditData.fromJson(response.data['data']);
         notifyListeners();
       });
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
     } catch (error) {
-      print(error);
-      //throw (error);
+      HandleError.handleError(error.toString(), context);
     }
   }
 
-  Future<void> joinAndDisjoinSubreddit(
-      String subredditUserName, String action) async {
+  Future<bool> joinAndDisjoinSubreddit(
+      String subredditUserName, String action, BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      
+
       DioClient.init(prefs);
-      print('==============================$subredditUserName=======================================================');
+      print(
+          '==============================$subredditUserName=======================================================');
+      print('/subreddits/${subredditUserName}/subscribe/$action');
       await DioClient.post(
           path: '/subreddits/${subredditUserName}/subscribe',
           query: {'action': action},
@@ -47,8 +50,13 @@ class SubredditProvider with ChangeNotifier {
       notifyListeners();
       print(
           '========================Successed Join/ disjoin ================================');
+      return true;
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
+      return false;
     } catch (error) {
-      print(error);
+      HandleError.handleError(error.toString(), context);
+      return false;
     }
   }
 }

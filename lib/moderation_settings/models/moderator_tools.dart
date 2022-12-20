@@ -3,7 +3,7 @@ class ModeratorToolsModel {
   String? primaryTopic;
   String? backgroundImage;
   String? icon;
-  Rules? rules;
+  List<Rules>? rules;
   String? name;
   String? description;
   List<Null>? topics;
@@ -54,7 +54,13 @@ class ModeratorToolsModel {
     primaryTopic = json['primaryTopic'];
     // backgroundImage = json['backgroundImage'];
     // icon = json['icon'];
-    // rules = json['rules'] != null ? Rules.fromJson(json['rules']) : null;
+    if (json['rules'] != null) {
+      rules = <Rules>[];
+      json['rules'].forEach((v) {
+        rules!.add(new Rules.fromJson(v));
+      });
+    }
+    // fixedName = json['fixedName'];
     // name = json['name'];
     description = json['description'];
     // if (json['topics'] != null) {
@@ -74,7 +80,7 @@ class ModeratorToolsModel {
     // allowGif = json['allowGif'];
     // allowImageUploads = json['allowImageUploads'];
     // allowMultipleImage = json['allowMultipleImage'];
-    allowImages = json['allowImages'];
+    allowImages = json['allowImgs'];
     allowVideos = json['allowVideos'];
     allowLinks = json['allowLinks'];
   }
@@ -85,8 +91,8 @@ class ModeratorToolsModel {
     data['primaryTopic'] = primaryTopic;
     data['backgroundImage'] = backgroundImage;
     data['icon'] = icon;
-    if (rules != null) {
-      data['rules'] = rules!.toJson();
+    if (this.rules != null) {
+      data['rules'] = this.rules!.map((v) => v.toJson()).toList();
     }
     data['name'] = name;
     data['description'] = description;
@@ -102,9 +108,9 @@ class ModeratorToolsModel {
     data['allowArchivePosts'] = allowArchivePosts;
     data['allowSpoilerTag'] = allowSpoilerTag;
     data['allowGif'] = allowGif;
-    data['allowImageUploads'] = allowImageUploads;
-    data['allowMultipleImage'] = allowMultipleImage;
-    data['allowImages'] = allowImages;
+    // data['allowImageUploads'] = allowImageUploads;
+    // data['allowMultipleImage'] = allowMultipleImage;
+    data['allowImgs'] = allowImages;
     data['allowVideos'] = allowVideos;
     data['allowLinks'] = allowLinks;
     return data;
@@ -127,11 +133,11 @@ class Rules {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['title'] = title;
-    data['description'] = description;
-    data['defaultName'] = defaultName;
-    data['appliesTo'] = appliesTo;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['title'] = this.title;
+    data['description'] = this.description;
+    data['defaultName'] = this.defaultName;
+    data['appliesTo'] = this.appliesTo;
     return data;
   }
 }

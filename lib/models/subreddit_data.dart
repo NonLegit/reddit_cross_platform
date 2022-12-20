@@ -1,4 +1,3 @@
-//import 'package:flutter_code_style/analysis_options.yaml';
 import '../../models/subreddit_about _rules.dart';
 
 class SubredditData {
@@ -14,9 +13,10 @@ class SubredditData {
   List<SubredditAboutRules>? rules;
   List<String>? moderators;
   bool? isJoined;
+  String? theme;
   SubredditData(
       {
-        //required this.id,
+      //required this.id,
       required this.name,
       required this.displayName,
       required this.subredditPicture,
@@ -27,8 +27,11 @@ class SubredditData {
       required this.numOfOnlines,
       required this.isJoined,
       required this.rules,
-      required this.moderators});
+      required this.moderators,
+      required this.theme});
   SubredditData.fromJson(Map<String, dynamic> json) {
+    print(
+        '=========================in subreddit data====================================');
     // print(json);
     // print(json['_id'].runtimeType);
     // print(json['fixedName'].runtimeType);
@@ -50,22 +53,22 @@ class SubredditData {
     numOfOnlines = 0; //int.parse(json['numOfOnlines'].toString());
     subredditLink = (json['subredditLink'] != null)
         ? json['subredditLink']
-        : 'https://www.reddit.com/r/${ name.toString()}?utm_medium=android_app&utm_source=share';
-    isJoined = (json['isJoined']);
+        : 'https://www.reddit.com/r/${name.toString()}?utm_medium=android_app&utm_source=share';
+    isJoined = (json['isJoined']) ?? false;
     final List<SubredditAboutRules> loadedrule = [];
     json['rules'].forEach((rule) {
-      loadedrule.add(SubredditAboutRules(rule['title'], 'This is Subreddit'
-          //rule['description']
-          ));
+      loadedrule.add(SubredditAboutRules(rule['title'],
+          (rule['description'] != null) ? rule['description'] : ''));
     });
     rules = loadedrule;
     final List<String> loadedmodrator = [];
     json['moderators'].forEach((moderator) {
-      loadedmodrator.add(moderator["userName"]);
+      print(json['moderators']);
+      loadedmodrator.add(moderator['user']['userName']);
     });
     moderators = loadedmodrator;
+    theme = json['theme'];
   }
-
 
   // Map<String, dynamic> toJson() {
   //   final Map<String, dynamic> data = new Map<String, dynamic>();

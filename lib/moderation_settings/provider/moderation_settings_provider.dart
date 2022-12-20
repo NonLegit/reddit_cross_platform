@@ -38,7 +38,7 @@ class ModerationSettingProvider with ChangeNotifier {
         print(response.data['data']);
         moderatorToolsModel1 =
             ModeratorToolsModel.fromJson(response.data['data']);
-        isError = (response.statusCode! < 300);
+        isError = !(response.statusCode! < 300);
         if (isError) {
           errorMessage = json.decode(response.data)['errorMessage'];
         }
@@ -57,7 +57,7 @@ class ModerationSettingProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getModerators(
+  Future<void> getUser(
       String userName, UserCase userCase, BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -71,7 +71,7 @@ class ModerationSettingProvider with ChangeNotifier {
       } else if (userCase == UserCase.banned) {
         path += 'banned';
       } else if (userCase == UserCase.approved) {
-        path += 'approved';
+        path += 'approved_users';
       } else if (userCase == UserCase.muted) {
         path += 'muted';
       }
@@ -109,7 +109,7 @@ class ModerationSettingProvider with ChangeNotifier {
         }
       });
       print('after response');
-      // notifyListeners();
+     // notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
     } catch (error) {
@@ -139,7 +139,7 @@ class ModerationSettingProvider with ChangeNotifier {
       //  final response =
       await DioClient.patch(path: '/subreddits/$subredditName', data: data)
           .then((response) {
-        isError = (response.statusCode! < 300);
+        isError = !(response.statusCode! < 300);
         if (isError) {
           errorMessage = json.decode(response.data)['errorMessage'];
           print(isError);
