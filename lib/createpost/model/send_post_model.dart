@@ -12,7 +12,6 @@ class SendPostModel {
   String? flairText;
   String? suggestedSort;
   bool? scheduled;
-  String? sharedFrom;
 
   SendPostModel(
       {this.title,
@@ -28,7 +27,7 @@ class SendPostModel {
         this.flairText,
         this.suggestedSort,
         this.scheduled,
-        this.sharedFrom});
+       });
 
   SendPostModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
@@ -44,12 +43,11 @@ class SendPostModel {
     flairText = json['flairText'];
     suggestedSort = json['suggestedSort'];
     scheduled = json['scheduled'];
-    sharedFrom = json['sharedFrom'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
+    data['title'] = this.title ;
     data['kind'] = this.kind;
     data['text'] = this.text;
     data['url'] = this.url;
@@ -62,7 +60,6 @@ class SendPostModel {
     data['flairText'] = this.flairText;
     data['suggestedSort'] = this.suggestedSort;
     data['scheduled'] = this.scheduled;
-    data['sharedFrom'] = this.sharedFrom;
     return data;
   }
 }

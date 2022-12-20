@@ -15,10 +15,12 @@ class SubredditModeratorContainer extends StatelessWidget {
   String nameOfSubreddit = "";
   String iconOfSubreddit = '';
   int memberCount = 0;
+  String idOfSubreddit='';
   SubredditModeratorContainer({
     required this.nameOfSubreddit,
     required this.iconOfSubreddit,
     required this.memberCount,
+    required this.idOfSubreddit,
   });
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class SubredditModeratorContainer extends StatelessWidget {
       onTap: () {
         controller.subredditToSubmitPost = RxString(nameOfSubreddit);
         controller.iconOfSubredditToSubmittPost=RxString(iconOfSubreddit);
+        controller.idOfSubredditToSubmittPost=RxString(idOfSubreddit);
         controller.getFlairsOfSubreddit();
        if(controller.isFromHomeDirect.value==true)
          {

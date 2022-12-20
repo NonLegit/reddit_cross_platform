@@ -1,7 +1,10 @@
+import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/multipart/form_data.dart';
+import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
+ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:post/createpost/model/subreddits_of_user.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
@@ -24,16 +27,16 @@ class PostController extends GetxController {
       <userSubredditsResponse>[].obs;
   RxString subredditToSubmitPost = "".obs;
   RxString iconOfSubredditToSubmittPost="".obs;
+  RxString idOfSubredditToSubmittPost="".obs;
   RxBool showMore=false.obs;
   RxBool isPostSpoiler = false.obs;
   RxBool isPostNSFW = false.obs;
   RxBool isLoading = true.obs;
   final services = PostServices();
   Rx<TextEditingController> postTitle = TextEditingController().obs;
-//  Rx<TextEditingController> textPost = TextEditingController().obs;
   Rx<quill.QuillController> textPost=quill.QuillController.basic().obs;
   Rx<TextEditingController> urlPost = TextEditingController().obs;
-  // Rx<HtmlEditorController> htmlController = HtmlEditorController().obs;
+
   RxString typeOfPost = ''.obs;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyUrl = GlobalKey<FormState>();
@@ -95,7 +98,7 @@ getFlairsOfSubreddit() async{
     DioClient.init(prefs);
     try {
       await DioClient.get(path:'$mySubreddits/subscriber').then((value) {
-        print(value);
+        print("subs list $value");
         value.data['data'].forEach((value1) {
           subscribedSubreddits.add(userSubredditsResponse.fromJson(value1));
           print("name of ${subscribedSubreddits[0].subredditName}");
@@ -103,7 +106,7 @@ getFlairsOfSubreddit() async{
       });
 
       await DioClient.get(path:'$mySubreddits/moderator').then((value) {
-        print(value);
+        print("moderator list $value");
         value.data['data'].forEach((value1) {
           moderatedSubreddits.add(userSubredditsResponse.fromJson(value1));
           print("DDDDDDDDDDDDDDDDD");
@@ -115,49 +118,57 @@ getFlairsOfSubreddit() async{
       print("error in fething subreddits of user $error");
     }
   }
+  sendPost(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    DioClient.init(prefs);
+    var response ;
+    try {
+     response= await DioClient.post(path: "/posts", data:{
+       "title":"AHMED",
+       //postTitle.value.text ,
+       "kind": typeOfPost.value as String,
+       "text":"KKKK",
+       //(DeltaToHTML.encodeJson(textPost.value.document.toDelta().toJson())) as String,
+        //"url":urlPost.value.text as String ,
+       "owner": idOfSubredditToSubmittPost.value as String,
+       "ownerType": (subredditToSubmitPost.value == "Myprofile")?"User":"Subreddit",
+       // "nsfw": isPostNSFW.value ,
+       // "spoiler": isPostSpoiler.value  ,
+        "sendReplies": true,
 
-  // Future addImages(name,desc,address,images) async {
-  //
-  //   var formData = FormData.fromMap({
-  //     'name': name,
-  //     'desc': desc,
-  //     'address': address,
-  //     'files': [
-  //       for (var item in images)
-  //         {
-  //           await MultipartFile.fromFile(item.path,
-  //               filename: basename(item.path))
-  //         }.toList()
-  //     ],
-  //   });
-  //
-  //
-  //   await Dio.post("${host}/add",data:formData).then((data) {
-  //     ad_data = data.data;
-  //   });
-  //   return ad_data;
-  // }
-  sendPost(BuildContext context) {
-    services.sendPost(
-        SendPostModel(
-             title:postTitle.value.text,
-             kind:typeOfPost.value,
-             text:(DeltaToHTML.encodeJson(textPost.value.document.toDelta().toJson())).toString(),
-             url:urlPost.value.text,
-             owner:subredditToSubmitPost.value,
-             ownerType:(subredditToSubmitPost.value == "Myprofile")?"user":"subreddit",
-             nsfw:isPostNSFW.value,
-             spoiler:isPostSpoiler.value,
-             sendReplies:true,
-             flairId:idOfFlair.value,
-             flairText:textOfFlair.value,
-             suggestedSort:"best",
-             scheduled:false,
-             sharedFrom:"1"
-        ),
-        context);
+        // "flairId":idOfFlair.value as String ,
+        // "flairText":textOfFlair.value as String,
+
+
+         // "title": "post",
+         // "kind": "self",
+         // "text": "Test comment count",
+         // "owner": "63a193ffe3d2b7ad4a939978",
+         // "ownerType": "User",
+         // "nsfw": false,
+         // "spoiler": true,
+         // "sendReplies": true
+
+     });
+     print("YA RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB");
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print("response of sending post ${response.data}");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text("sent successfuly",
+                  style: TextStyle(color: Colors.white)),
+              backgroundColor: Colors.green),
+        );
+        print(response.statusCode);
+        print("the id of post created ${response.data["data"]["_id"]}");
+         //print(json.decode(response.data)['message']);
+      }
+   //   return response.data["data"]["_id"];
+    } catch (e) {
+      print("error in sending the post -> $e");
+     // return 0;
+    }
   }
-
   Future<void> _fetchHouses() async {
     try {
       ///here fitch Your Posts

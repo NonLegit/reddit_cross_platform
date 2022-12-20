@@ -4,10 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:post/createpost/model/send_post_model.dart';
+import '../../delta_to_html.dart';
 import '../../home/screens/home_layout.dart';
 import '../../icons/icon_broken.dart';
 import '../controllers/posts_controllers.dart';
-import './schedulepost.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'flair_list.dart';
@@ -50,14 +51,29 @@ class _FinalPostState extends State<FinalPost> {
                       padding: EdgeInsetsDirectional.only(end: 1.w),
                       child: MaterialButton(
                         onPressed: () {
-                          controller.sendPost(context);
+                          print( controller.postTitle.value.text);
+                          print(( controller.postTitle.value.text as String).runtimeType);
+                          print(controller.typeOfPost.value);
+                          print((DeltaToHTML.encodeJson(controller.textPost.value.document.toDelta().toJson())).toString());
+                          print(controller.urlPost.value.text);
+                          print(controller.idOfSubredditToSubmittPost.value);
+                          print((controller.subredditToSubmitPost.value == "Myprofile")?"User":"Subreddit");
+                          print(controller.isPostNSFW.value);
+                          print(controller.isPostSpoiler.value);
+                          print("send replies ->true");
+                          print("flair id ${controller.idOfFlair.value}");
+                          print("text of flair ${controller.textOfFlair.value}");
+                          print("suggested sort hot");
+                          print("scheduled false");
+                          print("print data on submit");
+                           controller.sendPost(context);
                           controller.postTitle.value.clear();
                           controller.urlPost.value.clear();
                           controller.textPost.value.clear();
                           controller.isPostSpoiler.value=false;
                           controller.isPostNSFW.value=false;
                           // Navigator.pop(context);
-                          Get.to(homeLayoutScreen());
+                          Get.to(HomeLayoutScreen());
                         },
                         elevation: 0.0,
                         height: 40.0,
@@ -277,27 +293,47 @@ class _FinalPostState extends State<FinalPost> {
                   ),
                    ),
                 ),
-                Divider(
+                const Divider(
                   height: 10.0,
                   color: Colors.grey,
                 ),
-                ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => schedulePostScreen()));
-                  },
-                  horizontalTitleGap: 0.0,
-                  title: Text("Schedule Post"),
-                  leading: Icon(Icons.access_time_outlined),
-                  trailing: Icon(IconBroken.Arrow___Right_2),
-                ),
-
               ],
             ),
           ),
         ));
+  }
+  savePost() async {
+   print( controller.postTitle.value.text);
+    print(controller.typeOfPost.value);
+    print((DeltaToHTML.encodeJson(controller.textPost.value.document.toDelta().toJson())).toString());
+    print(controller.urlPost.value.text);
+    print(controller.idOfSubredditToSubmittPost.value);
+    print((controller.subredditToSubmitPost.value == "Myprofile")?"User":"Subreddit");
+    print(controller.isPostNSFW.value);
+    print(controller.isPostSpoiler.value);
+    print("send replies ->true");
+    print("flair id ${controller.idOfFlair.value}");
+    print("text of flair ${controller.textOfFlair.value}");
+    print("suggested sort hot");
+   print("scheduled false");
+
+    final model = SendPostModel(
+                 title:controller.postTitle.value.text,
+                 kind:controller.typeOfPost.value,
+                 text:(DeltaToHTML.encodeJson(controller.textPost.value.document.toDelta().toJson())).toString(),
+                 url:(controller.typeOfPost.value=="link")?controller.urlPost.value.text:"",
+                 owner:controller.idOfSubredditToSubmittPost.value,
+                 ownerType:(controller.subredditToSubmitPost.value == "Myprofile")?"User":"Subreddit",
+                 nsfw:controller.isPostNSFW.value,
+                 spoiler:controller.isPostSpoiler.value,
+                 sendReplies:true,
+                 flairId:controller.idOfFlair.value,
+                 flairText:controller.textOfFlair.value,
+                 suggestedSort:"hot",
+                 scheduled:false,
+    );
+     print("AFTER TO JASON ${model.toJson()}");
+      Get.to(HomeLayoutScreen());
   }
   @override
   void dispose() {

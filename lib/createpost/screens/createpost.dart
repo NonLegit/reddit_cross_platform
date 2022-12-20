@@ -10,8 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:post/discover/discover.dart';
 import 'package:post/home/screens/home_layout.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:video_player/video_player.dart';
 import 'dart:async';
 import '../../icons/icon_broken.dart';
 import '../controllers/posts_controllers.dart';
@@ -71,7 +69,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
     return Obx(()=>
        WillPopScope(
         onWillPop: () async {
-            final value = (controller.textPost.value.document.toDelta().toString() != "" || controller.imageFileList!.length>0 || controller.videoFile.value != null || controller.urlPost.value.text != "")?await
+            final value = ( controller.imageFileList!.length>0 || controller.videoFile.value != null || controller.urlPost.value.text != "")?await
               showDialog(context: context,
                 builder: (context)
                 {
@@ -92,7 +90,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   'Discard Post Submission?',
                                   style: TextStyle(
                                       fontSize: 17, fontWeight: FontWeight.w500),
@@ -130,8 +128,9 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                                           controller.postTitle.value.clear();
                                           controller.imageFileList!.clear();
                                           controller.videoFile.value=null;
+                                          controller.videoController.value=null;
                                           controller.urlPost.value.clear();
-                                         Get.to(homeLayoutScreen());
+                                         Get.to(HomeLayoutScreen());
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.red[700],
@@ -350,8 +349,8 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                 Expanded(child: BuildFormType(controller: controller,)),
                     MaterialButton(
                         child: Text("press"),
-                        onPressed: (){
-
+                        onPressed: ()
+                        {
                       print(controller.textPost.value.document.toDelta().toJson());
                       print("===============================================================");
                       print((DeltaToHTML.encodeJson(controller.textPost.value.document.toDelta().toJson())));
@@ -371,7 +370,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                controller.typeOfPost.value = "text";
+                                controller.typeOfPost.value = "self";
                               },
                               icon: const Icon(IconBroken.Document),
                             ),
@@ -395,7 +394,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                             ),
                             IconButton(
                               onPressed: () {
-                                controller.typeOfPost.value = "url";
+                                controller.typeOfPost.value = "link";
                               },
                               icon: const Icon(IconBroken.Bookmark),
                             ),
