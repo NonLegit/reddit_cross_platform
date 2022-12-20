@@ -13,10 +13,13 @@ class Muted {
       this.muteInfo});
 
   Muted.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    userName = json['userName'];
-    profilePicture = json['profilePicture'];
-    joiningDate = json['joiningDate'];
+    sId = (json['user']['_id'] != null)
+        ? json['user']['_id']
+        : json['user']['id'];
+    userName = json['user']['userName'];
+    profilePicture = json['user']['profilePicture'];
+    joiningDate = json['banDate'];
+    // joiningDate = '2022-12-06T08:55:28.000Z';
     muteInfo = json['muteInfo'] != null
         ? new MuteInfo.fromJson(json['muteInfo'])
         : null;

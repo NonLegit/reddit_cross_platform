@@ -3,5 +3,6 @@ class IntWrapper {
 }
 
 class BoolWrapper {
-  bool b = true;
+  BoolWrapper({this.b = false});
+  bool b;
 }

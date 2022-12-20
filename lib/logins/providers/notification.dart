@@ -40,7 +40,7 @@ class NotificationToken {
         print('token refresh: $token');
         // add code here to do something with the updated token
         await prefs.setString('notificationToken', token);
-        await sendTokenToDatabase(token);
+        //await sendTokenToDatabase(token);
       }
     });
   }

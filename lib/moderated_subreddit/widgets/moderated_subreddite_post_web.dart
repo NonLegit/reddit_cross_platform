@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../widgets/sort_bottom_web.dart';
-import '../models/moderated_subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../widgets/moderated_subreddit_card_information_web.dart';
 class ModeratedSubredditePostWeb extends StatefulWidget {
-  final ModeratedSubredditData? loadedSubreddit;
+  final SubredditData? loadedSubreddit;
   const ModeratedSubredditePostWeb({
     Key? key,
     required this.loadedSubreddit,

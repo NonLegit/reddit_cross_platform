@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:post/moderation_settings/screens/moderator_tools_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../models/moderated_subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 
 class PositionForModeratedSubredditInfo extends StatelessWidget {
-  final ModeratedSubredditData? loadedSubreddit;
+  final SubredditData? loadedSubreddit;
   final String? userName;
   PositionForModeratedSubredditInfo({
     required this.loadedSubreddit,

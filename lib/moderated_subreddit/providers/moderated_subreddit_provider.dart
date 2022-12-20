@@ -1,57 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
 import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
-import '../models/moderated_subreddit_data.dart';
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../models/subreddit_data.dart';
+import '../../widgets/handle_error.dart';
 
 //using in heighest widget to use
 class ModeratedSubredditProvider with ChangeNotifier {
-  ModeratedSubredditData? loadSubreddit;
+ SubredditData? loadSubreddit;
 
-  ModeratedSubredditData? get gettingSubredditeData {
+ SubredditData? get gettingSubredditeData {
     return loadSubreddit;
   }
 
   Future<void> fetchAndSetModeratedSubredddit(
-      String moderatedSubredditUserName) async {
+      String moderatedSubredditUserName, BuildContext context) async {
     try {
       subredditName = moderatedSubredditUserName;
-      print('******************************HERE*****************************');
-      print(subredditName);
-      print(subreddit);
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
       await DioClient.get(path: '/subreddits/$subredditName').then((response) {
-        print(response.data);
-        loadSubreddit = ModeratedSubredditData.fromJson(response.data['data']);
+        print(response.data['data']);
+        loadSubreddit =SubredditData.fromJson(response.data['data']);
         notifyListeners();
       });
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
     } catch (error) {
-      print(error);
+      HandleError.handleError(error.toString(), context);
     }
   }
 
-  Future<void> joinAndDisjoinModeratedSubreddit(
-      String moderatedSubredditUserName, String action) async {
+  Future<bool> joinAndDisjoinModeratedSubreddit(
+      String moderatedSubredditUserName,
+      String action,
+      BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      print(moderatedSubredditUserName);
-      print(prefs);
       DioClient.init(prefs);
       await DioClient.post(
           path: '/subreddits/${moderatedSubredditUserName}/subscribe',
           query: {'action': action},
-          data: {}
-          //data: data
-          );
+          data: {});
       notifyListeners();
-      print(
-          '========================Successed Join/ disjoin ================================');
+      return true;
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
+      return false;
     } catch (error) {
-      print(error);
+      HandleError.handleError(error.toString(), context);
+      return false;
     }
   }
 }

@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../logins/models/status.dart';
+import '../../moderation_settings/widgets/status.dart';
 import '../../models/wrapper.dart';
 import '../widgets/setting_text_input.dart';
 import '../widgets/setting_password_input.dart';
 import '../../widgets/custom_snack_bar.dart';
 import 'package:email_validator/email_validator.dart';
+import '../provider/user_settings_provider.dart';
+import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
   static const routeName = '/ChangePassword';
-  const ChangePassword({Key? key}) : super(key: key);
+  final UserSettingsProvider? provider;
+
+  ChangePassword({Key? key, this.provider}) : super(key: key);
 
   @override
   State<ChangePassword> createState() => _ChangePasswordState();
@@ -62,7 +66,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   Future<void> getUserData() async {
     final prefs = await SharedPreferences.getInstance();
     // image = prefs.getString('image');
-    userName = prefs.getString('userNmae');
+    userName = prefs.getString('userName');
     // password = prefs.getString('password');
   }
 
@@ -144,7 +148,32 @@ class _ChangePasswordState extends State<ChangePassword> {
   }
 
   ///send the request to the backend and close the screen
-  Future<void> ChangePassword() async {}
+  Future<void> ChangePassword() async {
+    await widget.provider!.changePassword({
+      "oldPassword": inputCurrentPasswordController.text,
+      "newPassword": inputNewPasswordController.text,
+      "confirmNewPassword": inputConfirmNewPasswordController.text,
+      "keepLoggedIn": true
+    }, context).then((value) {
+      if (widget.provider?.isError == false) {
+        print('suce');
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar(
+              isError: false,
+              text: 'your password changed succefuly',
+              disableStatus: true),
+        );
+        setState(() {
+          // widget.provider!.userPrefrence?. = inputEmailController.text;
+          // email = widget.provider!.userPrefrence?.email;
+        });
+      } else {
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   CustomSnackBar(isError: true, text: 'error', disableStatus: true),
+        // );
+      }
+    });
+  }
 
   ///
   void saveChanges(context) {

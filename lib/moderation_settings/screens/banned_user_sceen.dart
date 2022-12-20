@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../logins/models/status.dart';
+import '../widgets/status.dart';
 import '../widgets/alert_dialog.dart';
 import '../../widgets/loading_reddit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -27,6 +27,7 @@ class BannedScreen extends StatefulWidget {
 class BannedScreenState extends State<BannedScreen> {
   bool fetchingDone = true;
   bool _isInit = true;
+  bool isBuild = false;
   // ignore: non_constant_identifier_names
   List<Banned>? banned = [];
   List<Map<String, Object>> allbanned = [];
@@ -54,7 +55,10 @@ class BannedScreenState extends State<BannedScreen> {
       } else {
         _banDate = '${DateTime.now().minute - banDate.minute}min';
       }
-
+      print(_baninfo.duration.toString());
+      _banDate += (_baninfo.duration == -1)
+          ? ' ( permenant)'
+          : ' (${_baninfo.duration.toString()} days) ';
       allbanned.add({
         "_id": _id,
         "userName": _userName,
@@ -68,26 +72,48 @@ class BannedScreenState extends State<BannedScreen> {
 
   @override
   void initState() {
-    fetchingDone = false;
-    final provider =
-        Provider.of<ModerationSettingProvider>(context, listen: false);
+    // fetchingDone = false;
+    // final provider =
+    //     Provider.of<ModerationSettingProvider>(context, listen: false);
 
-    subredditName = provider.getSubredditName(context);
-    provider
-        .getModerators(subredditName, UserCase.banned, context)
-        .then((value) {
-      banned = provider.banned;
-      print(banned);
-      extractBanned();
-      fetchingDone = true;
-      setState(() {});
-    });
+    // subredditName = provider.getSubredditName(context);
+    // provider.getUser(subredditName, UserCase.banned, context).then((value) {
+    //   banned = provider.banned;
+    //   print(banned);
+    //   extractBanned();
+    //   fetchingDone = true;
+    //   if (isBuild) setState(() {});
+    // });
 
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (_isInit) {
+      setState(() {
+        fetchingDone = false;
+      });
+      final provider =
+          Provider.of<ModerationSettingProvider>(context, listen: false);
+
+      subredditName = provider.getSubredditName(context);
+      provider.getUser(subredditName, UserCase.banned, context).then((value) {
+        banned = provider.banned;
+        print(banned);
+        extractBanned();
+        fetchingDone = true;
+        if (isBuild) setState(() {});
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    isBuild = true;
     return (!fetchingDone)
         ? const LoadingReddit()
         //Calls TopicMainScreen widget to build Topics Screen
@@ -101,21 +127,25 @@ class BannedScreenState extends State<BannedScreen> {
                     style: ElevatedButton.styleFrom(
                         elevation: 0, shape: CircleBorder()),
                     onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(EditBannedScreen.routeName);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditBannedScreen(
+                              subredditName: subredditName,
+                            ),
+                          ));
                     },
                     child: Icon(Plus.plus))
               ],
             ),
-            body: SizedBox(
-              height: 80.h,
-              child: Column(
-                children: [
-                  // Text(name),
+            body: Column(
+              children: [
+                // Text(name),
+                // Container(height: 10.h, color: Colors.red),
 
-                  BannedList(allBaned: allbanned),
-                ],
-              ),
-            ));
+                BannedList(allBaned: allbanned, subredditName: subredditName),
+              ],
+            ),
+          );
   }
 }

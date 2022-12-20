@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:post/logins/screens/login.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -16,6 +17,16 @@ import './notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import '../../networks/dio_client.dart';
+import '../../networks/const_endpoint_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../widgets/handle_error.dart';
+import '../../home/screens/home_layout.dart';
+
 NotificationProvider provider = NotificationProvider();
 @pragma('vm:entry-point')
 NotificationModel notificationModel = NotificationModel();
@@ -87,11 +98,47 @@ class Auth with ChangeNotifier {
   String token = '';
   DateTime expiresIn = DateTime.now();
   bool alreadyAuthed = false;
-  Future<void> alreadyAuth() async {
+
+  Future<bool> alreadyAuth() async {
     final prefs = await SharedPreferences.getInstance();
-    print(DateTime.parse(prefs.getString('expiresIn') as String)
-        .isBefore(DateTime.now()));
+    if (prefs.getString('token') != null &&
+        prefs.getString('expiresIn') != null) {
+      ///
+      DateTime timeNow = DateTime.now();
+      DateTime timeExpire =
+          DateTime.parse(prefs.getString('expiresIn') as String);
+      if (timeNow.isBefore(timeExpire)) {
+        alreadyAuthed = true;
+
+        /// call refresh token
+      } else {
+        alreadyAuthed = false;
+      }
+    }
+    return alreadyAuthed;
     // alreadyAuthed = prefs.getString('token') != null;
+  }
+
+  Future<void> logOut(context) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('token');
+      await prefs.remove('expiresIn');
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          Login.routeName,
+          arguments: 'logout',
+          (Route<dynamic> route) => false);
+
+      notifyListeners();
+    } on DioError catch (e) {
+      error = true;
+      errorMessage = e.message;
+      HandleError.errorHandler(e, context);
+    } catch (eror) {
+      error = true;
+      errorMessage = eror.toString();
+      HandleError.handleError(eror.toString(), context);
+    }
   }
 
   Future<void> sinUp(Map<String, String> query) async {
@@ -118,7 +165,9 @@ class Auth with ChangeNotifier {
         await Firebase.initializeApp();
         final notificationToken = prefs.get('notificationToken');
         await NotificationToken.sendTokenToDatabase(notificationToken);
-        FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+        FirebaseMessaging.onBackgroundMessage(
+            _firebaseMessagingBackgroundHandler);
+        preparePrefs();
       }
       notifyListeners();
     } catch (error) {
@@ -152,16 +201,23 @@ class Auth with ChangeNotifier {
         await prefs.setString('userName', query['userName'] as String);
         await Firebase.initializeApp();
         final notificationToken = prefs.get('notificationToken');
-
+        await NotificationToken.getTokenOfNotification();
         await NotificationToken.sendTokenToDatabase(notificationToken);
         await NotificationToken.refreshToken();
-        FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+        //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+        preparePrefs();
       }
       notifyListeners();
     } catch (error) {
       print('error: $error');
     }
     print(token);
+  }
+
+  Future<void> preparePrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('sortHomePosts', 'Best');
+    await prefs.setBool('isAuth', true);
   }
 
   Future<bool> availableUserName(userName) async {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../settings/widgets/setting_text_input.dart';
-import '../../logins/models/status.dart';
+import '../widgets/status.dart';
 import '../widgets/alert_dialog.dart';
 import '../models/moderator_tools.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +36,7 @@ class PostTypesScreenState extends State<PostTypesScreen> {
 
   bool fetchingDone = false;
   bool _isInit = true;
-
+  bool isBuild = false;
   void changeAllowImage() {
     allowImages = !allowImages;
     changePostTypes();
@@ -80,7 +80,7 @@ class PostTypesScreenState extends State<PostTypesScreen> {
           : '';
       // subbredditName = 'Cooking';
       Provider.of<ModerationSettingProvider>(context, listen: false)
-          .getCommunity(subbredditName!,context)
+          .getCommunity(subbredditName!, context)
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)
@@ -92,9 +92,8 @@ class PostTypesScreenState extends State<PostTypesScreen> {
         allowImages = initialAllowImages;
         allowVideos = initialAllowVideos;
         allowLinks = initialAllowLinks;
-        setState(() {
-          fetchingDone = true;
-        });
+        fetchingDone = true;
+        if (isBuild) setState(() {});
       });
     }
     _isInit = false;
@@ -109,7 +108,7 @@ class PostTypesScreenState extends State<PostTypesScreen> {
       "allowImages": '$allowImages',
       "allowVideos": '$allowVideos',
       "allowLinks": '$allowLinks'
-    }, subbredditName!,context).then((response) {});
+    }, subbredditName!, context).then((response) {});
 
     if (provider.isError == true) {
       // ignore: use_build_context_synchronously
@@ -133,6 +132,8 @@ class PostTypesScreenState extends State<PostTypesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    isBuild = true;
+
     // Future<void> getpostTypes = preparepostTypes();
     // initialpostTypes = 'asd';
     return WillPopScope(

@@ -18,6 +18,7 @@ class DorpDownListView extends StatefulWidget {
   final List<Map> sheetList;
   final IntWrapper choosenIndex;
   final TypeStaus listType;
+  final Function changeChoosen;
 
   /// this string will come from the internal storage of the device
 
@@ -30,6 +31,7 @@ class DorpDownListView extends StatefulWidget {
       required this.sheetList,
       required this.choosenIndex,
       this.choosenElement = '',
+      required this.changeChoosen,
       this.listType = TypeStaus.icons});
 
   @override
@@ -70,6 +72,8 @@ class _DorpDownListViewState extends State<DorpDownListView> {
   void updateState() {
     setState(() {});
     widget.choosenElement = widget.sheetList[widget.choosenIndex.i]['title'];
+    widget.changeChoosen(widget.choosenElement);
+    // print(widget.choosenElement);
   }
 
   @override
