@@ -1,13 +1,13 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:post/home/screens/saved_comments.dart';
 import 'package:post/home/screens/saved_posts.dart';
 
 import 'package:get/get.dart';
 import 'package:post/icons/icon_broken.dart';
 import 'package:get/get.dart';
 
-import '../widgets/comment_layout.dart';
 
 
 class Saved extends StatelessWidget {

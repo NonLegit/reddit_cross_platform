@@ -9,6 +9,7 @@ import 'package:post/createpost/model/subreddits_of_user.dart';
 import 'package:post/myprofile/models/myprofile_data.dart';
 import 'package:post/networks/const_endpoint_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../comments/models/comment_model.dart';
 import '../../createpost/controllers/posts_controllers.dart';
 import '../../networks/dio_client.dart';
 import '../../post/models/post_model.dart';
@@ -22,9 +23,12 @@ class HomeController extends GetxController with StateMixin<List<PostModel>> {
   RxInt pageNumber=1.obs;
   List<PostModel>homePosts=<PostModel>[].obs;
   List<PostModel>allPosts=<PostModel>[].obs;
-  List<PostModel>upvotedPosts=<PostModel>[].obs;
-  List<PostModel>downvotedPosts=<PostModel>[].obs;
-  List<PostModel>hiddenPosts=<PostModel>[].obs;
+  List<PostModel>userSavedPosts=<PostModel>[].obs;
+  List<CommentModel>userSavedComments=<CommentModel>[].obs;
+  // List<PostModel>upvotedPosts=<PostModel>[].obs;
+  // List<PostModel>downvotedPosts=<PostModel>[].obs;
+  // List<PostModel>hiddenPosts=<PostModel>[].obs;
+  List<PostModel>historyPosts=<PostModel>[].obs;
    RxBool isRecentlyVisitedDrawer=false.obs;
   List<userSubredditsResponse> recentlyVisited = <userSubredditsResponse>[
   ].obs;
@@ -52,12 +56,33 @@ RxInt pageNumberAll=1.obs;
 
   /// true when error occurred
   RxBool errorAll = false.obs;
+//////History//////////////
+  RxInt pageNumberHistory=1.obs;
+  /// true when posts are loading.
+  RxBool isLoadingHistory = false.obs;
 
+  /// true when error occurred
+  RxBool errorHistory = false.obs;
+//////////////SAVED/////////////
+  RxInt pageNumberSaved=1.obs;
+  /// true when posts are loading.
+  RxBool isLoadingSaved = false.obs;
+
+  /// true when error occurred
+  RxBool errorSaved = false.obs;
+
+  //////////////SAVEDCOMMENTS/////////////
+  RxInt pageNumberComment=1.obs;
+  /// true when posts are loading.
+  RxBool isLoadingCommetns = false.obs;
+
+  /// true when error occurred
+  RxBool errorComment = false.obs;
 
 
   @override
   void onInit() {
-    //getInfoOfMe();
+    getInfoOfMe();
     super.onInit();
   }
   Future<void> getInfoOfMe() async {
@@ -73,46 +98,104 @@ RxInt pageNumberAll=1.obs;
     }
   }
 
+  Future getSavedPosts() async {
+    final prefs = await SharedPreferences.getInstance();
+    DioClient.init(prefs);
+    try {
+      final response =await DioClient.get(
+        path:'/users/saved?page=${pageNumberSaved}&limit=20',
+      );
+      if(response.statusCode==200)
+      {
+        for (var post in response.data['savedPosts'])
+        {
+          PostModel  temp =PostModel();
+          await temp.fromJson(post);
+          userSavedPosts.add(temp);
+        }
+      }
+      else {
+        await showToast(response.statusMessage.toString());
+        errorSaved.value=true;
+      }
+      isLoadingSaved.value=false;
+    } catch (error) {
+      print("error in fetching history posts $error");
+      change([], status: RxStatus.error(error.toString()));
+    }
+  }
 
-  // Future getHistory() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   DioClient.init(prefs);
-  //   try {
-  //     final response =await DioClient.get(
-  //       path:'/users/upvoted',
-  //     );
-  //
-  //     if(response.statusCode==200)
-  //     {
-  //       pageNumber++;
-  //       response.data["data"].forEach((value1){
-  //         upvotedPosts.add(PostModel.fromJson(value1));
-  //       });
-  //     }
-  //     else {
-  //       await showToast(response.statusMessage.toString());
-  //       error.value=true;
-  //     }
-  //     isLoading.value=false;
-  //     print("the length of returned list of vpvoted is ${upvotedPosts.length}");
-  //     print("${upvotedPosts[0]}");
-  //   } catch (error) {
-  //     print("error in fetching upvoted posts $error");
-  //     change([], status: RxStatus.error(error.toString()));
-  //   }
-  // }
+  Future getSavedComments() async {
+    final prefs = await SharedPreferences.getInstance();
+    DioClient.init(prefs);
+    try {
+      final response =await DioClient.get(
+        path:'/users/saved?page=${pageNumberComment}&limit=20',
+      );
+      if(response.statusCode==200)
+      {
+        for (var comment in response.data['savedComments'])
+        {
+          userSavedComments.add(CommentModel.fromJson(comment));
+        }
+      }
+      else {
+        await showToast(response.statusMessage.toString());
+        errorComment.value=true;
+      }
+      isLoadingCommetns.value=false;
+    } catch (error) {
+      print("error in fetching saved comments $error");
+      change([], status: RxStatus.error(error.toString()));
+    }
+  }
+
+  Future getHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    DioClient.init(prefs);
+    try {
+      final response =await DioClient.get(
+        path:'/users/${sortHistoryBy}?page=${pageNumberHistory}&limit=20',
+      );
+      if(response.statusCode==200)
+      {
+        for (var post in response.data['posts'])
+        {
+          PostModel  temp =PostModel();
+          await temp.fromJson(post);
+          historyPosts.add(temp);
+        }
+      }
+      else {
+        await showToast(response.statusMessage.toString());
+        errorHistory.value=true;
+      }
+      isLoadingHistory.value=false;
+    } catch (error) {
+      print("error in fetching history posts $error");
+      change([], status: RxStatus.error(error.toString()));
+    }
+  }
   Future getPosts() async {
     final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
     try {
       final response =await DioClient.get(
-        path:'/users/${sortHomePostsBy}?page=${pageNumberAll}&limit=5',
+        path:'/users/${sortHomePostsBy}?page=${pageNumberAll}&limit=20',
       );
       if(response.statusCode==200)
         {
-              response.data["data"].forEach((value1){
-                homePosts.add(PostModel.fromJson(value1));
-              });
+          for (var post in response.data['data'])
+            {
+              PostModel  temp =PostModel();
+              await temp.fromJson(post);
+              homePosts.add(temp);
+            }
+              // response.data["data"].forEach((value1) async{
+              //   PostModel  temp =PostModel();
+              //  await temp.fromJson(value1);
+              //   homePosts.add(temp);
+              // });
         }
       else {
         await showToast(response.statusMessage.toString());
@@ -133,7 +216,7 @@ RxInt pageNumberAll=1.obs;
     DioClient.init(prefs);
     try {
       final response =await DioClient.get(
-        path:'/users/${sortAllBy}?page=${pageNumber}&limit=5',
+        path:'/users/${sortAllBy}?page=${pageNumber}&limit=20',
       );
       //     .then((value) {
       //   print(value);
@@ -146,10 +229,17 @@ RxInt pageNumberAll=1.obs;
 
       if(response.statusCode==200)
       {
-        // pageNumber++;
-        response.data["data"].forEach((value1){
-          allPosts.add(PostModel.fromJson(value1));
-        });
+        for (var post in response.data['data'])
+          {
+            PostModel temp =PostModel();
+            await temp.fromJson(post);
+            allPosts.add(temp);
+          }
+        // response.data["data"].forEach((value1) async{
+        //   PostModel temp =PostModel();
+        //   await temp.fromJson(value1);
+        //   allPosts.add(temp);
+       // });
       }
       else {
         await showToast(response.statusMessage.toString());
