@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:post/moderation_settings/models/banned.dart';
+import 'package:post/moderation_settings/screens/post_flair.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../icons/icon_broken.dart';
 import './topics_screen.dart';
@@ -162,11 +163,11 @@ class _ModeratorToolsState extends State<ModeratorTools> {
             children: [
               buildGeneralOptions(
                   context,
-                  () => Navigator.of(context).pushNamed(TopicsScreen.routeName,
+                  () => Navigator.of(context).pushNamed(PostFlairModerator.routeName,
                       arguments:
                           //'Cooking'
                           ModalRoute.of(context)?.settings.arguments as String),
-                  'post flair',
+                  'Post Flair',
                   Icons.local_offer_outlined),
             ],
           ),
