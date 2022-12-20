@@ -57,8 +57,11 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
     if (i == 0) {
       if (index.type == 'follow') {
         //Navigate to user profile
+        print(index.requiredName!.substring(2, index.requiredName!.length));
+
         Navigator.popAndPushNamed(context, OthersProfileScreen.routeName,
-            arguments: index.requiredName);
+            arguments:
+                index.requiredName!.substring(2, index.requiredName!.length));
       }
       Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
     }

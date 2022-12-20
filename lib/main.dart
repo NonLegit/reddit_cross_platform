@@ -343,11 +343,11 @@ class _MyAppState extends State<MyApp> {
           String text = (json1['subject'] == null)
               ? returnText(json1['type'])
               : json1['subject']['text'];
-            print(text);  
+          print(text);
           String body = (json1['text'] == null)
               ? returnBody(json1['type'])
               : json1['text'];
-            print(body);
+          print(body);
           flutterLocalNotificationsPlugin.show(
               notification.hashCode,
               text,
@@ -447,7 +447,8 @@ class _MyAppState extends State<MyApp> {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-            // home: homeLayoutScreen(),
+            // home: NotificationScreen(),
+            home: homeLayoutScreen(),
             // home: Description(),
             // home: HomeScreen(),
             //home: NotificationScreen(),
@@ -456,9 +457,9 @@ class _MyAppState extends State<MyApp> {
             // home: NewMessageScreen(),
             // home: EditPost(),
             // home: Login(),
-          //  home: SearchInside(quiry: 'mohab'),
+            //  home: SearchInside(quiry: 'mohab'),
             // home: CreateCommunity(),
-            home: Login(),
+            // home: Login(),
             // home: ForgotUserName(),
             // home: SignUp(),
             // home: Gender(),
