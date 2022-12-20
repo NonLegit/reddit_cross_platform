@@ -102,8 +102,8 @@ class OtherProfileprovider with ChangeNotifier {
       print(prefs);
       print(userName);
       DioClient.init(prefs);
-      print('users/${userName}/follow');
-      await DioClient.post(path: 'users/${userName}/follow', data: {});
+      print('/users/${userName}/follow');
+      await DioClient.post(path: '/users/${userName}/follow', data: {});
       notifyListeners();
       return true;
     } catch (error) {
@@ -118,6 +118,7 @@ class OtherProfileprovider with ChangeNotifier {
       print(prefs);
       print(userName);
       DioClient.init(prefs);
+
       await DioClient.post(path: '/users/${userName}/unfollow', data: {});
       notifyListeners();
       return true;

@@ -27,6 +27,7 @@ class PostFlairProvider with ChangeNotifier {
       notifyListeners();
     } on DioError catch (e) {
       //print(e.error.toString());
+      print(e.error.toString());
       HandleError.errorHandler(e, context);
     } catch (error) {
       //print(error.toString());

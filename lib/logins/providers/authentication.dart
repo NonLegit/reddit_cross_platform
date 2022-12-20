@@ -16,6 +16,7 @@ import './notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 NotificationProvider provider = NotificationProvider();
 @pragma('vm:entry-point')
 NotificationModel notificationModel = NotificationModel();
@@ -118,7 +119,8 @@ class Auth with ChangeNotifier {
         await Firebase.initializeApp();
         final notificationToken = prefs.get('notificationToken');
         await NotificationToken.sendTokenToDatabase(notificationToken);
-        FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+        FirebaseMessaging.onBackgroundMessage(
+            _firebaseMessagingBackgroundHandler);
       }
       notifyListeners();
     } catch (error) {
@@ -152,10 +154,10 @@ class Auth with ChangeNotifier {
         await prefs.setString('userName', query['userName'] as String);
         await Firebase.initializeApp();
         final notificationToken = prefs.get('notificationToken');
-
+        await NotificationToken.getTokenOfNotification();
         await NotificationToken.sendTokenToDatabase(notificationToken);
         await NotificationToken.refreshToken();
-        FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+        //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
       }
       notifyListeners();
     } catch (error) {

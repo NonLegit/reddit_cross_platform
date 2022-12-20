@@ -95,9 +95,7 @@ class _AddAndEditPostFllairState extends State<AddAndEditPostFllair> {
   _deletePostFlair() async {
     await Provider.of<PostFlairProvider>(context, listen: false)
         .deleteFlair(widget.subredditName, context, widget.post!.sId)
-        .then((value) {
-      //////////////////M4 3RFA 2RG3
-    });
+        .then((value) => Navigator.pop(context, true));
   }
 
   saveFlair() async {
@@ -109,21 +107,21 @@ class _AddAndEditPostFllairState extends State<AddAndEditPostFllair> {
     if (!widget.deleteFlair!) {
       await Provider.of<PostFlairProvider>(context, listen: false)
           .addNewFlair(widget.subredditName, post, context)
-          .then((value) => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PostFlairModerator(),
-                ),
-              ));
+          .then((value) {
+        Navigator.pop(context, true);
+        //Navigator.popAndPushNamed(context, PostFlairModerator.routeName);
+      });
     } else {
       await Provider.of<PostFlairProvider>(context, listen: false)
           .editFlair(widget.subredditName, context, widget.post!.sId, post)
-          .then((value) => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PostFlairModerator(),
-                ),
-              ));
+          .then((value) {
+        Navigator.pop(context, true);
+        // Navigator.pushReplacement(
+        //     context,
+        //     MaterialPageRoute(builder: (context) => PostFlairModerator()
+        //         //  ModalRoute.withName(PostFlairModerator.routeName)
+        //         ));
+      });
     }
   }
 

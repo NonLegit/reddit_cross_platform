@@ -20,8 +20,8 @@ class _PostFlairState extends State<PostFlairModerator> {
   bool fetchingDone = false;
   bool _isInit = true;
   String? subredditName;
-  _toEdit(index) {
-    Navigator.push(
+  _toEdit(index) async {
+    final reLoadPage = await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => AddAndEditPostFllair(
@@ -32,6 +32,9 @@ class _PostFlairState extends State<PostFlairModerator> {
               post: flair[index],
               textColor1: flair[index].textColor),
         ));
+    if (reLoadPage) {
+      setState(() {});
+    }
   }
 
   @override
@@ -75,6 +78,7 @@ class _PostFlairState extends State<PostFlairModerator> {
   // String textColor = '#ac1291';
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<PostFlairProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -82,8 +86,8 @@ class _PostFlairState extends State<PostFlairModerator> {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                final reLoadPage = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => AddAndEditPostFllair(
@@ -95,6 +99,9 @@ class _PostFlairState extends State<PostFlairModerator> {
                     ),
                   ),
                 );
+                if (reLoadPage) {
+                  setState(() {});
+                }
                 //Navigator.of(context).pushNamed(AddAndEditPostFllair.routeName,);
               },
               icon: Icon(Icons.add)),
@@ -113,7 +120,7 @@ class _PostFlairState extends State<PostFlairModerator> {
             width: 100.h,
             padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
             child: const Text(
-              'GENERAL',
+              'Post Flair',
               style: TextStyle(
                   color: Colors.black38,
                   fontSize: 11,
@@ -132,27 +139,25 @@ class _PostFlairState extends State<PostFlairModerator> {
           ),
           (fetchingDone)
               ? SingleChildScrollView(
-                  child: Consumer<PostFlairProvider>(
-                    builder: (context, value, child) => ListView.builder(
-                      physics: const ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => GestureDetector(
-                        onTap: () {
-                          _toEdit(index);
-                        },
-                        child: ListTile(
-                          title: Text(
-                            flair[index].text!,
-                            style: TextStyle(
-                                backgroundColor:
-                                    flair[index].backgroundColor!.toColor(),
-                                color: flair[index].textColor!.toColor()),
-                          ),
-                          trailing: Icon(Icons.arrow_forward),
+                  child: ListView.builder(
+                    physics: const ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        _toEdit(index);
+                      },
+                      child: ListTile(
+                        title: Text(
+                          flair[index].text!,
+                          style: TextStyle(
+                              backgroundColor:
+                                  flair[index].backgroundColor!.toColor(),
+                              color: flair[index].textColor!.toColor()),
                         ),
+                        trailing: Icon(Icons.arrow_forward),
                       ),
-                      itemCount: flair.length,
                     ),
+                    itemCount: flair.length,
                   ),
                 )
               : const LoadingReddit()

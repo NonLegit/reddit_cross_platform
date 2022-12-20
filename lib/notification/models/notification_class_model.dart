@@ -35,47 +35,51 @@ class NotificationModel {
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     print(json);
-    print('hh');
-    print(json['_id'].runtimeType);
-    print('hh');
-    print(json['followedUser'].runtimeType);
-    print('hh');
-    print(json['followedSubreddit'].runtimeType);
-    print('hh');
-    print(json['followerUser'].runtimeType);
-    print('hh');
-    //print(json['post']['_id'].runtimeType);
-    print('hh');
-    print(json['comment']['_id'].runtimeType);
-    print('hh');
-    print(json['createdAt'].runtimeType);
-    print('hh');
-    print(json['seen'].runtimeType);
-    print('hh');
-    print(json['hidden'].runtimeType);
+    // print('hh');
+    // print(json['_id'].runtimeType);
+    // print('hh');
+    // print(json['followedUser'].runtimeType);
+    // print('hh');
+    // print(json['followedSubreddit'].runtimeType);
+    // print('hh');
+    // print(json['followerUser'].runtimeType);
+    // print('hh');
+    // //print(json['post']['_id'].runtimeType);
+    // print('hh');
+    // print(json['comment']['_id'].runtimeType);
+    // print('hh');
+    // print(json['createdAt'].runtimeType);
+    // print('hh');
+    // print(json['seen'].runtimeType);
+    // print('hh');
+    // print(json['hidden'].runtimeType);
     // print(json['_id'].runtimeType);
     // print(json['_id'].runtimeType);
     // print(json['_id'].runtimeType);
     // print(json['_id']);
+    print('idddddddd');
     sId = (json['_id'] == null) ? '' : json['_id'] as String;
+    print('hello');
     type = json['type'] ?? '';
-    print(json['followedUser'].runtimeType);
-    print(json['followedUser']);
-    if (json['followedUser'] != null) {
-    //  print('in followeeeeeeeeeeeeeeeeedddddddddd');
+    print('hello');
+    // print(json['followedUser'].runtimeType);
+    //print(json['followedUser']);
+    if (json['followedSubreddit'] != null) {
+      print('in followeeeeeeeeeeeeeeeeedddddddddd');
       requiredId = (json['followedSubreddit']['_id'] == null)
           ? ''
           : json['followedSubreddit']['_id'] as String;
-          String? h =json['followedSubreddit']['fixedName'] ?? ''; 
+      String? h = json['followedSubreddit']['fixedName'] ?? '';
       requiredName = 'r/$h';
       print(requiredName);
     } else if (json['followedUser'] != null) {
+      print('folllllllllllllllllllllllllll');
       requiredId = (json['followedUser']['_id'] == null)
           ? ''
           : json['followedUser']['_id'] as String;
-      String? h =json['followedUser']['userName'] ?? ''; 
+      String? h = json['followedUser']['userName'] ?? '';
       requiredName = 'u/$h';
-     // requiredName = json['followedUser']['userName'] ?? '';
+      // requiredName = json['followedUser']['userName'] ?? '';
       //name = json['name'];
     } else {
       requiredId = '';
@@ -85,9 +89,9 @@ class NotificationModel {
       followerId = (json['followerUser']['_id'] == null)
           ? ''
           : json['followerUser']['_id'] as String;
-      String? h =json['followerUser']['userName'] ?? ''; 
+      String? h = json['followerUser']['userName'] ?? '';
       followeruserName = 'u/$h';
-     // followeruserName = json['followerUser']['userName'] ?? '';
+      // followeruserName = json['followerUser']['userName'] ?? '';
       followerIcon = json['followerUser']['profilePicture'] ??
           'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_0.png';
     } else {
@@ -100,8 +104,7 @@ class NotificationModel {
     if (json['post'] != null) {
       print('In class Model');
       // print(json['post']['_id'].runtimeType);
-      postId =
-          (json['post'] == null) ? '' : json['post'] as String;
+      postId = (json['post'] == null) ? '' : json['post'] as String;
     } else {
       postId = '';
     }

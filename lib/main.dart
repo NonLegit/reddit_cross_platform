@@ -4,6 +4,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/create_community/widgets/community_type.dart';
+import 'package:post/messages/screens/reply_message_screen.dart';
+import 'package:post/messages/screens/show_message_body.dart';
 import 'package:post/moderation_settings/models/moderators.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:post/providers/global_settings.dart';
@@ -37,6 +39,9 @@ import './screens/emptyscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:post/home/screens/home_layout.dart';
 import 'logins/providers/notification.dart';
+import 'messages/Provider/message_provider.dart';
+import 'messages/models/user_message.dart';
+import 'messages/screens/new_message_screen.dart';
 import 'myprofile/screens/myprofile_screen.dart';
 import 'notification/models/notification_class_model.dart';
 import 'other_profile/screens/others_profile_screen.dart';
@@ -71,7 +76,7 @@ import 'moderation_settings/screens/description_screen.dart';
 import 'moderation_settings/screens/post_types_screen.dart';
 import 'moderation_settings/screens/community_type_screen.dart';
 import 'moderation_settings/screens/location_screen.dart';
-import './messages/screens/new_message_screen.dart';
+import 'messages/screens/message_main_screen.dart';
 import 'moderation_settings/screens/moderators_screen.dart';
 import 'moderation_settings/screens/banned_user_sceen.dart';
 import 'moderation_settings/screens/muted_user_screen.dart';
@@ -111,6 +116,42 @@ String returnCorrectText(type, name, user) {
   return text;
 }
 
+String returnText(type) {
+  String text = '';
+  if (type == 'subredditBan') {
+    text = 'You have been banned from participating ';
+  } else if (type == 'subredditMute') {
+    text = 'You have been muted ';
+  } else if (type == 'subredditModeratorInvite') {
+    text = 'Invitation to moderate ';
+  } else if (type == 'subredditModeratorRemove') {
+    text = 'You have been removed as moderator';
+  } else if (type == 'subredditApprove') {
+    text = 'You are an approved user';
+  }
+  return text;
+}
+
+String returnBody(type) {
+  String body = '';
+  if (type == 'subredditBan') {
+    body =
+        'You have been banned from participating .You can still view and subscribe,but you won\'t be able to post or comment.If you have a question regarding your ban,you can contact moderator theam .';
+  } else if (type == 'subredditMute') {
+    body =
+        'You have been muted . You will not be able to message the moderators  for 3 days';
+  } else if (type == 'subredditModeratorInvite') {
+    body =
+        'You are invited to become a moderator \n to accept,visit the moderators page  .Otherwise if you did not expect to recieve this,you can simply ignore this invitation or report it. ';
+  } else if (type == 'subredditModeratorRemove') {
+    body =
+        'You: You have been removed as a moderator .If you have a question regarding your removal,tou can contact moderator ';
+  } else if (type == 'subredditApprove') {
+    body = 'You have been added as an approved user';
+  }
+  return body;
+}
+
 String returnCorrectDescription(type, description, name) {
   String description1 = '';
   if (type == 'firstCommentUpVote') {
@@ -128,65 +169,91 @@ String returnCorrectDescription(type, description, name) {
 //@pragma('vm:entry-point')
 NotificationModel notificationModel = NotificationModel();
 NotificationProvider provider = NotificationProvider();
+ShowMessagesModel messageModel = ShowMessagesModel();
 final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
-//Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-// print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
-//   await Firebase.initializeApp();
-//   await FirebaseMessaging.instance.getToken();
-//   //print('hidojsljfkbgdvdbhnjkjhgvfcvgbhnjmk');
-//   await setupFlutterNotifications();
-//   print('Handling a background message ${message.messageId}');
-//   RemoteNotification? notification = message.notification;
-//   notificationModel =
-//       PushNotificationModel.fromJson(json.decode(message.data['val']));
-//   provider.incrementCounter();
-//   flutterLocalNotificationsPlugin.show(
-//       notification.hashCode,
-//       returnCorrectText(notificationModel.type, notificationModel.requiredName,
-//           notificationModel.followeruserName),
-//       //notificationModel.type,
-//       //notificationModel.description,
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
+  await Firebase.initializeApp();
+  await FirebaseMessaging.instance.getToken();
+  //print('hidojsljfkbgdvdbhnjkjhgvfcvgbhnjmk');
+  await setupFlutterNotifications();
+  print('Handling a background message ${message.messageId}');
+  RemoteNotification? notification = message.notification;
+  print('hiiiiiiiiiii');
+  print(message.data['val']);
+  if (json.decode(message.data['val'])['type'] == 'userMention' ||
+      json.decode(message.data['val'])['type'] == 'follow' ||
+      json.decode(message.data['val'])['type'] == 'postReply' ||
+      json.decode(message.data['val'])['type'] == 'commentReply') {
+    notificationModel =
+        NotificationModel.fromJson(json.decode(message.data['val']));
+    //provider.incrementCounter();
+    flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        returnCorrectText(notificationModel.type,
+            notificationModel.requiredName, notificationModel.followeruserName),
+        returnCorrectDescription(notificationModel.type,
+            notificationModel.description, notificationModel.requiredName),
+        NotificationDetails(
+            android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          color: Colors.blue,
+          playSound: true,
+          // icon: ('assets/images/reddit.png'),
+        )));
+  } else {
+    final json1 = json.decode(message.data['val']);
+    print(json1);
+    String text = (json1['subject'] == null)
+        ? returnText(json1['type'])
+        : json1['subject']['text'];
+    String body =
+        (json1['text'] == null) ? returnBody(json1['type']) : json1['text'];
+    flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        text,
+        body,
+        NotificationDetails(
+            android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          color: Colors.blue,
+          playSound: true,
+          // icon: ('assets/images/reddit.png'),
+        )));
+  }
+}
 
-//       returnCorrectDescription(notificationModel.type,
-//           notificationModel.description, notificationModel.requiredName),
-//       NotificationDetails(
-//           android: AndroidNotificationDetails(
-//         channel.id,
-//         channel.name,
-//         channelDescription: channel.description,
-//         color: Colors.blue,
-//         playSound: true,
-//         // icon: ('assets/images/reddit.png'),
-//       )));
-// }
+bool isFlutterLocalNotificationsInitialized = false;
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+AndroidNotificationChannel channel = const AndroidNotificationChannel(
+  'high_importance_channel', // id
+  'High Importance Notifications', // title
+  description:
+      'This channel is used for important notifications.', // description
+  importance: Importance.high,
+);
 
-// bool isFlutterLocalNotificationsInitialized = false;
-// FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//     FlutterLocalNotificationsPlugin();
-// AndroidNotificationChannel channel = const AndroidNotificationChannel(
-//   'high_importance_channel', // id
-//   'High Importance Notifications', // title
-//   description:
-//       'This channel is used for important notifications.', // description
-//   importance: Importance.high,
-// );
-
-// Future<void> setupFlutterNotifications() async {
-//   if (isFlutterLocalNotificationsInitialized) {
-//     print('settings doneeeeeeeeeee');
-//     return;
-//   }
-//   await flutterLocalNotificationsPlugin
-//       .resolvePlatformSpecificImplementation<
-//           AndroidFlutterLocalNotificationsPlugin>()
-//       ?.createNotificationChannel(channel);
-//   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-//     alert: true,
-//     badge: true,
-//     sound: true,
-//   );
-//   isFlutterLocalNotificationsInitialized = true;
-// }
+Future<void> setupFlutterNotifications() async {
+  if (isFlutterLocalNotificationsInitialized) {
+    print('settings doneeeeeeeeeee');
+    return;
+  }
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  isFlutterLocalNotificationsInitialized = true;
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -196,11 +263,11 @@ Future<void> main() async {
   final int? cont = prefs.getInt('counter');
   await prefs.setInt('not', 0);
   provider.initState();
-  //await Firebase.initializeApp();
-  // await NotificationToken.getTokenOfNotification();
+  await Firebase.initializeApp();
+  await NotificationToken.getTokenOfNotification();
   // final RemoteMessage? remoteMessage =
   //   await FirebaseMessaging.instance.getInitialMessage();
-  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(
     ChangeNotifierProvider<GlobalSettings>(
       create: (context) => GlobalSettings(true, true),
@@ -235,44 +302,73 @@ class _MyAppState extends State<MyApp> {
       AndroidNotification? android = message.notification?.android;
       // print(notification.hashCode);
       if (message.data != null) {
-        // print(message.data['val']);
-        notificationModel =
-            NotificationModel.fromJson(json.decode(message.data['val']));
-        print('foregroud');
-        //provider.incrementCounter();
-        print('returned from counter in foreground');
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            returnCorrectText(
-                notificationModel.type,
-                notificationModel.requiredName,
-                notificationModel.followeruserName),
-            //notificationModel.type,
-            //notificationModel.description,
-            returnCorrectDescription(notificationModel.type,
-                notificationModel.description, notificationModel.requiredName),
-            NotificationDetails(
-                android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channelDescription: channel.description,
-              color: Colors.blue,
-              playSound: true,
-              //     icon: ('assets/images/reddit.png'),
-            )));
-        FirebaseMessaging.onMessageOpenedApp.listen(
-          (RemoteMessage message) async {
-            print('BYEEEEEEEEEEEEEEEEEEEEEEE');
-            print(message.data);
-            RemoteNotification? notification = message.notification;
-            AndroidNotification? android = message.notification?.android;
-            if (message.data['val'] != null) {
-              print('heereeeeeeeeeeeeee');
-              Navigator.of(navState.currentState!.context)
-                  .pushNamed(NavigateToCorrectScreen.routeName);
-            }
-          },
-        );
+        print(message.data['val']);
+        if (json.decode(message.data['val'])['type'] == 'userMention' ||
+            json.decode(message.data['val'])['type'] == 'follow' ||
+            json.decode(message.data['val'])['type'] == 'postReply' ||
+            json.decode(message.data['val'])['type'] == 'commentReply') {
+          notificationModel =
+              NotificationModel.fromJson(json.decode(message.data['val']));
+          //provider.incrementCounter();
+          flutterLocalNotificationsPlugin.show(
+              notification.hashCode,
+              returnCorrectText(
+                  notificationModel.type,
+                  notificationModel.requiredName,
+                  notificationModel.followeruserName),
+              returnCorrectDescription(
+                  notificationModel.type,
+                  notificationModel.description,
+                  notificationModel.requiredName),
+              NotificationDetails(
+                  android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: Colors.blue,
+                playSound: true,
+                // icon: ('assets/images/reddit.png'),
+              )));
+        } else {
+          // messageModel =
+          //     ShowMessagesModel.fromJson(json.decode(message.data['val']));
+          final json1 = json.decode(message.data['val']);
+          print(json1);
+          String text = (json1['subject'] == null)
+              ? returnText(json1['type'])
+              : json1['subject']['text'];
+            print(text);  
+          String body = (json1['text'] == null)
+              ? returnBody(json1['type'])
+              : json1['text'];
+            print(body);
+          flutterLocalNotificationsPlugin.show(
+              notification.hashCode,
+              text,
+              body,
+              NotificationDetails(
+                  android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: Colors.blue,
+                playSound: true,
+                // icon: ('assets/images/reddit.png'),
+              )));
+        }
+        // FirebaseMessaging.onMessageOpenedApp.listen(
+        //   (RemoteMessage message) async {
+        //     print('BYEEEEEEEEEEEEEEEEEEEEEEE');
+        //     print(message.data);
+        //     RemoteNotification? notification = message.notification;
+        //     AndroidNotification? android = message.notification?.android;
+        //     if (message.data['val'] != null) {
+        //       print('heereeeeeeeeeeeeee');
+        //       Navigator.of(navState.currentState!.context)
+        //           .pushNamed(NavigateToCorrectScreen.routeName);
+        //     }
+        //   },
+        // );
       }
     });
     // initializationSettingsAndroid =
@@ -324,6 +420,7 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider.value(value: PostProvider()),
             ChangeNotifierProvider.value(value: SubredditPostProvider()),
             ChangeNotifierProvider.value(value: PostFlairProvider()),
+            ChangeNotifierProvider.value(value: MessageProvider()),
           ],
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
@@ -339,17 +436,17 @@ class _MyAppState extends State<MyApp> {
                   surface: Colors.black87,
                   onSurface: Colors.white),
             ),
-            home: homeLayoutScreen(),
+            // home: homeLayoutScreen(),
             // home: Description(),
             // home: HomeScreen(),
-            // home: NotificationScreen(),
+            //home: NotificationScreen(),
             // home:ShowPostDetails(),
             // home: CreateCommunity(),
-            //   home: homeLayoutScreen(),
-            // home: HomeScreen(),
+            // home: NewMessageScreen(),
+            // home: EditPost(),
             // home: Login(),
             // home: CreateCommunity(),
-            // home: Login(),
+            home: Login(),
             // home: ForgotUserName(),
             // home: SignUp(),
             // home: Gender(),
@@ -359,14 +456,16 @@ class _MyAppState extends State<MyApp> {
             // home: ComuunityTypesScreen(),
             // home: LocationScreen(),
             // home: ModeratorsScreen(),
-            // home: BannedScreen(),
-            // home: MutedScreen(),
+            // home: BannedScreen(),cd hi
             // home: ApprovedScreen(),
             routes: {
+              ReplyMessageScreen.routeName: (context) => ReplyMessageScreen(),
+              ShowMessageBody.routeName: (context) => ShowMessageBody(),
+              MessageMainScreen.routeName: (context) => MessageMainScreen(),
               PostFlairSettings.routeName: (context) => PostFlairSettings(),
               AddAndEditPostFllair.routeName: (context) =>
                   AddAndEditPostFllair(),
-               PostFlairModerator.routeName: (context) => PostFlairModerator(),
+              PostFlairModerator.routeName: (context) => PostFlairModerator(),
               EditApprovedScreen.routeName: (context) => EditApprovedScreen(),
               EditBannedScreen.routeName: (context) => EditBannedScreen(),
               EditMutedScreen.routeName: (context) => EditMutedScreen(),

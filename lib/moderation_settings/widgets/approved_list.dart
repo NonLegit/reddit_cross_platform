@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:post/notification/screens/messages_main_screen.dart';
+// import 'package:post/notification/screens/messages_main_screen.dart';
+import '../../messages/screens/new_message_screen.dart';
 import '../../other_profile/screens/others_profile_screen.dart';
 // import '../../notification/widgets/three_dots_widget.dart';
-import '../../messages/screens/new_message_screen.dart';
+import '../../messages/screens/message_main_screen.dart';
 import '../widgets/three_dot_down_menu.dart';
 import '../../icons/settings_icons.dart';
 
