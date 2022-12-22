@@ -1,5 +1,3 @@
-import 'package:flutter/rendering.dart';
-
 class CommentModel {
   String? sId;
   Author? author;
@@ -47,24 +45,6 @@ class CommentModel {
       this.children});
 
   CommentModel.fromJson(Map<String, dynamic> json) {
-    print(json);
-    print(json['_id'].runtimeType);
-    print(json['author'].runtimeType);
-    print(json['post'].runtimeType);
-    print(json['mentions'].runtimeType);
-    print(json['replies'].runtimeType);
-    print(json['parent'].runtimeType);
-    print(json['parentType'].runtimeType);
-    print(json['createdAt'].runtimeType);
-    print(json['isDeleted'].runtimeType);
-    print(json['repliesCount'].runtimeType);
-    print(json['locked'].runtimeType);
-    print(json['nsfw'].runtimeType);
-    print(json['spoiler'].runtimeType);
-    print(json['modState'].runtimeType);
-    print(json['sortOnHot'].runtimeType);
-    print(json['__v'].runtimeType);
-
     sId = json['_id'];
     author =
         json['author'] != null ? new Author.fromJson(json['author']) : null;

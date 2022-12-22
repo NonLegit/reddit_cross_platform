@@ -1,19 +1,14 @@
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/createpost/controllers/posts_controllers.dart';
 import 'package:post/home/controller/home_controller.dart';
 import 'package:post/home/widgets/new_drawer.dart';
-import 'package:post/post/models/post_model.dart';
 import 'package:post/widgets/loading_reddit.dart';
 import '../../icons/icon_broken.dart';
-import '../../post/widgets/post.dart';
 import '../../post/widgets/post_list.dart';
 import '../widgets/buttom_nav_bar.dart';
 import '../widgets/end_drawer.dart';
-import '../controller/home_controller.dart';
-import '../../createpost/controllers/posts_controllers.dart';
 import '../widgets/recently_visited_list.dart';
 import '../../search/screens/search.dart';
 

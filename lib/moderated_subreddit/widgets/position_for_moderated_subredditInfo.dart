@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:post/moderation_settings/screens/moderator_tools_screen.dart';
@@ -12,7 +14,7 @@ class PositionForModeratedSubredditInfo extends StatelessWidget {
     required this.userName,
     Key? key,
   }) : super(key: key);
- NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
+  NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -39,7 +41,7 @@ class PositionForModeratedSubredditInfo extends StatelessWidget {
                       '${myFormat.format(int.parse(loadedSubreddit!.numOfMembers.toString()))} members .${myFormat.format(int.parse(loadedSubreddit!.numOfOnlines.toString()))} online ',
                     ),
                     trailing: Container(
-                      margin: const EdgeInsets.only(bottom:  30),
+                      margin: const EdgeInsets.only(bottom: 30),
                       width: MediaQuery.of(context).size.width * 0.35,
                       height: MediaQuery.of(context).size.height * 0.04,
                       // width: 35.w,

@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:post/createpost/model/subreddits_of_user.dart';
 import 'package:post/createpost/screens/createpost.dart';
 import '../controllers/posts_controllers.dart';
 import '../screens/finalpost.dart';
@@ -15,7 +12,7 @@ class SubredditModeratorContainer extends StatelessWidget {
   String nameOfSubreddit = "";
   String iconOfSubreddit = '';
   int memberCount = 0;
-  String idOfSubreddit='';
+  String idOfSubreddit = '';
   SubredditModeratorContainer({
     required this.nameOfSubreddit,
     required this.iconOfSubreddit,
@@ -34,17 +31,15 @@ class SubredditModeratorContainer extends StatelessWidget {
       subtitle: Text("$memberCount " + "members . " + "moderator"),
       onTap: () {
         controller.subredditToSubmitPost = RxString(nameOfSubreddit);
-        controller.iconOfSubredditToSubmittPost=RxString(iconOfSubreddit);
-        controller.idOfSubredditToSubmittPost=RxString(idOfSubreddit);
+        controller.iconOfSubredditToSubmittPost = RxString(iconOfSubreddit);
+        controller.idOfSubredditToSubmittPost = RxString(idOfSubreddit);
         controller.getFlairsOfSubreddit();
-       if(controller.isFromHomeDirect.value==true)
-         {
-           Get.to(FinalPost());
-         }
-       else
-         {
-           Get.to(CreatePostSCreen(),arguments: [1,"${iconOfSubreddit}","${nameOfSubreddit}"]);
-         }
+        if (controller.isFromHomeDirect.value == true) {
+          Get.to(FinalPost());
+        } else {
+          Get.to(CreatePostSCreen(),
+              arguments: [1, "${iconOfSubreddit}", "${nameOfSubreddit}"]);
+        }
       },
     );
   }

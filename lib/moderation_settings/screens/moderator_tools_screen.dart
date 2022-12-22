@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:post/moderation_settings/models/banned.dart';
 import 'package:post/moderation_settings/screens/post_flair.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../icons/icon_broken.dart';
@@ -9,10 +8,6 @@ import 'post_types_screen.dart';
 import './location_screen.dart';
 import './community_type_screen.dart';
 
-import './description_screen.dart';
-import './location_screen.dart';
-import './post_types_screen.dart';
-import './community_type_screen.dart';
 import './approved_users_screen.dart';
 import './banned_user_sceen.dart';
 import './muted_user_screen.dart';
@@ -163,7 +158,8 @@ class _ModeratorToolsState extends State<ModeratorTools> {
             children: [
               buildGeneralOptions(
                   context,
-                  () => Navigator.of(context).pushNamed(PostFlairModerator.routeName,
+                  () => Navigator.of(context).pushNamed(
+                      PostFlairModerator.routeName,
                       arguments:
                           //'Cooking'
                           ModalRoute.of(context)?.settings.arguments as String),

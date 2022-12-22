@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:intl/intl.dart';
 import '../models/others_profile_data.dart';
 
 class PositionOtherProfileWeb extends StatefulWidget {
@@ -28,7 +27,7 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
       child: Container(
         // width: 100.w,
         height: 100.h,
-      
+
         padding: EdgeInsets.only(left: 20, top: 15),
         margin: EdgeInsets.only(top: 10),
         // color: Colors.blue,

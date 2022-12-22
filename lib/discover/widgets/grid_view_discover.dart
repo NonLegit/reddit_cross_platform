@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/loading_reddit.dart';
-import 'package:post/discover/constant/topics_name.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 import '../providers/discover_provider.dart';
@@ -14,7 +13,7 @@ import '../../show_post/screens/show_post.dart';
 
 class GridViewDiscover extends StatefulWidget {
   String topic;
-  
+
   GridViewDiscover({
     super.key,
     required this.topic,
@@ -85,7 +84,7 @@ class _GridViewDiscoverState extends State<GridViewDiscover> {
 
       try {
         await Provider.of<DiscoverProvider>(context, listen: false)
-            .fetchAndSetDiscover(widget.topic, _page, _limit,context )
+            .fetchAndSetDiscover(widget.topic, _page, _limit, context)
             .then((value) async {
           imgAndVideoList =
               await Provider.of<DiscoverProvider>(context, listen: false)
@@ -112,8 +111,7 @@ class _GridViewDiscoverState extends State<GridViewDiscover> {
       final prefs = await SharedPreferences.getInstance();
       userName = prefs.getString('userName');
       await Provider.of<DiscoverProvider>(context, listen: false)
-          .fetchAndSetDiscover(widget.topic, _page, _limit,context
-              )
+          .fetchAndSetDiscover(widget.topic, _page, _limit, context)
           .then((value) async {
         imgAndVideoList =
             await Provider.of<DiscoverProvider>(context, listen: false)

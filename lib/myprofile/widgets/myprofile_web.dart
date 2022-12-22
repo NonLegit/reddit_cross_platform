@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/myprofile_data.dart';
 import 'overview_myprofile_web.dart';
-import '../screens/myprofile_screen.dart';
-import '../../widgets/profile_comments.dart';
 import '../widgets/myprofile_about.dart';
-import '../../widgets/myprofile_post_web.dart';
 import '../../widgets/myprofile_comment_web.dart';
 
 class MyProfileWeb extends StatelessWidget {
@@ -24,13 +21,13 @@ class MyProfileWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Color.fromARGB(255,218, 224, 230),
+        backgroundColor: Color.fromARGB(255, 218, 224, 230),
         appBar: PreferredSize(
-        preferredSize: _tabBar.preferredSize,
-        child: Material(
-          color: Colors.white,
-          child: _tabBar,
-        )),
+            preferredSize: _tabBar.preferredSize,
+            child: Material(
+              color: Colors.white,
+              child: _tabBar,
+            )),
         body: isLoading
             ? const Center(
                 child: Icon(

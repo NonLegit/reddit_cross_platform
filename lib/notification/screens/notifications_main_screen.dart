@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../other_profile/screens/others_profile_screen.dart';
 import '../constants/types_of_notification.dart';
 import '../../create_community/widgets/bar_widget.dart';

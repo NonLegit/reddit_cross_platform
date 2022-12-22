@@ -1,5 +1,4 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 var baseUrl = dotenv.env['API'] as String;
 //=========================Subreddit======================//
@@ -11,8 +10,8 @@ const moderationTools = '/subreddits/{subredditName}';
 var subreddit = '/subreddits/${subredditName}';
 //const moderators = '/subreddits/{subredditName}/about/moderators';
 const mySubreddits = '/subreddits/mine';
-const getPostsInHome='/user/best/posts';
-var getFlairsOfSubreddit='/subreddits/${subredditName}/flairs';
+const getPostsInHome = '/user/best/posts';
+var getFlairsOfSubreddit = '/subreddits/${subredditName}/flairs';
 //=======================Profile=======================//
 const myprofile = '/users/me';
 var userName;

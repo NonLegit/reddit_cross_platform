@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:post/post/models/post_model.dart';
 import 'package:post/post/widgets/post_images.dart';
 import 'package:post/post/widgets/post_link_in_screen.dart';
 import 'package:post/post/widgets/post_tags_and_title.dart';
 import 'package:video_player/video_player.dart';
-
-import '../../show_post/screens/show_post.dart';
 import 'post_video_in_widget.dart';
-
 import 'package:flutter_html/flutter_html.dart';
 
 /// This Widget is responsible for the body of the post.

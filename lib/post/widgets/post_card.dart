@@ -1,10 +1,7 @@
-import 'dart:ui';
-
 import 'package:link_preview_generator/link_preview_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:post/post/models/post_model.dart';
 import 'package:post/post/widgets/post_tags_and_title.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../widgets/loading_reddit.dart';
 

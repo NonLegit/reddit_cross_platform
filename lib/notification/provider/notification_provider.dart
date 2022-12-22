@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +12,10 @@ class NotificationProvider with ChangeNotifier {
   List<NotificationModel> listToday = [];
   List<NotificationModel> listEariler = [];
   int? count;
-  initState(){
+  initState() {
     count = 0;
   }
+
   //int counter = 0;
   List<NotificationModel> get returnTodayNotification {
     return [...listToday];
@@ -25,7 +24,6 @@ class NotificationProvider with ChangeNotifier {
   List<NotificationModel> get returnEarlierNotification {
     return [...listEariler];
   }
-
 
   void appendToList(NotificationModel notificationClassModel) {
     if (DateTime.now()
@@ -59,7 +57,7 @@ class NotificationProvider with ChangeNotifier {
       listEariler = [];
       final response =
           await DioClient.get(path: notificationResults).then((value) {
-            // print('hiii');
+        // print('hiii');
         print(value);
         print(value.data['data'].runtimeType);
         // notificationClassModel = NotificationModel.fromJson(value.data['data']);

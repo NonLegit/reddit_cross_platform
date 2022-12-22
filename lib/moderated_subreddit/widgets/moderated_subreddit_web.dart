@@ -3,12 +3,12 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../models/subreddit_about _rules.dart';
 import '../../widgets/subreddit_about.dart';
 import '../../widgets/subreddit_join_button_web.dart';
-import '../../subreddit/widgets/subreddit_join_buttons.dart';
 import '../../models/subreddit_data.dart';
 import '../widgets/moderated_subreddite_post_web.dart';
+
 class ModeratedSubredditWeb extends StatelessWidget {
   String userName;
- ModeratedSubredditWeb(
+  ModeratedSubredditWeb(
       {Key? key,
       required this.userName,
       required this.tabBar,
@@ -81,7 +81,7 @@ class ModeratedSubredditWeb extends StatelessWidget {
                                   left: 0,
                                   bottom: 0,
                                   child: Container(
-                                     // padding: EdgeInsets.only(left: 250),
+                                      // padding: EdgeInsets.only(left: 250),
                                       color: Colors.white,
                                       child: Column(
                                         mainAxisAlignment:
@@ -95,13 +95,15 @@ class ModeratedSubredditWeb extends StatelessWidget {
                                             height: 15.h,
                                             padding: EdgeInsets.only(left: 250),
                                             child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
                                               children: [
                                                 Container(
                                                   width: 10.w,
                                                   height: 20.h,
-                                                 // margin: EdgeInsets.only(bottom: 30,top: 40),
+                                                  // margin: EdgeInsets.only(bottom: 30,top: 40),
 
                                                   decoration: BoxDecoration(
                                                     color: Colors.orange,
@@ -116,7 +118,8 @@ class ModeratedSubredditWeb extends StatelessWidget {
                                                 ),
                                                 Container(
                                                   height: 20.h,
-                                                  margin: EdgeInsets.only(top: 20),
+                                                  margin:
+                                                      EdgeInsets.only(top: 20),
                                                   child: Column(
                                                     children: [
                                                       Text(
@@ -125,15 +128,14 @@ class ModeratedSubredditWeb extends StatelessWidget {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
-                                                                      fontSize: 35
-                                                                      )),
+                                                              fontSize: 35)),
                                                       Text(
                                                         'r/${loadedSubreddit!.name.toString()}',
                                                       ),
                                                     ],
                                                   ),
                                                 ),
-                                               SubredditJoinButtonWeb(
+                                                SubredditJoinButtonWeb(
                                                     isJoined: loadedSubreddit!
                                                         .isJoined as bool,
                                                     // icon: icon,
@@ -147,7 +149,6 @@ class ModeratedSubredditWeb extends StatelessWidget {
                                         ],
                                       )),
                                 ),
-                              
                               ],
                             ),
                           ]),
@@ -164,7 +165,9 @@ class ModeratedSubredditWeb extends StatelessWidget {
                         ),
                       )
                     : TabBarView(controller: controller, children: [
-                      ModeratedSubredditePostWeb(loadedSubreddit: loadedSubreddit,),
+                        ModeratedSubredditePostWeb(
+                          loadedSubreddit: loadedSubreddit,
+                        ),
                         // SubredditPosts(routeNamePop: SubredditScreen.routeName),
                         SubredditAbout(
                           rules: loadedSubreddit!.rules
