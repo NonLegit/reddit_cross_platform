@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:post/messages/screens/show_message_body.dart';
 import 'package:post/widgets/loading_reddit.dart';
 import 'package:provider/provider.dart';
@@ -40,11 +39,10 @@ class _MessageMainScreenState extends State<MessageMainScreen> {
   bool returned = false;
   bool tried = false;
 
-    @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    
   }
 
   Map<String, List<ShowMessagesModel>> messageShow = {};
@@ -77,8 +75,6 @@ class _MessageMainScreenState extends State<MessageMainScreen> {
     Provider.of<MessageProvider>(context, listen: false)
         .blockUser(context, userName);
   }
-  
-  
 
   _onclick(index) {
     // int id;
@@ -86,20 +82,20 @@ class _MessageMainScreenState extends State<MessageMainScreen> {
       return element.fromUsername != element.me;
       // element.toUsername != element.me;
     });
-    if(get !=null){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ShowMessageBody(
-            list: messageShow[index],
-            appBarText: getUsername(
-                messageShow[index]![0].me,
-                messageShow[index]![0].toUsername,
-                messageShow[index]![0].fromUsername),
-            messageId: get.sId,
-          ),
-        ));
-  }
+    if (get != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ShowMessageBody(
+              list: messageShow[index],
+              appBarText: getUsername(
+                  messageShow[index]![0].me,
+                  messageShow[index]![0].toUsername,
+                  messageShow[index]![0].fromUsername),
+              messageId: get.sId,
+            ),
+          ));
+    }
   }
 
   @override

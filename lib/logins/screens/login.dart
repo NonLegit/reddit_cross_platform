@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:post/logins/screens/signup.dart';
 import 'package:provider/provider.dart';
 import '../widgets/text_input.dart';
 import '../widgets/upper_bar.dart';
@@ -13,11 +12,12 @@ import '../widgets/continue_with_facebook.dart';
 import '../widgets/continue_with_google.dart';
 import '../../models/wrapper.dart';
 import '../../home/screens/home_layout.dart';
-import '../../moderation_settings/widgets/status.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../providers/authentication.dart';
-// import 'package:flutter_signin_button/flutter_signin_button.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+import '../api/google_sign_in.dart';
+import '../../moderation_settings/widgets/status.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Login extends StatefulWidget {
   // Login({Key? key}) : super(key: key);
@@ -149,12 +149,20 @@ class LoginState extends State<Login> {
                   SizedBox(
                     height: 4.h,
                   ),
-                  // SignInButton(
-                  //   Buttons.FacebookNew,
-                  //   text: "Sign up with Google",
-                  //   onPressed: () {},
-                  // ),
-                  ContinueWithGoogle(handler: () {}),
+                  ContinueWithGoogle(handler: () async {
+                    // final user = await GoogleSignInApi.login();
+                    // user!.id;
+                    // final provider = Provider.of<Auth>(context, listen: false);
+                    // await provider.GoogleAuth({
+                    //   "id": user.id,
+                    //   "email": user.email,
+                    //   "displayName": user.displayName!
+                    // });
+                    // if (provider.error == false) {
+                    //   Navigator.of(context)
+                    //       .pushReplacementNamed(HomeLayoutScreen.routeName);
+                    // }
+                  }),
                   ContinueWithFacebook(handler: () {}),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

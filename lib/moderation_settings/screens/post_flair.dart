@@ -8,7 +8,7 @@ import '../provider/post_flair_provider.dart';
 import '../../widgets/loading_reddit.dart';
 
 class PostFlairModerator extends StatefulWidget {
-  PostFlairModerator({super.key});
+  const PostFlairModerator({super.key});
   static const routeName = '/post-flair-moderator';
 
   @override

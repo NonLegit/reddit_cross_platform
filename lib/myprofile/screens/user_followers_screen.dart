@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:post/other_profile/screens/others_profile_screen.dart';
-import 'package:post/other_profile/widgets/other_profile_app.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../widgets/loading_reddit.dart';
 import '../../widgets/follow_button.dart';
 import '../models/myprofile_followers_data.dart';
 import '../providers/myprofile_provider.dart';
-import '../../other_profile/screens/others_profile_screen.dart';
 
 class UserFollowersScreen extends StatefulWidget {
   static const routeName = '/userfollowers';
@@ -131,8 +128,13 @@ class _UserFollowersScreenState extends State<UserFollowersScreen> {
                                   child: Column(
                                     children: [
                                       ListTile(
-                                          onTap: () =>
-                                              Navigator.of(context).pushNamed(OthersProfileScreen.routeName,arguments:followersData![index].userName.toString() ),
+                                          onTap: () => Navigator.of(context)
+                                              .pushNamed(
+                                                  OthersProfileScreen.routeName,
+                                                  arguments:
+                                                      followersData![index]
+                                                          .userName
+                                                          .toString()),
                                           leading: CircleAvatar(
                                             radius: 20,
                                             backgroundImage: NetworkImage(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../networks/dio_client.dart';
-import '../../networks/const_endpoint_data.dart';
 import '../models/post_model.dart';
 
 class PostProvider with ChangeNotifier {

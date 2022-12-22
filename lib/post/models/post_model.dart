@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -245,7 +244,4 @@ class Author {
     name = json['name'];
     icon = json['icon'];
   }
-  
 }
-
-

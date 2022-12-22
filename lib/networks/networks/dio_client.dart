@@ -1,12 +1,6 @@
 import 'dart:convert';
-import 'dart:html';
-
 import 'package:dio/dio.dart';
-import 'package:post/other_profile/widgets/other_profile_app.dart';
 import 'const_endpoint_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:flutter/material.dart';
 //=====================================Providers====================================================//
 
 class DioClient {
@@ -40,8 +34,8 @@ class DioClient {
   // Post:----------------------------------------------------------------------
   static Future<Response> post(
       {required String path,
-        required Map<String, dynamic>? data,
-        Map<String, dynamic>? query}) async {
+      required Map<String, dynamic>? data,
+      Map<String, dynamic>? query}) async {
     print('datain dio post : $data');
     return await dio!.post(path, data: json.encode(data));
   }

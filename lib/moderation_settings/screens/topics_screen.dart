@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../provider/moderation_settings_provider.dart';
-import 'package:post/networks/dio_client.dart';
 import 'package:provider/provider.dart';
 
 import '../models/moderator_tools.dart';
@@ -8,7 +7,6 @@ import '../widgets/alert_dialog.dart';
 import '../constants/topics.dart';
 import '../widgets/topic_main_body.dart';
 import '../../widgets/loading_reddit.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TopicsScreen extends StatefulWidget {
   const TopicsScreen({super.key});
@@ -46,8 +44,8 @@ class _TopicsScreenState extends State<TopicsScreen> {
       });
       subbredditName = ModalRoute.of(context)?.settings.arguments as String;
       Provider.of<ModerationSettingProvider>(context, listen: false)
-
-          .getCommunity(ModalRoute.of(context)?.settings.arguments as String,context
+          .getCommunity(
+              ModalRoute.of(context)?.settings.arguments as String, context
               // 'Cooking'
               )
           .then((_) {
@@ -86,7 +84,8 @@ class _TopicsScreenState extends State<TopicsScreen> {
     Provider.of<ModerationSettingProvider>(context, listen: false)
         .patchCommunity(
             {"primaryTopic": '${topics.keys.elementAt(_selectedIndex)}'},
-            subbredditName,context).then((_) => Navigator.of(context).pop());
+            subbredditName,
+            context).then((_) => Navigator.of(context).pop());
   }
 
   @override

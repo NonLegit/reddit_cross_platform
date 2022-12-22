@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
 import '../../moderation_settings/widgets/alert_dialog.dart';
@@ -108,7 +105,7 @@ class _NewMessageScreenState extends State<NewMessageScreen> {
               ),
             ),
             onPressed: (_iselected)
-                ? () =>_saveNewMessage(username, subject, message)
+                ? () => _saveNewMessage(username, subject, message)
                 : null,
             child: Text(
               'Send',

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_code_style/analysis_options.yaml';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../widgets/sort_bottom_web.dart';
 import '../models/others_profile_data.dart';
 import 'position_other_profile_web.dart';
-import '../widgets/options_button.dart';
 
 class OtherProfileCardInformationWeb extends StatefulWidget {
   final OtherProfileData loadProfile;
@@ -67,48 +65,48 @@ class _OtherProfileCardInformationWebState
                     Visibility(
                       visible: widget.moreOptions,
                       child: Container(
-                         margin: EdgeInsets.only(left: 100),
+                          margin: EdgeInsets.only(left: 100),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextButton(
-                              onPressed: null,
-                              child: Text(
-                                'Send Message',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )),
-                          TextButton(
-                              onPressed: null,
-                              child: Text(
-                                'Block User',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )),
-                          TextButton(
-                              onPressed: null,
-                              child: Text(
-                                'Get Them Help and Support',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )),
-                          TextButton(
-                              onPressed: null,
-                              child: Text(
-                                'Report User',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              ))
-                        ],
-                      )),
+                            children: [
+                              TextButton(
+                                  onPressed: null,
+                                  child: Text(
+                                    'Send Message',
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  )),
+                              TextButton(
+                                  onPressed: null,
+                                  child: Text(
+                                    'Block User',
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  )),
+                              TextButton(
+                                  onPressed: null,
+                                  child: Text(
+                                    'Get Them Help and Support',
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  )),
+                              TextButton(
+                                  onPressed: null,
+                                  child: Text(
+                                    'Report User',
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ))
+                            ],
+                          )),
                     ),
                     Container(
                         width: 15.w,

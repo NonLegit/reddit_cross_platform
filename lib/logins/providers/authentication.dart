@@ -1,31 +1,18 @@
-// import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:post/logins/screens/login.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../main.dart';
-//import '../../models/push_notification_model.dart';
 import '../../notification/models/notification_class_model.dart';
 import '../../notification/provider/notification_provider.dart';
 import './notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import '../../networks/dio_client.dart';
-import '../../networks/const_endpoint_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/handle_error.dart';
-import '../../home/screens/home_layout.dart';
 
 NotificationProvider provider = NotificationProvider();
 @pragma('vm:entry-point')
@@ -162,11 +149,11 @@ class Auth with ChangeNotifier {
         await prefs.setString('token', token);
         await prefs.setString('expiresIn', expiresIn.toString());
         await prefs.setString('userName', query['userName'] as String);
-        await Firebase.initializeApp();
-        final notificationToken = prefs.get('notificationToken');
-        await NotificationToken.sendTokenToDatabase(notificationToken);
-        FirebaseMessaging.onBackgroundMessage(
-            _firebaseMessagingBackgroundHandler);
+        // await Firebase.initializeApp();
+        // final notificationToken = prefs.get('notificationToken');
+        // await NotificationToken.sendTokenToDatabase(notificationToken);
+        // FirebaseMessaging.onBackgroundMessage(
+        //     _firebaseMessagingBackgroundHandler);
         preparePrefs();
       }
       notifyListeners();
@@ -199,12 +186,12 @@ class Auth with ChangeNotifier {
         await prefs.setString('token', token);
         await prefs.setString('expiresIn', expiresIn.toString());
         await prefs.setString('userName', query['userName'] as String);
-        await Firebase.initializeApp();
-        final notificationToken = prefs.get('notificationToken');
-        await NotificationToken.getTokenOfNotification();
-        await NotificationToken.sendTokenToDatabase(notificationToken);
+        // await Firebase.initializeApp();
+        // final notificationToken = prefs.get('notificationToken');
+        // await NotificationToken.getTokenOfNotification();
+        // await NotificationToken.sendTokenToDatabase(notificationToken);
         // await NotificationToken.refreshToken();
-        //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+        // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
         preparePrefs();
       }
       notifyListeners();
@@ -306,6 +293,32 @@ class Auth with ChangeNotifier {
       error = response.statusCode != 204;
       if (error) {
         errorMessage = json.decode(response.body)['errorMessage'];
+      }
+      notifyListeners();
+    } catch (error) {
+      print('error: $error');
+    }
+  }
+
+  Future<void> GoogleAuth(Map<String, String> query) async {
+    try {
+      final http.Response response =
+          await http.post(Uri.parse(url + '/users/google/'), body: {
+        'tokenId': query['id']
+      }, headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      });
+      error = (response.statusCode != 201) || (response.statusCode != 200);
+      if (error) {
+        errorMessage = json.decode(response.body)['errorMessage'];
+      } else {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', json.decode(response.body)['token']);
+        await prefs.setString(
+            'expiresIn', json.decode(response.body)['expiresIn'].toString());
+        await prefs.setString('userName', query['displayName:'] as String);
+        preparePrefs();
       }
       notifyListeners();
     } catch (error) {

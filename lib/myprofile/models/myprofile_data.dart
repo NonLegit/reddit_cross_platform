@@ -1,6 +1,3 @@
-//import 'package:flutter_code_style/analysis_options.yaml';
-// import 'dart:ffi';
-
 class MyProfileData {
   //String? id;
   String? userName;
@@ -17,7 +14,7 @@ class MyProfileData {
   int? commentkarma;
   MyProfileData(
       {
-        //required this.id,
+      //required this.id,
       required this.userName,
       required this.email,
       required this.profilePicture,

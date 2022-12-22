@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:post/networks/dio_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class NotificationToken {
   static Future<void> getTokenOfNotification() async {
@@ -10,8 +9,8 @@ class NotificationToken {
       print('getTokenOfFirebase : $value');
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('notificationToken', value!);
-     // await sendTokenToDatabase(value);
-     print('token is set in shared preference');
+      // await sendTokenToDatabase(value);
+      print('token is set in shared preference');
     });
   }
 

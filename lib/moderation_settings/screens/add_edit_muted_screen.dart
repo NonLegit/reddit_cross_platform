@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:post/networks/const_endpoint_data.dart';
 import '../models/muted.dart';
-import 'package:flutter/material.dart';
-import 'package:post/networks/const_endpoint_data.dart';
-import '../models/moderators.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import '../provider/change_user_management.dart';
 import '../../widgets/custom_snack_bar.dart';

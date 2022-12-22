@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../widgets/sort_bottom_web.dart';
 import '../models/others_profile_data.dart';
-import 'position_other_profile_web.dart';
 import '../widgets/other_profile_card_information_web.dart';
+
 class OverviewMyProfileWeb extends StatefulWidget {
-    final OtherProfileData loadProfile;
+  final OtherProfileData loadProfile;
   const OverviewMyProfileWeb({
     Key? key,
-     required this.loadProfile,
+    required this.loadProfile,
   }) : super(key: key);
 
   // Posts(this.routeNamePop);
   @override
   State<OverviewMyProfileWeb> createState() => _OverviewMyProfileWebState();
 }
+
 class _OverviewMyProfileWebState extends State<OverviewMyProfileWeb> {
   @override
   Widget build(BuildContext context) {
@@ -70,12 +71,9 @@ class _OverviewMyProfileWebState extends State<OverviewMyProfileWeb> {
               ),
             ),
             OtherProfileCardInformationWeb(loadProfile: widget.loadProfile),
-            
           ],
         ),
       ],
     );
   }
 }
-
-

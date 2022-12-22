@@ -5,8 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../networks/const_endpoint_data.dart';
 import '../../networks/dio_client.dart';
 import '../model/send_post_model.dart';
-import 'package:dio/dio.dart';
-import 'dart:io';
 
 class PostServices {
   // were final instead of static var
