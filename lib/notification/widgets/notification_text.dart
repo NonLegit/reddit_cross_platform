@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class NotificationText extends StatelessWidget {
@@ -27,11 +28,12 @@ class NotificationText extends StatelessWidget {
         Row(
           children: [
             image,
+            if (!kIsWeb)
+              SizedBox(
+                width: width * 0.02,
+              ),
             SizedBox(
-              width: width * 0.02,
-            ),
-            SizedBox(
-              width: width * 0.7,
+              width: (kIsWeb) ?width *0.3 : width * 0.7,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,8 +60,6 @@ class NotificationText extends StatelessWidget {
                                 style: const TextStyle(
                                     color: Colors.grey, fontSize: 10))
                           ])
-
-                      //overflow: TextOverflow.clip,
                       ),
                   const Divider(
                     height: 6,
@@ -78,19 +78,6 @@ class NotificationText extends StatelessWidget {
                 ],
               ),
             ),
-
-            // const Icon(
-            //   Icons.circle,
-            //   color: Colors.grey,
-            //   size: 4,
-            // ),
-            // SizedBox(
-            //   width: width * 0.01,
-            // ),
-            // Text(
-            //   time,
-            //   style: const TextStyle(color: Colors.grey, fontSize: 10),
-            // ),
           ],
         ),
       ],
