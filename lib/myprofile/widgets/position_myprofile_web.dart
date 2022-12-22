@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
 import '../models/myprofile_data.dart';
-import '../screens/edit_profile_screen.dart';
 import '../screens/user_followers_screen.dart';
 
 class PositionMyProfileWeb extends StatelessWidget {
@@ -19,8 +18,8 @@ class PositionMyProfileWeb extends StatelessWidget {
       top: 100,
       height: 100.h,
       child: Container(
-        color:Colors.white,
-       // height: 50.h,
+        color: Colors.white,
+        // height: 50.h,
         padding: EdgeInsets.only(left: 10, top: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,8 +38,7 @@ class PositionMyProfileWeb extends StatelessWidget {
                   fontSize: 22),
             ),
             //name and discibtions
-            Text(
-                'u/${loadProfile.displayName}',
+            Text('u/${loadProfile.displayName}',
                 style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
@@ -59,7 +57,6 @@ class PositionMyProfileWeb extends StatelessWidget {
                       fontSize: 13)),
             ),
             Row(
-        
               children: [
                 Column(
                   children: [
@@ -84,7 +81,9 @@ class PositionMyProfileWeb extends StatelessWidget {
                     ),
                   ],
                 ),
-              SizedBox(width: 7.w,),
+                SizedBox(
+                  width: 7.w,
+                ),
                 Column(
                   children: [
                     Text('CakeDay',
@@ -98,11 +97,10 @@ class PositionMyProfileWeb extends StatelessWidget {
                           Icons.cake,
                           color: Colors.blue,
                         ),
-                        Text('${
-                          DateFormat.yMMMMd('en_US')
-                          .format(DateTime.parse(loadProfile.createdAt.toString()))
-                         // loadProfile.createdAt.toString()
-                          }',
+                        Text(
+                            '${DateFormat.yMMMMd('en_US').format(DateTime.parse(loadProfile.createdAt.toString()))
+                            // loadProfile.createdAt.toString()
+                            }',
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
@@ -162,32 +160,28 @@ class PositionMyProfileWeb extends StatelessWidget {
                             ],
                           )
                         ]))),
-            
+
             Container(
-                    padding: EdgeInsets.only(top: 4,right: 30,left: 10),
-                    height: 5.h,
-                    width: 20.w,
-                    //color: Colors.yellow,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.white),
-                        shape: MaterialStateProperty.all(
-                            const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(22)))),
-                      ),
-                      child: Text(
-                        'New Post',
-                        style: TextStyle(
-                          fontSize: 13,
-                        ),
-                      ),
-                      onPressed: () {},
-                    ),
+              padding: EdgeInsets.only(top: 4, right: 30, left: 10),
+              height: 5.h,
+              width: 20.w,
+              //color: Colors.yellow,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(22)))),
+                ),
+                child: Text(
+                  'New Post',
+                  style: TextStyle(
+                    fontSize: 13,
                   ),
-                 
+                ),
+                onPressed: () {},
+              ),
+            ),
           ],
         ),
       ),

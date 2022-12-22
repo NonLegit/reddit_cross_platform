@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import '../widgets/alert_dialog.dart';
 import '../../widgets/loading_reddit.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import '../provider/moderation_settings_provider.dart';
 import 'package:provider/provider.dart';
 import '../../icons/plus_icons.dart';
 import '../widgets/muted_list.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 import '../models/muted.dart';
 import 'add_edit_muted_screen.dart';

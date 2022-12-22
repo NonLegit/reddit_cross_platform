@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../settings/widgets/setting_text_input.dart';
 import '../widgets/status.dart';
 import '../widgets/alert_dialog.dart';
 import '../models/moderator_tools.dart';
@@ -7,9 +6,7 @@ import 'package:provider/provider.dart';
 import '../provider/moderation_settings_provider.dart';
 import '../../widgets/custom_snack_bar.dart';
 import '../../widgets/loading_reddit.dart';
-import '../../settings/widgets/swich_list_view.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ComuunityTypesScreen extends StatefulWidget {
   static const routeName = '/communitytypes';
@@ -93,8 +90,7 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
           : '';
       // subbredditName = 'Cooking';
       Provider.of<ModerationSettingProvider>(context, listen: false)
-
-          .getCommunity(subbredditName!,context)
+          .getCommunity(subbredditName!, context)
           .then((_) {
         moderatorToolsModel =
             Provider.of<ModerationSettingProvider>(context, listen: false)

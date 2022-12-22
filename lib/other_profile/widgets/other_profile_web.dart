@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/others_profile_data.dart';
 import './overview_other_profile_web.dart';
-import '../../widgets/profile_comments.dart';
 import '../widgets/others_profile_about.dart';
 import '../../widgets/myprofile_comment_web.dart';
-import '../../widgets/myprofile_post_web.dart';
 
 class OtherProfileWeb extends StatelessWidget {
   OtherProfileWeb(
@@ -39,7 +37,7 @@ class OtherProfileWeb extends StatelessWidget {
               )
             : TabBarView(controller: controller, children: [
                 OverviewMyProfileWeb(loadProfile: loadProfile),
-              //  MyProfilePostWeb(),
+                //  MyProfilePostWeb(),
                 MyProfileCommentWeb(),
                 OthersProfileAbout(
                     int.parse(loadProfile.postKarma.toString()),

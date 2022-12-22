@@ -1,10 +1,6 @@
-import 'dart:collection';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../messages/Provider/message_provider.dart';
 import '../models/notification_class_model.dart';
 
@@ -14,21 +10,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import '../../home/widgets/drawer.dart';
 import '../../home/widgets/end_drawer.dart';
 import '../../home/widgets/buttom_nav_bar.dart';
-import '../../home/screens/home_layout.dart';
-import '../../icons/icon_broken.dart';
 import '../provider/notification_provider.dart';
 import '../widgets/list_tile_widget.dart';
-import '../../networks/dio_client.dart';
 import '../widgets/three_dots_widget.dart';
-// import './messages_main_screen.dart';
 import './notifications_main_screen.dart';
-import '../../networks/const_endpoint_data.dart';
-import '../../home/widgets/component.dart';
 import '../../widgets/loading_reddit.dart';
-import '../../myprofile/screens/myprofile_screen.dart';
-import '../../create_community/screens/create_community.dart';
-import '../../subreddit/screens/subreddit_screen.dart';
-import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import '../../messages/screens/message_main_screen.dart';
 import '../../home/controller/home_controller.dart';
 import '../../messages/screens/new_message_screen.dart';

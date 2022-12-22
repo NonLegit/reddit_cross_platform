@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:post/moderation_settings/models/post_flair_model.dart';
-import 'package:post/moderation_settings/provider/moderation_settings_provider.dart';
 import 'package:post/moderation_settings/provider/post_flair_provider.dart';
 import 'package:post/moderation_settings/screens/post_flair.dart';
 import 'package:post/moderation_settings/screens/post_flair_settings.dart';

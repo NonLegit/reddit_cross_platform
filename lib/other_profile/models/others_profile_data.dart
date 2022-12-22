@@ -1,4 +1,3 @@
-//import 'package:flutter_code_style/analysis_options.yaml';
 class OtherProfileData {
   //String? id;
   String? userName;

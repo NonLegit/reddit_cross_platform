@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../settings/widgets/setting_text_input.dart';
 import '../widgets/status.dart';
 import '../widgets/alert_dialog.dart';
 import '../models/moderator_tools.dart';

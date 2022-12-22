@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import '../widgets/status.dart';
 import '../models/moderators.dart';
-import '../widgets/alert_dialog.dart';
 import '../../widgets/loading_reddit.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../provider/moderation_settings_provider.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/custom_snack_bar.dart';
-import '../widgets/location_list.dart';
 import '../../icons/plus_icons.dart';
 import '../widgets/moderators_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';

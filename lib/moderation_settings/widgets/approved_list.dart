@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 import '../../messages/screens/new_message_screen.dart';
 import '../../other_profile/screens/others_profile_screen.dart';
 // import '../../notification/widgets/three_dots_widget.dart';
-import '../../messages/screens/message_main_screen.dart';
 import '../widgets/three_dot_down_menu.dart';
 import '../../icons/settings_icons.dart';
 import 'package:provider/provider.dart';
 import '../provider/change_user_management.dart';
-import '../../widgets/custom_snack_bar.dart';
-import '../screens/approved_users_screen.dart';
-import '../widgets/input_text_field.dart';
 import '../../widgets/custom_snack_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 

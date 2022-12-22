@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/entypo_icons.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/typicons_icons.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:post/comments/screens/add_reply_screen.dart';
-import 'package:post/comments/widgets/comment.dart';
-
 import '../models/comment_model.dart';
-import '../screens/add_comment_screen.dart';
 import 'comment_popup_menu.dart';
 
 class CommentFooter extends StatefulWidget {

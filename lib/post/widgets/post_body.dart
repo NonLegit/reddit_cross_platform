@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import 'package:post/post/models/post_model.dart';
-import 'package:post/post/screens/post_screen.dart';
 import 'package:post/post/widgets/post_card.dart';
 import 'package:post/post/widgets/post_images.dart';
 import 'package:post/post/widgets/post_tags_and_title.dart';

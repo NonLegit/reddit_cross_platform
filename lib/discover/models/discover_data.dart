@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import '../../post/models/post_model.dart';
 
 class DiscoverData {
