@@ -1,29 +1,23 @@
-import 'dart:collection';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
+import 'package:get/get.dart';
+import '../../messages/Provider/message_provider.dart';
+import '../models/notification_class_model.dart';
+
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../../home/widgets/drawer.dart';
 import '../../home/widgets/end_drawer.dart';
 import '../../home/widgets/buttom_nav_bar.dart';
-import '../../home/screens/home_layout.dart';
-import '../../icons/icon_broken.dart';
 import '../provider/notification_provider.dart';
 import '../widgets/list_tile_widget.dart';
-import '../../networks/dio_client.dart';
 import '../widgets/three_dots_widget.dart';
-import './messages_main_screen.dart';
 import './notifications_main_screen.dart';
-import '../../networks/const_endpoint_data.dart';
-import '../../home/widgets/component.dart';
 import '../../widgets/loading_reddit.dart';
-import '../../myprofile/screens/myprofile_screen.dart';
-import '../../create_community/screens/create_community.dart';
-import '../../subreddit/screens/subreddit_screen.dart';
-import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
+import '../../messages/screens/message_main_screen.dart';
+import '../../home/controller/home_controller.dart';
+import '../../messages/screens/new_message_screen.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -36,46 +30,49 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   // Icons when expansion
-  dynamic icRecent = Icon(IconBroken.Arrow___Right_2);
-  dynamic icModerating = Icon(IconBroken.Arrow___Right_2);
-  dynamic icYourCommunities = Icon(IconBroken.Arrow___Right_2);
+  // dynamic icRecent = Icon(IconBroken.Arrow___Right_2);
+  // dynamic icModerating = Icon(IconBroken.Arrow___Right_2);
+  // dynamic icYourCommunities = Icon(IconBroken.Arrow___Right_2);
   // bools
+  final HomeController controller = Get.put(
+    HomeController(),
+  );
   bool isRecentlyVisitedPannelExpanded = true;
   bool isModeratingPannelExpanded = false;
   bool isOnline = true;
   bool hover = false;
   bool markAsRead = false;
   //Keys
-  var scaffoldKey = GlobalKey<ScaffoldState>();
-  var formKey = GlobalKey<FormState>();
-  var drawerKey = GlobalKey<DrawerControllerState>();
+  // var scaffoldKey = GlobalKey<ScaffoldState>();
+  // var formKey = GlobalKey<FormState>();
+  // var drawerKey = GlobalKey<DrawerControllerState>();
   //Model Reccent visited
-  List<ListTile> recentlyVisited = [
-    ListTile(
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "Cross_platform"),
-      horizontalTitleGap: 0,
-    ),
-    ListTile(
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "Egypt"),
-      horizontalTitleGap: 0,
-    ),
-    ListTile(
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "memes"),
-      horizontalTitleGap: 0,
-    ),
-  ];
+  //List<ListTile> recentlyVisited = [
+  // //ListTile(
+  //   leading: CircleAvatar(
+  //     radius: 10,
+  //     backgroundColor: Colors.blue,
+  //   ),
+  //   title: Text("r/" + "Cross_platform"),
+  //   horizontalTitleGap: 0,
+  // ),
+  //ListTile(
+  //   leading: CircleAvatar(
+  //     radius: 10,
+  //     backgroundColor: Colors.blue,
+  //   ),
+  //   title: Text("r/" + "Egypt"),
+  //   horizontalTitleGap: 0,
+  // ),
+  //ListTile(
+  //   leading: CircleAvatar(
+  //     radius: 10,
+  //     backgroundColor: Colors.blue,
+  //   ),
+  //   title: Text("r/" + "memes"),
+  //   horizontalTitleGap: 0,
+  // ),
+  //];
   // drawer functions
   void showDrawer(BuildContext context) {
     Scaffold.of(context).openDrawer();
@@ -85,57 +82,66 @@ class _NotificationScreenState extends State<NotificationScreen> {
     Scaffold.of(context).openEndDrawer();
   }
 
-  List<ListTile> Communoties = [
-    ListTile(
-      trailing: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            IconBroken.Star,
-          )),
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "Cross_platform"),
-      horizontalTitleGap: 0,
-    ),
-    ListTile(
-      trailing: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            IconBroken.Star,
-          )),
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "Egypt"),
-      horizontalTitleGap: 0,
-    ),
-    ListTile(
-      trailing: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            IconBroken.Star,
-          )),
-      leading: CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.blue,
-      ),
-      title: Text("r/" + "memes"),
-      horizontalTitleGap: 0,
-    ),
-  ];
+  // List<ListTile> Communoties = [
+  //   ListTile(
+  //     trailing: IconButton(
+  //         onPressed: () {},
+  //         icon: Icon(
+  //           IconBroken.Star,
+  //         )),
+  //     leading: CircleAvatar(
+  //       radius: 10,
+  //       backgroundColor: Colors.blue,
+  //     ),
+  //     title: Text("r/" + "Cross_platform"),
+  //     horizontalTitleGap: 0,
+  //   ),
+  //   ListTile(
+  //     trailing: IconButton(
+  //         onPressed: () {},
+  //         icon: Icon(
+  //           IconBroken.Star,
+  //         )),
+  //     leading: CircleAvatar(
+  //       radius: 10,
+  //       backgroundColor: Colors.blue,
+  //     ),
+  //     title: Text("r/" + "Egypt"),
+  //     horizontalTitleGap: 0,
+  //   ),
+  //   ListTile(
+  //     trailing: IconButton(
+  //         onPressed: () {},
+  //         icon: Icon(
+  //           IconBroken.Star,
+  //         )),
+  //     leading: CircleAvatar(
+  //       radius: 10,
+  //       backgroundColor: Colors.blue,
+  //     ),
+  //     title: Text("r/" + "memes"),
+  //     horizontalTitleGap: 0,
+  //   ),
+  // ];
 
   int unreadNotification = 0;
   bool returned = false;
-  List<Map> usersAllNotificatiion = [];
+  List<NotificationModel> usersNotificationEarlier = [];
+  List<NotificationModel> usersNotificationToday = [];
   var currentIndex = 4;
   bool _isInit = true;
+
   @override
   void initState() {
+    //  _updateCount();
     super.initState();
   }
+
+  // _updateCount() {
+  //   //final prefs = await SharedPreferences.getInstance();
+  //   unreadNotification = Provider.of<NotificationProvider>(context).count!;
+  //   print('In notifications          $unreadNotification');
+  // }
 
   @override
   void didChangeDependencies() async {
@@ -143,24 +149,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
       setState(() {
         returned = false;
       });
-      Provider.of<NotificationProvider>(context, listen: false)
-          .getNotification()
+      //  _updateCount();
+      await Provider.of<NotificationProvider>(context, listen: false)
+          .getNotification(context)
           .then((value) {
-        usersAllNotificatiion =
-            Provider.of<NotificationProvider>(context, listen: false).list;
+        usersNotificationToday =
+            Provider.of<NotificationProvider>(context, listen: false).listToday;
+        usersNotificationEarlier =
+            Provider.of<NotificationProvider>(context, listen: false)
+                .listEariler;
         setState(() {
           returned = true;
         });
       });
-      // await DioClient.get(path: notificationResults).then((value) {
-      //   print(value.data);
-      //   value.data.forEach((value1) {
-      //     usersAllNotificatiion.add(HashMap.from(value1));
-      //   });
-      // });
-      // setState(() {
-      //   returned = true;
-      // });
     }
     _isInit = false;
 
@@ -173,9 +174,49 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
+  _markAsRead() async {
+    await Provider.of<NotificationProvider>(context, listen: false)
+        .markAllAsRead(context);
+  }
+
+  markAllAsRead() {
+    _markAsRead();
+    print('hiiiiiiiiiiiii');
+    usersNotificationEarlier.forEach((element) {
+      print(element.seen);
+      if (!element.seen!) {
+        setState(() {
+          element.seen = true;
+        });
+      }
+    });
+    usersNotificationToday.forEach((element) {
+      print(element);
+      if (!element.seen!) {
+        setState(() {
+          element.seen = true;
+        });
+      }
+    });
+    Navigator.of(context).pop();
+  }
+
+  _saveNewMessage(username, subject, message, messageShow) {
+    Provider.of<MessageProvider>(context, listen: false).createMessage(
+        {'to': username, 'text': message, 'subject': subject},
+        context).then((value) {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    //_updateCount();
+    //final data = Provider.of<NotificationProvider>(context,listen: false);
     //var cubit =layoutCubit.get(context);
+    MediaQueryData queryData = MediaQuery.of(context);
+    final height = queryData.size.height;
+    final width = queryData.size.width;
     return (!kIsWeb)
         ? DefaultTabController(
             length: 2,
@@ -184,29 +225,33 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 actions: [
                   ThreeDotsWidget(listOfWidgets: [
                     ListTileWidget(
-                        icon: Icons.create_outlined, title: 'New message'),
+                      icon: Icons.create_outlined,
+                      title: 'New message',
+                      onpressed: () => Navigator.of(context)
+                          .popAndPushNamed(NewMessageScreen.routeName)
+                          .then((value) {
+                        setState(() {});
+                      }),
+                    ),
                     ListTileWidget(
-                        icon: Icons.drafts_outlined,
-                        title: 'Mark all inbox tabs as read')
-                  ], height: 16),
+                      icon: Icons.drafts_outlined,
+                      title: 'Mark all inbox tabs as read',
+                      onpressed: () => markAllAsRead(),
+                    )
+                  ], height: height * 0.016),
                   Builder(builder: (context) {
                     return IconButton(
                       onPressed: () => showEndDrawer(context),
                       icon: Stack(
                         alignment: AlignmentDirectional.bottomEnd,
-                        children: [
-                          // CircleAvatar(
-                          //   backgroundImage: NetworkImage(
-                          //       'https://scontent.fcai22-1.fna.fbcdn.net/v/t39.30808-6/295620039_2901815830124147_3894684143253429188_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeGDVvYYeYLBEsnfJgcK_2QhCG0mhWDK5bUIbSaFYMrltfF8DvgnVQPwnfPB7cJzH5SuwGPsFFNnQRI-_iJriHBi&_nc_ohc=2iWzRT-vma8AX-PiMqC&_nc_ht=scontent.fcai22-1.fna&oh=00_AfBEvYZoMur64QVXcxLFJVnuJaaLWR183dRaZG6nN2Jdhw&oe=636EEF08'),
-                          //   radius: 30.0,
-                          // ),
+                        children: const [
                           CircleAvatar(
                             backgroundColor: Colors.white,
                             radius: 6,
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.only(
-                                end: 2, bottom: 2),
+                            padding:
+                                EdgeInsetsDirectional.only(end: 2, bottom: 2),
                             child: CircleAvatar(
                               backgroundColor: Colors.green,
                               radius: 4,
@@ -245,9 +290,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         shape: BadgeShape.circle,
                         borderRadius: BorderRadius.circular(4),
                         showBadge: unreadNotification != 0 ? true : false,
-                        badgeContent: const Text(
-                          '3',
-                          style: TextStyle(color: Colors.white),
+                        badgeContent: Text(
+                          unreadNotification.toString(),
+                          style: TextStyle(color: Colors.red),
                         ),
                         child: const Padding(
                           padding: EdgeInsets.only(bottom: 6),
@@ -267,16 +312,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ),
               ),
-              bottomNavigationBar: buttomNavBar(),
-              endDrawer: endDrawer(),
-              drawer: drawer(),
+              bottomNavigationBar: const buttomNavBar(
+                fromProfile: 0,
+                icon: '',
+                nameOfSubreddit: '',
+                x: 2,
+              ),
+              endDrawer: endDrawer(controller: controller),
+              drawer: const drawer(),
               body: TabBarView(children: [
                 !returned
-                    ? LoadingReddit()
+                    ? const LoadingReddit()
                     : NotificationsMainScreen(
-                        usersAllNotificatiion: usersAllNotificatiion,
+                        usersNotificationEarlier: usersNotificationEarlier,
+                        usersNotificationToday: usersNotificationToday,
                         changeNumOfNotification: _changeNumOfNotification),
-                const MessagesMainScreen(),
+                const MessageMainScreen(),
               ]),
             ),
           )
@@ -332,7 +383,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             InkWell(
                               onTap: () {
                                 Navigator.of(context)
-                                    .pushNamed(MessagesMainScreen.routeName);
+                                    .pushNamed(MessageMainScreen.routeName);
                               },
                               onHover: (value) {
                                 setState(() {
@@ -386,7 +437,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         Container(
                           color: Colors.white,
                           child: NotificationsMainScreen(
-                              usersAllNotificatiion: usersAllNotificatiion,
+                              usersNotificationEarlier:
+                                  usersNotificationEarlier,
+                              usersNotificationToday: usersNotificationToday,
                               changeNumOfNotification:
                                   _changeNumOfNotification),
                         ),

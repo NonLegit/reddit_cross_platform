@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../widgets/sort_bottom_web.dart';
-import '../models/moderated_subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../widgets/moderated_subreddit_card_information_web.dart';
 class ModeratedSubredditePostWeb extends StatefulWidget {
-  final ModeratedSubredditData? loadedSubreddit;
+  final SubredditData? loadedSubreddit;
   const ModeratedSubredditePostWeb({
     Key? key,
     required this.loadedSubreddit,
@@ -38,7 +38,7 @@ class _ModeratedSubredditePostWebState extends State<ModeratedSubredditePostWeb>
                     height: 6.h,
                     width: 50.w,
                     margin: EdgeInsets.only(left: 100, top: 40),
-                    child: SortBottomWeb(),
+                    child: SortBottomWeb(page: 1,userName: widget.loadedSubreddit!.name.toString(),),
                     color: Colors.white,
                     // width: 100.w,
                   ),

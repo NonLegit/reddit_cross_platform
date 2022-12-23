@@ -16,14 +16,12 @@ class PositionInFlexAppBarMyProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 122,
-      right: 10,
+      top: 9.h,
+      right: 5.w,
       width: 95.w,
       height: 100.h,
       child: Container(
-        // color: Colors.blue,
         padding: const EdgeInsets.all(20),
-        //color: Colors.black54,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -33,8 +31,6 @@ class PositionInFlexAppBarMyProfile extends StatelessWidget {
             ),
             //profile image
             Container(
-              //  margin: EdgeInsets.only(: 50),
-              //color: Colors.orange,
               child: CircleAvatar(
                 radius: 43,
                 backgroundImage:

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-//import '../screens/my_flutter_app_icons.dart' as CustomIcon;
-
-//
 
 class TopicButton extends StatelessWidget {
   final int selectedIndex;

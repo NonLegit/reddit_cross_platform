@@ -13,7 +13,7 @@ class ThreeDotsWidget extends StatelessWidget {
       : super(key: key);
   List<Widget> listOfWidgets;
   Widget? optional;
-  int height;
+  double height;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class ThreeDotsWidget extends StatelessWidget {
             isScrollControlled: true,
             builder: (context) {
               return SizedBox(
-                height: height.h,
+                height: height.h * 1.5,
                 child: Column(
                   children: [
                     if (optional != null) optional!,

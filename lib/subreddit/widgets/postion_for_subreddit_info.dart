@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
-import '../models/subreddit_data.dart';
+import '../../models/subreddit_data.dart';
 import '../widgets/subreddit_join_buttons.dart';
 class PostionForSubredditInfo extends StatelessWidget {
   SubredditData loadedSubreddit;
@@ -9,11 +9,11 @@ class PostionForSubredditInfo extends StatelessWidget {
     Key? key,
    required this.loadedSubreddit
   }) : super(key: key);
-
+ NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 150,
+      top: 20.h,
       right: 0,
       left: 0,
       bottom: 0,
@@ -31,9 +31,9 @@ class PostionForSubredditInfo extends StatelessWidget {
                   title: Text('r/${loadedSubreddit.name.toString()}',
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: Text(
-                   '${new NumberFormat.compact().format(loadedSubreddit.numOfMembers)} members .${new NumberFormat.compact().format(loadedSubreddit.numOfOnlines)} online ',
+                  '${myFormat.format(int.parse(loadedSubreddit.numOfMembers.toString()))} members .${myFormat.format(int.parse(loadedSubreddit.numOfOnlines.toString()))} online ',
+
                   ),
-                  //////////////////change
                   trailing: JoinButtons(
                       isJoined: loadedSubreddit.isJoined as bool,
                        communityuserName: loadedSubreddit.name.toString(),

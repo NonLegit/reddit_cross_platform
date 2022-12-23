@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:post/networks/const_endpoint_data.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import '../providers/other_profile_provider.dart';
 import '../models/moderated_subreddit_user_data.dart';
+import '../../widgets/custom_snack_bar.dart';
 
 class InviteButton extends StatefulWidget {
   final String userName;
@@ -17,32 +17,17 @@ class InviteButton extends StatefulWidget {
 }
 
 class InviteButtonState extends State<InviteButton> {
-  List<ModeratedSubbredditUserData>? subdata
-      // = [
-      //   ModeratedSubbredditUserData(
-      //       icon:
-      //           'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
-      //       subredditName: 'reddit'),
-      //   ModeratedSubbredditUserData(
-      //       icon:
-      //           'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
-      //       subredditName: 'reddit'),
-      //   ModeratedSubbredditUserData(
-      //       icon:
-      //           'https://www.redditstatic.com/notifications/default_subreddit_avatar.png',
-      //       subredditName: 'reddit')
-      // ];
-      ;
-  String textMessage = '';
-  late String subredditName;
-  late TextEditingController message;
+  List<ModeratedSubbredditUserData>? subdata;
   var _isLoading = false;
   var _isInit = true;
+  var subredditName;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    message = TextEditingController();
+    // textMessage = '';
+    // // textMessage = 'Message ${widget.userName}';
+    // message = TextEditingController();
   }
 
   @override
@@ -55,7 +40,7 @@ class InviteButtonState extends State<InviteButton> {
       });
       // print('12 ');
       Provider.of<OtherProfileprovider>(context, listen: false)
-          .fetchAndSetModeratedSubredditUser()
+          .fetchAndSetModeratedSubredditUser(context)
           .then((value) {
         subdata = Provider.of<OtherProfileprovider>(context, listen: false)
             .gettingModeratedSubreddit;
@@ -88,126 +73,150 @@ class InviteButtonState extends State<InviteButton> {
     );
   }
 
-  void insert(String content) {
-    var text = message.text;
-    var pos = message.selection.start;
-    message.value = TextEditingValue(
-      text: content,
-      selection: TextSelection.collapsed(offset: content.length),
-    );
-  }
-
+  bool isModerator = false;
+  bool isChooseSubreddit = false;
   Future<void> _bottomSheet(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
       context: context,
       builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {},
-          child: Container(
-            padding: const EdgeInsets.only(left: 5),
-            height: MediaQuery.of(context).size.height * 0.38,
-            width: MediaQuery.of(context).size.width * 0.30,
-            // margin: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5), color: Colors.white),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                    child: ListTile(
-                        leading: IconButton(
-                          icon: Icon(Icons.close_outlined),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                        title: Text(
-                          'Invite ${widget.userName}',
+        return StatefulBuilder(
+          builder: (context, setState) => GestureDetector(
+            onTap: () {},
+            child: Container(
+              padding: const EdgeInsets.only(left: 5),
+              height: MediaQuery.of(context).size.height * 0.40,
+              width: MediaQuery.of(context).size.width * 0.30,
+              // margin: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5), color: Colors.white),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                      child: ListTile(
+                          leading: IconButton(
+                            icon: const Icon(Icons.close_outlined),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                          title: Text(
+                            'Invite ${widget.userName}',
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ))),
+                  const Divider(),
+                  Container(
+                      margin: const EdgeInsets.all(5),
+                      child: const Text('CHOOSE A COMMUNITY',
                           style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                        ))),
-                Divider(),
-                Container(
-                    margin: EdgeInsets.all(5),
-                    child: Text('CHOOSE A COMMUNITY',
-                        style: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold))),
-                Container(
-                    height: 15.h,
-                    child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: subdata!.map((sub) {
-                            return Container(
-                              height: 40.h,
-                              width: 20.w,
-                              child: InkResponse(
-                                containedInkWell: true,
-                                highlightShape: BoxShape.circle,
-                                onTap: () {
-                                  setState(() {
-                                    subredditName =
-                                        sub.subredditName.toString();
-                                  });
-
-                                  insert(
-                                      "I\'ve invited you to join my community,r/${sub.subredditName.toString()}");
-                                },
-                                // Add image & text
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 20.h,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 10.h,
-                                        width: 15.w,
-                                        child: CircleAvatar(
-                                          radius: 10,
-                                          backgroundImage:
-                                              NetworkImage(sub.icon.toString()),
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold))),
+                  const Divider(),
+                  Container(
+                      height: 15.h,
+                      child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: subdata!.map((sub) {
+                              return Container(
+                                height: 40.h,
+                                width: 20.w,
+                                child: InkResponse(
+                                  containedInkWell: true,
+                                  highlightShape: BoxShape.circle,
+                                  onTap: () {
+                                    setState(() {
+                                      isChooseSubreddit = !isChooseSubreddit;
+                                      subredditName =
+                                          sub.subredditName.toString();
+                                    });
+                                  },
+                                  // Add image & text
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 20.h,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 10.h,
+                                          width: 15.w,
+                                          child: CircleAvatar(
+                                            radius: 10,
+                                            backgroundImage: NetworkImage(
+                                                sub.icon.toString()),
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        sub.subredditName.toString(),
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
+                                        Text(
+                                          sub.subredditName.toString(),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              fontSize: 10,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }).toList(),
-                        ))),
-                Divider(),
-                Container(
-                  height: 5.h,
-                  width: 100.w,
-                  child: TextField(
-                      controller: message,
-                      decoration: InputDecoration(
-                          icon: Icon(
-                            Icons.reddit_rounded,
-                            color: Colors.blue,
-                            size: 50,
-                          ), //icon at head of input
-                          //prefixIcon: Icon(Icons.people), //you can use prefixIcon property too.
-                          labelText: textMessage,
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              Icons.send,
-                              color: Colors.grey,
-                            ),
+                              );
+                            }).toList(),
+                          ))),
+                  const Divider(),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 50.w,
+                      ),
+                      Icon(
+                        Icons.reddit_outlined,
+                        color: Colors.deepOrange,
+                        size: 50,
+                      ),
+                      Container(
+                        // color: Colors.amber,
+                        height: 6.h,
+                        width: 30.w,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                                //shape: Outlin,
+
+                                side: MaterialStateProperty.all(
+                                    const BorderSide(color: Colors.white)),
+                                shape: MaterialStateProperty.all(
+                                    const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)))),
+                                backgroundColor: MaterialStateProperty.all(
+                                    isChooseSubreddit
+                                        ? Color.fromARGB(255, 26, 131, 106)
+                                        : Colors.white),
+                                foregroundColor: MaterialStateProperty.all(
+                                    isChooseSubreddit
+                                        ? Colors.white
+                                        : Colors.grey)),
                             onPressed: () async {
                               await invite(context);
                             },
-                          ) //icon at tail of input
-                          )),
-                )
-              ],
+                            child: Container(
+                              //color: Colors.red,
+                              child: Row(
+                                children: const [
+                                  Text(
+                                    'Invite',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  Icon(Icons.send, size: 18)
+                                ],
+                              ),
+                            )),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         );
@@ -218,11 +227,20 @@ class InviteButtonState extends State<InviteButton> {
   Future<bool> invite(BuildContext context) async {
     bool invite =
         await Provider.of<OtherProfileprovider>(context, listen: false)
-            .invitation(subredditName, widget.userName);
-    if (invite)
-      print('invite sucess');
-    else
-      print('invite failed');
+            .invitation(subredditName, widget.userName, context);
+    if (invite) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false,
+            text: 'Invitation Successfully',
+            disableStatus: true),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: true, text:'Invitation Faild' , disableStatus: true),
+      );
+    }
     return false;
   }
 }

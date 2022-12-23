@@ -4,22 +4,20 @@ import '../widgets/text_input.dart';
 import '../widgets/upper_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/gestures.dart';
-
 import 'package:url_launcher/url_launcher.dart';
-
 import '../widgets/upper_text.dart';
 import 'forgot_password.dart';
 import '../widgets/password_input.dart';
 import '../widgets/continue_with_facebook.dart';
 import '../widgets/continue_with_google.dart';
 import '../../models/wrapper.dart';
-
 import '../../home/screens/home_layout.dart';
-import '../models/status.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../providers/authentication.dart';
-// import 'package:flutter_signin_button/flutter_signin_button.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+import '../api/google_sign_in.dart';
+import '../../moderation_settings/widgets/status.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Login extends StatefulWidget {
   // Login({Key? key}) : super(key: key);
@@ -30,6 +28,10 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
+  bool fetchingDone = true;
+  bool _isInit = true;
+  bool _isBuild = false;
+
   /// listener to the Username input field
   final inputUserNameController = TextEditingController();
 
@@ -84,227 +86,259 @@ class LoginState extends State<Login> {
       isSubmit = true;
       errorMessage = provider.errorMessage;
       if (!isError) {
-        Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
+        Navigator.of(context).pushNamed(HomeLayoutScreen.routeName);
       }
       setState(() {});
     });
   }
 
   //
-  bool alreadyAuth = false;
   Future<bool> checkAut(context) async {
-    final provider = Provider.of<Auth>(context, listen: false);
-    await provider.alreadyAuth();
-    if (provider.alreadyAuthed)
-      Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
+    String isLog = ModalRoute.of(context)?.settings.arguments != null
+        ? ModalRoute.of(context)?.settings.arguments as String
+        : '';
+    if (isLog == null || isLog != 'logout') {
+      final provider = Provider.of<Auth>(context, listen: false);
+      await provider.alreadyAuth();
+      if (provider.alreadyAuthed) {
+        Navigator.of(context).pushReplacementNamed(HomeLayoutScreen.routeName);
+      }
 
-    return provider.alreadyAuthed;
+      return provider.alreadyAuthed;
+    }
+    return false;
   }
 
   @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        fetchingDone = false;
+      });
+      checkAut(context).then((value) {
+        fetchingDone = true;
+        setState(() {});
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  // @override
+  // void initState() {
+  //   checkAut(context);
+  //   super.initState();
+  // }
+
+  @override
   Widget build(BuildContext context) {
+    _isBuild = true;
     kIsWeb;
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
-      body: FutureBuilder(
-        future: checkAut(context),
-        builder: (context, snapshot) => Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (!kIsWeb) UpperBar(UpperbarStatus.signup),
-            Expanded(
-              child: Container(
-                child: SingleChildScrollView(
-                  child: Column(children: [
-                    UpperText('Log in to Reddit'),
-                    SizedBox(
-                      height: 4.h,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (!kIsWeb) UpperBar(UpperbarStatus.signup),
+          Expanded(
+            child: Container(
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  UpperText('Log in to Reddit'),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  ContinueWithGoogle(handler: () async {
+                    // final user = await GoogleSignInApi.login();
+                    // user!.id;
+                    // final provider = Provider.of<Auth>(context, listen: false);
+                    // await provider.GoogleAuth({
+                    //   "id": user.id,
+                    //   "email": user.email,
+                    //   "displayName": user.displayName!
+                    // });
+                    // if (provider.error == false) {
+                    //   Navigator.of(context)
+                    //       .pushReplacementNamed(HomeLayoutScreen.routeName);
+                    // }
+                  }),
+                  ContinueWithFacebook(handler: () {}),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: 20.h,
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black26,
+                          ),
+                        ),
+                        Container(
+                          child:
+                              Text(style: TextStyle(color: Colors.black), 'OR'),
+                        ),
+                        Container(
+                          width: 20.h,
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.black26,
+                          ),
+                        )
+                      ],
                     ),
-                    // SignInButton(
-                    //   Buttons.FacebookNew,
-                    //   text: "Sign up with Google",
-                    //   onPressed: () {},
-                    // ),
-                    ContinueWithGoogle(handler: () {}),
-                    ContinueWithFacebook(handler: () {}),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            width: 20.h,
-                            child: Divider(
-                              thickness: 1,
-                              color: Colors.black26,
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                                style: TextStyle(color: Colors.black), 'OR'),
-                          ),
-                          Container(
-                            width: 20.h,
-                            child: Divider(
-                              thickness: 1,
-                              color: Colors.black26,
-                            ),
-                          )
-                        ],
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  TextInput(
+                      lable: 'Username',
+                      ontap: (hasfocus) {},
+                      changeInput: () {
+                        setState(() {
+                          changeInput();
+                        });
+                      },
+                      inputController: inputUserNameController),
+                  PasswordInput(
+                      isVisable: isVisable,
+                      lable: 'Password',
+                      ontap: (hasfocus) {},
+                      changeInput: () {
+                        setState(() {
+                          changeInput();
+                        });
+                      },
+                      inputController: inputPasswardController),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ResponsiveSizer(
+                                    builder: (cntx, orientation, Screentype) {
+                                      // Device.deviceType == DeviceType.web;
+                                      return Scaffold(body: ForgotPassword());
+                                    },
+                                  ),
+                                ));
+                          },
+                          child: Text(
+                              style: TextStyle(color: Colors.red),
+                              'Forget passward'))),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(children: [
+                      TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          text: 'By continuing, you agree to our '),
+                      TextSpan(
+                        text: 'User Agreement ',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Theme.of(context).primaryColor),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            //on tap code here, you can navigate to other page or URL
+                            String url =
+                                "https://www.redditinc.com/policies/user-agreement";
+                            var urllaunchable = await canLaunch(
+                                url); //canLaunch is from url_launcher package
+                            if (urllaunchable) {
+                              await launch(
+                                  url); //launch is from url_launcher package to launch URL
+                            } else {
+                              print("URL can't be launched.");
+                            }
+                          },
                       ),
-                    ),
-                    SizedBox(
-                      height: 3.h,
-                    ),
-                    TextInput(
-                        lable: 'Username',
-                        ontap: (hasfocus) {},
-                        changeInput: () {
-                          setState(() {
-                            changeInput();
-                          });
-                        },
-                        inputController: inputUserNameController),
-                    PasswordInput(
-                        isVisable: isVisable,
-                        lable: 'Password',
-                        ontap: (hasfocus) {},
-                        changeInput: () {
-                          setState(() {
-                            changeInput();
-                          });
-                        },
-                        inputController: inputPasswardController),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ResponsiveSizer(
-                                      builder: (cntx, orientation, Screentype) {
-                                        // Device.deviceType == DeviceType.web;
-                                        return Scaffold(body: ForgotPassword());
-                                      },
-                                    ),
-                                  ));
-                            },
-                            child: Text(
-                                style: TextStyle(color: Colors.red),
-                                'Forget passward'))),
-                    RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(children: [
-                        TextSpan(
-                            style: TextStyle(color: Colors.black),
-                            text: 'By continuing, you agree to our '),
-                        TextSpan(
-                          text: 'User Agreement ',
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Theme.of(context).primaryColor),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () async {
-                              //on tap code here, you can navigate to other page or URL
-                              String url =
-                                  "https://www.redditinc.com/policies/user-agreement";
-                              var urllaunchable = await canLaunch(
-                                  url); //canLaunch is from url_launcher package
-                              if (urllaunchable) {
-                                await launch(
-                                    url); //launch is from url_launcher package to launch URL
-                              } else {
-                                print("URL can't be launched.");
-                              }
-                            },
-                        ),
-                        TextSpan(
-                            style: TextStyle(color: Colors.black),
-                            text: 'and '),
-                        TextSpan(
-                          text: 'Privacy Policy',
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Theme.of(context).primaryColor),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () async {
-                              //on tap code here, you can navigate to other page or URL
-                              String url =
-                                  "https://www.reddit.com/policies/privacy-policy";
-                              var urllaunchable = await canLaunch(
-                                  url); //canLaunch is from url_launcher package
-                              if (urllaunchable) {
-                                await launch(
-                                    url); //launch is from url_launcher package to launch URL
-                              } else {
-                                print("URL can't be launched.");
-                              }
-                            },
-                        ),
-                      ]),
-                    ),
-                  ]),
-                ),
+                      TextSpan(
+                          style: TextStyle(color: Colors.black), text: 'and '),
+                      TextSpan(
+                        text: 'Privacy Policy',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Theme.of(context).primaryColor),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            //on tap code here, you can navigate to other page or URL
+                            String url =
+                                "https://www.reddit.com/policies/privacy-policy";
+                            var urllaunchable = await canLaunch(
+                                url); //canLaunch is from url_launcher package
+                            if (urllaunchable) {
+                              await launch(
+                                  url); //launch is from url_launcher package to launch URL
+                            } else {
+                              print("URL can't be launched.");
+                            }
+                          },
+                      ),
+                    ]),
+                  ),
+                ]),
               ),
             ),
-            // Spacer(),
-            if (isSubmit && isError)
-              Padding(
-                padding: EdgeInsets.all(5.w),
-                child: Center(
-                  child: Text(
-                      textAlign: TextAlign.center,
-                      errorMessage,
-                      style: TextStyle(
-                        fontSize: 18,
-                        // fontWeight: FontWeight.w500,
-                        color: Theme.of(context).errorColor,
-                      )),
-                ),
-              ),
-            if (isSubmit && !isError)
-              Padding(
-                padding: EdgeInsets.all(5.w),
+          ),
+          // Spacer(),
+          if (isSubmit && isError)
+            Padding(
+              padding: EdgeInsets.all(5.w),
+              child: Center(
                 child: Text(
                     textAlign: TextAlign.center,
-                    'you will receve if that adress maches your mail',
+                    errorMessage,
                     style: TextStyle(
                       fontSize: 18,
                       // fontWeight: FontWeight.w500,
-                      color: Colors.green,
+                      color: Theme.of(context).errorColor,
                     )),
               ),
-            Container(
-                width: double.infinity,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 8.0,
-                    right: 8.0,
+            ),
+          if (isSubmit && !isError)
+            Padding(
+              padding: EdgeInsets.all(5.w),
+              child: Text(
+                  textAlign: TextAlign.center,
+                  'you will receve if that adress maches your mail',
+                  style: TextStyle(
+                    fontSize: 18,
+                    // fontWeight: FontWeight.w500,
+                    color: Colors.green,
+                  )),
+            ),
+          Container(
+              width: double.infinity,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 8.0,
+                  right: 8.0,
+                ),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.white,
+                    primary: Colors.red,
+                    onSurface: Colors.grey[700],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
                   ),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.white,
-                      primary: Colors.red,
-                      onSurface: Colors.grey[700],
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                    ),
-                    onPressed: isFinished
-                        ? () {
-                            checkLogin(context);
-                          }
-                        : null,
-                    child: Text('Continue'),
-                  ),
-                )),
-          ],
-        ),
+                  onPressed: isFinished
+                      ? () {
+                          checkLogin(context);
+                        }
+                      : null,
+                  child: Text('Continue'),
+                ),
+              )),
+        ],
       ),
     );
   }

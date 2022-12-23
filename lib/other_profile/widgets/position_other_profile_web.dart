@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:intl/intl.dart';
 import '../models/others_profile_data.dart';
-
+import 'package:provider/provider.dart';
+import '../providers/other_profile_provider.dart';
+import '../../widgets/custom_snack_bar.dart';
 class PositionOtherProfileWeb extends StatefulWidget {
   PositionOtherProfileWeb({
     Key? key,
@@ -18,22 +19,75 @@ class PositionOtherProfileWeb extends StatefulWidget {
 
 class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
   bool moreOptions = false;
+    bool isFollowedstate = false;
 
+   void _follow() async {
+    bool follow =
+        await Provider.of<OtherProfileprovider>(context, listen: false)
+            .followUser(widget.loadProfile.userName.toString(), context);
+    if (follow) {
+      setState(() {
+        followSucceeded();
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false, text: 'Follow Successfully', disableStatus: true),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: true, text: 'Follow Failed', disableStatus: true),
+      );
+    }
+  }
+
+  bool followSucceeded() {
+    isFollowedstate = true;
+    return isFollowedstate;
+  }
+
+  void _unFollow() async {
+    bool unfollow =
+        await Provider.of<OtherProfileprovider>(context, listen: false)
+            .unFollowUser(widget.loadProfile.userName.toString(), context);
+    if (unfollow) {
+      setState(() {
+        unFollowsucceeded();
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: false, text: 'UnFollow Successfully', disableStatus: true),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackBar(
+            isError: true, text: 'Unfollow Failed', disableStatus: true),
+      );
+    }
+  }
+
+  bool unFollowsucceeded() {
+    isFollowedstate = false;
+    return isFollowedstate;
+  }
+   @override
+  void initState() {
+    // TODO: implement initState
+    isFollowedstate = widget.loadProfile.isFollowed;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 90,
-      width: 100.w,
+   top: 100,
       height: 100.h,
       child: Container(
         // width: 100.w,
         height: 100.h,
-      
+
         padding: EdgeInsets.only(left: 20, top: 15),
         margin: EdgeInsets.only(top: 10),
-        // color: Colors.blue,
-        //padding: const EdgeInsets.all(20),
-        color: Colors.white,
+       color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -144,7 +198,7 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
                 width: widget.loadProfile.isFollowed ? 15.w : 10.w,
                 height: 6.h,
                 child: ElevatedButton(
-                  onPressed: null,
+                  onPressed:()=> (isFollowedstate) ? _unFollow() : _follow(),
                   style: ButtonStyle(
                       //  side: MaterialStateProperty.all(
                       // const BorderSide(
@@ -156,7 +210,7 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
                       backgroundColor: MaterialStateProperty.all(Colors.blue),
                       foregroundColor: MaterialStateProperty.all(Colors.white)),
                   child: Text(
-                    widget.loadProfile.isFollowed ? 'Following' : 'Follow',
+                    isFollowedstate ? 'Following' : 'Follow',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

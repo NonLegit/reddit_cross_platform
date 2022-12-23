@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_code_style/analysis_options.yaml';
+import 'package:provider/provider.dart';
+import '../providers/Profile_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SortBottomWeb extends StatefulWidget {
-  SortBottomWeb();
+  final int _limit = 25;
+  final int page;
+  final String userName;
+  SortBottomWeb({
+    required this.page,
+    required this.userName,
+  });
   @override
   State<SortBottomWeb> createState() => SortBottomWebState();
 }
 
 class SortBottomWebState extends State<SortBottomWeb> {
-  var topPressed = false;
   List<bool> litems = [false, false, false];
-  List<String> litemsTop = [
-    "Past hour",
-    "Past 24 hours",
-    'Past week',
-    ' Past month',
-    'Past year',
-    'All time'
-  ];
-  String? topValue = 'All time';
-
   @override
   void initState() {
     super.initState();
@@ -47,10 +43,18 @@ class SortBottomWebState extends State<SortBottomWeb> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               setState(() {
                                 NewButton();
                               });
+                              await Provider.of<ProfileProvider>(context,
+                                      listen: false)
+                                  .fetchandSetProfilePostsAndComments(
+                                      widget.userName.toString(),
+                                      'New',
+                                      widget.page,
+                                      25,
+                                      context);
                             },
                             child: Row(
                               children: [
@@ -70,10 +74,18 @@ class SortBottomWebState extends State<SortBottomWeb> {
                           width: 15,
                         ),
                         TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               setState(() {
                                 HotButton();
                               });
+                              await Provider.of<ProfileProvider>(context,
+                                      listen: false)
+                                  .fetchandSetProfilePostsAndComments(
+                                      widget.userName.toString(),
+                                      'Hot',
+                                      widget.page,
+                                      25,
+                                      context);
                             },
                             child: Row(
                               children: [
@@ -93,10 +105,18 @@ class SortBottomWebState extends State<SortBottomWeb> {
                           width: 15,
                         ),
                         TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               setState(() {
                                 TopButton();
                               });
+                              await Provider.of<ProfileProvider>(context,
+                                      listen: false)
+                                  .fetchandSetProfilePostsAndComments(
+                                      widget.userName.toString(),
+                                      'Top',
+                                      widget.page,
+                                      25,
+                                      context);
                             },
                             child: Row(
                               children: [
@@ -115,31 +135,6 @@ class SortBottomWebState extends State<SortBottomWeb> {
                         const SizedBox(
                           width: 15,
                         ),
-                        if (topPressed)
-                          DropdownButton<String>(
-                            value: topValue,
-                            icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                            elevation: 16,
-                            underline: Container(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                topValue = value!;
-                              });
-                            },
-                            items: litemsTop
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(
-                                      color: (topValue == value)
-                                          ? Colors.blue
-                                          : Colors.grey),
-                                ),
-                              );
-                            }).toList(),
-                          ),
                       ])),
             )
           ],
@@ -147,20 +142,17 @@ class SortBottomWebState extends State<SortBottomWeb> {
   }
 
   bool TopButton() {
-    topPressed = true;
     litems = [false, false, true];
     return litems[2];
   }
 
   bool HotButton() {
-    topPressed = false;
     litems = [false, true, false];
-       return litems[1];
+    return litems[1];
   }
 
- bool NewButton() {
-    topPressed = false;
+  bool NewButton() {
     litems = [true, false, false];
-       return litems[0];
+    return litems[0];
   }
 }
