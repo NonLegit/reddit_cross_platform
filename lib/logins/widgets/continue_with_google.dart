@@ -2,9 +2,9 @@ import '../../icons/google_facebook_icons.dart';
 import 'package:flutter/material.dart';
 
 class ContinueWithGoogle extends StatelessWidget {
-  // const MyWidget({Key? key}) : super(key: key);
+  ///handler func to be called when onpressed event called
   final VoidCallback handler;
-  ContinueWithGoogle({required this.handler});
+  const ContinueWithGoogle({super.key, required this.handler});
   @override
   Widget build(BuildContext context) {
     return Padding(

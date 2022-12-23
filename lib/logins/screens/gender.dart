@@ -9,8 +9,10 @@ import '../../home/screens/home_layout.dart';
 import '../providers/authentication.dart';
 
 class Gender extends StatefulWidget {
-  // const Gender({Key? key}) : super(key: key);
+  /// the route name of the screen
   static const routeName = '/Gender';
+
+  const Gender({super.key});
 
   @override
   State<Gender> createState() => GenderState();

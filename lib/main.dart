@@ -517,7 +517,7 @@ class _MyAppState extends State<MyApp> {
             // home: CreateCommunity(),
             //home: homeLayoutScreen(),
             // home: HomeScreen(),
-            home: Login(),
+            // home: Login(),
             // home: CreateCommunity(),
              //home: Login(),
             // home: ForgotUserName(),
@@ -538,7 +538,7 @@ class _MyAppState extends State<MyApp> {
             // home:EditBannedScreen(),
             // home:EditMutedScreen(),
             // home: EditModeratorScreen(subredditName: 'Cooking'),
-            // home: Search(),
+            home: Search(),
             routes: {
               TraficState.routeName: (context) => TraficState(),
               AllMessageScreen.routeName : (context) => AllMessageScreen(),

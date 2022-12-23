@@ -11,6 +11,8 @@ import '../models/user.dart';
 import 'add_edit_moderator_screen.dart';
 
 class ModeratorsScreen extends StatefulWidget {
+  /// the route name of the screen
+
   static const routeName = '/moderators';
 
   const ModeratorsScreen({super.key});
@@ -103,11 +105,6 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (_isInit) {
@@ -135,7 +132,10 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
     super.didChangeDependencies();
   }
 
+  ///get the user name from the provider
   Future<String> getuserName() async {
+    ///input : none
+    ///out : the username of the cureent user
     final prefs = await SharedPreferences.getInstance();
     print(prefs.getString('userName'));
     return prefs.getString('userName') as String;
