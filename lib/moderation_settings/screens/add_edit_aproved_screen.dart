@@ -16,10 +16,10 @@ class EditApprovedScreen extends StatefulWidget {
   final String subredditName;
   const EditApprovedScreen({super.key, required this.subredditName});
   @override
-  State<EditApprovedScreen> createState() => _EditApprovedScreenState();
+  State<EditApprovedScreen> createState() => EditApprovedScreenState();
 }
 
-class _EditApprovedScreenState extends State<EditApprovedScreen> {
+class EditApprovedScreenState extends State<EditApprovedScreen> {
   /// Whether user enter data or not , then show the save buttom or not
 
   bool isSlected = false;

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../../lib/logins/screens/forgot_username.dart';
-import '../../../lib/logins/models/status.dart';
+import 'package:post/logins/screens/forgot_username.dart';
+import 'package:post/logins/models/status.dart';
 
 void main() {
   group('Check the continue bottom', () {

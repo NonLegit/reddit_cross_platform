@@ -9,6 +9,7 @@ import '../../widgets/loading_reddit.dart';
 import '../../settings/widgets/swich_list_view.dart';
 
 class PostTypesScreen extends StatefulWidget {
+  /// the route name of the screen
   static const routeName = '/posttypes';
   // postTypes({super.key});
 
@@ -17,41 +18,99 @@ class PostTypesScreen extends StatefulWidget {
 }
 
 class PostTypesScreenState extends State<PostTypesScreen> {
-  // TextEditingController postTypesController = TextEditingController();
+  /// the current status of the post type input field
   InputStatus postTypesStatus = InputStatus.original;
 
+  /// the inital value of the post type in the subreddit
   String? initialpostTypes;
+
+  /// the current Subrddit name of the screen
+
   String? subbredditName;
+
+  /// Whether user enter data or not , then show the save buttom or not
+
   bool isSlected = false;
+
+  ///model will be filed from the provider to take the data
+
   ModeratorToolsModel? moderatorToolsModel;
 
+  /// Whether the inital value of allow image check box is selected or not
+
   bool initialAllowImages = false;
+
+  /// Whether the inital value of allow videos check box is selected or not
+
   bool initialAllowVideos = false;
+
+  /// Whether the inital value of allow links check box is selected or not
+
   bool initialAllowLinks = false;
 
+  /// Whether the current allow image check box is selected or not
+
   bool allowImages = false;
+
+  /// Whether the current allow videos check box is selected or not
+
   bool allowVideos = false;
+
+  /// Whether the current allow links check box is selected or not
+
   bool allowLinks = false;
 
+  /// Whether fetching the data from server done or not
+
   bool fetchingDone = false;
+
+  /// Whether the didChangeDependencies is called for the first time or not
+
   bool _isInit = true;
+
+  /// Whether the build fuction calling at least one time or not
+
   bool isBuild = false;
+
+  /// toggle the value of allow image swich
   void changeAllowImage() {
+    /// input:  none
+    /// output: none
+
     allowImages = !allowImages;
     changePostTypes();
   }
 
+  /// toggle the value of allow videos swich
+
   void changeAllowVideos() {
+    /// input:  none
+    /// output: none
+
     allowVideos = !allowVideos;
     changePostTypes();
   }
 
+  /// toggle the value of allow links swich
+
   void changeAllowLinks() {
+    /// input:  none
+    /// output: none
+
     allowLinks = !allowLinks;
     changePostTypes();
   }
 
+  ///change the isSelcted when change the values of the thre swiches
+  ///
+  ///when the any one from the 3 swiches changed from the inital state
+  ///then the is Selected will be true
+  ///other wise it will be true
+
   void changePostTypes() {
+    /// input:  none
+    /// output: none
+
     if (allowImages == initialAllowImages &&
         allowVideos == initialAllowVideos &&
         allowLinks == initialAllowLinks) {
@@ -59,13 +118,6 @@ class PostTypesScreenState extends State<PostTypesScreen> {
     } else {
       isSlected = true;
     }
-  }
-
-  // void change
-  @override
-  void initState() {
-    //return hardcoded topics from constant folder
-    super.initState();
   }
 
   @override
@@ -99,8 +151,15 @@ class PostTypesScreenState extends State<PostTypesScreen> {
     super.didChangeDependencies();
   }
 
+  /// post the post type changes to the sever
+  ///
+  /// take the data from variables allowVideos-allowLinks-allowImages
+  /// if the server return failed response then there is error message will appare
+  /// other show sucess message
+
   Future<void> savepostTypes() async {
-    ////
+    /// input:  none
+    /// output: none
     final provider =
         Provider.of<ModerationSettingProvider>(context, listen: false);
     await provider.patchCommunity({

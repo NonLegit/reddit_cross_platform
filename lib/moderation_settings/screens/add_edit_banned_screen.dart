@@ -37,10 +37,10 @@ class EditBannedScreen extends StatefulWidget {
       this.bannedInfo = null});
 
   @override
-  State<EditBannedScreen> createState() => _EditBannedScreenState();
+  State<EditBannedScreen> createState() => EditBannedScreenState();
 }
 
-class _EditBannedScreenState extends State<EditBannedScreen> {
+class EditBannedScreenState extends State<EditBannedScreen> {
   /// Whether the banned user is  new or no the 3 inputs
 
   bool isNew = true;

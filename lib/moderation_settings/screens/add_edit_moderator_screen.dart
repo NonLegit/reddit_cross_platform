@@ -31,10 +31,10 @@ class EditModeratorScreen extends StatefulWidget {
       this.moderatorPermissions = null});
 
   @override
-  State<EditModeratorScreen> createState() => _EditModeratorScreenState();
+  State<EditModeratorScreen> createState() => EditModeratorScreenState();
 }
 
-class _EditModeratorScreenState extends State<EditModeratorScreen> {
+class EditModeratorScreenState extends State<EditModeratorScreen> {
   /// Whether the banned user is  new or no the 3 inputs
 
   bool isNew = true;

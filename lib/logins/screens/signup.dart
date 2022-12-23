@@ -84,8 +84,8 @@ class SignUpState extends State<SignUp> {
     //Input : none
     //output: none
 
-    isFinished = (validateEmail() == InputStatus.sucess) &
-        (validateUsername() == InputStatus.sucess) &
+    isFinished = (validateEmail() == InputStatus.sucess) &&
+        (validateUsername() == InputStatus.sucess) &&
         (validatePassword() == InputStatus.sucess);
   }
 
