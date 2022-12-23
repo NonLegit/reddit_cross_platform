@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:post/post/models/post_model.dart';
 import 'package:post/post/widgets/post_images.dart';
+import 'package:post/post/widgets/post_images_in_screen.dart';
 import 'package:post/post/widgets/post_link_in_screen.dart';
 import 'package:post/post/widgets/post_tags_and_title.dart';
 import 'package:video_player/video_player.dart';
@@ -62,7 +63,7 @@ class _PostBodyInScreenState extends State<PostBodyInScreen> {
                 ],
               )
             : (widget.data.kind == 'image')
-                ? PostImages(
+                ? PostImagesInScreen(
                     data: widget.data,
                     flair: widget.data.flairId,
                     nsfw: widget.data.nsfw as bool,
@@ -70,8 +71,7 @@ class _PostBodyInScreenState extends State<PostBodyInScreen> {
                     title: widget.data.title as String,
                     imageNumber: widget.data.imageNumber,
                     links: widget.data.images!.cast<String>(),
-                    maxHeightImageSize:
-                        widget.data.maxHeightImageSize as Size,
+                    maxHeightImageSize: widget.data.maxHeightImageSize as Size,
                   )
                 : (widget.data.kind == 'link')
                     ? PostLinkInScreen(

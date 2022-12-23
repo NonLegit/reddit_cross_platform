@@ -5,6 +5,7 @@ import 'package:post/post/widgets/user_info_popup.dart';
 import 'package:post/subreddit/screens/subreddit_screen.dart';
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import '../models/post_model.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 /// This Widget is responsible for the header of the post.
 
@@ -109,7 +110,7 @@ class _PostHeaderState extends State<PostHeader> {
                         size: 18,
                       )
                     : const SizedBox(),
-                !widget.inScreen
+                !widget.inScreen || kIsWeb
                     ? PostPopupMenu(
                         isMyPost: widget.isMyPost,
                         data: widget.data,
@@ -183,7 +184,6 @@ class _PostHeaderBasicState extends State<PostHeaderBasic> {
         widget.ownerType == 'User' && !widget.inProfile
             ? const SizedBox()
             : InkWell(
-              
                 onTap: (!widget.inProfile)
                     ? () {
                         print(
@@ -197,17 +197,16 @@ class _PostHeaderBasicState extends State<PostHeaderBasic> {
                           ),
                         );
                       }
-                    : (){
-                      
-                       print(
+                    : () {
+                        print(
                             '===============================Is mod:${widget.isModerator}=============================');
 
-              
-                       Navigator.of(context).pushNamed(
-                        widget.isModerator
-                            ? ModeratedSubredditScreen.routeName
-                            : SubredditScreen.routeName,
-                        arguments: widget.ownerName);},
+                        Navigator.of(context).pushNamed(
+                            widget.isModerator
+                                ? ModeratedSubredditScreen.routeName
+                                : SubredditScreen.routeName,
+                            arguments: widget.ownerName);
+                      },
                 child: Row(
                   children: [
                     if (widget.inProfile)
