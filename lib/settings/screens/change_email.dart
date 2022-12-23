@@ -22,10 +22,10 @@ class ChangeEmail extends StatefulWidget {
   ChangeEmail({Key? key, this.provider}) : super(key: key);
 
   @override
-  State<ChangeEmail> createState() => _ChangeEmailState();
+  State<ChangeEmail> createState() => ChangeEmailState();
 }
 
-class _ChangeEmailState extends State<ChangeEmail> {
+class ChangeEmailState extends State<ChangeEmail> {
   bool fetchingDone = true;
 
   bool _isInit = true;
