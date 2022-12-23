@@ -95,7 +95,6 @@ class ShowMessagesModel {
             (json['subject']['text'] == null) ? '' : json['subject']['text'];
         //invitation,approved
       } else {
-        print('hi');
         subredditName = json['subreddit']['fixedName'] ?? '';
         subjectId = (json['subreddit']['_id'] == null)
             ? ''
@@ -103,7 +102,6 @@ class ShowMessagesModel {
         subjectText = getText(json['type'], json['to']['userName'],
             json['subreddit']['fixedName']);
       }
-      print('helllloo');
       if (json['type'] == 'userMessage') {
         text = json['text'];
       } else {
@@ -113,14 +111,7 @@ class ShowMessagesModel {
             json['subreddit']['fixedName'] ?? '',
             json['subreddit']['name'] ?? '');
       }
-      // text = getBody(
-      //             json['type'],
-      //             toUsername,
-      //             json['subreddit']['fixedName'] ?? '',
-      //             json['subreddit']['name'] ?? '') ==
-      //         ''
-      //     ? json['text']
-      //     : //json['text'] ?? '';
+
       type = json['type'];
 
       createdAt = json['createdAt'];

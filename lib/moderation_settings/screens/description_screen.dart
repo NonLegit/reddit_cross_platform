@@ -9,6 +9,8 @@ import '../../widgets/custom_snack_bar.dart';
 import '../../widgets/loading_reddit.dart';
 
 class Description extends StatefulWidget {
+  /// the route name of the screen
+
   static const routeName = '/description';
   const Description({super.key});
 
@@ -17,26 +19,53 @@ class Description extends StatefulWidget {
 }
 
 class DescriptionState extends State<Description> {
-  // TextEditingController descriptionController = TextEditingController();
+  //the value that will be puth in the description at the first
   String descriptionController = '';
+
+  /// the current status of the description input field
   InputStatus descriptionStatus = InputStatus.original;
+
+  /// Whether the build fuction calling at least one time or not
+
   bool isBuild = false;
 
+  /// the initiall value of the description
   String? initialDescription;
+
+  /// the current Subrddit name of the screen
+
   String? subbredditName;
+
+  /// Whether user enter data or not , then show the save buttom or not
+
   bool isSlected = false;
+
+  ///model will be filed from the provider to take the data
+
   ModeratorToolsModel? moderatorToolsModel;
 
-  ///change the status of password input field
+  /// Whether fetching the data from server done or not
+
+  bool fetchingDone = false;
+
+  /// Whether the didChangeDependencies is called for the first time or not
+
+  bool _isInit = true;
+
+  ///change the status of descriton input field
   ///
   ///make it taped or oreignal according to the focus listner
   void changeDescriptionFocus(focus) {
     descriptionStatus = (focus) ? InputStatus.taped : InputStatus.original;
   }
 
+  ///change the isSelcted when change the descriptopn input
+  ///
+  ///when the descrition is the same as the initall
+  ///other wise it will be true
+
   void changeDescription(value) {
     descriptionController = value;
-    print(descriptionController);
     if (descriptionController == initialDescription) {
       isSlected = false;
     } else {
@@ -44,8 +73,16 @@ class DescriptionState extends State<Description> {
     }
   }
 
+  ///post the Descrition  to the sever
+  ///
+  /// take the data from descriptionController
+  /// if the server return failed response then there is error message will appare
+  /// other show sucess message
+
   Future<void> saveDescription() async {
-    ////
+    /// input:  none
+    /// output: none
+
     final provider =
         Provider.of<ModerationSettingProvider>(context, listen: false);
     await provider.patchCommunity({"description": '$descriptionController'},
@@ -71,9 +108,6 @@ class DescriptionState extends State<Description> {
       Navigator.of(context).pop();
     }
   }
-
-  bool fetchingDone = false;
-  bool _isInit = true;
 
   @override
   void initState() {

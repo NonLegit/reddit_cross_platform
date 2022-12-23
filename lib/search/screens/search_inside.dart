@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/create_community/screens/create_community.dart';
 import 'package:post/icons/arrow_head_down_word_icons.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../models/wrapper.dart';
@@ -18,6 +19,7 @@ import './search.dart';
 import '../widgets/people_list.dart';
 import '../widgets/communities_list.dart';
 import '../widgets/empty_search.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SearchInside extends StatefulWidget {
   static const routeName = '/insidesearch';
@@ -35,7 +37,7 @@ class _SearchInsideState extends State<SearchInside> {
   bool _isInit = true;
 
   bool isBuild = false;
-  int index = 1;
+  int index = 3;
   bool showNSFW = true;
   bool autoPlay = true;
   SearchProvider? provider = null;
@@ -104,91 +106,240 @@ class _SearchInsideState extends State<SearchInside> {
                 ),
               ],
             ),
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    color: Colors.transparent,
-                    child: Row(
+            body: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SingleChildScrollView(
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          flex: 2,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              index = 0;
-                              setState(() {});
-                            },
-                            child: Text('Posts'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  index == 0 ? Colors.blue : Colors.white,
-                              elevation: 0,
+                        Container(
+                          color: Colors.transparent,
+                          child: Center(
+                            child: SizedBox(
+                              width: (kIsWeb) ? 60.w : null,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        index = 0;
+                                        setState(() {});
+                                      },
+                                      child: Text('Posts'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: index == 0
+                                            ? Colors.blue
+                                            : Colors.white,
+                                        elevation: 0,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        index = 1;
+                                        setState(() {});
+                                      },
+                                      child: Text('Comments'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: index == 1
+                                            ? Colors.blue
+                                            : Colors.white,
+                                        elevation: 0,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        index = 2;
+                                        setState(() {});
+                                      },
+                                      child: Text('Communities'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: index == 2
+                                            ? Colors.blue
+                                            : Colors.white,
+                                        elevation: 0,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        index = 3;
+                                        setState(() {});
+                                      },
+                                      child: Text('People'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: index == 3
+                                            ? Colors.blue
+                                            : Colors.white,
+                                        elevation: 0,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        Expanded(
-                          flex: 3,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              index = 1;
-                              setState(() {});
-                            },
-                            child: Text('Comments'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  index == 1 ? Colors.blue : Colors.white,
-                              elevation: 0,
+                        if (index == 0)
+                          Center(
+                            child: SizedBox(
+                              width: (kIsWeb)
+                                  ? ((100.w < 900) ? 100.w : 900)
+                                  : null,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.all((kIsWeb) ? 8.0 : 0),
+                                child: PostsList(
+                                    provider: provider!,
+                                    limit: limit,
+                                    quiry: widget.quiry),
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              index = 2;
-                              setState(() {});
-                            },
-                            child: Text('Communities'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  index == 2 ? Colors.blue : Colors.white,
-                              elevation: 0,
+                        if (index == 1)
+                          Center(
+                            child: SizedBox(
+                              width: (kIsWeb)
+                                  ? ((100.w < 900) ? 100.w : 900)
+                                  : null,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.all((kIsWeb) ? 8.0 : 0),
+                                child: CommentsList(
+                                    provider: provider!,
+                                    limit: limit,
+                                    quiry: widget.quiry),
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              index = 3;
-                              setState(() {});
-                            },
-                            child: Text('People'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  index == 3 ? Colors.blue : Colors.white,
-                              elevation: 0,
+                        if (index == 2)
+                          Center(
+                            child: SizedBox(
+                              width: (kIsWeb)
+                                  ? ((100.w < 900) ? 100.w : 900)
+                                  : null,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.all((kIsWeb) ? 8.0 : 0),
+                                child: CommunitiesList(
+                                    provider: provider!,
+                                    limit: limit,
+                                    quiry: widget.quiry),
+                              ),
                             ),
                           ),
-                        )
+                        if (index == 3)
+                          Center(
+                            child: SizedBox(
+                              width: (kIsWeb)
+                                  ? ((100.w < 900) ? 100.w : 900)
+                                  : null,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.all((kIsWeb) ? 8.0 : 0),
+                                child: PeopleList(
+                                    provider: provider!,
+                                    limit: limit,
+                                    quiry: widget.quiry),
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   ),
-                  if (index == 0)
-                    PostsList(
-                        provider: provider!, limit: limit, quiry: widget.quiry),
-                  if (index == 1)
-                    CommentsList(
-                        provider: provider!, limit: limit, quiry: widget.quiry),
-                  if (index == 2)
-                    CommunitiesList(
-                        provider: provider!, limit: limit, quiry: widget.quiry),
-                  if (index == 3)
-                    PeopleList(
-                        provider: provider!, limit: limit, quiry: widget.quiry),
-                ],
-              ),
+                ),
+                if (kIsWeb) SizedBox(width: 50),
+                if (kIsWeb && index == 0)
+                  Container(
+                    width: 30.w,
+                    height: 80.h,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            color: Colors.white,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text('Peoples'),
+                                PeopleList(
+                                    provider: provider!,
+                                    limit: 5,
+                                    quiry: widget.quiry),
+                              ],
+                            ),
+                          ),
+                          Container(
+                              height: 50,
+                              color: Color.fromARGB(255, 228, 231, 239)),
+                          Container(
+                            color: Colors.white,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text('Communities'),
+                                CommunitiesList(
+                                    provider: provider!,
+                                    limit: 5,
+                                    quiry: widget.quiry),
+                                Container(
+                                    height: 50,
+                                    color: Color.fromARGB(255, 228, 231, 239)),
+                                Container(
+                                  color: Colors.white,
+                                  child: Column(
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/reddit_community_search.png',
+                                        width: 25.w,
+                                        height: 25.h,
+                                        fit: BoxFit.fill,
+                                      ),
+                                      Text('Have an idea for a new community?'),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          onPrimary: Colors.white,
+                                          primary: (kIsWeb)
+                                              ? Colors.blue
+                                              : Colors.red,
+                                          onSurface: Colors.grey[700],
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
+                                        ),
+                                        onPressed: () {
+                                          showDialog<bool>(
+                                            context: context,
+                                            builder: ((context) {
+                                              return const CreateCommunity();
+                                            }),
+                                          );
+                                        },
+                                        child: Text('Create community'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+              ],
             ),
           );
   }

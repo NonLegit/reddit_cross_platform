@@ -23,8 +23,11 @@ import 'signup.dart';
 import '../widgets/web_image.dart';
 
 class Login extends StatefulWidget {
-  // Login({Key? key}) : super(key: key);
+  /// the route name of the screen
+
   static const routeName = '/Login';
+
+  const Login({super.key});
 
   @override
   State<Login> createState() => LoginState();
@@ -66,20 +69,17 @@ class LoginState extends State<Login> {
   /// error message to view when the log in is failed
   String errorMessage = '';
 
-  /// variable to contain the url of the server
-  // final String url = 'https://api.nonlegit.click/api/v1';
-
-  /// variable to check if the backend finish the actual server of work with the mock
-  // final bool isMock = true;
-
   ///post the login info to the backend server
   ///
   /// take the data from inputs listener and sent it to the server
   /// if the server return failed response then there is error message will appare
   /// other wise jump on the homeScreen
 
-  // Auth authentication = Auth();
   void checkLogin(context) async {
+    //Input :
+    //  context:- the Build context of the current screen
+    //output: none
+
     final provider = Provider.of<Auth>(context, listen: false);
     provider.login({
       'userName': inputUserNameController.text,
@@ -95,8 +95,15 @@ class LoginState extends State<Login> {
     });
   }
 
-  //
+  ///check if the user is already Authenticated
+  ///
+  ///if the user is authenticated , then send him to the home page
+  ///other wise continue to the login
   Future<bool> checkAut(context) async {
+    //Input :
+    //  context:- the Build context of the current screen
+    //output: return bool Whether the user is authorised or not
+
     String isLog = ModalRoute.of(context)?.settings.arguments != null
         ? ModalRoute.of(context)?.settings.arguments as String
         : '';
@@ -120,18 +127,12 @@ class LoginState extends State<Login> {
       });
       checkAut(context).then((value) {
         fetchingDone = true;
-        setState(() {});
+        if (_isBuild) setState(() {});
       });
     }
     _isInit = false;
     super.didChangeDependencies();
   }
-
-  // @override
-  // void initState() {
-  //   checkAut(context);
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {

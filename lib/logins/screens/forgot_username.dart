@@ -15,7 +15,11 @@ import 'login.dart';
 import '../widgets/web_image.dart';
 
 class ForgotUserName extends StatefulWidget {
+  /// the route name of the screen
+
   static const routeName = '/ForgotUserName';
+
+  const ForgotUserName({super.key});
   @override
   State<ForgotUserName> createState() => ForgotUserNameState();
 }
@@ -59,11 +63,15 @@ class ForgotUserNameState extends State<ForgotUserName> {
   /// the validator will return original if the field is empty
   /// otherwise the status will be faild and put an error message
   InputStatus validateEmail() {
-    if (inputEmailController.text.isEmpty)
+    //Input : none
+    //output: return the status of the Email input field
+
+    if (inputEmailController.text.isEmpty) {
       return InputStatus.original;
-    else if (EmailValidator.validate(inputEmailController.text.toLowerCase()))
+    } else if (EmailValidator.validate(
+        inputEmailController.text.toLowerCase())) {
       return InputStatus.sucess;
-    else {
+    } else {
       emailErrorMessage = 'Not a valid email address';
       return InputStatus.failed;
     }
@@ -74,6 +82,10 @@ class ForgotUserNameState extends State<ForgotUserName> {
   /// when user tap in the email textfailed mark it as taped
   /// when tap out check the validation using [validateEmail()]
   void controlEmailStatus(hasFocus) {
+    //Input :
+    //  hasFocuns : Whether the Email input field is clicked or not
+    //output: none
+
     if (hasFocus)
       inputEmailStatus = InputStatus.taped;
     else
@@ -86,6 +98,9 @@ class ForgotUserNameState extends State<ForgotUserName> {
   /// if the server return failed response then there is error message will appare
   /// other show sucess message
   void submitForgorUserName() async {
+    //Input : none
+    //output: none
+
     final provider = Provider.of<Auth>(context, listen: false);
     await provider.forgetUserName({
       "email": inputEmailController.text,
@@ -101,8 +116,6 @@ class ForgotUserNameState extends State<ForgotUserName> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //GestureDetector to hide the soft keyboard
-      //by clicking outside of TextField or anywhere on the screen
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());

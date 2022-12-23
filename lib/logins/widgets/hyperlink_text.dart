@@ -4,10 +4,12 @@ import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HyperLinkText extends StatelessWidget {
-  // const HyperLinkText({Key? key}) : super(key: key);
+  ///the basic lable of the input text field
   final String label;
+
+  /// the url that will be lanched when click in the URl text
   final String url;
-  HyperLinkText({required this.label, required this.url});
+  const HyperLinkText({super.key, required this.label, required this.url});
   @override
   Widget build(BuildContext context) {
     return RichText(
