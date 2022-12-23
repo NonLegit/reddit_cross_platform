@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:post/messages/widgets/first_nav_bar.dart';
 import 'package:post/networks/const_endpoint_data.dart';
@@ -27,7 +25,7 @@ class _WebNewMessageScreenState extends State<WebNewMessageScreen> {
   bool subjectAvailable = false;
   bool messageAvailable = false;
   bool _iselected = false;
-    //Parameters userName ==> whom to send to the message
+  //Parameters userName ==> whom to send to the message
   // subject ==> Message related to which topic
   // message ==> The main message you want to send
   _saveNewMessage(username, subject, message) {
@@ -37,6 +35,7 @@ class _WebNewMessageScreenState extends State<WebNewMessageScreen> {
       Navigator.of(context).pushNamed(WebMessageScreen.routeName);
     });
   }
+
   //Function to get user name of logged in user
   Future<void> getUserName() async {
     final prefs = await SharedPreferences.getInstance();
@@ -55,7 +54,7 @@ class _WebNewMessageScreenState extends State<WebNewMessageScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                 FirstNavBar(),
+                  FirstNavBar(),
                   Container(
                     margin: const EdgeInsets.all(25),
                     child: Column(

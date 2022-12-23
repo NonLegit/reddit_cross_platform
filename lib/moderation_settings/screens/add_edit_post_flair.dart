@@ -31,10 +31,10 @@ class AddAndEditPostFllair extends StatefulWidget {
   String? subredditName;
   int? counter = 0;
   @override
-  State<AddAndEditPostFllair> createState() => _AddAndEditPostFllairState();
+  State<AddAndEditPostFllair> createState() => AddAndEditPostFllairState();
 }
 
-class _AddAndEditPostFllairState extends State<AddAndEditPostFllair> {
+class AddAndEditPostFllairState extends State<AddAndEditPostFllair> {
   bool _iselected = false;
 
   TextEditingController? _editPost = null;

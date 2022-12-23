@@ -1,4 +1,4 @@
-import '../../models/subreddit_about _rules.dart';
+import './subreddit_about _rules.dart';
 
 class SubredditData {
   //String? id;

@@ -30,10 +30,10 @@ class EditMutedScreen extends StatefulWidget {
       this.mutedInfo = null});
 
   @override
-  State<EditMutedScreen> createState() => _EditMutedScreenState();
+  State<EditMutedScreen> createState() => EditMutedScreenState();
 }
 
-class _EditMutedScreenState extends State<EditMutedScreen> {
+class EditMutedScreenState extends State<EditMutedScreen> {
   bool isNew = true;
   String title = 'Add a muted user';
   bool isSlected = false;

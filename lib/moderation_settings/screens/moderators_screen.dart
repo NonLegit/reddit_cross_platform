@@ -23,20 +23,51 @@ class ModeratorsScreen extends StatefulWidget {
 }
 
 class ModeratorsScreenState extends State<ModeratorsScreen> {
+  ///index control with list will be appare (all moderators or editable moderators)
   int index = 0;
+
+  /// Whether fetching the data from server done or not
+
   bool fetchingDone = true;
+
+  /// Whether the didChangeDependencies is called for the first time or not
+
   bool _isInit = true;
+
+  /// Whether the build fuction calling at least one time or not
+
   bool _isBuild = false;
-  // ignore: non_constant_identifier_names
+
+  /// list of all moderators from the provider
   List<Moderators>? moderators = [];
+
+  ///list of all moderators to this subredditto show in moderators list screen
   List<Map<String, Object>> allModerators = [];
+
+  ///list of editable moderators to this sub reddit
   List<Map<String, Object>> editableModerators = [];
+
+  /// the username of the current user
   String userName = '';
+
+  ///the join date of the user
   DateTime? userJoinDate;
+
+  ///whether the full permision is checked as true
   bool userFullPermisions = false;
+
+  ///the name of the current subreddit
   String subredditName = '';
 
+  ///prepare the map allmoderators and editable from the list moderators
+  ///
+  ///process the data like prpare the data as String in formate %yr of %mon
+  ///and prepare the permision string
+  ///and fill the editable moderators list
   void extractModeratorsLists() {
+    ///Input: none
+    ///output: none
+
     moderators!.forEach((element) {
       print(element);
       final _id = element.sId as String;
@@ -90,7 +121,6 @@ class ModeratorsScreenState extends State<ModeratorsScreen> {
         userFullPermisions = element.moderatorPermissions!.all!;
       }
     });
-    print(allModerators);
     if (userFullPermisions) {
       int index = 0;
       moderators!.forEach((element) {

@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:post/moderated_subreddit/widgets/mod_subreddit_post_sort_bottom.dart';
-import 'package:post/subreddit/widgets/subreddit_join_buttons.dart';
-import '../../moderated_subreddit/widgets/mod_subreddit_post_sort_bottom_test.dart';
 
 void main() {
   group(
