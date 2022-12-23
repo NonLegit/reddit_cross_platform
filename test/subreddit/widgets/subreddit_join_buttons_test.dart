@@ -13,12 +13,6 @@ void main() {
         int result = subredditJoinButtonState.changeNotificationMode(1);
         expect(result, 1);
       });
-
-      test('subreddit join buttons test ', () {
-        // TODO: Implement test
-        bool result = subredditJoinButtonState.disJoin();
-        expect(result, false);
-      });
     },
   );
 }
