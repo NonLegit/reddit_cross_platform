@@ -47,6 +47,7 @@ class _PostListState extends State<PostList> {
   Widget build(BuildContext context) {
     return Flexible(
       child: InViewNotifierCustomScrollView(
+        
         shrinkWrap: true,
         onListEndReached: () => widget.updateData(),
         scrollDirection: Axis.vertical,

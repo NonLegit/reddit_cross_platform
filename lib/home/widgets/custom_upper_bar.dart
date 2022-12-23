@@ -18,8 +18,8 @@ import '../screens/home_layout.dart';
 import 'community_container.dart';
 
 class UpBar extends StatelessWidget {
-  final HomeController controller ;
-  final PostController controllerForCreatePost ;
+  final HomeController controller;
+  final PostController controllerForCreatePost;
   UpBar({
     Key? key,
     required this.controller,
@@ -31,17 +31,16 @@ class UpBar extends StatelessWidget {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
-
-      leading: GestureDetector(child: Padding(
+      leading: GestureDetector(
+          child: Padding(
         padding: const EdgeInsetsDirectional.only(start: 20.0),
         child: Image.asset('assets/images/redditlogo.png'),
-      )) ,
+      )),
       title: Row(
-        children:  [
+        children: [
           const Text(
             'Reddit',
-            style: TextStyle(
-                fontSize: 20.0, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             width: 30,
@@ -52,120 +51,142 @@ class UpBar extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.home_filled),
-                    SizedBox(width: 20,),
+                    SizedBox(
+                      width: 20,
+                    ),
                     Text("Home"),
-                    SizedBox(width: 80,),
+                    SizedBox(
+                      width: 80,
+                    ),
                     Icon(Icons.arrow_drop_down_sharp)
                   ],
                 ),
                 elevation: 0,
                 color: Colors.white,
-                offset:Offset(0,43) ,
-                itemBuilder: (context)=>[
+                offset: Offset(0, 43),
+                itemBuilder: (context) => [
                   PopupMenuItem(
-                    value:1,
-                    child: Container(width:220,child: Text("MODERATING",style: TextStyle(color: Colors.grey,fontSize: 10),)),
-
+                    value: 1,
+                    child: Container(
+                        width: 220,
+                        child: Text(
+                          "MODERATING",
+                          style: TextStyle(color: Colors.grey, fontSize: 10),
+                        )),
                   ),
                   PopupMenuItem(
-                    value:2,
-                    child: Container(width:220,child:Column(
-                      children: List.generate(controllerForCreatePost.moderatedSubreddits.length, (index) =>
-                          CommunityContainer(
-                              nameOfSubreddit: controllerForCreatePost
-                                  .moderatedSubreddits[index]
-                                  .subredditName!,
-                              iconOfSubreddit: (controllerForCreatePost
-                                  .moderatedSubreddits[index]
-                                  .icon !=
-                                  null)
-                                  ? controllerForCreatePost
-                                  .moderatedSubreddits[index].icon!
-                                  : '')
-                      ),
-                    )),
-
+                    value: 2,
+                    child: Container(
+                        width: 220,
+                        child: Column(
+                          children: List.generate(
+                              controllerForCreatePost
+                                  .moderatedSubreddits.length,
+                              (index) => CommunityContainer(
+                                  nameOfSubreddit: controllerForCreatePost
+                                      .moderatedSubreddits[index]
+                                      .subredditName!,
+                                  iconOfSubreddit: (controllerForCreatePost
+                                              .moderatedSubreddits[index]
+                                              .icon !=
+                                          null)
+                                      ? controllerForCreatePost
+                                          .moderatedSubreddits[index].icon!
+                                      : '')),
+                        )),
                   ),
                   PopupMenuItem(
-                    value:3,
-                    child:  Container(width:220,child: Text("YOUR COMMUNITIES",style: TextStyle(color: Colors.grey,fontSize: 10),)),
+                    value: 3,
+                    child: Container(
+                        width: 220,
+                        child: Text(
+                          "YOUR COMMUNITIES",
+                          style: TextStyle(color: Colors.grey, fontSize: 10),
+                        )),
                   ),
                   PopupMenuItem(
-                    value:4,
+                    value: 4,
                     child: ListTile(
-                      onTap: ()
-                      {
+                      onTap: () {
                         Get.to(CreateCommunity());
                       },
                       horizontalTitleGap: 0,
-                      leading: Icon(Icons.add,color: Colors.grey,),
-                      title: Text("Create Community",style: TextStyle(color: Colors.grey),),
+                      leading: Icon(
+                        Icons.add,
+                        color: Colors.grey,
+                      ),
+                      title: Text(
+                        "Create Community",
+                        style: TextStyle(color: Colors.grey),
+                      ),
                     ),
                   ),
                   PopupMenuItem(
-                    value:5,
-                    child: Container(width:220,child:Column(
-                      children: List.generate(controllerForCreatePost.subscribedSubreddits.length, (index) =>
-                          CommunityContainer(
-                              nameOfSubreddit: controllerForCreatePost
-                                  .subscribedSubreddits[index]
-                                  .subredditName!,
-                              iconOfSubreddit: (controllerForCreatePost
-                                  .subscribedSubreddits[index]
-                                  .icon !=
-                                  null)
-                                  ? controllerForCreatePost
-                                  .subscribedSubreddits[index].icon!
-                                  : '')
-                      ),
-                    )),
-
+                    value: 5,
+                    child: Container(
+                        width: 220,
+                        child: Column(
+                          children: List.generate(
+                              controllerForCreatePost
+                                  .subscribedSubreddits.length,
+                              (index) => CommunityContainer(
+                                  nameOfSubreddit: controllerForCreatePost
+                                      .subscribedSubreddits[index]
+                                      .subredditName!,
+                                  iconOfSubreddit: (controllerForCreatePost
+                                              .subscribedSubreddits[index]
+                                              .icon !=
+                                          null)
+                                      ? controllerForCreatePost
+                                          .subscribedSubreddits[index].icon!
+                                      : '')),
+                        )),
                   ),
                   PopupMenuItem(
-                    value:6,
-                    child: Container(width:220,child: Text("FEEDS",style: TextStyle(color: Colors.grey,fontSize: 10),)),
-
+                    value: 6,
+                    child: Container(
+                        width: 220,
+                        child: Text(
+                          "FEEDS",
+                          style: TextStyle(color: Colors.grey, fontSize: 10),
+                        )),
                   ),
                   PopupMenuItem(
-                      value:7,
+                      value: 7,
                       child: Column(
                         children: [
                           ListTile(
-                            onTap: ()
-                            {
+                            onTap: () {
                               Get.to(HomeLayoutScreen());
                             },
-                            horizontalTitleGap:0,
+                            horizontalTitleGap: 0,
                             leading: Icon(Icons.home_filled),
                             title: Text("Home"),
                           ),
                           ListTile(
-                            onTap: ()
-                            {
+                            onTap: () {
                               Get.to(All());
                             },
-                            horizontalTitleGap:0,
+                            horizontalTitleGap: 0,
                             leading: Icon(Icons.stacked_bar_chart),
                             title: Text("All"),
                           )
                         ],
-                      )
-                  ),
+                      )),
                 ],
-              )
-          ),
+              )),
           Expanded(
             child: Container(
               width: 350.0,
               height: 35.0,
               child: TextFormField(
-                onTap: ()
-                {
+                onTap: () {
                   Get.to(Search());
                 },
                 enabled: false,
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
                   labelText: 'Search Reddit',
                   prefixIcon: Icon(Icons.search),
                   labelStyle: TextStyle(
@@ -183,7 +204,10 @@ class UpBar extends StatelessWidget {
               onPressed: () {
                 Get.to(All());
               },
-              icon: const Icon(Icons.arrow_circle_up,size: 25,)),
+              icon: const Icon(
+                Icons.arrow_circle_up,
+                size: 25,
+              )),
           const SizedBox(
             width: 20,
           ),
@@ -191,30 +215,33 @@ class UpBar extends StatelessWidget {
               onPressed: () {
                 Get.to(NotificationScreen());
               },
-              icon: const Icon(IconBroken.Notification,size: 25,)),
+              icon: const Icon(
+                IconBroken.Notification,
+                size: 25,
+              )),
           const SizedBox(
             width: 20,
           ),
           IconButton(
               onPressed: () {
-                Get.to(CreatePostSCreen(),arguments: [0,0,0]);
+                Get.to(CreatePostSCreen(), arguments: [0, 0, 0]);
               },
-              icon: const Icon(Icons.add_sharp,size: 25,)),
+              icon: const Icon(
+                Icons.add_sharp,
+                size: 25,
+              )),
           const SizedBox(
             width: 20,
           ),
         ],
       ),
       actions: [
-
         Container(
-          padding: EdgeInsetsDirectional.only(end: 20,start: 10),
+          padding: EdgeInsetsDirectional.only(end: 20, start: 10),
           child: PopupMenuButton<int>(
-
             child: Container(
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black54,width: 0.25)
-              ),
+                  border: Border.all(color: Colors.black54, width: 0.25)),
               width: 270,
               height: 20,
               child: Padding(
@@ -225,24 +252,27 @@ class UpBar extends StatelessWidget {
                       alignment: AlignmentDirectional.bottomEnd,
                       children: const [
                         CircleAvatar(
-                          backgroundImage: AssetImage(
-                              "assets/images/reddit.gif"),
+                          backgroundImage:
+                              AssetImage("assets/images/reddit.gif"),
                           radius: 18.0,
-                        )
-                        ,
+                        ),
                         CircleAvatar(
                           backgroundColor: Colors.white,
                           radius: 6,
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.only(end: 2, bottom: 2),
+                          padding:
+                              EdgeInsetsDirectional.only(end: 2, bottom: 2),
                           child: CircleAvatar(
                             backgroundColor: Colors.green,
                             radius: 4,
                           ),
                         )
                       ],
-                    ),const SizedBox(width: 10,),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsetsDirectional.only(top: 10.0),
                       child: Column(
@@ -253,7 +283,9 @@ class UpBar extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 100,),
+                    const SizedBox(
+                      width: 100,
+                    ),
                     const Icon(IconBroken.Arrow___Down_2)
                   ],
                 ),
@@ -268,37 +300,57 @@ class UpBar extends StatelessWidget {
                   width: 220,
                   child: ListTile(
                     horizontalTitleGap: 0,
-                    leading: Icon(IconBroken.Profile,color: Colors.grey,),
-                    title: Text("My Stuff",style: TextStyle(color: Colors.grey),),
+                    leading: Icon(
+                      IconBroken.Profile,
+                      color: Colors.grey,
+                    ),
+                    title: Text(
+                      "My Stuff",
+                      style: TextStyle(color: Colors.grey),
+                    ),
                   ),
                 ),
               ),
               PopupMenuItem(
                 value: 2,
                 child: Container(
-                  padding: EdgeInsetsDirectional.only(start: 30,bottom: 10),
+                  padding: EdgeInsetsDirectional.only(start: 30, bottom: 10),
                   height: 30,
                   width: 220,
                   child: ListTile(
-                    onTap: (){
-                      Get.to(MyProfileScreen());
+                    onTap: () {
+                      Navigator.of(context).pushNamed(MyProfileScreen.routeName,
+                          arguments: controller.myProfile!.userName);
+                      // Get.to(MyProfileScreen,
+                      //     arguments: controller.myProfile!.userName);
                     },
-                    title: Text("Profile",style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),),
+                    title: Text(
+                      "Profile",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
               PopupMenuItem(
                 value: 3,
                 child: Container(
-                  padding: EdgeInsetsDirectional.only(start: 30,bottom: 10),
+                  padding: EdgeInsetsDirectional.only(start: 30, bottom: 10),
                   height: 30,
                   width: 220,
                   child: ListTile(
-                    onTap: ()
-                    {
+                    onTap: () {
                       Get.to(Settings());
                     },
-                    title: Text("User settings",style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),),
+                    title: Text(
+                      "User settings",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
@@ -310,16 +362,25 @@ class UpBar extends StatelessWidget {
                   height: 40,
                   width: 220,
                   child: ListTile(
-                    onTap: ()
-                    {
+                    onTap: () {
                       Get.to(CreateCommunity());
                     },
                     horizontalTitleGap: 0,
                     leading: Padding(
                       padding: const EdgeInsetsDirectional.only(top: 12.0),
-                      child: Icon(Icons.r_mobiledata_outlined,color: Colors.black,size: 30,),
+                      child: Icon(
+                        Icons.r_mobiledata_outlined,
+                        color: Colors.black,
+                        size: 30,
+                      ),
                     ),
-                    title: Text("Create a Community",style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),),
+                    title: Text(
+                      "Create a Community",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
@@ -331,7 +392,13 @@ class UpBar extends StatelessWidget {
                   width: 220,
                   child: ListTile(
                     horizontalTitleGap: 0,
-                    title: Text("Privacy Policy",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16),),
+                    title: Text(
+                      "Privacy Policy",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
                   ),
                 ),
               ),
@@ -339,30 +406,35 @@ class UpBar extends StatelessWidget {
               PopupMenuItem(
                 value: 6,
                 child: Container(
-                  padding: EdgeInsetsDirectional.only(start: 10,bottom: 1),
+                  padding: EdgeInsetsDirectional.only(start: 10, bottom: 1),
                   height: 30,
                   width: 220,
                   child: ListTile(
-                    onTap: ()
-                    {
+                    onTap: () {
                       Auth().logOut(context);
                       Navigator.of(context).pushNamed(Login.routeName);
-
                     },
                     horizontalTitleGap: 0,
-                    leading: Icon(Icons.logout,size: 25,color: Colors.black,),
-                    title: Text("Log out",style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),),
+                    leading: Icon(
+                      Icons.logout,
+                      size: 25,
+                      color: Colors.black,
+                    ),
+                    title: Text(
+                      "Log out",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
               PopupMenuItem(child: Divider()),
-            ]
-            ,
+            ],
             offset: Offset(0, 59),
             color: Colors.white,
             elevation: 0,
-
-
           ),
         ),
       ],

@@ -8,6 +8,8 @@ import '../providers/subreddit_provider.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subreddit_post_web.dart';
 import '../../widgets/subreddit_join_button_web.dart';
+import '../../widgets/back_to_button.dart';
+import '../screens/subreddit_screen.dart';
 
 extension ColorExtension on String {
   toColor() {
@@ -36,18 +38,33 @@ class SubredditWeb extends StatelessWidget {
   final TabBar tabBar;
   bool isLoading;
   TabController? controller;
-
+  ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     bool showTheme = Provider.of<SubredditProvider>(context, listen: false)
-       .gettingTheme as bool;
+        .gettingTheme as bool;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: _scaffoldKey,
-        backgroundColor: 
-        (showTheme)
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        floatingActionButton: Padding(
+          padding: const EdgeInsetsDirectional.only(end: 320.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(SubredditScreen.routeName,
+                  arguments:userName);
+            },
+            child: Text(
+              '      Back to top     ',
+              style: TextStyle(color: Colors.white),
+            ),
+            style: ElevatedButton.styleFrom(
+                shape: StadiumBorder(), backgroundColor: Colors.blue),
+          ),
+        ),
+        backgroundColor: (showTheme)
             ? Color.fromARGB(255, 218, 224, 230)
-          :   (loadedSubreddit!.theme!.contains('https'))
+            : (loadedSubreddit!.theme!.contains('https'))
                 ? Image.network(loadedSubreddit!.theme.toString()).color
                 : '#6ae792'.toColor(),
         body: isLoading

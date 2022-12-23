@@ -12,7 +12,7 @@ import './approved_users_screen.dart';
 import './banned_user_sceen.dart';
 import './muted_user_screen.dart';
 import './moderators_screen.dart';
-
+import './traffic_state.dart';
 class ModeratorTools extends StatefulWidget {
   /// the route name of the screen
 
@@ -221,6 +221,14 @@ class _ModeratorToolsState extends State<ModeratorTools> {
                           ModalRoute.of(context)?.settings.arguments as String),
                   'Banned users',
                   Icons.gavel_outlined),
+                  buildGeneralOptions(
+                  context,
+                  () => Navigator.of(context).pushNamed(TraficState.routeName,
+                      arguments:
+                          //'Cooking'
+                          ModalRoute.of(context)?.settings.arguments as String),
+                  'Traffic Status',
+                  Icons.view_agenda_outlined),
             ],
           ),
           // ),
