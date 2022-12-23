@@ -9,6 +9,7 @@ import 'package:post/create_community/widgets/community_type.dart';
 import 'package:post/messages/screens/reply_message_screen.dart';
 import 'package:post/messages/screens/show_message_body.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:post/show_post/screens/show_post_web.dart';
 import './messages/screens/web_message_all_screen.dart';
 import './messages/screens/web_message_screen.dart';
 import 'package:post/providers/global_settings.dart';
@@ -497,15 +498,15 @@ class _MyAppState extends State<MyApp> {
                   onSurface: Colors.white),
             ),
             // home: NotificationScreen(),
-         //   home: HomeLayoutScreen(),
+            //   home: HomeLayoutScreen(),
             // home: Description(),
             // home: HomeScreen(),
             // home: NotificationScreen(),
             // home:ShowPostDetails(),
             //home: CreateCommunity(),
-             //home: NewMessageScreen(),
+            //home: NewMessageScreen(),
             // home: EditPost(),
-              // home: WebMessageScreen(),
+            // home: WebMessageScreen(),
             //  home: SearchInside(quiry: 'mohab'),
             //home: const DiscoverScreen(),
             // home: homeLayoutScreen(),
@@ -519,7 +520,7 @@ class _MyAppState extends State<MyApp> {
             // home: HomeScreen(),
             home: Login(),
             // home: CreateCommunity(),
-             //home: Login(),
+            //home: Login(),
             // home: ForgotUserName(),
             // home: ForgotPassword(),
             // home: TraficState(),
@@ -541,10 +542,10 @@ class _MyAppState extends State<MyApp> {
             // home: Search(),
             routes: {
               TraficState.routeName: (context) => TraficState(),
-              AllMessageScreen.routeName : (context) => AllMessageScreen(),
-              WebNewMessageScreen.routeName : (context) => WebNewMessageScreen(),
-              SentMessage.routeName : (context) => SentMessage(),
-              UnreadMessageScreen.routeName : (context) => UnreadMessageScreen(),
+              AllMessageScreen.routeName: (context) => AllMessageScreen(),
+              WebNewMessageScreen.routeName: (context) => WebNewMessageScreen(),
+              SentMessage.routeName: (context) => SentMessage(),
+              UnreadMessageScreen.routeName: (context) => UnreadMessageScreen(),
               ReplyMessageScreen.routeName: (context) => ReplyMessageScreen(),
               ShowMessageBody.routeName: (context) => ShowMessageBody(),
               MessageMainScreen.routeName: (context) => MessageMainScreen(),
@@ -621,6 +622,8 @@ class _MyAppState extends State<MyApp> {
                   ModNotificationScreen(),
               ModeratedSubredditScreen.routeName: (context) =>
                   ModeratedSubredditScreen(),
+              ShowPostDetailsWeb.routeName: (context) => ShowPostDetailsWeb(),
+
               // LoginPage.routeName: (context) => LoginPage(),
             },
           ),
