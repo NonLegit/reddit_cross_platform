@@ -47,14 +47,7 @@ class SearchProvider with ChangeNotifier {
       print(path);
       // sort=$sort&time=$time&page=$page&limit=$limit
 
-      await DioClient.get(path: path, query: {
-        // "type": type,
-        // "q": quiry,
-        // 'sort': sort,
-        // 'time': time,
-        // 'page': page,
-        // 'limit': limit
-      }).then((response) {
+      await DioClient.get(path: path, query: {}).then((response) {
         print(response);
         isError = !(response.statusCode! < 310);
         if (isError == false) {
@@ -71,7 +64,8 @@ class SearchProvider with ChangeNotifier {
             initPeople = false;
           } else if (type == 'posts') {
             searhPost!.data
-              ?..addAll(SearchPost.fromJson(response.data) as List<PostData>);
+              ?..addAll(
+                  SearchPost.fromJson(response.data).data as List<PostData>);
             initPost = false;
           } else if (type == 'comments') {
             searhComment!.data

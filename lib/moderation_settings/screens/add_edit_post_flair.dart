@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../widgets/alert_dialog.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+// ignore: must_be_immutable
 class AddAndEditPostFllair extends StatefulWidget {
   AddAndEditPostFllair(
       {super.key,
@@ -19,6 +20,7 @@ class AddAndEditPostFllair extends StatefulWidget {
       this.post,
       this.textColor1,
       this.counter});
+
   static const routeName = '/add-edit-post-flair';
   PostFlairModel? post;
   bool? deleteFlair;

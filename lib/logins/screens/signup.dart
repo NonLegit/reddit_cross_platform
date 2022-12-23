@@ -17,11 +17,12 @@ import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'login.dart';
 import '../widgets/web_image.dart';
-// import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 
-// (kIsWeb) ? Colors.blue : Colors.red
 class SignUp extends StatefulWidget {
-  // const SignUp({Key? key}) : super(key: key);
+  const SignUp({Key? key}) : super(key: key);
+
+  /// the route name of the screen
+
   static const routeName = '/SignUp';
   @override
   State<SignUp> createState() => SignUpState();
@@ -79,6 +80,9 @@ class SignUpState extends State<SignUp> {
   ///check the changes and detect when the finish flag is true
   ///and then activate the continue bottom
   void changeInput() {
+    //Input : none
+    //output: none
+
     isFinished = (validateEmail() == InputStatus.sucess) &
         (validateUsername() == InputStatus.sucess) &
         (validatePassword() == InputStatus.sucess);
@@ -91,6 +95,9 @@ class SignUpState extends State<SignUp> {
   /// the validator will return original if the field is empty
   /// otherwise the status will be faild and put an error message
   InputStatus validateEmail() {
+    //Input : none
+    //output: return the status of the Email input field
+
     if (inputEmailController.text.isEmpty)
       return InputStatus.original;
     else if (EmailValidator.validate(inputEmailController.text.toLowerCase()))
@@ -103,6 +110,8 @@ class SignUpState extends State<SignUp> {
 
   /// check if the username is taken or not
   Future checkUnique() async {
+    //Input : none
+    //output: none
     final provider = Provider.of<Auth>(context, listen: false);
     provider.availableUserName(inputUserNameController.text).then((value) {
       isUnige = value;
@@ -117,6 +126,8 @@ class SignUpState extends State<SignUp> {
   /// the validator will return original if the field is empty
   /// otherwise the status will be faild and put an error message
   InputStatus validateUsername() {
+    //Input : none
+    //output: return the status of the username input field
     if (inputUserNameController.text.isEmpty) {
       return InputStatus.original;
     } else if (inputUserNameController.text.length < 3 ||
@@ -140,6 +151,9 @@ class SignUpState extends State<SignUp> {
   /// the validator will return original if the field is empty
   /// otherwise the status will be faild and put an error message
   InputStatus validatePassword() {
+    //Input : none
+    //output: return the status of the Password input field
+
     if (inputPasswardController.text.isEmpty)
       return InputStatus.original;
     else if (inputPasswardController.text.length >= 8)
@@ -155,6 +169,9 @@ class SignUpState extends State<SignUp> {
   /// when user tap in the email textfailed mark it as taped
   /// when tap out check the validation using [validateEmail()]
   void controlEmailStatus(hasFocus) {
+    //Input :
+    // hasFocus:- Whether the Email input field is clikced or not
+    //output : none
     if (hasFocus == true)
       inputEmailStatus = InputStatus.taped;
     else
@@ -165,6 +182,9 @@ class SignUpState extends State<SignUp> {
   ///
   /// Similar the [controlEmailStatus()] in the methodology
   void controlUsernameStatus(hasFocus) {
+    //Input :
+    // hasFocus:- Whether the UserName input field is clikced or not
+    //output: none
     if (hasFocus)
       inputUsernameStatus = InputStatus.taped;
     else
@@ -175,6 +195,10 @@ class SignUpState extends State<SignUp> {
   ///
   /// Similar the [controlEmailStatus()] in the methodology
   void controlPasswordStatus(hasFocus) {
+    //Input :
+    // hasFocus:- Whether the password input field is clikced or not
+    //output: none
+
     if (hasFocus)
       inputPasswardStatus = InputStatus.taped;
     else
@@ -185,6 +209,9 @@ class SignUpState extends State<SignUp> {
   ///
   /// take the data from inputs listener and sent it to the server
   void submitSignUp() async {
+    //inpit : none
+    //output: none
+
     final provider = Provider.of<Auth>(context, listen: false);
     await provider.sinUp({
       'userName': inputUserNameController.text,
@@ -204,7 +231,6 @@ class SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       body: Row(
         mainAxisSize: MainAxisSize.min,
