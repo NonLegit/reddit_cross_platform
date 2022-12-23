@@ -29,7 +29,7 @@ class SubredditPostsProvider with ChangeNotifier {
           await temp.fromJson(post);
           tempData.add(temp);
         }
-        postData!..addAll( tempData);
+        postData=tempData;
         notifyListeners();
       });
     } on DioError catch (e) {

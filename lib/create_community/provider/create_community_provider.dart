@@ -12,10 +12,8 @@ class CreateCommunityProvider with ChangeNotifier {
 // return true if existed
 // false if it doesn't exist before
   Future<bool> getCommunity(String userName, BuildContext context) async {
-    print(userName);
     try {
       final prefs = await SharedPreferences.getInstance();
-      print(prefs);
       DioClient.init(prefs);
       subredditName = userName;
       final response = await DioClient.get(path: '/subreddits/$userName');

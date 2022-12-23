@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:post/messages/Provider/message_provider.dart';
+import '../../messages/provider/message_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user_message.dart';
@@ -17,27 +17,21 @@ class ShowMessageBody extends StatefulWidget {
 }
 
 class _ShowMessageBodyState extends State<ShowMessageBody> {
-  //List<String> messageBody = [];
-  //String replyMessage = '';
+
+
+    //Function called to save reply of message
+    //Parameter replyMessage ==> the message required to be sent to user
   _saveReply(replyMessage) async {
-    //print(replyMessage);
-    widget.list!.forEach((element) {
-      print(element.sId);
-    });
-    print('hiiiiiiiiiiii heal');
-    print(widget.messageId);
     Provider.of<MessageProvider>(context, listen: false).replyMessage(
         {'text': replyMessage}, context, widget.messageId).then((value) {
       setState(() {
-        // widget.list!.add(ShowMessagesModel(
-        //     toUsername: widget.appBarText,
-        //     text: replyMessage,
-        //     createdAt: DateTime.now().toString(),
-        //     type: 'userMessage'));
+
       });
     });
   }
-
+  //Parse String to Date Time and get actual time
+  //Input String 
+  //Return type string
   String getTimeOfNotification(date) {
     String howOld;
     final difference = DateTime.now().difference(DateTime.parse(date));
@@ -56,9 +50,9 @@ class _ShowMessageBodyState extends State<ShowMessageBody> {
     }
     return howOld;
   }
-
+  //Called when user accepts to be moderator in the subreddit
+  //Parameter subreddit name that user will accept invitation in
   _acceptModeration(subredditName) {
-    print(subredditName);
     Provider.of<MessageProvider>(context, listen: false)
         .acceptSubredditInvite(context, subredditName)
         .then((value) {
@@ -71,7 +65,6 @@ class _ShowMessageBodyState extends State<ShowMessageBody> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.appBarText!
-            //  'u/BasmaElhoseny01'
             ),
         titleTextStyle: const TextStyle(
             color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),
@@ -109,7 +102,6 @@ class _ShowMessageBodyState extends State<ShowMessageBody> {
                           child: RichText(
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              //softWrap: true,
                               text: TextSpan(
                                   text: '${widget.list![index].fromUsername}',
                                   style: const TextStyle(
@@ -130,8 +122,6 @@ class _ShowMessageBodyState extends State<ShowMessageBody> {
                                         style: const TextStyle(
                                             color: Colors.grey, fontSize: 10))
                                   ])
-
-                              //overflow: TextOverflow.clip,
                               ),
                         ),
                         Padding(
@@ -178,7 +168,6 @@ class _ShowMessageBodyState extends State<ShowMessageBody> {
                           builder: (context) => ReplyMessageScreen(
                                 savePost: _saveReply,
                               )));
-                  //Navigator.of(context).pushNamed(ReplyMessageScreen.routeName);
                 },
                 child: const Align(
                   alignment: Alignment.centerLeft,
@@ -186,8 +175,6 @@ class _ShowMessageBodyState extends State<ShowMessageBody> {
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.grey,
-
-                        //backgroundColor: Colors.grey
                       )),
                 ),
               ),

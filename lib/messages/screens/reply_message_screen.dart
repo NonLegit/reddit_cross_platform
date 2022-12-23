@@ -10,7 +10,7 @@ class ReplyMessageScreen extends StatefulWidget {
 
 class _ReplyMessageScreenState extends State<ReplyMessageScreen> {
   String messageBody = '';
-
+  //Set the variable messageBody while changing the value of text field
   _onChangeTextField(value) {
     setState(() {
       messageBody = value;

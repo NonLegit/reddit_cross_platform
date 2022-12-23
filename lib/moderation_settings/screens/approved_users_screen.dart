@@ -9,27 +9,44 @@ import '../models/approved.dart';
 import './add_edit_aproved_screen.dart';
 
 class ApprovedScreen extends StatefulWidget {
+  /// the route name of the screen
+
   static const routeName = '/approved';
 
   const ApprovedScreen({super.key});
-  // postTypes({super.key});
 
   @override
   State<ApprovedScreen> createState() => ApprovedScreenState();
 }
 
 class ApprovedScreenState extends State<ApprovedScreen> {
+  /// Whether fetching the data from server done or not
+
   bool fetchingDone = true;
+
+  /// Whether the didChangeDependencies is called for the first time or not
+
   bool _isInit = true;
+
+  /// Whether the build fuction calling at least one time or not
+
   bool isBuild = false;
-  // ignore: non_constant_identifier_names
+
+  /// list of all approved users in sub reddit comming from the provider
   List<Approved>? approved = [];
+
+  ///approved as map to be send to edit screen
   List<Map<String, Object>> allapproved = [];
+
+  /// the current Subrddit name of the screen
+
   String subredditName = '';
 
+  ///prepare the map allapproved from the list approved
   void extractApproved() {
+    ///Input: none
+    ///output: none
     approved!.forEach((element) {
-      print(element);
       final _id = element.user!.sId as String;
       final _userName = element.user!.userName as String;
       String _joiningDate = '';
@@ -56,25 +73,6 @@ class ApprovedScreenState extends State<ApprovedScreen> {
         "profilePicture": _profilePicture as String,
       });
     });
-    print(allapproved);
-  }
-
-  @override
-  void initState() {
-    fetchingDone = false;
-    // final provider =
-    //     Provider.of<ModerationSettingProvider>(context, listen: false);
-
-    // subredditName = provider.getSubredditName(context);
-    // provider.getUser(subredditName, UserCase.approved, context).then((value) {
-    //   approved = provider.approved;
-    //   print(approved);
-    //   extractApproved();
-    //   fetchingDone = true;
-    //   if (isBuild) setState(() {});
-    // });
-
-    super.initState();
   }
 
   @override

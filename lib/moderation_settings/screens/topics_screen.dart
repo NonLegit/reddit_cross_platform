@@ -46,7 +46,6 @@ class _TopicsScreenState extends State<TopicsScreen> {
       Provider.of<ModerationSettingProvider>(context, listen: false)
           .getCommunity(
               ModalRoute.of(context)?.settings.arguments as String, context
-              // 'Cooking'
               )
           .then((_) {
         moderatorToolsModel =
@@ -54,7 +53,6 @@ class _TopicsScreenState extends State<TopicsScreen> {
                 .moderatorToolsModel;
 
         choosenTopic = moderatorToolsModel!.choosenTopic1;
-        print(choosenTopic);
         setState(() {
           fetchingDone = true;
         });

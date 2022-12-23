@@ -3,15 +3,30 @@ import '../../moderation_settings/widgets/status.dart';
 import '../../models/wrapper.dart';
 
 class PasswordInput extends StatefulWidget {
-  // const PasswordInput({Key? key}) : super(key: key);
+  ///the basic lable of the input text field
+
   final String lable;
+
+  /// the input contrroler to listen to the password input field
   TextEditingController inputController;
+
+  ///handler func to be called when change input event called
+
   final Function changeInput;
+
+  ///handler func to be called when onpressed event called
+
   final Function ontap;
+
+  ///wheter the password text is visible or not
+
   BoolWrapper isVisable;
+
+  /// the current status of the poassword input field if it origin or taped or error
   InputStatus currentStatus;
   PasswordInput(
-      {this.lable = '',
+      {super.key,
+      this.lable = '',
       this.currentStatus = InputStatus.original,
       required this.ontap,
       required this.isVisable,

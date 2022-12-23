@@ -14,9 +14,15 @@ import 'package:email_validator/email_validator.dart';
 import 'gender.dart';
 import '../providers/authentication.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'login.dart';
+import '../widgets/web_image.dart';
 
 class SignUp extends StatefulWidget {
-  // const SignUp({Key? key}) : super(key: key);
+  const SignUp({Key? key}) : super(key: key);
+
+  /// the route name of the screen
+
   static const routeName = '/SignUp';
   @override
   State<SignUp> createState() => SignUpState();
@@ -74,6 +80,9 @@ class SignUpState extends State<SignUp> {
   ///check the changes and detect when the finish flag is true
   ///and then activate the continue bottom
   void changeInput() {
+    //Input : none
+    //output: none
+
     isFinished = (validateEmail() == InputStatus.sucess) &
         (validateUsername() == InputStatus.sucess) &
         (validatePassword() == InputStatus.sucess);
@@ -86,6 +95,9 @@ class SignUpState extends State<SignUp> {
   /// the validator will return original if the field is empty
   /// otherwise the status will be faild and put an error message
   InputStatus validateEmail() {
+    //Input : none
+    //output: return the status of the Email input field
+
     if (inputEmailController.text.isEmpty)
       return InputStatus.original;
     else if (EmailValidator.validate(inputEmailController.text.toLowerCase()))
@@ -98,6 +110,8 @@ class SignUpState extends State<SignUp> {
 
   /// check if the username is taken or not
   Future checkUnique() async {
+    //Input : none
+    //output: none
     final provider = Provider.of<Auth>(context, listen: false);
     provider.availableUserName(inputUserNameController.text).then((value) {
       isUnige = value;
@@ -112,6 +126,8 @@ class SignUpState extends State<SignUp> {
   /// the validator will return original if the field is empty
   /// otherwise the status will be faild and put an error message
   InputStatus validateUsername() {
+    //Input : none
+    //output: return the status of the username input field
     if (inputUserNameController.text.isEmpty) {
       return InputStatus.original;
     } else if (inputUserNameController.text.length < 3 ||
@@ -135,6 +151,9 @@ class SignUpState extends State<SignUp> {
   /// the validator will return original if the field is empty
   /// otherwise the status will be faild and put an error message
   InputStatus validatePassword() {
+    //Input : none
+    //output: return the status of the Password input field
+
     if (inputPasswardController.text.isEmpty)
       return InputStatus.original;
     else if (inputPasswardController.text.length >= 8)
@@ -150,6 +169,9 @@ class SignUpState extends State<SignUp> {
   /// when user tap in the email textfailed mark it as taped
   /// when tap out check the validation using [validateEmail()]
   void controlEmailStatus(hasFocus) {
+    //Input :
+    // hasFocus:- Whether the Email input field is clikced or not
+    //output : none
     if (hasFocus == true)
       inputEmailStatus = InputStatus.taped;
     else
@@ -160,6 +182,9 @@ class SignUpState extends State<SignUp> {
   ///
   /// Similar the [controlEmailStatus()] in the methodology
   void controlUsernameStatus(hasFocus) {
+    //Input :
+    // hasFocus:- Whether the UserName input field is clikced or not
+    //output: none
     if (hasFocus)
       inputUsernameStatus = InputStatus.taped;
     else
@@ -170,6 +195,10 @@ class SignUpState extends State<SignUp> {
   ///
   /// Similar the [controlEmailStatus()] in the methodology
   void controlPasswordStatus(hasFocus) {
+    //Input :
+    // hasFocus:- Whether the password input field is clikced or not
+    //output: none
+
     if (hasFocus)
       inputPasswardStatus = InputStatus.taped;
     else
@@ -180,6 +209,9 @@ class SignUpState extends State<SignUp> {
   ///
   /// take the data from inputs listener and sent it to the server
   void submitSignUp() async {
+    //inpit : none
+    //output: none
+
     final provider = Provider.of<Auth>(context, listen: false);
     await provider.sinUp({
       'userName': inputUserNameController.text,
@@ -199,201 +231,239 @@ class SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          UpperBar(UpperbarStatus.login),
-          Expanded(
-            child: Container(
-              // height: 80.h,
-              child: SingleChildScrollView(
-                child: Column(children: [
-                  UpperText('Hi new friend, welcome to Reddit'),
-                  SizedBox(
-                    height: 4.h,
+          if (kIsWeb) WebImageLoging(),
+          SizedBox(
+            width: (kIsWeb) ? 25.w : null,
+            child: Column(
+              mainAxisAlignment:
+                  (kIsWeb) ? MainAxisAlignment.center : MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (!kIsWeb) UpperBar(UpperbarStatus.login),
+                Expanded(
+                  flex: (kIsWeb) ? 0 : 1,
+                  child: Container(
+                    // height: 80.h,
+                    child: SingleChildScrollView(
+                      child: Column(children: [
+                        UpperText('Hi new friend, welcome to Reddit'),
+                        SizedBox(
+                          height: 4.h,
+                        ),
+                        ContinueWithGoogle(handler: () {}),
+                        ContinueWithFacebook(handler: () {}),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                width: (kIsWeb) ? 10.w : 20.h,
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.black26,
+                                ),
+                              ),
+                              Container(
+                                child: Text(
+                                    style: TextStyle(color: Colors.black),
+                                    'OR'),
+                              ),
+                              Container(
+                                width: (kIsWeb) ? 10.w : 20.h,
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.black26,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        TextInput(
+                            currentStatus: inputEmailStatus,
+                            lable: 'Email',
+                            ontap: (focus) {
+                              controlEmailStatus(focus);
+                              setState(() {});
+                            },
+                            changeInput: changeInput,
+                            inputController: inputEmailController),
+                        if (inputEmailStatus == InputStatus.failed)
+                          Text(
+                            emailErrorMessage,
+                            style:
+                                TextStyle(color: Theme.of(context).errorColor),
+                          ),
+                        TextInput(
+                            currentStatus: inputUsernameStatus,
+                            lable: 'Username',
+                            ontap: (focus) {
+                              controlUsernameStatus(focus);
+                              setState(() {});
+                            },
+                            changeInput: changeInput,
+                            inputController: inputUserNameController),
+                        if (inputUsernameStatus == InputStatus.failed)
+                          Text(
+                            usernameErrorMessage,
+                            style:
+                                TextStyle(color: Theme.of(context).errorColor),
+                          ),
+                        PasswordInput(
+                            lable: 'Passward',
+                            currentStatus: inputPasswardStatus,
+                            ontap: (focus) {
+                              controlPasswordStatus(focus);
+                              setState(() {});
+                            },
+                            isVisable: isVisable,
+                            changeInput: () {
+                              setState(() {
+                                changeInput();
+                              });
+                            },
+                            inputController: inputPasswardController),
+                        if (inputPasswardStatus == InputStatus.failed)
+                          Text(
+                            passwordErrorMessage,
+                            style:
+                                TextStyle(color: Theme.of(context).errorColor),
+                          ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(children: [
+                            TextSpan(
+                                style: TextStyle(color: Colors.black),
+                                text: 'By continuing, you agree to our '),
+                            TextSpan(
+                              text: 'User Agreement ',
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: (kIsWeb) ? Colors.blue : Colors.red),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () async {
+                                  //on tap code here, you can navigate to other page or URL
+                                  String url =
+                                      "https://www.redditinc.com/policies/user-agreement";
+                                  var urllaunchable = await canLaunch(
+                                      url); //canLaunch is from url_launcher package
+                                  if (urllaunchable) {
+                                    await launch(
+                                        url); //launch is from url_launcher package to launch URL
+                                  } else {
+                                    print("URL can't be launched.");
+                                  }
+                                },
+                            ),
+                            TextSpan(
+                                style: TextStyle(color: Colors.black),
+                                text: 'and '),
+                            TextSpan(
+                              text: 'Privacy Policy',
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: (kIsWeb) ? Colors.blue : Colors.red),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () async {
+                                  //on tap code here, you can navigate to other page or URL
+                                  String url =
+                                      "https://www.reddit.com/policies/privacy-policy";
+                                  var urllaunchable = await canLaunch(
+                                      url); //canLaunch is from url_launcher package
+                                  if (urllaunchable) {
+                                    await launch(
+                                        url); //launch is from url_launcher package to launch URL
+                                  } else {
+                                    print("URL can't be launched.");
+                                  }
+                                },
+                            ),
+                          ]),
+                        ),
+                      ]),
+                    ),
                   ),
-                  ContinueWithGoogle(handler: () {}),
-                  ContinueWithFacebook(handler: () {}),
+                ),
+                if (isSubmit && isError)
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          width: 20.h,
-                          child: Divider(
-                            // height: 2,
-                            thickness: 1,
-                            color: Colors.black26,
-                          ),
-                        ),
-                        Container(
-                          child:
-                              Text(style: TextStyle(color: Colors.black), 'OR'),
-                        ),
-                        Container(
-                          width: 20.h,
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black26,
-                          ),
-                        )
-                      ],
+                    padding: EdgeInsets.all(5.w),
+                    child: Center(
+                      child: Text(
+                          textAlign: TextAlign.center,
+                          errorMessage,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Theme.of(context).errorColor,
+                          )),
                     ),
                   ),
-                  SizedBox(
-                    height: 3.h,
-                  ),
-                  TextInput(
-                      currentStatus: inputEmailStatus,
-                      lable: 'Email',
-                      ontap: (focus) {
-                        controlEmailStatus(focus);
-                        setState(() {});
-                      },
-                      changeInput: changeInput,
-                      inputController: inputEmailController),
-                  if (inputEmailStatus == InputStatus.failed)
-                    Text(
-                      emailErrorMessage,
-                      style: TextStyle(color: Theme.of(context).errorColor),
-                    ),
-                  TextInput(
-                      currentStatus: inputUsernameStatus,
-                      lable: 'Username',
-                      ontap: (focus) {
-                        controlUsernameStatus(focus);
-                        setState(() {});
-                      },
-                      changeInput: changeInput,
-                      inputController: inputUserNameController),
-                  if (inputUsernameStatus == InputStatus.failed)
-                    Text(
-                      usernameErrorMessage,
-                      style: TextStyle(color: Theme.of(context).errorColor),
-                    ),
-                  PasswordInput(
-                      lable: 'Passward',
-                      currentStatus: inputPasswardStatus,
-                      ontap: (focus) {
-                        controlPasswordStatus(focus);
-                        setState(() {});
-                      },
-                      isVisable: isVisable,
-                      changeInput: () {
-                        setState(() {
-                          changeInput();
-                        });
-                      },
-                      inputController: inputPasswardController),
-                  if (inputPasswardStatus == InputStatus.failed)
-                    Text(
-                      passwordErrorMessage,
-                      style: TextStyle(color: Theme.of(context).errorColor),
-                    ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(children: [
-                      TextSpan(
-                          style: TextStyle(color: Colors.black),
-                          text: 'By continuing, you agree to our '),
-                      TextSpan(
-                        text: 'User Agreement ',
+                if (isSubmit && !isError)
+                  Padding(
+                    padding: EdgeInsets.all(5.w),
+                    child: Text(
+                        textAlign: TextAlign.center,
+                        'you will receve if that adress maches your mail',
                         style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Theme.of(context).primaryColor),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () async {
-                            //on tap code here, you can navigate to other page or URL
-                            String url =
-                                "https://www.redditinc.com/policies/user-agreement";
-                            var urllaunchable = await canLaunch(
-                                url); //canLaunch is from url_launcher package
-                            if (urllaunchable) {
-                              await launch(
-                                  url); //launch is from url_launcher package to launch URL
-                            } else {
-                              print("URL can't be launched.");
-                            }
-                          },
-                      ),
-                      TextSpan(
-                          style: TextStyle(color: Colors.black), text: 'and '),
-                      TextSpan(
-                        text: 'Privacy Policy',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Theme.of(context).primaryColor),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () async {
-                            //on tap code here, you can navigate to other page or URL
-                            String url =
-                                "https://www.reddit.com/policies/privacy-policy";
-                            var urllaunchable = await canLaunch(
-                                url); //canLaunch is from url_launcher package
-                            if (urllaunchable) {
-                              await launch(
-                                  url); //launch is from url_launcher package to launch URL
-                            } else {
-                              print("URL can't be launched.");
-                            }
-                          },
-                      ),
-                    ]),
+                          fontSize: 18,
+                          color: Colors.green,
+                        )),
                   ),
-                ]),
-              ),
+                if (kIsWeb) SizedBox(height: 5.h),
+                Container(
+                    height: (kIsWeb) ? 40 : null,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 8.0,
+                        right: 8.0,
+                      ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          onPrimary: Colors.white,
+                          primary: (kIsWeb) ? Colors.blue : Colors.red,
+                          onSurface: Colors.grey[700],
+                          shape: (kIsWeb)
+                              ? null
+                              : RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                        ),
+                        // onPressed: () {},
+                        onPressed: isFinished ? submitSignUp : null,
+                        child: Text('Continue'),
+                      ),
+                    )),
+                if (kIsWeb) SizedBox(height: 5.h),
+                if (kIsWeb)
+                  Row(
+                    children: [
+                      Text(
+                        'alreday has account? ',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, Login.routeName);
+                          },
+                          child: Text(
+                            'Log in',
+                            style: TextStyle(color: Colors.blue),
+                          ))
+                    ],
+                  ),
+              ],
             ),
           ),
-          if (isSubmit && isError)
-            Padding(
-              padding: EdgeInsets.all(5.w),
-              child: Center(
-                child: Text(
-                    textAlign: TextAlign.center,
-                    errorMessage,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Theme.of(context).errorColor,
-                    )),
-              ),
-            ),
-          if (isSubmit && !isError)
-            Padding(
-              padding: EdgeInsets.all(5.w),
-              child: Text(
-                  textAlign: TextAlign.center,
-                  'you will receve if that adress maches your mail',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.green,
-                  )),
-            ),
-          Container(
-              width: double.infinity,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: 8.0,
-                  right: 8.0,
-                ),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                    primary: Colors.red,
-                    onSurface: Colors.grey[700],
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                  ),
-                  onPressed: isFinished ? submitSignUp : null,
-                  child: Text('Continue'),
-                ),
-              ))
         ],
       ),
     );

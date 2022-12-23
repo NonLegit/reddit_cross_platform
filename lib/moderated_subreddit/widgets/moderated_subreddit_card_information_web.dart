@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
 import '../../models/subreddit_data.dart';
+import '../../moderation_settings/screens/traffic_state.dart';
+import '../../moderation_settings/screens/traffic_table.dart';
 
 class ModeratedSubredditCardInformationWeb extends StatelessWidget {
   const ModeratedSubredditCardInformationWeb({
@@ -24,7 +26,7 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
                 Container(
                   width: 100.h,
                   height: 6.h,
-                  padding: EdgeInsets.only(top: 10,left: 10),
+                  padding: EdgeInsets.only(top: 10, left: 10),
                   child: Row(
                     //mainAxisAlignment: MainAxisAlignment.start,
                     //crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,9 +36,14 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(width: 7.h,),
+                      SizedBox(
+                        width: 7.h,
+                      ),
                       ElevatedButton(
-                          onPressed: null,
+                          onPressed: () {
+                            Navigator.pushNamed(context, TraficState.routeName,
+                                arguments: loadedSubreddit!.name);
+                          },
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.transparent),

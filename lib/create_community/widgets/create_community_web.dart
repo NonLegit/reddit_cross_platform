@@ -75,15 +75,12 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
   }
 
   _toggleSwitch(value) {
-    print(value);
-    print(widget.checked);
     //used to toggle the switch of 18+ to true or false
     //return type void
 
     setState(() {
       toggleSwitch = value;
     });
-    print(widget.checked);
   }
 
   _onClickWeb(index, type) {
@@ -99,12 +96,6 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
   void initState() {
     // TODO: implement initState
     choosenCommunityType = communityType.keys.elementAt(0);
-    // textFieldFocus.addListener(() {
-    //   print(textFieldFocus.hasFocus);
-    //   if (!textFieldFocus.hasFocus) {
-    //     _validateTextField();
-    //   }
-    // });
     widget.count = 21 - widget._communityNameController.text.length;
     selectedIndex = 0;
     super.initState();
@@ -117,29 +108,24 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
       uniqueCommunityName = false;
     });
     if (name.length >= 3
-        //&&
-        //widget._formKey.currentState!.validate()
         ) {
       try {
         bool found =
             await Provider.of<CreateCommunityProvider>(context, listen: false)
-                .getCommunity(widget._communityNameController.text,context);
+                .getCommunity(widget._communityNameController.text, context);
         if (found) {
           setState(() {
             uniqueCommunityName = false;
             widget.errorMessage =
                 'Sorry,${widget._communityNameController.text} is taken.Try another.';
-            //validating = false;
           });
         } else {
           setState(() {
             uniqueCommunityName = true;
             widget.errorMessage = '';
-            //validating = false;
           });
         }
       } catch (error) {
-        //print(error);
       }
     }
   }
@@ -181,23 +167,12 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
         nSFW: toggleSwitch,
         name: widget._communityNameController.text,
         type: choosenCommunityType);
-    print(toggleSwitch);
-    print(widget._communityNameController.text);
-    print(choosenCommunityType);
     await Provider.of<CreateCommunityProvider>(context, listen: false)
-        .postCommunity(createCommunityModel.toJson(),context)
+        .postCommunity(createCommunityModel.toJson(), context)
         .then((value) {
-      //if(value)
-      // print('Community $value');
       Navigator.of(context).pushNamed(ModeratedSubredditScreen.routeName,
-          //  arguments: 'Cooking'
           arguments: widget._communityNameController.text);
     });
-    // if (postCommunity) {
-    //   setState(() {
-    //     done = true;
-    //   });
-    //}
   }
 
   @override
@@ -269,8 +244,6 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
                       'r/',
                       style: TextStyle(color: Colors.black45),
                     ),
-                    // errorMaxLines: 1,
-                    // errorText: widget.errorMessage,
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
                         borderSide: const BorderSide(color: Colors.black)),
@@ -385,7 +358,7 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
                       onPressed: () async {
                         _validateTextField();
                         if (validated) {
-                          await _checkIfUnique().then((value) {
+                          _checkIfUnique().then((value) {
                             if (uniqueCommunityName) {
                               _saveCommunity();
                             }

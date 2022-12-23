@@ -11,12 +11,12 @@ class PostFlairSettings extends StatefulWidget {
 
 class _PostFlairSettingsState extends State<PostFlairSettings> {
   bool modOnlySwitch = false;
+
+  //Used to change state of mod Only switch
   toggleSwitch(value) {
-    print('hi');
     setState(() {
       modOnlySwitch = value;
     });
-    print(modOnlySwitch);
   }
 
   @override
@@ -35,7 +35,6 @@ class _PostFlairSettingsState extends State<PostFlairSettings> {
       ),
       body: Container(
           child: Row(
-        //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Icon(Icons.shield, color: Colors.grey),
           Divider(),

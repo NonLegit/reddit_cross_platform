@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:get/get.dart';
-import '../../messages/Provider/message_provider.dart';
+import '../../messages/provider/message_provider.dart';
+import '../../messages/screens/web_message_screen.dart';
 import '../models/notification_class_model.dart';
 
 import 'package:provider/provider.dart';
@@ -29,11 +30,6 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  // Icons when expansion
-  // dynamic icRecent = Icon(IconBroken.Arrow___Right_2);
-  // dynamic icModerating = Icon(IconBroken.Arrow___Right_2);
-  // dynamic icYourCommunities = Icon(IconBroken.Arrow___Right_2);
-  // bools
   final HomeController controller = Get.put(
     HomeController(),
   );
@@ -42,38 +38,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   bool isOnline = true;
   bool hover = false;
   bool markAsRead = false;
-  //Keys
-  // var scaffoldKey = GlobalKey<ScaffoldState>();
-  // var formKey = GlobalKey<FormState>();
-  // var drawerKey = GlobalKey<DrawerControllerState>();
-  //Model Reccent visited
-  //List<ListTile> recentlyVisited = [
-  // //ListTile(
-  //   leading: CircleAvatar(
-  //     radius: 10,
-  //     backgroundColor: Colors.blue,
-  //   ),
-  //   title: Text("r/" + "Cross_platform"),
-  //   horizontalTitleGap: 0,
-  // ),
-  //ListTile(
-  //   leading: CircleAvatar(
-  //     radius: 10,
-  //     backgroundColor: Colors.blue,
-  //   ),
-  //   title: Text("r/" + "Egypt"),
-  //   horizontalTitleGap: 0,
-  // ),
-  //ListTile(
-  //   leading: CircleAvatar(
-  //     radius: 10,
-  //     backgroundColor: Colors.blue,
-  //   ),
-  //   title: Text("r/" + "memes"),
-  //   horizontalTitleGap: 0,
-  // ),
-  //];
-  // drawer functions
   void showDrawer(BuildContext context) {
     Scaffold.of(context).openDrawer();
   }
@@ -81,48 +45,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void showEndDrawer(BuildContext context) {
     Scaffold.of(context).openEndDrawer();
   }
-
-  // List<ListTile> Communoties = [
-  //   ListTile(
-  //     trailing: IconButton(
-  //         onPressed: () {},
-  //         icon: Icon(
-  //           IconBroken.Star,
-  //         )),
-  //     leading: CircleAvatar(
-  //       radius: 10,
-  //       backgroundColor: Colors.blue,
-  //     ),
-  //     title: Text("r/" + "Cross_platform"),
-  //     horizontalTitleGap: 0,
-  //   ),
-  //   ListTile(
-  //     trailing: IconButton(
-  //         onPressed: () {},
-  //         icon: Icon(
-  //           IconBroken.Star,
-  //         )),
-  //     leading: CircleAvatar(
-  //       radius: 10,
-  //       backgroundColor: Colors.blue,
-  //     ),
-  //     title: Text("r/" + "Egypt"),
-  //     horizontalTitleGap: 0,
-  //   ),
-  //   ListTile(
-  //     trailing: IconButton(
-  //         onPressed: () {},
-  //         icon: Icon(
-  //           IconBroken.Star,
-  //         )),
-  //     leading: CircleAvatar(
-  //       radius: 10,
-  //       backgroundColor: Colors.blue,
-  //     ),
-  //     title: Text("r/" + "memes"),
-  //     horizontalTitleGap: 0,
-  //   ),
-  // ];
 
   int unreadNotification = 0;
   bool returned = false;
@@ -149,7 +71,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
       setState(() {
         returned = false;
       });
-      //  _updateCount();
       await Provider.of<NotificationProvider>(context, listen: false)
           .getNotification(context)
           .then((value) {
@@ -174,16 +95,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
+
+  //Call end point to mark notification as read 
+  //return void
   _markAsRead() async {
     await Provider.of<NotificationProvider>(context, listen: false)
         .markAllAsRead(context);
   }
-
+  //Call end point to mark all notification as read 
+  //return void
   markAllAsRead() {
     _markAsRead();
-    print('hiiiiiiiiiiiii');
     usersNotificationEarlier.forEach((element) {
-      print(element.seen);
       if (!element.seen!) {
         setState(() {
           element.seen = true;
@@ -191,29 +114,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
       }
     });
     usersNotificationToday.forEach((element) {
-      print(element);
       if (!element.seen!) {
         setState(() {
           element.seen = true;
         });
       }
     });
-    Navigator.of(context).pop();
+    if (!kIsWeb) Navigator.of(context).pop();
   }
 
-  _saveNewMessage(username, subject, message, messageShow) {
-    Provider.of<MessageProvider>(context, listen: false).createMessage(
-        {'to': username, 'text': message, 'subject': subject},
-        context).then((value) {
-      setState(() {});
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    //_updateCount();
-    //final data = Provider.of<NotificationProvider>(context,listen: false);
-    //var cubit =layoutCubit.get(context);
     MediaQueryData queryData = MediaQuery.of(context);
     final height = queryData.size.height;
     final width = queryData.size.width;
@@ -327,7 +239,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         usersNotificationEarlier: usersNotificationEarlier,
                         usersNotificationToday: usersNotificationToday,
                         changeNumOfNotification: _changeNumOfNotification),
-                const MessageMainScreen(),
+                MessageMainScreen(),
               ]),
             ),
           )
@@ -335,116 +247,112 @@ class _NotificationScreenState extends State<NotificationScreen> {
             appBar: AppBar(title: Text('Hello')),
             body: Container(
               color: Colors.indigo[50],
+              height: MediaQuery.of(context).size.height,
               child: Container(
                 width: double.infinity,
-                margin: EdgeInsets.only(left: 25.w, right: 25.w),
-                child: Center(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Divider(
-                          color: Colors.transparent,
-                          height: 6.h,
-                        ),
-                        const Text(
-                          'Notifications',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        Divider(
-                          color: Colors.transparent,
-                          height: 4.h,
-                        ),
-                        Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(NotificationScreen.routeName);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Colors.blue, width: 0.2.h))),
-                                child: const Text(
-                                  'Activity',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                margin: EdgeInsets.only(left: 20.w, right: 20.w),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Divider(
+                        color: Colors.transparent,
+                        height: 6.h,
+                      ),
+                      const Text(
+                        'Notifications',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                        height: 4.h,
+                      ),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(NotificationScreen.routeName);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Colors.blue, width: 0.2.h))),
+                              child: const Text(
+                                'Activity',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ),
-                            SizedBox(
-                              width: 6.h,
+                          ),
+                          SizedBox(
+                            width: 6.h,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(WebMessageScreen.routeName);
+                            },
+                            onHover: (value) {
+                              setState(() {
+                                hover = value;
+                              });
+                            },
+                            child: Text(
+                              'Messages',
+                              style: TextStyle(
+                                  color: hover ? Colors.black : Colors.grey,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
                             ),
-                            InkWell(
+                          ),
+                          const Spacer(
+                            flex: 1,
+                          ),
+                          InkWell(
                               onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(MessageMainScreen.routeName);
+                                //TO DO MARK ALL AS READ
+                                markAllAsRead();
                               },
                               onHover: (value) {
                                 setState(() {
-                                  hover = value;
+                                  markAsRead = value;
                                 });
                               },
-                              child: Text(
-                                'Messages',
-                                style: TextStyle(
-                                    color: hover ? Colors.black : Colors.grey,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const Spacer(
-                              flex: 1,
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  //TO DO MARK ALL AS READ
-                                },
-                                onHover: (value) {
-                                  setState(() {
-                                    markAsRead = value;
-                                  });
-                                },
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/envelope.png',
-                                      color: Colors.grey,
-                                      height: 3.h,
-                                    ),
-                                    Text(
-                                      'Mark as read',
-                                      style: TextStyle(
-                                          color: markAsRead
-                                              ? Colors.black
-                                              : Colors.grey,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ))
-                          ],
-                        ),
-                        Divider(
-                          color: Colors.transparent,
-                          height: 4.h,
-                        ),
-                        Container(
-                          color: Colors.white,
-                          child: NotificationsMainScreen(
-                              usersNotificationEarlier:
-                                  usersNotificationEarlier,
-                              usersNotificationToday: usersNotificationToday,
-                              changeNumOfNotification:
-                                  _changeNumOfNotification),
-                        ),
-                      ],
-                    ),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/envelope.png',
+                                    color: Colors.grey,
+                                    height: 3.h,
+                                  ),
+                                  Text(
+                                    'Mark as read',
+                                    style: TextStyle(
+                                        color: markAsRead
+                                            ? Colors.black
+                                            : Colors.grey,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ))
+                        ],
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                        height: 4.h,
+                      ),
+                      Container(
+                        color: Colors.white,
+                        child: NotificationsMainScreen(
+                            usersNotificationEarlier: usersNotificationEarlier,
+                            usersNotificationToday: usersNotificationToday,
+                            changeNumOfNotification: _changeNumOfNotification),
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ContinueWithEmail extends StatelessWidget {
-  // const MyWidget({Key? key}) : super(key: key);
+  ///handler func to be called when onpressed event called
   final VoidCallback handler;
 
-  ContinueWithEmail({required this.handler});
+  const ContinueWithEmail({super.key, required this.handler});
   @override
   Widget build(BuildContext context) {
     return Padding(
