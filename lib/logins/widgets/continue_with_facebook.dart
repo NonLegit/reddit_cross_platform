@@ -2,9 +2,9 @@ import '../../icons/google_facebook_icons.dart';
 import 'package:flutter/material.dart';
 
 class ContinueWithFacebook extends StatelessWidget {
-  // const ContinueWithFacebook({Key? key}) : super(key: key);
+  ///handler func to be called when onpressed event called
   final VoidCallback handler;
-  ContinueWithFacebook({required this.handler});
+  const ContinueWithFacebook({super.key, required this.handler});
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -14,6 +14,8 @@ import './muted_user_screen.dart';
 import './moderators_screen.dart';
 
 class ModeratorTools extends StatefulWidget {
+  /// the route name of the screen
+
   static const routeName = '/moderatortools';
 
   const ModeratorTools({super.key});
