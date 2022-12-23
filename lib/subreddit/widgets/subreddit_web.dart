@@ -4,9 +4,19 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../models/subreddit_about _rules.dart';
 import '../../widgets/subreddit_about.dart';
 import '../../models/subreddit_data.dart';
-import '../widgets/subreddit_join_buttons.dart';
+import '../providers/subreddit_provider.dart';
+import 'package:provider/provider.dart';
 import '../widgets/subreddit_post_web.dart';
 import '../../widgets/subreddit_join_button_web.dart';
+extension ColorExtension on String {
+  toColor() {
+    var hexString = this;
+    final buffer = StringBuffer();
+    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+    buffer.write(hexString.replaceFirst('#', ''));
+    return Color(int.parse(buffer.toString(), radix: 16));
+  }
+}
 class SubredditWeb extends StatelessWidget {
   String userName;
   SubredditWeb(
@@ -24,11 +34,16 @@ class SubredditWeb extends StatelessWidget {
   final TabBar tabBar;
   bool isLoading;
   TabController? controller;
+  
   @override
   Widget build(BuildContext context) {
+    bool showTheme= Provider.of<SubredditProvider>(context, listen: true).gettingTheme as bool;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: _scaffoldKey,
+        backgroundColor: (showTheme)
+            ? Color.fromARGB(255, 218, 224, 230)
+            : (loadedSubreddit!.theme!.contains('https'))?Image.network(loadedSubreddit!.theme.toString()).color:'#6ae792'.toColor(),
         body: isLoading
             ? const Center(
                 child: Icon(
@@ -81,7 +96,7 @@ class SubredditWeb extends StatelessWidget {
                                   left: 0,
                                   bottom: 0,
                                   child: Container(
-                                     // padding: EdgeInsets.only(left: 250),
+                                      // padding: EdgeInsets.only(left: 250),
                                       color: Colors.white,
                                       child: Column(
                                         mainAxisAlignment:
@@ -95,13 +110,15 @@ class SubredditWeb extends StatelessWidget {
                                             height: 15.h,
                                             padding: EdgeInsets.only(left: 250),
                                             child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
                                               children: [
                                                 Container(
                                                   width: 10.w,
                                                   height: 20.h,
-                                                 // margin: EdgeInsets.only(bottom: 30,top: 40),
+                                                  // margin: EdgeInsets.only(bottom: 30,top: 40),
 
                                                   decoration: BoxDecoration(
                                                     color: Colors.orange,
@@ -116,17 +133,19 @@ class SubredditWeb extends StatelessWidget {
                                                 ),
                                                 Container(
                                                   height: 20.h,
-                                                  margin: EdgeInsets.only(top: 20),
+                                                  margin:
+                                                      EdgeInsets.only(top: 20),
                                                   child: Column(
                                                     children: [
                                                       Text(
                                                           '${loadedSubreddit!.displayName.toString()}',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                                      fontSize: 35
-                                                                      )),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize:
+                                                                      35)),
                                                       Text(
                                                         'r/${loadedSubreddit!.name.toString()}',
                                                       ),
@@ -158,7 +177,9 @@ class SubredditWeb extends StatelessWidget {
                 body: isLoading
                     ? LoadingReddit()
                     : TabBarView(controller: controller, children: [
-                      SubredditePostWeb(loadedSubreddit: loadedSubreddit,),
+                        SubredditePostWeb(
+                          loadedSubreddit: loadedSubreddit,
+                        ),
                         // SubredditPosts(routeNamePop: SubredditScreen.routeName),
                         SubredditAbout(
                           rules: loadedSubreddit!.rules

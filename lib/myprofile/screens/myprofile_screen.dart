@@ -22,6 +22,7 @@ class _MyProfileState extends State<MyProfileScreen>
   var _isLoading = false;
   var _isInit = true;
   MyProfileData? loadProfile;
+  //=MyProfileData(userName: 'Zeinab', email:'Zeianb', profilePicture: '', profileBackPicture: '', description: 'My profile', displayName: 'Zeianb', createdAt: '2019-08-24T14:15:22Z', followersCount:1, postKarma: 0, commentkarma: 0);
   //=============Tab Bar======================//
   TabController? _controller;
   List<Tab> tabs = <Tab>[
@@ -33,11 +34,6 @@ class _MyProfileState extends State<MyProfileScreen>
     const Tab(text: 'OVERVIEW'),
     const Tab(text: 'Posts'),
     const Tab(text: 'Comments'),
-    const Tab(text: 'HISTORY'),
-    const Tab(text: 'SAVED'),
-    const Tab(text: 'HIDDEN'),
-    const Tab(text: 'UPVOTED'),
-    const Tab(text: 'DOWNVOTED'),
     const Tab(text: 'About'),
   ];
   TabBar get _tabBar => TabBar(
@@ -54,7 +50,7 @@ class _MyProfileState extends State<MyProfileScreen>
   @override
   void initState() {
     super.initState();
-    _controller = new TabController(length: (kIsWeb) ? 9 : 3, vsync: this);
+    _controller = new TabController(length: (kIsWeb) ? 4 : 3, vsync: this);
   }
 
   @override
@@ -66,7 +62,7 @@ class _MyProfileState extends State<MyProfileScreen>
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
-    //===============================Fetch subreddit data =======================================//
+    // //===============================Fetch subreddit data =======================================//
     if (_isInit) {
       setState(() {
         _isLoading = true;

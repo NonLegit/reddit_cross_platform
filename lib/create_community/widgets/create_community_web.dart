@@ -355,7 +355,7 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
                       width: 1.w,
                     ),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         _validateTextField();
                         if (validated) {
                           _checkIfUnique().then((value) {
@@ -364,6 +364,12 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
                             }
                           });
                         }
+                        // if (validated) {
+                        //   _saveCommunity();
+                        //   // Navigator.of(context).pushNamed(
+                        //   //     ModeratedSubredditScreen.routeName,
+                        //   //     arguments: widget._communityNameController.text);
+                        // }
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue,

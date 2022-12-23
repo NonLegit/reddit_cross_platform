@@ -55,8 +55,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   void initState() {
+    //  _updateCount();
     super.initState();
   }
+
+  // _updateCount() {
+  //   //final prefs = await SharedPreferences.getInstance();
+  //   unreadNotification = Provider.of<NotificationProvider>(context).count!;
+  //   print('In notifications          $unreadNotification');
+  // }
 
   @override
   void didChangeDependencies() async {
