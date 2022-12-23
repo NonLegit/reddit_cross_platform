@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:post/networks/const_endpoint_data.dart';
 import '../models/muted.dart';
-import 'package:flutter/material.dart';
-import 'package:post/networks/const_endpoint_data.dart';
-import '../models/moderators.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import '../provider/change_user_management.dart';
 import '../../widgets/custom_snack_bar.dart';
@@ -12,9 +8,19 @@ import './muted_user_screen.dart';
 import '../widgets/input_text_field.dart';
 
 class EditMutedScreen extends StatefulWidget {
+  /// user name who will be muted
+
   final String? userName;
+
+  /// model carry the data of muted
+
   MuteInfo? mutedInfo;
+
+  /// the current Subrddit name of the screen
+
   final String subredditName;
+
+  /// the route name of the screen
 
   static const routeName = './editmuted';
   EditMutedScreen(
@@ -24,10 +30,10 @@ class EditMutedScreen extends StatefulWidget {
       this.mutedInfo = null});
 
   @override
-  State<EditMutedScreen> createState() => _EditMutedScreenState();
+  State<EditMutedScreen> createState() => EditMutedScreenState();
 }
 
-class _EditMutedScreenState extends State<EditMutedScreen> {
+class EditMutedScreenState extends State<EditMutedScreen> {
   bool isNew = true;
   String title = 'Add a muted user';
   bool isSlected = false;
@@ -60,6 +66,12 @@ class _EditMutedScreenState extends State<EditMutedScreen> {
       isSlected = false;
     }
   }
+
+  /// post the Muted  info to the backend server
+  ///
+  /// take the data from input controller info and from Mute model
+  /// if the server return failed response then there is error message will appare
+  /// other show sucess message
 
   Future<void> doneChanges() async {
     String sucessMessage;

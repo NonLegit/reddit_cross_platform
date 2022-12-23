@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/comments/providers/comments_provider.dart';
 import 'package:post/create_community/widgets/community_type.dart';
 import 'package:post/messages/screens/reply_message_screen.dart';
 import 'package:post/messages/screens/show_message_body.dart';
-import 'package:post/moderation_settings/models/moderators.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import './messages/screens/web_message_all_screen.dart';
+import './messages/screens/web_message_screen.dart';
 import 'package:post/providers/global_settings.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
@@ -36,37 +39,21 @@ import './logins/screens/forgot_password.dart';
 import './logins/screens/forgot_username.dart';
 import './screens/emptyscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:post/home/screens/home_layout.dart';
 import 'logins/providers/notification.dart';
-import 'messages/Provider/message_provider.dart';
+import 'messages/provider/message_provider.dart';
 import 'messages/models/user_message.dart';
 import 'messages/screens/new_message_screen.dart';
-import 'myprofile/screens/myprofile_screen.dart';
+import 'messages/screens/unread_message_screen.dart';
+import 'messages/screens/web_new_message_screen.dart';
+import 'messages/screens/web_sent_message.dart';
 import 'notification/models/notification_class_model.dart';
-import 'other_profile/screens/others_profile_screen.dart';
-import 'myprofile/screens/edit_profile_screen.dart';
-import 'myprofile/screens/user_followers_screen.dart';
 import 'show_post/screens/show_post.dart';
 import 'show_post/widgets/edit_post.dart';
 import 'post/provider/post_provider.dart';
-// import 'providers/subreddit_post_provider.dart';
-import 'subreddit/screens/subreddit_screen.dart';
-import 'screens/subreddit_search_screen.dart';
-import 'subreddit/screens/community_info_screen.dart';
-import 'screens/contact_mod_message_screen.dart';
-import 'moderated_subreddit/screens/mod_notification_screen.dart';
-import 'moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import './settings/screens/settings.dart';
 import './settings/screens/account_settings.dart';
 import './settings/screens/blocked_accounts.dart';
-import 'create_community/screens/create_community.dart';
-import 'logins/screens/login.dart';
-import 'logins/screens/signup.dart';
-import 'logins/screens/forgot_password.dart';
-import 'logins/screens/forgot_username.dart';
 import './settings/screens/choose_country.dart';
-import './settings/screens/change_email.dart';
-import './settings/screens/change_password.dart';
 import './settings/screens/change_email.dart';
 import './settings/screens/change_password.dart';
 import 'moderation_settings/screens/description_screen.dart';
@@ -87,16 +74,11 @@ import 'moderation_settings/screens/post_flair.dart';
 import 'moderation_settings/screens/post_flair_settings.dart';
 import './search/screens/search.dart';
 import './search/screens/search_inside.dart';
-import './discover/screens/discover_screen.dart';
-import 'moderation_settings/screens/add_edit_aproved_screen.dart';
-import 'moderation_settings/screens/add_edit_moderator_screen.dart';
-
+import './moderation_settings/screens/traffic_state.dart';
+import './moderation_settings/screens/traffic_table.dart';
 //=====================================Providers====================================================//
-// import './providers/profile_comments_provider.dart';
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
-// import './providers/profile_comments_provider.dart';
-// import './providers/profile_post_provider.dart';
 import './providers/Profile_provider.dart';
 import 'providers/subreddit_posts_provider.dart';
 import './subreddit/providers/subreddit_provider.dart';
@@ -110,7 +92,10 @@ import './moderation_settings/provider/change_user_management.dart';
 import './settings/provider/user_settings_provider.dart';
 import './search/provider/search_provider.dart';
 import './discover/providers/discover_provider.dart';
+import './moderation_settings/provider/moderation_general_data.dart';
+import 'widgets/custom_snack_bar.dart';
 //import './models/push_notification_model.dart';
+import './shared/constants.dart';
 
 String returnCorrectText(type, name, user) {
   String text = '';
@@ -179,65 +164,59 @@ String returnCorrectDescription(type, description, name) {
 }
 
 //@pragma('vm:entry-point')
-NotificationModel notificationModel = NotificationModel();
-NotificationProvider provider = NotificationProvider();
-ShowMessagesModel messageModel = ShowMessagesModel();
-final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('hidojsljfkbgdvdbhnjkjhgvfcvgbdsfghgfdfffghjhdfrghhnjmk');
-  await Firebase.initializeApp();
-  await FirebaseMessaging.instance.getToken();
-  //print('hidojsljfkbgdvdbhnjkjhgvfcvgbhnjmk');
-  await setupFlutterNotifications();
-  print('Handling a background message ${message.messageId}');
-  RemoteNotification? notification = message.notification;
-  print('hiiiiiiiiiii');
-  print(message.data['val']);
-  if (json.decode(message.data['val'])['type'] == 'userMention' ||
-      json.decode(message.data['val'])['type'] == 'follow' ||
-      json.decode(message.data['val'])['type'] == 'postReply' ||
-      json.decode(message.data['val'])['type'] == 'commentReply') {
-    notificationModel =
-        NotificationModel.fromJson(json.decode(message.data['val']));
-    //provider.incrementCounter();
-    flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        returnCorrectText(notificationModel.type,
-            notificationModel.requiredName, notificationModel.followeruserName),
-        returnCorrectDescription(notificationModel.type,
-            notificationModel.description, notificationModel.requiredName),
-        NotificationDetails(
-            android: AndroidNotificationDetails(
-          channel.id,
-          channel.name,
-          channelDescription: channel.description,
-          color: Colors.blue,
-          playSound: true,
-          // icon: ('assets/images/reddit.png'),
-        )));
-  } else {
-    final json1 = json.decode(message.data['val']);
-    print(json1);
-    String text = (json1['subject'] == null)
-        ? returnText(json1['type'])
-        : json1['subject']['text'];
-    String body =
-        (json1['text'] == null) ? returnBody(json1['type']) : json1['text'];
-    flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        text,
-        body,
-        NotificationDetails(
-            android: AndroidNotificationDetails(
-          channel.id,
-          channel.name,
-          channelDescription: channel.description,
-          color: Colors.blue,
-          playSound: true,
-          // icon: ('assets/images/reddit.png'),
-        )));
-  }
-}
+// NotificationModel notificationModel = NotificationModel();
+// NotificationProvider provider = NotificationProvider();
+// ShowMessagesModel messageModel = ShowMessagesModel();
+// final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   await Firebase.initializeApp();
+//   await FirebaseMessaging.instance.getToken();
+//   await setupFlutterNotifications();
+//   RemoteNotification? notification = message.notification;
+//   if (json.decode(message.data['val'])['type'] == 'userMention' ||
+//       json.decode(message.data['val'])['type'] == 'follow' ||
+//       json.decode(message.data['val'])['type'] == 'postReply' ||
+//       json.decode(message.data['val'])['type'] == 'commentReply') {
+//     notificationModel =
+//         NotificationModel.fromJson(json.decode(message.data['val']));
+//     //provider.incrementCounter();
+//     flutterLocalNotificationsPlugin.show(
+//         notification.hashCode,
+//         returnCorrectText(notificationModel.type,
+//             notificationModel.requiredName, notificationModel.followeruserName),
+//         returnCorrectDescription(notificationModel.type,
+//             notificationModel.description, notificationModel.requiredName),
+//         NotificationDetails(
+//             android: AndroidNotificationDetails(
+//           channel.id,
+//           channel.name,
+//           channelDescription: channel.description,
+//           color: Colors.blue,
+//           playSound: true,
+//           // icon: ('assets/images/reddit.png'),
+//         )));
+//   } else {
+//     final json1 = json.decode(message.data['val']);
+//     String text = (json1['subject'] == null)
+//         ? returnText(json1['type'])
+//         : json1['subject']['text'];
+//     String body =
+//         (json1['text'] == null) ? returnBody(json1['type']) : json1['text'];
+//     flutterLocalNotificationsPlugin.show(
+//         notification.hashCode,
+//         text,
+//         body,
+//         NotificationDetails(
+//             android: AndroidNotificationDetails(
+//           channel.id,
+//           channel.name,
+//           channelDescription: channel.description,
+//           color: Colors.blue,
+//           playSound: true,
+//           // icon: ('assets/images/reddit.png'),
+//         )));
+//   }
+// }
 
 bool isFlutterLocalNotificationsInitialized = false;
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -250,22 +229,22 @@ AndroidNotificationChannel channel = const AndroidNotificationChannel(
   importance: Importance.high,
 );
 
-Future<void> setupFlutterNotifications() async {
-  if (isFlutterLocalNotificationsInitialized) {
-    print('settings doneeeeeeeeeee');
-    return;
-  }
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-  isFlutterLocalNotificationsInitialized = true;
-}
+// Future<void> setupFlutterNotifications() async {
+//   if (isFlutterLocalNotificationsInitialized) {
+//     print('settings doneeeeeeeeeee');
+//     return;
+//   }
+//   await flutterLocalNotificationsPlugin
+//       .resolvePlatformSpecificImplementation<
+//           AndroidFlutterLocalNotificationsPlugin>()
+//       ?.createNotificationChannel(channel);
+//   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+//     alert: true,
+//     badge: true,
+//     sound: true,
+//   );
+//   isFlutterLocalNotificationsInitialized = true;
+// }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -275,16 +254,26 @@ Future<void> main() async {
   final int? cont = prefs.getInt('counter');
   await prefs.setInt('not', 0);
   provider.initState();
-  await Firebase.initializeApp();
-  await NotificationToken.getTokenOfNotification();
+  //if(!kIsWeb){
+  //await Firebase.initializeApp();
+  //await NotificationToken.getTokenOfNotification();
   // final RemoteMessage? remoteMessage =
   //   await FirebaseMessaging.instance.getInitialMessage();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // }
+  //}
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+          apiKey: Constants.apiKey,
+          appId: Constants.appId,
+          messagingSenderId: Constants.messagingSenderId,
+          projectId: Constants.projectId));
+  await NotificationToken.getTokenOfNotification();
   runApp(
     ChangeNotifierProvider<GlobalSettings>(
       create: (context) => GlobalSettings(true, true),
-      child: MyApp(),
+      child: MaterialApp(home: MyApp()),
     ),
   );
 }
@@ -301,7 +290,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     //AndroidNotificationChannel channel;
-    // TODO: implement initState
     super.initState();
     var initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -309,11 +297,9 @@ class _MyAppState extends State<MyApp> {
         InitializationSettings(android: initializationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      //print(message.data);
-
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
-      // print(notification.hashCode);
+
       if (message.data != null) {
         print(message.data['val']);
         if (json.decode(message.data['val'])['type'] == 'userMention' ||
@@ -322,31 +308,54 @@ class _MyAppState extends State<MyApp> {
             json.decode(message.data['val'])['type'] == 'commentReply') {
           notificationModel =
               NotificationModel.fromJson(json.decode(message.data['val']));
-          //provider.incrementCounter();
-          flutterLocalNotificationsPlugin.show(
-              notification.hashCode,
-              returnCorrectText(
-                  notificationModel.type,
-                  notificationModel.requiredName,
-                  notificationModel.followeruserName),
-              returnCorrectDescription(
-                  notificationModel.type,
-                  notificationModel.description,
-                  notificationModel.requiredName),
-              NotificationDetails(
-                  android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                color: Colors.blue,
-                playSound: true,
-                // icon: ('assets/images/reddit.png'),
-              )));
+          if (!kIsWeb) {
+            flutterLocalNotificationsPlugin.show(
+                notification.hashCode,
+                returnCorrectText(
+                    notificationModel.type,
+                    notificationModel.requiredName,
+                    notificationModel.followeruserName),
+                returnCorrectDescription(
+                    notificationModel.type,
+                    notificationModel.description,
+                    notificationModel.requiredName),
+                NotificationDetails(
+                    android: AndroidNotificationDetails(
+                  channel.id,
+                  channel.name,
+                  channelDescription: channel.description,
+                  color: Colors.blue,
+                  playSound: true,
+                )));
+          } else {
+            print('nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+            showDialog<bool>(
+              context: context,
+              builder: ((context) {
+                return AlertDialog(
+                  title: const Text(
+                    'New notification arrived',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  insetPadding: EdgeInsets.zero,
+                  content: SizedBox(
+                    width: 40.h,
+                    child: Text(
+                      returnCorrectText(
+                          notificationModel.type,
+                          notificationModel.requiredName,
+                          notificationModel.followeruserName),
+                      style: TextStyle(fontSize: 11),
+                    ),
+                  ),
+                  actionsAlignment: MainAxisAlignment.spaceBetween,
+                );
+              }),
+            );
+            print(notificationModel.requiredName);
+          }
         } else {
-          // messageModel =
-          //     ShowMessagesModel.fromJson(json.decode(message.data['val']));
           final json1 = json.decode(message.data['val']);
-          print(json1);
           String text = (json1['subject'] == null)
               ? returnText(json1['type'])
               : json1['subject']['text'];
@@ -355,19 +364,42 @@ class _MyAppState extends State<MyApp> {
               ? returnBody(json1['type'])
               : json1['text'];
           print(body);
-          flutterLocalNotificationsPlugin.show(
-              notification.hashCode,
-              text,
-              body,
-              NotificationDetails(
-                  android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                color: Colors.blue,
-                playSound: true,
-                // icon: ('assets/images/reddit.png'),
-              )));
+          if (!kIsWeb) {
+            flutterLocalNotificationsPlugin.show(
+                notification.hashCode,
+                text,
+                body,
+                NotificationDetails(
+                    android: AndroidNotificationDetails(
+                  channel.id,
+                  channel.name,
+                  channelDescription: channel.description,
+                  color: Colors.blue,
+                  playSound: true,
+                  // icon: ('assets/images/reddit.png'),
+                )));
+          } else {
+            showDialog<bool>(
+              context: context,
+              builder: ((context) {
+                return AlertDialog(
+                  title: const Text(
+                    'New notification arrived',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  insetPadding: EdgeInsets.zero,
+                  content: SizedBox(
+                    width: 40.h,
+                    child: Text(
+                      text,
+                      style: TextStyle(fontSize: 11),
+                    ),
+                  ),
+                  actionsAlignment: MainAxisAlignment.spaceBetween,
+                );
+              }),
+            );
+          }
         }
         // FirebaseMessaging.onMessageOpenedApp.listen(
         //   (RemoteMessage message) async {
@@ -389,21 +421,20 @@ class _MyAppState extends State<MyApp> {
     // initializationSettings =
     //     InitializationSettings(android: initializationSettingsAndroid);
     // flutterLocalNotificationsPlugin.initialize(initializationSettings);
-    //  FirebaseMessaging.instance
-    //     .getInitialMessage();
-    FirebaseMessaging.onMessageOpenedApp.listen(
-      (RemoteMessage message) async {
-        print('BYEEEEEEEEEEEEEEEEEEEEEEE');
-        print(message.data);
-        RemoteNotification? notification = message.notification;
-        AndroidNotification? android = message.notification?.android;
-        if (message.data['val'] != null) {
-          print('heereeeeeeeeeeeeee');
-          Navigator.of(navState.currentState!.context)
-              .pushNamed(NavigateToCorrectScreen.routeName);
-        }
-      },
-    );
+    // FirebaseMessaging.instance.getInitialMessage();
+    // FirebaseMessaging.onMessageOpenedApp.listen(
+    //   (RemoteMessage message) async {
+    //     print('BYEEEEEEEEEEEEEEEEEEEEEEE');
+    //     print(message.data);
+    //     RemoteNotification? notification = message.notification;
+    //     AndroidNotification? android = message.notification?.android;
+    //     if (message.data['val'] != null) {
+    //       print('heereeeeeeeeeeeeee');
+    //       Navigator.of(navState.currentState!.context)
+    //           .pushNamed(NavigateToCorrectScreen.routeName);
+    //     }
+    //   },
+    // );
   }
   //push.onMessageListener();
   // push.onOpeningMessage(context);
@@ -422,6 +453,12 @@ class _MyAppState extends State<MyApp> {
         Device.deviceType == DeviceType.web;
         return MultiProvider(
           providers: [
+            /////////// the only line we need to show post and commets frauture with multi level ///////////
+            ChangeNotifierProvider.value(value: PostCommentsProvider()),
+            /////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////
+            ChangeNotifierProvider.value(
+                value: ModerationGeneralDataProvider()),
             ChangeNotifierProvider.value(value: SearchProvider()),
             ChangeNotifierProvider.value(value: UserSettingsProvider()),
             ChangeNotifierProvider.value(value: ChangeUserManagementProvider()),
@@ -447,7 +484,7 @@ class _MyAppState extends State<MyApp> {
           ],
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            navigatorKey: navState,
+            // navigatorKey: navState,
             title: 'Logins',
             theme: theme.copyWith(
               primaryColor: Colors.red,
@@ -460,15 +497,14 @@ class _MyAppState extends State<MyApp> {
                   onSurface: Colors.white),
             ),
             // home: NotificationScreen(),
-            // home: HomeLayoutScreen(),
+            //   home: HomeLayoutScreen(),
             // home: Description(),
             // home: HomeScreen(),
-            //home: NotificationScreen(),
+            // home: NotificationScreen(),
             // home:ShowPostDetails(),
-            // home: CreateCommunity(),
-            // home: NewMessageScreen(),
+            //home: CreateCommunity(),
+            //home: NewMessageScreen(),
             // home: EditPost(),
-            home: Login(),
             //  home: SearchInside(quiry: 'mohab'),
             //home: const DiscoverScreen(),
             // home: homeLayoutScreen(),
@@ -482,8 +518,11 @@ class _MyAppState extends State<MyApp> {
             // home: HomeScreen(),
             // home: Login(),
             // home: CreateCommunity(),
-            // home: Login(),
+            home: Login(),
             // home: ForgotUserName(),
+            // home: ForgotPassword(),
+            // home: TraficState(),
+            // home: TrafficTable(),
             // home: SignUp(),
             // home: Gender(),
             // home: ModeratorTools(),
@@ -500,6 +539,11 @@ class _MyAppState extends State<MyApp> {
             // home: EditModeratorScreen(subredditName: 'Cooking'),
             // home: Search(),
             routes: {
+              TraficState.routeName: (context) => TraficState(),
+              AllMessageScreen.routeName: (context) => AllMessageScreen(),
+              WebNewMessageScreen.routeName: (context) => WebNewMessageScreen(),
+              SentMessage.routeName: (context) => SentMessage(),
+              UnreadMessageScreen.routeName: (context) => UnreadMessageScreen(),
               ReplyMessageScreen.routeName: (context) => ReplyMessageScreen(),
               ShowMessageBody.routeName: (context) => ShowMessageBody(),
               MessageMainScreen.routeName: (context) => MessageMainScreen(),
@@ -511,7 +555,7 @@ class _MyAppState extends State<MyApp> {
               Search.routeName: (context) => Search(),
               SearchInside.routeName: (context) => SearchInside(),
               MutedScreen.routeName: (context) => MutedScreen(),
-
+              WebMessageScreen.routeName: (context) => WebMessageScreen(),
               EditApprovedScreen.routeName: (context) =>
                   EditApprovedScreen(subredditName: ''),
               EditBannedScreen.routeName: (context) =>

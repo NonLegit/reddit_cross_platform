@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_code_style/analysis_options.yaml';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../models/others_profile_data.dart';
 import '../widgets/invite_button.dart';
 import '../../widgets/follow_button.dart';
-import '../providers/other_profile_provider.dart';
 
 class PositionInFlexAppBarOtherProfile extends StatelessWidget {
   PositionInFlexAppBarOtherProfile({
@@ -18,7 +16,7 @@ class PositionInFlexAppBarOtherProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-top: 9.h,
+      top: 9.h,
       right: 5.w,
       width: 95.w,
       height: 100.h,
@@ -43,7 +41,10 @@ top: 9.h,
             //Follow and invite
             Row(
               children: [
-                FollowButton(profileUsed: 'OtherProfile', userName: loadProfile.userName.toString(),isFollowed: loadProfile.isFollowed),
+                FollowButton(
+                    profileUsed: 'OtherProfile',
+                    userName: loadProfile.userName.toString(),
+                    isFollowed: loadProfile.isFollowed),
                 Container(
                     width: 15.w,
                     height: 6.h,

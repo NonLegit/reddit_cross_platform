@@ -11,6 +11,8 @@ import '../models/muted.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/handle_error.dart';
 import '../models/user.dart';
+import '../provider/moderation_settings_provider.dart';
+import '../models/traffic.dart';
 
 class ModerationSettingProvider with ChangeNotifier {
   ModeratorToolsModel? moderatorToolsModel1;
@@ -18,6 +20,11 @@ class ModerationSettingProvider with ChangeNotifier {
   List<Banned>? banned = [];
   List<Muted>? muted = [];
   List<Approved>? approved = [];
+  late Traffic dayTraffic;
+  late Traffic weekTraffic;
+  late Traffic monthTraffic;
+  late Traffic yearTraffic;
+
   bool isError = false;
   String errorMessage = '';
   ModeratorToolsModel? get moderatorToolsModel {
@@ -107,7 +114,7 @@ class ModerationSettingProvider with ChangeNotifier {
         }
       });
       print('after response');
-     // notifyListeners();
+      // notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
     } catch (error) {
@@ -142,6 +149,72 @@ class ModerationSettingProvider with ChangeNotifier {
           errorMessage = json.decode(response.data)['errorMessage'];
           print(isError);
           print(errorMessage);
+        }
+      });
+      notifyListeners();
+    } on DioError catch (e) {
+      if (e.response!.statusCode != 404) {
+        HandleError.errorHandler(e, context);
+      }
+    } catch (error) {
+      HandleError.handleError(error.toString(), context);
+    }
+  }
+
+  Future<void> trafficData(
+      String type, String subRedditName, BuildContext context) async {
+    //If the topic changed call patch to update the community topic
+    try {
+      final path = '/subreddits/traffic/$subRedditName/$type';
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+      subredditName = userName;
+
+      //  final response =
+      await DioClient.get(path: path).then((response) {
+        isError = !(response.statusCode! < 300);
+        if (isError) {
+          errorMessage = json.decode(response.data)['errorMessage'];
+          print(isError);
+          print(errorMessage);
+        } else {}
+      });
+      notifyListeners();
+    } on DioError catch (e) {
+      if (e.response!.statusCode != 404) {
+        HandleError.errorHandler(e, context);
+      }
+    } catch (error) {
+      HandleError.handleError(error.toString(), context);
+    }
+  }
+
+  Future<void> gettrafficData(
+      String type, String subRedditName, BuildContext context) async {
+    //If the topic changed call patch to update the community topic
+    try {
+      final path = '/subreddits/traffic/$subRedditName/$type';
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+      subredditName = userName;
+
+      //  final response =
+      await DioClient.get(path: path).then((response) {
+        isError = !(response.statusCode! < 300);
+        if (isError) {
+          errorMessage = json.decode(response.data)['errorMessage'];
+          print(isError);
+          print(errorMessage);
+        } else {
+          if (type == 'day') {
+            dayTraffic = Traffic.fromJson(response.data);
+          } else if (type == 'week') {
+            weekTraffic = Traffic.fromJson(response.data);
+          } else if (type == 'month') {
+            monthTraffic = Traffic.fromJson(response.data);
+          } else if (type == 'year') {
+            yearTraffic = Traffic.fromJson(response.data);
+          }
         }
       });
       notifyListeners();

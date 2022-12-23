@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import '../../moderation_settings/widgets/input_text_field.dart';
 import '../../widgets/custom_snack_bar.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/custom_snack_bar.dart';
-import '../../widgets/loading_reddit.dart';
-import '../providers/myprofile_provider.dart';
 import '../../settings/provider/user_settings_provider.dart';
 
 //import 'package:flutter_code_style/analysis_options.yaml';

@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:post/networks/const_endpoint_data.dart';
-
-import '../../networks/const_endpoint_data.dart';
 import '../controllers/posts_controllers.dart';
 import '../widgets/container.dart';
 import '../widgets/subreddit_container.dart';
+
 class BuildSubreddit extends StatelessWidget {
   final PostController controller = Get.put(
     PostController(),
@@ -30,7 +26,7 @@ class BuildSubreddit extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          physics:  BouncingScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           child: Column(
             children: [
               GestureDetector(
@@ -57,9 +53,7 @@ class BuildSubreddit extends StatelessWidget {
                           Text(
                             "Search",
                             style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontSize: 15.0
-                            ),
+                                fontStyle: FontStyle.italic, fontSize: 15.0),
                           )
                         ],
                       ),
@@ -67,94 +61,149 @@ class BuildSubreddit extends StatelessWidget {
                   ),
                 ),
               ),
-              Obx(()=>
-                 Column(
+              Obx(
+                () => Column(
                   children: [
-                    (controller.showMore.value)?
-                    Column(
-                      children: [
-                        ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context , index) => SubredditModeratorContainer(nameOfSubreddit:controller.moderatedSubreddits[index].subredditName!,memberCount: controller.moderatedSubreddits[index].membersCount!,iconOfSubreddit:controller.moderatedSubreddits[index].icon!, idOfSubreddit: controller.moderatedSubreddits[index].iId!,) ,
-                          itemCount: controller.moderatedSubreddits.length,
-                        ),
-                        ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context , index) => SubredditSubscriberContainer(nameOfSubreddit:controller.subscribedSubreddits[index].subredditName!,memberCount: controller.subscribedSubreddits[index].membersCount!,iconOfSubreddit:controller.subscribedSubreddits[index].icon!, idOfSubreddit: controller.subscribedSubreddits[index].iId!,) ,
-                          itemCount: controller.subscribedSubreddits.length,
-                        ),
-                      ],
-                    )
-                        :
-                    Column(
-                      children: [
-                        ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context , index) =>(index<3)?SubredditModeratorContainer(nameOfSubreddit:controller.moderatedSubreddits[index].subredditName!,memberCount: controller.moderatedSubreddits[index].membersCount!,iconOfSubreddit:controller.moderatedSubreddits[index].icon!, idOfSubreddit: controller.moderatedSubreddits[index].iId!,):SizedBox() ,
-                          itemCount: controller.moderatedSubreddits.length,
-                        ),
-                        ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context , index) =>(index<2)? SubredditSubscriberContainer(nameOfSubreddit:controller.subscribedSubreddits[index].subredditName!,memberCount: controller.subscribedSubreddits[index].membersCount!,iconOfSubreddit:controller.subscribedSubreddits[index].icon!, idOfSubreddit: controller.subscribedSubreddits[index].iId!,):SizedBox() ,
-                          itemCount: controller.subscribedSubreddits.length,
-                        ),
-                        SizedBox(height: 20,),
-                        Visibility(
-                          visible: (controller.moderatedSubreddits.length+controller.subscribedSubreddits.length>4)? true:false,
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: SizedBox
-                              (
-                              width: double.infinity,
-                              height: 50,
-                              child: ElevatedButton(
-                                onPressed: ()
-                                {
-                                    controller.showMore.value=true;
-                                },
-                                style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(30),
-                                            side: BorderSide(color: Colors.blue)
-                                        )
-                                    )
+                    (controller.showMore.value)
+                        ? Column(
+                            children: [
+                              ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) =>
+                                    SubredditModeratorContainer(
+                                  nameOfSubreddit: controller
+                                      .moderatedSubreddits[index]
+                                      .subredditName!,
+                                  memberCount: controller
+                                      .moderatedSubreddits[index].membersCount!,
+                                  iconOfSubreddit: controller
+                                      .moderatedSubreddits[index].icon!,
+                                  idOfSubreddit: controller
+                                      .moderatedSubreddits[index].iId!,
                                 ),
-                                // style: ElevatedButton.styleFrom(
-                                //   backgroundColor: Colors.white,
-                                //   shape: RoundedRectangleBorder(
-                                //     borderRadius: BorderRadius.circular(30),
-                                //   ),
-                                // ),
-                                child:
-                                 Text(
-                                  'See more',
-                                  style: TextStyle(
-                                    color: Colors.blue[900],
-                                    fontWeight: FontWeight.w800,
+                                itemCount:
+                                    controller.moderatedSubreddits.length,
+                              ),
+                              ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) =>
+                                    SubredditSubscriberContainer(
+                                  nameOfSubreddit: controller
+                                      .subscribedSubreddits[index]
+                                      .subredditName!,
+                                  memberCount: controller
+                                      .subscribedSubreddits[index]
+                                      .membersCount!,
+                                  iconOfSubreddit: controller
+                                      .subscribedSubreddits[index].icon!,
+                                  idOfSubreddit: controller
+                                      .subscribedSubreddits[index].iId!,
+                                ),
+                                itemCount:
+                                    controller.subscribedSubreddits.length,
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) => (index < 3)
+                                    ? SubredditModeratorContainer(
+                                        nameOfSubreddit: controller
+                                            .moderatedSubreddits[index]
+                                            .subredditName!,
+                                        memberCount: controller
+                                            .moderatedSubreddits[index]
+                                            .membersCount!,
+                                        iconOfSubreddit: controller
+                                            .moderatedSubreddits[index].icon!,
+                                        idOfSubreddit: controller
+                                            .moderatedSubreddits[index].iId!,
+                                      )
+                                    : SizedBox(),
+                                itemCount:
+                                    controller.moderatedSubreddits.length,
+                              ),
+                              ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) => (index < 2)
+                                    ? SubredditSubscriberContainer(
+                                        nameOfSubreddit: controller
+                                            .subscribedSubreddits[index]
+                                            .subredditName!,
+                                        memberCount: controller
+                                            .subscribedSubreddits[index]
+                                            .membersCount!,
+                                        iconOfSubreddit: controller
+                                            .subscribedSubreddits[index].icon!,
+                                        idOfSubreddit: controller
+                                            .subscribedSubreddits[index].iId!,
+                                      )
+                                    : SizedBox(),
+                                itemCount:
+                                    controller.subscribedSubreddits.length,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Visibility(
+                                visible:
+                                    (controller.moderatedSubreddits.length +
+                                                controller.subscribedSubreddits
+                                                    .length >
+                                            4)
+                                        ? true
+                                        : false,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    height: 50,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        controller.showMore.value = true;
+                                      },
+                                      style: ButtonStyle(
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  side: BorderSide(
+                                                      color: Colors.blue)))),
+                                      // style: ElevatedButton.styleFrom(
+                                      //   backgroundColor: Colors.white,
+                                      //   shape: RoundedRectangleBorder(
+                                      //     borderRadius: BorderRadius.circular(30),
+                                      //   ),
+                                      // ),
+                                      child: Text(
+                                        'See more',
+                                        style: TextStyle(
+                                          color: Colors.blue[900],
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    )
-
+                              )
+                            ],
+                          )
                   ],
                 ),
               ),
             ],
           ),
-        )
-    );
+        ));
   }
 }

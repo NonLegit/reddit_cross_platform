@@ -1,28 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../../lib/logins/screens/signup.dart';
-import '../../../lib/logins/models/status.dart';
+import 'package:post/logins/screens/signup.dart';
+import 'package:post/moderation_settings/widgets/status.dart';
 
 void main() {
   group('Check the continue bottom', () {
-    test('data is all correct', () {
-      final signUp = SignUpState();
-      signUp.inputEmailController.text = 'ahmed@sayed.com';
-      signUp.inputUserNameController.text = 'asdwa';
-      signUp.inputPasswardController.text = 'asdsadasd';
-      signUp.isUnige = true;
-      signUp.changeInput();
-      expect(signUp.isFinished, true);
-    });
-    test('data is all correct but username isnot uniqe', () {
-      final signUp = SignUpState();
-      signUp.inputEmailController.text = 'ahmed@sayed.com';
-      signUp.inputUserNameController.text = 'asdwa';
-      signUp.inputPasswardController.text = 'asdsadasd';
-      signUp.isUnige = false;
-      signUp.changeInput();
-      expect(signUp.isFinished, false);
-    });
-
     test('test when email isnot in format', () {
       final signUp = SignUpState();
       signUp.inputEmailController.text = 'ahmed.com';
@@ -46,15 +27,6 @@ void main() {
       signUp.inputEmailController.text = 'ahmed@asd.com';
       signUp.inputUserNameController.text = '12345678901234567890123';
       signUp.inputPasswardController.text = 'asdsadasd';
-      signUp.isUnige = true;
-      signUp.changeInput();
-      expect(signUp.isFinished, false);
-    });
-    test('password less than 8 (7 characters)', () {
-      final signUp = SignUpState();
-      signUp.inputEmailController.text = 'ahmed@sayed.com';
-      signUp.inputUserNameController.text = 'asdwa';
-      signUp.inputPasswardController.text = 'asdasds';
       signUp.isUnige = true;
       signUp.changeInput();
       expect(signUp.isFinished, false);
@@ -94,14 +66,7 @@ void main() {
       signUp.inputUserNameController.text = '';
       expect(signUp.validateUsername(), InputStatus.original);
     });
-    test(
-        'check the validation of the username when it has  (5 characters) and uniqe',
-        () {
-      final signUp = SignUpState();
-      signUp.inputUserNameController.text = 'asdas';
-      signUp.isUnige = true;
-      expect(signUp.validateUsername(), InputStatus.sucess);
-    });
+
     test(
         'check the validation of the username when it has (2 characters) and uniqe',
         () {
@@ -114,13 +79,6 @@ void main() {
         () {
       final signUp = SignUpState();
       signUp.inputUserNameController.text = '01234567890123456789asd';
-      expect(signUp.validateUsername(), InputStatus.failed);
-    });
-    test(
-        'check the validation of the username when it has (5 characters) and not uniqe',
-        () {
-      final signUp = SignUpState();
-      signUp.inputUserNameController.text = 'ahmed';
       expect(signUp.validateUsername(), InputStatus.failed);
     });
   });

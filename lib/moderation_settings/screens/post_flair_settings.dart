@@ -1,11 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../create_community/widgets/toggle_switch.dart';
-
 class PostFlairSettings extends StatefulWidget {
   const PostFlairSettings({super.key});
   static const routeName = '/post-flair-settings';
@@ -16,12 +11,12 @@ class PostFlairSettings extends StatefulWidget {
 
 class _PostFlairSettingsState extends State<PostFlairSettings> {
   bool modOnlySwitch = false;
+
+  //Used to change state of mod Only switch
   toggleSwitch(value) {
-    print('hi');
     setState(() {
       modOnlySwitch = value;
     });
-    print(modOnlySwitch);
   }
 
   @override
@@ -40,10 +35,8 @@ class _PostFlairSettingsState extends State<PostFlairSettings> {
       ),
       body: Container(
           child: Row(
-        //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(Icons.shield, color: Colors.grey
-          ),
+          Icon(Icons.shield, color: Colors.grey),
           Divider(),
           const Text(
             'Mod only',

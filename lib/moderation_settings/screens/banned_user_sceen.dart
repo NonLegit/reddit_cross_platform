@@ -1,37 +1,49 @@
 import 'package:flutter/material.dart';
-import '../widgets/status.dart';
-import '../widgets/alert_dialog.dart';
 import '../../widgets/loading_reddit.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import '../provider/moderation_settings_provider.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/custom_snack_bar.dart';
-import '../widgets/location_list.dart';
 import '../../icons/plus_icons.dart';
 import '../widgets/banned_list.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 import '../models/banned.dart';
 import 'add_edit_banned_screen.dart';
 
 class BannedScreen extends StatefulWidget {
+  /// the route name of the screen
+
   static const routeName = '/banned';
 
   const BannedScreen({super.key});
-  // postTypes({super.key});
 
   @override
   State<BannedScreen> createState() => BannedScreenState();
 }
 
 class BannedScreenState extends State<BannedScreen> {
+  /// Whether fetching the data from server done or not
+
   bool fetchingDone = true;
+
+  /// Whether the didChangeDependencies is called for the first time or not
+
   bool _isInit = true;
+
+  /// Whether the build fuction calling at least one time or not
+
   bool isBuild = false;
-  // ignore: non_constant_identifier_names
+
+  /// list of all banned users in sub reddit comming from the provider
   List<Banned>? banned = [];
+
+  ///banned users as map to be send to edit screen
+
   List<Map<String, Object>> allbanned = [];
+
+  /// the current Subrddit name of the screen
+
   String subredditName = '';
+
+  ///prepare the map all banned from the list banned
 
   void extractBanned() {
     banned!.forEach((element) {
@@ -55,7 +67,6 @@ class BannedScreenState extends State<BannedScreen> {
       } else {
         _banDate = '${DateTime.now().minute - banDate.minute}min';
       }
-      print(_baninfo.duration.toString());
       _banDate += (_baninfo.duration == -1)
           ? ' ( permenant)'
           : ' (${_baninfo.duration.toString()} days) ';
@@ -67,25 +78,6 @@ class BannedScreenState extends State<BannedScreen> {
         "baninfo": _baninfo,
       });
     });
-    print(allbanned);
-  }
-
-  @override
-  void initState() {
-    // fetchingDone = false;
-    // final provider =
-    //     Provider.of<ModerationSettingProvider>(context, listen: false);
-
-    // subredditName = provider.getSubredditName(context);
-    // provider.getUser(subredditName, UserCase.banned, context).then((value) {
-    //   banned = provider.banned;
-    //   print(banned);
-    //   extractBanned();
-    //   fetchingDone = true;
-    //   if (isBuild) setState(() {});
-    // });
-
-    super.initState();
   }
 
   @override

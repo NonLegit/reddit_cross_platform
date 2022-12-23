@@ -8,6 +8,7 @@ import '../../notification/screens/notifications_screen.dart';
 import '../../icons/icon_broken.dart';
 import '../controller/home_controller.dart';
 import '../screens/home_layout.dart';
+import '../../discover/screens/discover_screen.dart';
 
 class buttomNavBar extends StatefulWidget {
   const buttomNavBar(
@@ -49,13 +50,13 @@ class _buttomNavBarState extends State<buttomNavBar> {
                     //       duration: Duration(seconds: 2),
                     //       curve: Curves.easeOut);
                     // } else {
-                      Get.to(HomeLayoutScreen());
+                    Get.to(HomeLayoutScreen());
                     //}
                   }
                   break;
                 case 1:
                   {
-                    Get.to(HomeLayoutScreen());
+                    Get.to(DiscoverScreen());
                   }
                   break;
                 case 2:

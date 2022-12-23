@@ -1,5 +1,4 @@
-
-import '../../models/subreddit_about _rules.dart';
+import './subreddit_about _rules.dart';
 
 class SubredditData {
   //String? id;
@@ -11,6 +10,7 @@ class SubredditData {
   String? description;
   int? numOfMembers;
   int? numOfOnlines;
+  String? createdAt;
   List<SubredditAboutRules>? rules;
   List<String>? moderators;
   bool? isJoined;
@@ -29,6 +29,7 @@ class SubredditData {
       required this.isJoined,
       required this.rules,
       required this.moderators,
+      required this.createdAt,
       required this.theme});
   SubredditData.fromJson(Map<String, dynamic> json) {
     print(
@@ -68,6 +69,7 @@ class SubredditData {
       loadedmodrator.add(moderator['user']['userName']);
     });
     moderators = loadedmodrator;
+    createdAt = json['createdAt'];
     theme = json['theme'];
   }
 

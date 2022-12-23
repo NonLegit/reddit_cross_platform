@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:post/messages/screens/show_message_body.dart';
 import 'package:post/widgets/loading_reddit.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../Provider/message_provider.dart';
+import '../provider/message_provider.dart';
 import '../models/user_message.dart';
 
 class MessageMainScreen extends StatefulWidget {
@@ -17,6 +16,9 @@ class MessageMainScreen extends StatefulWidget {
 }
 
 class _MessageMainScreenState extends State<MessageMainScreen> {
+  //Parse String to Date Time and get actual time
+  //Input String 
+  //Return type string
   String getTimeOfNotification(date) {
     String howOld;
     final difference = DateTime.now().difference(DateTime.parse(date));
@@ -40,12 +42,6 @@ class _MessageMainScreenState extends State<MessageMainScreen> {
   bool returned = false;
   bool tried = false;
 
-    @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    
-  }
 
   Map<String, List<ShowMessagesModel>> messageShow = {};
   void didChangeDependencies() async {
@@ -68,38 +64,37 @@ class _MessageMainScreenState extends State<MessageMainScreen> {
 
     super.didChangeDependencies();
   }
-
+  //Used to check whether the logged in use is the to username or the from username
+  //Return type string with the name of ther user
   String getUsername(me, to, from) {
     return (me == to) ? from : to;
   }
-
+  //Return type void
+  // Parameter => username of required user to be blocked
   _blockUser(userName) {
     Provider.of<MessageProvider>(context, listen: false)
         .blockUser(context, userName);
   }
-  
-  
-
+  //Function called to reply on user message 
+  //Allow user only to reply on other user only 
   _onclick(index) {
-    // int id;
     final get = messageShow[index]!.firstWhere((element) {
       return element.fromUsername != element.me;
-      // element.toUsername != element.me;
     });
-    if(get !=null){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ShowMessageBody(
-            list: messageShow[index],
-            appBarText: getUsername(
-                messageShow[index]![0].me,
-                messageShow[index]![0].toUsername,
-                messageShow[index]![0].fromUsername),
-            messageId: get.sId,
-          ),
-        ));
-  }
+    if (get != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ShowMessageBody(
+              list: messageShow[index],
+              appBarText: getUsername(
+                  messageShow[index]![0].me,
+                  messageShow[index]![0].toUsername,
+                  messageShow[index]![0].fromUsername),
+              messageId: get.sId,
+            ),
+          ));
+    }
   }
 
   @override
@@ -139,15 +134,10 @@ class _MessageMainScreenState extends State<MessageMainScreen> {
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             String key = messageShow.keys.elementAt(index);
-                            print(key);
                             final message = messageShow[key]!.last;
-                            print(message.subjectText);
-                            print(message.text);
                             return GestureDetector(
                               onTap: () {
                                 _onclick(key);
-                                // Navigator.of(context)
-                                //     .pushNamed(ShowMessageBody.routeName);
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

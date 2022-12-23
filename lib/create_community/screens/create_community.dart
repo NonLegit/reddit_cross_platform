@@ -4,12 +4,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../moderated_subreddit/screens/moderated_subreddit_screen.dart';
 import '../provider/create_community_provider.dart';
 import '../models/create_community_model.dart';
-
-import '../../networks/dio_client.dart';
 import '../widgets/clear_text_field.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/community_type.dart';
@@ -17,7 +14,6 @@ import '../widgets/list_of_community_type.dart';
 import '../widgets/toggle_switch.dart';
 import '../widgets/create_community_web.dart';
 import '../constants/community_modal_sheet_constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateCommunity extends StatefulWidget {
   static const routeName = '/createCommunity';
@@ -171,9 +167,7 @@ class CreateCommunityState extends State<CreateCommunity> {
                     ),
                     SizedBox(
                       height: 10.h,
-                      // width: 60.h,
                       child: Form(
-                        //key:Key('Create-Community'),
                         key: _textFieldKey,
                         child: TextFormField(
                           textAlignVertical: TextAlignVertical.center,
@@ -363,16 +357,8 @@ class CreateCommunityState extends State<CreateCommunity> {
     await Provider.of<CreateCommunityProvider>(context, listen: false)
         .postCommunity(createCommunityModel.toJson(), context)
         .then((value) {
-      //if(value)
-      // print('Community $value');
       Navigator.of(context).popAndPushNamed(ModeratedSubredditScreen.routeName,
-          //  arguments: 'Cooking'
           arguments: _communityNameController.text);
     });
-    // if (postCommunity) {
-    //   setState(() {
-    //     done = true;
-    //   });
-    //}
   }
 }

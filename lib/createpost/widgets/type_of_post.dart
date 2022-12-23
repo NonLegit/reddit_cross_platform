@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -155,10 +154,14 @@ class BuildFormType extends StatelessWidget {
                                                 )
                                               ],
                                             ),
-                                            IconButton(onPressed: (){
-                                              controller.videoFile.value=null;
-                                              controller.videoController.value=null;
-                                            }, icon: Icon(Icons.close))
+                                            IconButton(
+                                                onPressed: () {
+                                                  controller.videoFile.value =
+                                                      null;
+                                                  controller.videoController
+                                                      .value = null;
+                                                },
+                                                icon: Icon(Icons.close))
                                           ]),
                                     );
                                   } else {

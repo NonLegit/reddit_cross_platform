@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../other_profile/screens/others_profile_screen.dart';
 import '../constants/types_of_notification.dart';
 import '../../create_community/widgets/bar_widget.dart';
@@ -36,7 +34,6 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
 
   List<String> list = [
     'Hide this notification',
-    //'Disable updates from this community'
   ];
 
   _markAsRead(NotificationModel index, context) async {
@@ -57,13 +54,13 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
     if (i == 0) {
       if (index.type == 'follow') {
         //Navigate to user profile
-        print(index.requiredName!.substring(2, index.requiredName!.length));
 
         Navigator.popAndPushNamed(context, OthersProfileScreen.routeName,
             arguments:
                 index.requiredName!.substring(2, index.requiredName!.length));
+      } else {
+        Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
       }
-      Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
     }
   }
 
@@ -101,7 +98,6 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
   String getTimeOfNotification(date) {
     String howOld;
     final difference = DateTime.now().difference(DateTime.parse(date));
-    //print(DateTime.parse(date));
     if (difference.inDays >= 30) {
       howOld = DateFormat.MMMMd().format(DateTime.parse(date));
     } else if (difference.inDays >= 1) {
@@ -127,7 +123,6 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
 
   hideThisNotification(notificationId, i) {
     _hideThisNotification(notificationId, i);
-    print('in hides');
     Navigator.of(context).pop();
   }
 
@@ -195,7 +190,29 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                             ]),
                       ),
                     ),
-                  // if (kIsWeb) notificationBody(height, width),
+                  if (kIsWeb)
+                    if (!widget.usersNotificationToday.isEmpty)
+                      const Text('    Today',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                  if (kIsWeb)
+                    if (!widget.usersNotificationToday.isEmpty)
+                      notificationBody(
+                          height, width, widget.usersNotificationToday, 0),
+                  if (kIsWeb)
+                    if (!widget.usersNotificationEarlier.isEmpty)
+                      SizedBox(
+                        height: height * 0.02,
+                        child: const Text(
+                          '    Earlier',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                  if (kIsWeb)
+                    if (!widget.usersNotificationEarlier.isEmpty)
+                      notificationBody(
+                          height, width, widget.usersNotificationEarlier, 1),
                 ]),
           );
   }
@@ -215,42 +232,53 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                 color: (!usersAllNotificatiion[index].seen!)
                     ? Colors.lightBlue[50]
                     : Colors.white,
-                // width: double.infinity,
+                width: double.infinity,
                 child: Row(
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            notificationMain(
-                                returnCorrectText(
-                                  usersAllNotificatiion[index].type,
-                                  usersAllNotificatiion[index].requiredName,
-                                  usersAllNotificatiion[index].followeruserName,
-                                ),
-                                returnCorrectDescription(
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Flexible(
+                                child: notificationMain(
+                                    returnCorrectText(
+                                      usersAllNotificatiion[index].type,
+                                      usersAllNotificatiion[index].requiredName,
+                                      usersAllNotificatiion[index]
+                                          .followeruserName,
+                                    ),
+                                    returnCorrectDescription(
+                                        usersAllNotificatiion[index].type,
+                                        usersAllNotificatiion[index]
+                                            .description,
+                                        usersAllNotificatiion[index]
+                                            .followeruserName),
                                     usersAllNotificatiion[index].type,
-                                    usersAllNotificatiion[index].description,
-                                    usersAllNotificatiion[index].requiredName),
-                                usersAllNotificatiion[index].type,
-                                getTimeOfNotification(
-                                    usersAllNotificatiion[index].createdAt),
-                                NotificationImage(
-                                    usersAllNotificatiion: typeOfNotification[
-                                        usersAllNotificatiion[index].type]!,
-                                    userPhoto: usersAllNotificatiion[index]
-                                        .followerIcon!,
-                                    height: height,
-                                    width: width),
-                                width,
-                                usersAllNotificatiion[index].commentId,
-                                usersAllNotificatiion[index].postId)!,
-                          ],
-                        ),
-                      ],
+                                    getTimeOfNotification(
+                                        usersAllNotificatiion[index].createdAt),
+                                    NotificationImage(
+                                        usersAllNotificatiion:
+                                            typeOfNotification[
+                                                usersAllNotificatiion[index]
+                                                    .type]!,
+                                        userPhoto: usersAllNotificatiion[index]
+                                            .followerIcon!,
+                                        height: height,
+                                        width: width),
+                                    width,
+                                    usersAllNotificatiion[index].commentId,
+                                    usersAllNotificatiion[index].postId)!,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    const Spacer(),
+                    if (!kIsWeb) Spacer(),
+                    //:
                     (!kIsWeb)
                         ? ThreeDotsWidget(
                             optional: const BarWidget(),
@@ -276,13 +304,6 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                                 onpressed: () => hideThisNotification(
                                     usersAllNotificatiion[index].sId, i),
                               ),
-                              // //only in community notifications this option is shown
-                              // if (usersAllNotificatiion[index]['type'] ==
-                              //     'community')
-                              //   ListTileWidget(
-                              //       icon: Icons.cancel_outlined,
-                              //       title:
-                              //           'Disable updates from this community'),
                               SizedBox(
                                 height: height * 0.05,
                                 child: ElevatedButton(
@@ -298,15 +319,12 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                                 ),
                               )
                             ],
-                            // height: (usersAllNotificatiion[index]['type'] ==
-                            //         'community')
-                            //     ? 31
-                            //     :
                             height: height * 0.025)
                         : PopupMenuButton(
-                            // elevation: -1,
                             position: PopupMenuPosition.under,
                             icon: const Icon(Icons.more_horiz),
+                            onSelected: (value) => hideThisNotification(
+                                usersAllNotificatiion[index].sId, i),
                             itemBuilder: (context) {
                               //return list.map((e) {
                               return [
@@ -315,21 +333,14 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                                   list[0],
                                   style: const TextStyle(fontSize: 12),
                                 )),
-                                // if (usersAllNotificatiion[index].type ==
-                                //     'community')
-                                //   PopupMenuItem(
-                                //       child: Text(
-                                //     list[1],
-                                //     style: const TextStyle(fontSize: 12),
-                                //   )),
                               ];
                             },
                           ),
-                    if (kIsWeb) const Divider(color: Colors.green),
                   ],
                 ),
               ),
             ),
+            if (kIsWeb) Divider(color: Colors.grey.shade100),
           ],
         );
       },
@@ -344,7 +355,6 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
 //Reply back : Button reply back that appears to reply on a comment
 Widget? notificationMain(
     text, description, type, time, Widget image, width, commentId, postId) {
-  print(description);
   if (type == 'commentReply') {
     return Column(
       children: [

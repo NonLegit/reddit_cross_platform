@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
 import '../models/myprofile_data.dart';
-import '../screens/edit_profile_screen.dart';
 import '../screens/user_followers_screen.dart';
 
 class PositionMyProfileWeb extends StatelessWidget {
@@ -19,9 +18,9 @@ class PositionMyProfileWeb extends StatelessWidget {
       top: 100,
       height: 100.h,
       child: Container(
-        color:Colors.white,
-       // height: 50.h,
-        padding: EdgeInsets.only(left: 10, top: 5),
+        color: Colors.white,
+        // height: 50.h,
+        padding: const EdgeInsets.only(left: 10, top: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -39,8 +38,7 @@ class PositionMyProfileWeb extends StatelessWidget {
                   fontSize: 22),
             ),
             //name and discibtions
-            Text(
-                'u/${loadProfile.displayName}',
+            Text('u/${loadProfile.displayName}',
                 style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
@@ -59,18 +57,17 @@ class PositionMyProfileWeb extends StatelessWidget {
                       fontSize: 13)),
             ),
             Row(
-        
               children: [
                 Column(
                   children: [
-                    Text('Karma',
-                        style: const TextStyle(
+                    const Text('Karma',
+                        style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 13)),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.settings,
                           color: Colors.blue,
                         ),
@@ -84,25 +81,25 @@ class PositionMyProfileWeb extends StatelessWidget {
                     ),
                   ],
                 ),
-              SizedBox(width: 7.w,),
+                SizedBox(
+                  width: 7.w,
+                ),
                 Column(
                   children: [
-                    Text('CakeDay',
-                        style: const TextStyle(
+                    const Text('CakeDay',
+                        style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 13)),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.cake,
                           color: Colors.blue,
                         ),
-                        Text('${
-                          DateFormat.yMMMMd('en_US')
-                          .format(DateTime.parse(loadProfile.createdAt.toString()))
-                         // loadProfile.createdAt.toString()
-                          }',
+                        Text(
+                            '${DateFormat.yMMMMd('en_US').format(DateTime.parse(loadProfile.createdAt.toString()))
+                            }',
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
@@ -135,9 +132,9 @@ class PositionMyProfileWeb extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'followers',
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13),
@@ -145,7 +142,7 @@ class PositionMyProfileWeb extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Icon(Icons.person, color: Colors.blue),
+                              const Icon(Icons.person, color: Colors.blue),
                               Text(
                                 '${loadProfile.followersCount} ',
                                 style: const TextStyle(
@@ -162,32 +159,28 @@ class PositionMyProfileWeb extends StatelessWidget {
                             ],
                           )
                         ]))),
-            
+
             Container(
-                    padding: EdgeInsets.only(top: 4,right: 30,left: 10),
-                    height: 5.h,
-                    width: 20.w,
-                    //color: Colors.yellow,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.white),
-                        shape: MaterialStateProperty.all(
-                            const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(22)))),
-                      ),
-                      child: Text(
-                        'New Post',
-                        style: TextStyle(
-                          fontSize: 13,
-                        ),
-                      ),
-                      onPressed: () {},
-                    ),
+              padding: const EdgeInsets.only(top: 4, right: 30, left: 10),
+              height: 5.h,
+              width: 20.w,
+              //color: Colors.yellow,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(22)))),
+                ),
+                child: const Text(
+                  'New Post',
+                  style: TextStyle(
+                    fontSize: 13,
                   ),
-                 
+                ),
+                onPressed: () {},
+              ),
+            ),
           ],
         ),
       ),

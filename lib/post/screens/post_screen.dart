@@ -1,23 +1,10 @@
 //import 'package:animated_tree_view/animated_tree_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:html/parser.dart';
 import 'package:post/comments/models/comment_model.dart';
 import 'package:post/comments/providers/comments_provider.dart';
-import 'package:post/post/widgets/post_list.dart';
-import 'package:post/post/widgets/post_video_in_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
-
 import '../../comments/widgets/comment.dart';
-import '../../comments/widgets/view_comment.dart';
-import '../../providers/Profile_provider.dart';
-import '../../widgets/post_sort_bottom.dart';
-import '../models/post_model.dart';
-import '../widgets/post_video_in_discover.dart';
-import '../widgets/post_body.dart';
-import '../widgets/post.dart';
 
 class PostScreen extends StatefulWidget {
   static const routeName = '/post';

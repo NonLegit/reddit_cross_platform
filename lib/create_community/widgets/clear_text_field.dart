@@ -16,7 +16,6 @@ class ClearTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //=> extract to widget
       width: 15.h,
       padding: const EdgeInsets.all(5),
       child: Row(

@@ -1,13 +1,25 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../moderation_settings/widgets/status.dart';
 import '../../moderation_settings/widgets/status.dart';
 
 class TextInput extends StatefulWidget {
-  // const TextInput({Key? key}) : super(key: key);
+  ///the basic lable of the input text field
   final String lable;
+
+  /// the input contrroler to listen to the password input field
+
   TextEditingController inputController;
+
+  ///handler func to be called when change input event called
+
   final Function changeInput;
+
+  ///handler func to be called when onpressed event called
+
   final Function ontap;
+
+  /// the current status of the poassword input field if it origin or taped or error
+
   InputStatus currentStatus;
 
   TextInput(

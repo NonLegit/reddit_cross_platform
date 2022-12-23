@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inview_notifier_list/inview_notifier_list.dart';
-import 'package:provider/provider.dart';
-import '../../providers/Profile_provider.dart';
-import '../../widgets/loading_reddit.dart';
 import '../models/post_model.dart';
 import './post.dart';
 

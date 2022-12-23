@@ -1,16 +1,11 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/typicons_icons.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:post/home/controller/home_controller.dart';
 import 'package:post/icons/icon_broken.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../post/widgets/post_list.dart';
 import '../../widgets/loading_reddit.dart';
-import '../controller/home_controller.dart';
 class History extends StatefulWidget {
    History({Key? key}) : super(key: key);
 
