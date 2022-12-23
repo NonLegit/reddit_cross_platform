@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:get/get.dart';
 import '../../messages/Provider/message_provider.dart';
+import '../../messages/screens/web_message_screen.dart';
 import '../models/notification_class_model.dart';
 
 import 'package:provider/provider.dart';
@@ -109,8 +110,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         });
       }
     });
-    if(!kIsWeb)
-    Navigator.of(context).pop();
+    if (!kIsWeb) Navigator.of(context).pop();
   }
 
   _saveNewMessage(username, subject, message, messageShow) {
@@ -236,7 +236,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         usersNotificationEarlier: usersNotificationEarlier,
                         usersNotificationToday: usersNotificationToday,
                         changeNumOfNotification: _changeNumOfNotification),
-                const MessageMainScreen(),
+                MessageMainScreen(),
               ]),
             ),
           )
@@ -290,7 +290,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           InkWell(
                             onTap: () {
                               Navigator.of(context)
-                                  .pushNamed(MessageMainScreen.routeName);
+                                  .pushNamed(WebMessageScreen.routeName);
                             },
                             onHover: (value) {
                               setState(() {

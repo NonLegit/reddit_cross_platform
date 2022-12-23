@@ -59,8 +59,8 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
         Navigator.popAndPushNamed(context, OthersProfileScreen.routeName,
             arguments:
                 index.requiredName!.substring(2, index.requiredName!.length));
-      }else{
-      Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
+      } else {
+        Navigator.of(context).pushNamed(NavigateToCorrectScreen.routeName);
       }
     }
   }
@@ -256,15 +256,18 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
                                     ),
                                     returnCorrectDescription(
                                         usersAllNotificatiion[index].type,
-                                        usersAllNotificatiion[index].description,
                                         usersAllNotificatiion[index]
-                                            .requiredName),
+                                            .description,
+                                        usersAllNotificatiion[index]
+                                            .followeruserName),
                                     usersAllNotificatiion[index].type,
                                     getTimeOfNotification(
                                         usersAllNotificatiion[index].createdAt),
                                     NotificationImage(
-                                        usersAllNotificatiion: typeOfNotification[
-                                            usersAllNotificatiion[index].type]!,
+                                        usersAllNotificatiion:
+                                            typeOfNotification[
+                                                usersAllNotificatiion[index]
+                                                    .type]!,
                                         userPhoto: usersAllNotificatiion[index]
                                             .followerIcon!,
                                         height: height,
