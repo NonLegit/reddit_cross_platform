@@ -39,7 +39,7 @@ class PostLinkInScreen extends StatelessWidget {
           margin: const EdgeInsetsDirectional.only(top: 10, start: 10, end: 10),
           child: LinkPreviewGenerator(
             showDescription: false,
-            link: 'https://github.com/ghpranav/link_preview_generator',
+            link: link,
             placeholderWidget: const LoadingReddit(),
             backgroundColor: Colors.black.withOpacity(0.6),
             showTitle: false,

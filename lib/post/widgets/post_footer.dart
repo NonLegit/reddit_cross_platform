@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/typicons_icons.dart';
@@ -6,6 +7,9 @@ import 'package:post/post/models/post_model.dart';
 import 'package:post/post/provider/post_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
+
+import '../../show_post/screens/show_post.dart';
+import '../../show_post/screens/show_post_web.dart';
 
 /// This Widget is responsible for the footer of the post.
 
@@ -23,6 +27,7 @@ class PostFooter extends StatefulWidget {
   final String id;
   final PostModel data;
   final bool inScreen;
+  final String userName;
   const PostFooter(
       {super.key,
       required this.votes,
@@ -31,7 +36,8 @@ class PostFooter extends StatefulWidget {
       required this.id,
       required this.isMyPost,
       required this.data,
-      required this.inScreen});
+      required this.inScreen,
+      required this.userName});
   @override
   State<PostFooter> createState() =>
       _PostFooterState(postVoteStatus: postVoteStatus, votes: votes);
@@ -111,7 +117,7 @@ class _PostFooterState extends State<PostFooter> {
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).colorScheme.surface,
         child: Container(
-          margin: EdgeInsetsDirectional.only(start: 10, end: 10),
+          margin: const EdgeInsetsDirectional.only(start: 10, end: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -128,7 +134,7 @@ class _PostFooterState extends State<PostFooter> {
                     child: Tooltip(
                       message: 'Upvote',
                       child: Container(
-                        padding: EdgeInsetsDirectional.all(8),
+                        padding: const EdgeInsetsDirectional.all(8),
                         child: (postVoteStatus != 1)
                             ? Icon(
                                 Typicons.up_outline,
@@ -154,7 +160,7 @@ class _PostFooterState extends State<PostFooter> {
                     child: Tooltip(
                       message: 'Downvote',
                       child: Container(
-                        padding: EdgeInsetsDirectional.all(8),
+                        padding: const EdgeInsetsDirectional.all(8),
                         child: (postVoteStatus != -1)
                             ? Icon(
                                 Typicons.down_outline,
@@ -170,7 +176,30 @@ class _PostFooterState extends State<PostFooter> {
                 ],
               ),
               InkWell(
-                onTap: null,
+                onTap: widget.inScreen
+                    ? null
+                    : () {
+                        kIsWeb
+                            ? Navigator.of(context).pushNamed(
+                                ShowPostDetailsWeb.routeName,
+                                arguments: {
+                                    'data': widget.data,
+                                    'userName': widget.userName
+                                  })
+                            // ? showDialog(
+                            //     context: context,
+                            //     builder: (context) => PostPopUpWeb(
+                            //       data: widget.data,
+                            //       userName: widget.userName,
+                            //     ),
+                            //   )
+                            : Navigator.of(context).pushNamed(
+                                ShowPostDetails.routeName,
+                                arguments: {
+                                    'data': widget.data,
+                                    'userName': widget.userName
+                                  });
+                      },
                 child: Row(
                   children: [
                     Icon(

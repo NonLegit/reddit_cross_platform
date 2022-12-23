@@ -154,7 +154,7 @@ class ProfileCommentsState extends State<ProfileComments> {
                               padding: const EdgeInsets.all(10),
                               width: double.infinity,
                               // height: 15.h,
-                              color: const Color.fromARGB(255, 255, 255, 255),
+                              color: Color.fromARGB(255, 107, 38, 38),
                               child: Column(
                                 children: [
                                   ListTile(

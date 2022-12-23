@@ -1,10 +1,13 @@
 //import 'package:animated_tree_view/animated_tree_view.dart';
 import 'package:flutter/material.dart';
-import 'package:post/comments/models/comment_model.dart';
-import 'package:post/comments/providers/comments_provider.dart';
+import 'package:post/post/widgets/post_list.dart';
+import 'package:post/widgets/loading_reddit.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 import '../../comments/widgets/comment.dart';
+import '../../providers/Profile_provider.dart';
+import '../models/post_model.dart';
 
 class PostScreen extends StatefulWidget {
   static const routeName = '/post';
@@ -23,20 +26,19 @@ class _PostScreenState extends State<PostScreen> {
   late VideoPlayerController controller1;
   bool _isInit = true;
   bool _isLoading = false;
-  List<CommentModel>? commentsData = [];
+  List<PostModel>? posts = [];
 
   @override
   void didChangeDependencies() {
-    Provider test;
     if (_isInit) {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<PostCommentsProvider>(context, listen: false)
-          .fetchPostComments('s', 1, 2)
+      Provider.of<ProfileProvider>(context, listen: false)
+          .fetchProfilePosts('Amr', 'Hot', 1, 25, context)
           .then((value) {
-        commentsData = Provider.of<PostCommentsProvider>(context, listen: false)
-            .gettingPostComments;
+        posts = Provider.of<ProfileProvider>(context, listen: false)
+            .gettingProfilePostData;
         setState(() {
           _isLoading = false;
         });
@@ -97,8 +99,10 @@ class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: SingleChildScrollView(
+      appBar: AppBar(),
+      body: Center(
+        child: Container(
+          width: 40.w,
           child: Column(
             children: [
               // Post.home(
@@ -106,10 +110,14 @@ class _PostScreenState extends State<PostScreen> {
               //   inView: false,
               //   userName: 'Amr',
               // )
-              Comment(
-                data: commentsData![0],
-                userName: 'Amr',
-              ),
+              _isLoading
+                  ? LoadingReddit()
+                  : Container(
+                      child: PostList(
+                          userName: 'Amr',
+                          updateData: updateData,
+                          data: posts as List<PostModel>),
+                    )
               // Comment(
               //   data: commentsData![2],
               //   userName: 'Amr',
@@ -180,6 +188,8 @@ class _PostScreenState extends State<PostScreen> {
               //       ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

@@ -37,9 +37,6 @@ class _AddReplyScreenState extends State<AddReplyScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    //===============================Fetch subreddit data =======================================//
-
     var temp =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     parentId = temp['parentId'];
@@ -52,9 +49,7 @@ class _AddReplyScreenState extends State<AddReplyScreen> {
 
   createComment(String text) async {
     if (await Provider.of<PostCommentsProvider>(context, listen: false)
-        .postComment(parentId, 'Comment', text)) {
-      print('created comment');
-    }
+        .postComment(parentId, 'Comment', text)) {}
   }
 
   @override
@@ -62,7 +57,7 @@ class _AddReplyScreenState extends State<AddReplyScreen> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.close,
               size: 20,
             ),
@@ -70,7 +65,7 @@ class _AddReplyScreenState extends State<AddReplyScreen> {
               Navigator.pop(context);
             },
           ),
-          title: Text(
+          title: const Text(
             "Reply",
             style: TextStyle(fontSize: 20, color: Colors.black),
           ),
@@ -82,7 +77,7 @@ class _AddReplyScreenState extends State<AddReplyScreen> {
                       Navigator.pop(context);
                     }
                   : null,
-              child: Text(
+              child: const Text(
                 "Post",
                 style: TextStyle(
                   color: Colors.blue,
@@ -92,7 +87,7 @@ class _AddReplyScreenState extends State<AddReplyScreen> {
           ],
         ),
         body: Padding(
-          padding: EdgeInsetsDirectional.all(10),
+          padding: const EdgeInsetsDirectional.all(10),
           child: Column(
             children: [
               Row(
@@ -125,11 +120,11 @@ class _AddReplyScreenState extends State<AddReplyScreen> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(comment),
-              Divider(
+              const Divider(
                 height: 10,
               ),
               Expanded(
