@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:post/create_community/screens/post.dart';
 import 'package:post/createpost/model/subreddits_of_user.dart';
 import 'package:post/myprofile/models/myprofile_data.dart';
 import 'package:post/networks/const_endpoint_data.dart';
