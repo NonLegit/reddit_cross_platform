@@ -67,6 +67,8 @@ import 'moderation_settings/screens/post_flair.dart';
 import 'moderation_settings/screens/post_flair_settings.dart';
 import './search/screens/search.dart';
 import './search/screens/search_inside.dart';
+import './moderation_settings/screens/traffic_state.dart';
+import './moderation_settings/screens/traffic_table.dart';
 //=====================================Providers====================================================//
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
@@ -83,6 +85,7 @@ import './moderation_settings/provider/change_user_management.dart';
 import './settings/provider/user_settings_provider.dart';
 import './search/provider/search_provider.dart';
 import './discover/providers/discover_provider.dart';
+import './moderation_settings/provider/moderation_general_data.dart';
 //import './models/push_notification_model.dart';
 
 String returnCorrectText(type, name, user) {
@@ -391,6 +394,8 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider.value(value: PostCommentsProvider()),
             /////////////////////////////////////////////////////////////////
             /////////////////////////////////////////////////////////////////
+            ChangeNotifierProvider.value(
+                value: ModerationGeneralDataProvider()),
             ChangeNotifierProvider.value(value: SearchProvider()),
             ChangeNotifierProvider.value(value: UserSettingsProvider()),
             ChangeNotifierProvider.value(value: ChangeUserManagementProvider()),
@@ -449,11 +454,14 @@ class _MyAppState extends State<MyApp> {
             // home: CreateCommunity(),
             //home: homeLayoutScreen(),
             // home: HomeScreen(),
-            // home: Login(),
+            home: Login(),
             // home: CreateCommunity(),
             // home: Login(),
             // home: ForgotUserName(),
-            home: SignUp(),
+            // home: ForgotPassword(),
+            // home: TraficState(),
+            // home: TrafficTable(),
+            // home: SignUp(),
             // home: Gender(),
             // home: ModeratorTools(),
             // home: Settings(),
@@ -469,6 +477,8 @@ class _MyAppState extends State<MyApp> {
             // home: EditModeratorScreen(subredditName: 'Cooking'),
             // home: Search(),
             routes: {
+              TraficState.routeName: (context) => TraficState(),
+
               ReplyMessageScreen.routeName: (context) => ReplyMessageScreen(),
               ShowMessageBody.routeName: (context) => ShowMessageBody(),
               MessageMainScreen.routeName: (context) => MessageMainScreen(),

@@ -10,7 +10,10 @@ import '../../moderation_settings/widgets/status.dart';
 import 'package:email_validator/email_validator.dart';
 import '../providers/authentication.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import './signup.dart';
 import './login.dart';
+import '../widgets/web_image.dart';
 
 class ForgotPassword extends StatefulWidget {
   static const routeName = '/ForgotPassword';
@@ -115,153 +118,263 @@ class ForgotPasswordState extends State<ForgotPassword> {
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
         },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            UpperBar(UpperbarStatus.login),
-            Expanded(
-                child: SingleChildScrollView(
+            if (kIsWeb) WebImageLoging(),
+            SizedBox(
+              width: (kIsWeb) ? 25.w : null,
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    UpperText('Forgot your password?'),
-                    SizedBox(height: 4.h),
-                    TextInput(
-                      changeInput: () {
-                        setState(() {
-                          changeInput();
-                        });
-                      },
-                      ontap: (hasFocus) {},
-                      inputController: inputUserNameController,
-                      lable: 'Username',
-                    ),
-                    TextInput(
-                      changeInput: () {
-                        setState(() {
-                          changeInput();
-                        });
-                      },
-                      currentStatus: inputEmailStatus,
-                      ontap: (hasFocus) {
-                        setState(() {
-                          controlEmailStatus(hasFocus);
-                        });
-                      },
-                      inputController: inputEmailController,
-                      lable: 'Email',
-                    ),
-                    if (inputEmailStatus == InputStatus.failed)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25),
-                        child: Text(
-                          emailErrorMessage,
-                          style: TextStyle(color: Theme.of(context).errorColor),
-                        ),
-                      ),
-                    SizedBox(height: 2.h),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                          style: TextStyle(color: Colors.black54),
-                          'Unfortunately, if you have never given us your email, we will not able to reset your password'),
-                    ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
-                    Padding(
-                        padding: EdgeInsets.all(0),
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ResponsiveSizer(
-                                      builder: (cntx, orientation, Screentype) {
-                                        // Device.deviceType == DeviceType.web;
-                                        return Scaffold(
-                                          body: ForgotUserName(),
-                                        );
+                mainAxisAlignment: (kIsWeb)
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.start,
+                crossAxisAlignment: (kIsWeb)
+                    ? CrossAxisAlignment.start
+                    : CrossAxisAlignment.center,
+                children: [
+                  if (!kIsWeb) UpperBar(UpperbarStatus.login),
+                  Expanded(
+                      flex: (kIsWeb) ? 0 : 1,
+                      child: SingleChildScrollView(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              if (kIsWeb)
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.asset(
+                                    'assets/images/reddit.png',
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                                ),
+                              if (!kIsWeb) UpperText('Forgot your password?'),
+                              if (kIsWeb)
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Reset your password',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                ),
+                              if (kIsWeb)
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                      'Tell us the username and email address associated with your Reddit account, and we’ll send you an email with a link to reset your password.'),
+                                ),
+                              SizedBox(height: 4.h),
+                              TextInput(
+                                changeInput: () {
+                                  setState(() {
+                                    changeInput();
+                                  });
+                                },
+                                ontap: (hasFocus) {},
+                                inputController: inputUserNameController,
+                                lable: 'Username',
+                              ),
+                              TextInput(
+                                changeInput: () {
+                                  setState(() {
+                                    changeInput();
+                                  });
+                                },
+                                currentStatus: inputEmailStatus,
+                                ontap: (hasFocus) {
+                                  setState(() {
+                                    controlEmailStatus(hasFocus);
+                                  });
+                                },
+                                inputController: inputEmailController,
+                                lable: 'Email',
+                              ),
+                              if (inputEmailStatus == InputStatus.failed)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 25),
+                                  child: Text(
+                                    emailErrorMessage,
+                                    style: TextStyle(
+                                        color: Theme.of(context).errorColor),
+                                  ),
+                                ),
+                              SizedBox(height: 2.h),
+                              if (!kIsWeb)
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                      style: TextStyle(color: Colors.black54),
+                                      'Unfortunately, if you have never given us your email, we will not able to reset your password'),
+                                ),
+                              SizedBox(
+                                height: 1.h,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.all(0),
+                                  child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  ResponsiveSizer(
+                                                builder: (cntx, orientation,
+                                                    Screentype) {
+                                                  // Device.deviceType == DeviceType.web;
+                                                  return Scaffold(
+                                                    body: ForgotUserName(),
+                                                  );
+                                                },
+                                              ),
+                                            ));
                                       },
-                                    ),
-                                  ));
+                                      child: Text(
+                                          style: TextStyle(
+                                              color: (kIsWeb)
+                                                  ? Colors.blue
+                                                  : Colors.red),
+                                          'Forget Username?'))),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              if (!kIsWeb)
+                                Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: 'Having trouble? ',
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () async {
+                                            //on tap code here, you can navigate to other page or URL
+                                            String url =
+                                                "https://www.reddithelp.com/hc/en-us/articles/205240005";
+                                            var urllaunchable = await canLaunch(
+                                                url); //canLaunch is from url_launcher package
+                                            if (urllaunchable) {
+                                              await launch(
+                                                  url); //launch is from url_launcher package to launch URL
+                                            } else {
+                                              print("URL can't be launched.");
+                                            }
+                                          },
+                                      ),
+                                    )),
+                              if (kIsWeb)
+                                Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text:
+                                                'Don\'t have an email or need assistance logging in?',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                          TextSpan(
+                                            text: ' Get help',
+                                            style:
+                                                TextStyle(color: Colors.blue),
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () async {
+                                                //on tap code here, you can navigate to other page or URL
+                                                String url =
+                                                    "https://reddithelp.com/hc/en-us/sections/360008917491-Account-Security";
+                                                var urllaunchable = await canLaunch(
+                                                    url); //canLaunch is from url_launcher package
+                                                if (urllaunchable) {
+                                                  await launch(
+                                                      url); //launch is from url_launcher package to launch URL
+                                                } else {
+                                                  print(
+                                                      "URL can't be launched.");
+                                                }
+                                              },
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                            ]),
+                      )),
+                  if (isSubmit && isError)
+                    Padding(
+                      padding: EdgeInsets.all(5.w),
+                      child: Center(
+                        child: Text(
+                            textAlign: TextAlign.center,
+                            errorMessage,
+                            style: TextStyle(
+                              fontSize: 18,
+                              // fontWeight: FontWeight.w500,
+                              color: Theme.of(context).errorColor,
+                            )),
+                      ),
+                    ),
+                  if (isSubmit && !isError)
+                    Padding(
+                      padding: EdgeInsets.all(5.w),
+                      child: Text(
+                          textAlign: TextAlign.center,
+                          'you will receve if that adress maches your mail',
+                          style: TextStyle(
+                            fontSize: 18,
+                            // fontWeight: FontWeight.w500,
+                            color: Colors.green,
+                          )),
+                    ),
+                  Container(
+                      height: (kIsWeb) ? 40 : null,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                        ),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            onPrimary: Colors.white,
+                            primary: (kIsWeb) ? Colors.blue : Colors.red,
+                            onSurface: Colors.grey[700],
+                            shape: (kIsWeb)
+                                ? null
+                                : RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                          ),
+                          onPressed: isFinished ? submitForgorPasssword : null,
+                          child: Text(kIsWeb ? 'REST PASSWORD' : 'Continue'),
+                        ),
+                      )),
+                  if (kIsWeb)
+                    Row(
+                      children: [
+                        TextButton(
+                          child: Text(
+                            'Log in',
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, Login.routeName);
+                          },
+                        ),
+                        Text(' • '),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, SignUp.routeName);
                             },
                             child: Text(
-                                style: TextStyle(color: Colors.red),
-                                'Forget Username?'))),
-                    SizedBox(
-                      height: 4.h,
+                              'Sign Up',
+                              style: TextStyle(color: Colors.blue),
+                            ))
+                      ],
                     ),
-                    Padding(
-                        padding: EdgeInsets.all(10),
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Having trouble? ',
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () async {
-                                //on tap code here, you can navigate to other page or URL
-                                String url =
-                                    "https://www.reddithelp.com/hc/en-us/articles/205240005";
-                                var urllaunchable = await canLaunch(
-                                    url); //canLaunch is from url_launcher package
-                                if (urllaunchable) {
-                                  await launch(
-                                      url); //launch is from url_launcher package to launch URL
-                                } else {
-                                  print("URL can't be launched.");
-                                }
-                              },
-                          ),
-                        ))
-                  ]),
-            )),
-            if (isSubmit && isError)
-              Padding(
-                padding: EdgeInsets.all(5.w),
-                child: Center(
-                  child: Text(
-                      textAlign: TextAlign.center,
-                      errorMessage,
-                      style: TextStyle(
-                        fontSize: 18,
-                        // fontWeight: FontWeight.w500,
-                        color: Theme.of(context).errorColor,
-                      )),
-                ),
+                ],
               ),
-            if (isSubmit && !isError)
-              Padding(
-                padding: EdgeInsets.all(5.w),
-                child: Text(
-                    textAlign: TextAlign.center,
-                    'you will receve if that adress maches your mail',
-                    style: TextStyle(
-                      fontSize: 18,
-                      // fontWeight: FontWeight.w500,
-                      color: Colors.green,
-                    )),
-              ),
-            Container(
-                width: double.infinity,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10.0,
-                  ),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.white,
-                      primary: Colors.red,
-                      onSurface: Colors.grey[700],
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                    ),
-                    onPressed: isFinished ? submitForgorPasssword : null,
-                    child: Text('Continue'),
-                  ),
-                ))
+            ),
           ],
         ),
       ),
