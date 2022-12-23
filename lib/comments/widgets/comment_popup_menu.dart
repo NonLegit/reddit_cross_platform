@@ -55,7 +55,7 @@ class CommentPopUpMenu extends StatelessWidget {
               children: [
                 Container(
                   margin: const EdgeInsetsDirectional.only(end: 5),
-                  child: Icon(Icons.share_outlined),
+                  child: const Icon(Icons.share_outlined),
                 ),
                 Text(
                   'Share',

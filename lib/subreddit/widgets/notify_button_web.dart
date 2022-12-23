@@ -42,12 +42,11 @@ class _NotifyButtonWebState extends State<NotifyButtonWeb> {
               PopupMenuItem<String>(
                 value: "Off",
                 child: Row(
-                  children: [
+                  children: const [
                     Icon(
                       Icons.notifications_off,
                     ),
                     SizedBox(
-                      // sized box with width 10
                       width: 4,
                     ),
                     Text("Off")
@@ -57,10 +56,9 @@ class _NotifyButtonWebState extends State<NotifyButtonWeb> {
               PopupMenuItem<String>(
                 value: "Low",
                 child: Row(
-                  children: [
+                  children: const [
                     Icon(Icons.notifications),
                     SizedBox(
-                      // sized box with width 10
                       width: 4,
                     ),
                     Text("Low")
@@ -70,10 +68,9 @@ class _NotifyButtonWebState extends State<NotifyButtonWeb> {
               PopupMenuItem<String>(
                 value: 'Frequent',
                 child: Row(
-                  children: [
+                  children: const [
                     Icon(Icons.notifications_active),
                     SizedBox(
-                      // sized box with width 10
                       width: 4,
                     ),
                     Text('Frequent')

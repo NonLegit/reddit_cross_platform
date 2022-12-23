@@ -4,10 +4,22 @@ import 'package:fluttericon/mfg_labs_icons.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:post/post/models/post_model.dart';
 
+/// This widget displays the title and the spoiler and NSFW tags
+
 class PostTagsAndTitle extends StatefulWidget {
+  /// The title of the post
   final String title;
+
+  /// A boolean to determine if NSFW
+
   final bool isNSFW;
+
+  /// A boolean to determine if spoiler
+
   final bool isSpoiler;
+
+  /// The flair data
+
   final FlairId? flair;
 
   const PostTagsAndTitle(

@@ -18,6 +18,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'login.dart';
 import '../widgets/web_image.dart';
 
+// (kIsWeb) ? Colors.blue : Colors.red
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 

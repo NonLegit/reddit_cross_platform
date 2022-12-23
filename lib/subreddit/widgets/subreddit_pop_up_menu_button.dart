@@ -19,7 +19,6 @@ class _SubredditPopupMenuButtonState extends State<SubredditPopupMenuButton> {
     return PopupMenuButton(
       onSelected: (value) {
       if (value.toString() == '/communitymodmessage' 
-      // ||value.toString() == '/communityinfo'
       ) {
         Navigator.pushNamed(context, value.toString());
       } else if (value.toString() == 'Share') {
@@ -47,7 +46,7 @@ class _SubredditPopupMenuButtonState extends State<SubredditPopupMenuButton> {
     );
   }
 // to copy Link of Subreddit
-//byu using copy clipboard
+//by using copy clipboard
   Future<void> shareCommunitySheetButton(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,

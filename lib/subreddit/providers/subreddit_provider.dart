@@ -17,7 +17,9 @@ class SubredditProvider with ChangeNotifier {
   bool? get gettingTheme {
     return showTheme;
   }
-
+  // ===================================this function used to===========================================//
+//==================fetch and set date===========================//
+//moderatedSubredditUserName==> userName Of Subreddit
   Future<void> fetchAndSetSubredddit(
       String subredditUserName, BuildContext context) async {
     try {
@@ -26,8 +28,6 @@ class SubredditProvider with ChangeNotifier {
       DioClient.init(prefs);
       await DioClient.get(path: '/subreddits/${subredditUserName}')
           .then((response) {
-        print('lllllllllllllllllllllllllllllllllllll');
-        print(response.data['data']);
         loadSubreddit = SubredditData.fromJson(response.data['data']);
         notifyListeners();
       });
@@ -37,7 +37,10 @@ class SubredditProvider with ChangeNotifier {
       HandleError.handleError(error.toString(), context);
     }
   }
-
+ // ===================================this function used to===========================================//
+//==================Join and Disjoin subbreddit ===========================//
+//moderatedSubredditUserName==> userName Of Subreddit
+//action==> action either sub or unsub
   Future<bool> joinAndDisjoinSubreddit(
       String subredditUserName, String action, BuildContext context) async {
     try {

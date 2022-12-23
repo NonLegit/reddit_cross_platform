@@ -13,7 +13,13 @@ class ModeratedSubredditProvider with ChangeNotifier {
  SubredditData? get gettingSubredditeData {
     return loadSubreddit;
   }
-
+    bool showTheme = false;
+ bool? get gettingTheme {
+    return showTheme;
+  }
+  // ===================================this function used to===========================================//
+//==================fetch and set date===========================//
+//moderatedSubredditUserName==> userName Of Subreddit
   Future<void> fetchAndSetModeratedSubredddit(
       String moderatedSubredditUserName, BuildContext context) async {
     try {
@@ -31,7 +37,10 @@ class ModeratedSubredditProvider with ChangeNotifier {
       HandleError.handleError(error.toString(), context);
     }
   }
-
+ // ===================================this function used to===========================================//
+//==================Join and Disjoin subbreddit ===========================//
+//moderatedSubredditUserName==> userName Of Subreddit
+//action==> action either sub or unsub
   Future<bool> joinAndDisjoinModeratedSubreddit(
       String moderatedSubredditUserName,
       String action,
@@ -52,5 +61,9 @@ class ModeratedSubredditProvider with ChangeNotifier {
       HandleError.handleError(error.toString(), context);
       return false;
     }
+  }
+    Future<void> togglingTheme() async {
+    showTheme = !showTheme;
+    notifyListeners();
   }
 }

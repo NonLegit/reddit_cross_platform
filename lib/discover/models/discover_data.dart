@@ -4,7 +4,8 @@ class DiscoverData {
   List<Map<String, String>>? imgAndVideoList;
   List<PostModel>? allPosts;
   DiscoverData({required this.allPosts, required this.imgAndVideoList});
-
+  // ===================================this function used to===========================================//
+//=================to change json to model===========================//
   DiscoverData.fromJson(Map<String, dynamic> json) {
     List<Map<String, String>> tempDataImagesAndVideo = [];
     List<PostModel> tempData = [];
@@ -23,12 +24,9 @@ class DiscoverData {
           'Url': imagesAndVideos['video']
         });
       }
-
       PostModel temp = PostModel();
       temp.fromJson(imagesAndVideos);
       tempData.add(temp);
-
-      //PostModel(approved: ,author: ,commentCount: ,createdAt: ,flairId:  ,images: ,isDeleted: ,isSaved: ,isHidden: ,isModerator: ,isSpam: ,kind: ,locked: ,nsfw: ,maxHeightImageSize: )
     });
     imgAndVideoList = tempDataImagesAndVideo;
     allPosts = tempData;

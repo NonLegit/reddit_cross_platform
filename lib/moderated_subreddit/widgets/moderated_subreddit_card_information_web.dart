@@ -3,9 +3,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
 import '../../models/subreddit_data.dart';
 import '../../moderation_settings/screens/traffic_state.dart';
-import '../../moderation_settings/screens/traffic_table.dart';
-
-class ModeratedSubredditCardInformationWeb extends StatelessWidget {
+import '../providers/moderated_subreddit_provider.dart';
+import 'package:provider/provider.dart';
+class ModeratedSubredditCardInformationWeb extends StatefulWidget {
   const ModeratedSubredditCardInformationWeb({
     Key? key,
     required this.loadedSubreddit,
@@ -14,24 +14,31 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
   final SubredditData? loadedSubreddit;
 
   @override
+  State<ModeratedSubredditCardInformationWeb> createState() =>
+      _ModeratedSubredditCardInformationWebState();
+}
+
+class _ModeratedSubredditCardInformationWebState
+    extends State<ModeratedSubredditCardInformationWeb> {
+        bool chooseTheme = false;
+  @override
   Widget build(BuildContext context) {
     return Expanded(
         child: Container(
-            margin: EdgeInsets.only(right: 180, top: 100),
-            width: 60.w,
-            height: 32.h,
+            margin: const EdgeInsets.only(right: 180, top: 100),
+           width: 50.w,
+            height: 43.h,
             color: Colors.white,
             child: Column(
               children: [
                 Container(
                   width: 100.h,
                   height: 6.h,
-                  padding: EdgeInsets.only(top: 10, left: 10),
+                  padding: const EdgeInsets.only(top: 10, left: 10),
+                  color: Colors.blue,
                   child: Row(
-                    //mainAxisAlignment: MainAxisAlignment.start,
-                    //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'About Community',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
@@ -42,14 +49,14 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
                       ElevatedButton(
                           onPressed: () {
                             Navigator.pushNamed(context, TraficState.routeName,
-                                arguments: loadedSubreddit!.name);
+                                arguments: widget.loadedSubreddit!.name);
                           },
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.transparent),
                           ),
                           child: Row(
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.shield_outlined,
                                 color: Colors.white,
@@ -62,12 +69,11 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
                           ))
                     ],
                   ),
-                  color: Colors.blue,
                 ),
                 Container(
                   width: 100.h,
-                  height: 26.h,
-                  padding: EdgeInsets.only(top: 20, left: 10),
+                  height:32.h,
+                  padding: const EdgeInsets.only(top: 20, left: 10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.white),
@@ -76,27 +82,27 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${loadedSubreddit!.description}',
-                        style: TextStyle(
+                        '${widget.loadedSubreddit!.description}',
+                        style: const TextStyle(
                             color: Colors.black, fontWeight: FontWeight.normal),
                       ),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.cake_outlined,
                             color: Colors.black,
                           ),
                           Text(
-                            'Created Apr 30, 2013',
-                            style: TextStyle(
+                            '${DateFormat.yMMMMd('en_US').format(DateTime.parse(widget.loadedSubreddit!.createdAt.toString()))}',
+                            style: const TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.normal),
                           ),
                         ],
                       ),
-                      Divider(),
+                      const Divider(),
                       Container(
-                        padding: EdgeInsets.only(top: 15),
+                        padding: const EdgeInsets.only(top: 15),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -106,14 +112,13 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${new NumberFormat.compact().format(loadedSubreddit!.numOfMembers)
-                                  //loadedSubreddit!.numOfMembers
+                                  '${new NumberFormat.compact().format(widget.loadedSubreddit!.numOfMembers)
                                   }',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Text(
+                                const Text(
                                   'Members',
                                   style: TextStyle(
                                       color: Colors.grey,
@@ -128,8 +133,8 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.only(
+                                    const Padding(
+                                      padding: EdgeInsetsDirectional.only(
                                           end: 2, bottom: 2),
                                       child: CircleAvatar(
                                         backgroundColor: Colors.green,
@@ -137,16 +142,16 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      '${new NumberFormat.compact().format(loadedSubreddit!.numOfOnlines)
+                                      '${new NumberFormat.compact().format(widget.loadedSubreddit!.numOfOnlines)
                                       //loadedSubreddit!.numOfMembers
                                       }',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 ),
-                                Text(
+                                const Text(
                                   'Online',
                                   style: TextStyle(
                                       color: Colors.grey,
@@ -157,9 +162,9 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Divider(),
+                      const Divider(),
                       Container(
-                        padding: EdgeInsets.only(top: 10, right: 6),
+                        padding: const EdgeInsets.only(top: 10, right: 6),
                         width: 100.w,
                         child: ElevatedButton(
                           style: ButtonStyle(
@@ -172,7 +177,7 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(22)))),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Create Post',
                             style: TextStyle(
                               fontSize: 13,
@@ -181,7 +186,26 @@ class ModeratedSubredditCardInformationWeb extends StatelessWidget {
                           onPressed: () {},
                         ),
                       ),
-                      Divider(),
+                      const Divider(),
+                       ListTile(
+                    leading: (chooseTheme)
+                        ? Icon(Icons.visibility_outlined)
+                        : Icon(Icons.visibility_off_outlined),
+                    title: Text('Community theme'),
+                    trailing: Switch(
+                      activeColor: Colors.white,
+                      activeTrackColor: Colors.blue,
+                      inactiveThumbColor: Colors.white,
+                      inactiveTrackColor: Colors.grey.shade400,
+                      splashRadius: 50.0,
+                      value: chooseTheme,
+                      onChanged: (value) {
+                        setState(() => chooseTheme = value);
+                        Provider.of<ModeratedSubredditProvider>(context, listen: true)
+                            .togglingTheme();
+                      },
+                    ),
+                  )
                     ],
                   ),
                 )

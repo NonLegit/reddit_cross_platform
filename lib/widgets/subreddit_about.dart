@@ -25,17 +25,17 @@ class _SubredditAboutState extends State<SubredditAbout> {
       child: ListView(scrollDirection: Axis.vertical, children: [
         Container(
           color: Colors.white,
-          margin: EdgeInsets.only(top: 120),
-          padding: EdgeInsets.only(left: 10),
+          margin: const EdgeInsets.only(top: 120),
+          padding: const EdgeInsets.only(left: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  margin: EdgeInsets.all(10),
-                  child: Text('Subreddit Rules',
+                  margin: const EdgeInsets.all(10),
+                  child: const Text('Subreddit Rules',
                       style: TextStyle(fontWeight: FontWeight.bold))),
-              Divider(),
+              const Divider(),
               _renderrules(),
             ],
           ),
@@ -52,25 +52,25 @@ class _SubredditAboutState extends State<SubredditAbout> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                  margin: EdgeInsets.all(4),
-                  padding: EdgeInsets.all(3),
+                  margin: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(3),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Moderators',
+                      const Text('Moderators',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15)),
                       IconButton(
                           onPressed: () => Navigator.pushNamed(
                               context, ContactModMessageScreen.routeName),
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.mail_outlined,
                             color: Colors.grey,
                           )),
                     ],
                   )),
-              Divider(),
+              const Divider(),
               Expanded(
                 child: ListView.builder(
                     itemCount: widget.moderators.length,

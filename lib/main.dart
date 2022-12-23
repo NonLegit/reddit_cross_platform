@@ -79,7 +79,7 @@ import './moderation_settings/screens/traffic_table.dart';
 //=====================================Providers====================================================//
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
-import './providers/Profile_provider.dart';
+import 'providers/profile_provider.dart';
 import 'providers/subreddit_posts_provider.dart';
 import './subreddit/providers/subreddit_provider.dart';
 import './moderated_subreddit/providers/moderated_subreddit_provider.dart';
@@ -93,6 +93,7 @@ import './settings/provider/user_settings_provider.dart';
 import './search/provider/search_provider.dart';
 import './discover/providers/discover_provider.dart';
 import './moderation_settings/provider/moderation_general_data.dart';
+import './show_post/screens/show_post_web.dart';
 import 'widgets/custom_snack_bar.dart';
 //import './models/push_notification_model.dart';
 import './shared/constants.dart';
@@ -516,9 +517,8 @@ class _MyAppState extends State<MyApp> {
             // home: CreateCommunity(),
             //home: homeLayoutScreen(),
             // home: HomeScreen(),
-            // home: Login(),
-            // home: CreateCommunity(),
             home: Login(),
+            // home: CreateCommunity(),
             // home: ForgotUserName(),
             // home: ForgotPassword(),
             // home: TraficState(),
@@ -620,6 +620,7 @@ class _MyAppState extends State<MyApp> {
                   ModNotificationScreen(),
               ModeratedSubredditScreen.routeName: (context) =>
                   ModeratedSubredditScreen(),
+              ShowPostDetailsWeb.routeName: (context) => ShowPostDetailsWeb(),
               // LoginPage.routeName: (context) => LoginPage(),
             },
           ),

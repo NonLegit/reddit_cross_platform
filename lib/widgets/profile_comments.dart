@@ -2,7 +2,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttericon/typicons_icons.dart';
 import 'package:flutter/material.dart';
-import '../providers/Profile_provider.dart';
+import '../providers/profile_provider.dart';
 import '../models/comments_data.dart';
 import '../widgets/loading_reddit.dart';
 
@@ -45,6 +45,8 @@ class ProfileCommentsState extends State<ProfileComments> {
   }
 
   ScrollController _scrollController = new ScrollController();
+ //=====================================this function is used to======================================//
+  //=================Loading More Data====================//
   void loadMore() async {
     if (_isLoading == false &&
         _isLoadMoreRunning == false &&
@@ -73,19 +75,20 @@ class ProfileCommentsState extends State<ProfileComments> {
       });
     }
   }
-
+//=====================================this function is used to======================================//
+  //=================Start loading More Data====================//
   bool toggleLoadingMore() => _isLoadMoreRunning = !_isLoadMoreRunning;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(
-        '==============================inint profile Post======================');
     _scrollController = ScrollController()..addListener(loadMore);
   }
 
-
+//=====================================this function is used to======================================//
+  //=================Loading Data for first time====================//
+ 
   @override
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
@@ -154,7 +157,7 @@ class ProfileCommentsState extends State<ProfileComments> {
                               padding: const EdgeInsets.all(10),
                               width: double.infinity,
                               // height: 15.h,
-                              color: const Color.fromARGB(255, 255, 255, 255),
+                              color: Color.fromARGB(255, 107, 38, 38),
                               child: Column(
                                 children: [
                                   ListTile(

@@ -19,7 +19,6 @@ class PositionMyProfileWeb extends StatelessWidget {
       height: 100.h,
       child: Container(
         color: Colors.white,
-        // height: 50.h,
         padding: const EdgeInsets.only(left: 10, top: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,9 +115,6 @@ class PositionMyProfileWeb extends StatelessWidget {
             //followers
             Container(
                 padding: const EdgeInsets.all(0),
-                // alignment: Alignment.bottomLeft,
-                //color: Colors.amber,
-                // margin: EdgeInsets.all(30),
                 height: 7.5.h,
                 width: 40.w,
                 child: TextButton(
@@ -126,7 +122,6 @@ class PositionMyProfileWeb extends StatelessWidget {
                         .pushNamed(UserFollowersScreen.routeName),
                     style: ButtonStyle(
                       foregroundColor: MaterialStateProperty.all(Colors.black),
-                      //  backgroundColor: MaterialStateProperty.all(Colors.black),
                     ),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -146,9 +141,7 @@ class PositionMyProfileWeb extends StatelessWidget {
                               Text(
                                 '${loadProfile.followersCount} ',
                                 style: const TextStyle(
-                                    //backgroundColor: Colors.orange,
                                     color: Colors.black,
-                                    //fontWeight: FontWeight.bold,
                                     fontSize: 13),
                                 textAlign: TextAlign.justify,
                               ),

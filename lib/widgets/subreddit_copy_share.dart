@@ -23,7 +23,6 @@ class CopyShare extends StatelessWidget {
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          //  mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const BarWidget(),
             Container(

@@ -3,6 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../models/others_profile_data.dart';
 import 'package:provider/provider.dart';
 import '../providers/other_profile_provider.dart';
+import 'package:intl/intl.dart';
 import '../../widgets/custom_snack_bar.dart';
 class PositionOtherProfileWeb extends StatefulWidget {
   PositionOtherProfileWeb({
@@ -14,13 +15,14 @@ class PositionOtherProfileWeb extends StatefulWidget {
 
   @override
   State<PositionOtherProfileWeb> createState() =>
-      _PositionOtherProfileWebState();
+      PositionOtherProfileWebState();
 }
 
-class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
+class PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
   bool moreOptions = false;
     bool isFollowedstate = false;
-
+ // ===================================the next two  function used to===========================================//
+//==================To follow users===========================//
    void _follow() async {
     bool follow =
         await Provider.of<OtherProfileprovider>(context, listen: false)
@@ -45,7 +47,8 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
     isFollowedstate = true;
     return isFollowedstate;
   }
-
+ // ===================================the next two  function used to===========================================//
+//==================To unfollow users===========================//
   void _unFollow() async {
     bool unfollow =
         await Provider.of<OtherProfileprovider>(context, listen: false)
@@ -65,7 +68,6 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
       );
     }
   }
-
   bool unFollowsucceeded() {
     isFollowedstate = false;
     return isFollowedstate;
@@ -82,11 +84,9 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
    top: 100,
       height: 100.h,
       child: Container(
-        // width: 100.w,
         height: 100.h,
-
-        padding: EdgeInsets.only(left: 20, top: 15),
-        margin: EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(left: 20, top: 15),
+        margin: const EdgeInsets.only(top: 10),
        color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +109,6 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
             ),
             //name and discibtions
             Text(
-                // ${loadProfile.numOfDaysInReddit} .${int.parse(loadProfile.postKarma.toString()) + int.parse(loadProfile.commentkarma.toString())}.${loadProfile.createdAt.toString()}
                 'u/${widget.loadProfile.displayName}',
                 style: const TextStyle(
                     color: Colors.black,
@@ -138,18 +137,17 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
               height: 7,
             ),
             Row(
-              //mainAxisAlignment: MainAxisAlignment,
               children: [
                 Column(
                   children: [
-                    Text('Karma',
-                        style: const TextStyle(
+                    const Text('Karma',
+                        style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 13)),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.settings,
                           color: Colors.blue,
                         ),
@@ -168,18 +166,18 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
                 ),
                 Column(
                   children: [
-                    Text('CakeDay',
-                        style: const TextStyle(
+                    const Text('CakeDay',
+                        style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 13)),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.cake,
                           color: Colors.blue,
                         ),
-                        Text('${widget.loadProfile.createdAt.toString()}',
+                        Text('${DateFormat.yMMMMd('en_US').format(DateTime.parse(widget.loadProfile.createdAt.toString()))}',
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
@@ -200,9 +198,6 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
                 child: ElevatedButton(
                   onPressed:()=> (isFollowedstate) ? _unFollow() : _follow(),
                   style: ButtonStyle(
-                      //  side: MaterialStateProperty.all(
-                      // const BorderSide(
-                      //     color: Colors.white)),
                       shape: MaterialStateProperty.all(
                           const RoundedRectangleBorder(
                               borderRadius:
@@ -211,54 +206,12 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
                       foregroundColor: MaterialStateProperty.all(Colors.white)),
                   child: Text(
                     isFollowedstate ? 'Following' : 'Follow',
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 15),
                   ),
                 )),
-            // Visibility(
-            //   visible: moreOptions,
-            //   child: Container(
-            //       child: Column(
-            //     children: [
-            //       TextButton(onPressed: null, child: Text('Send Message')),
-            //       TextButton(onPressed: null, child: Text('Block User')),
-            //       TextButton(
-            //           onPressed: null,
-            //           child: Text('Get Them Help and Support')),
-            //       TextButton(onPressed: null, child: Text('Report User'))
-            //     ],
-            //   )),
-            // ),
-            // Container(
-            //     width: 15.w,
-            //     height: 6.h,
-            //     child: TextButton(
-            //       onPressed: () {
-            //         setState(() {
-            //           moreOptions = true;
-            //         });
-            //       },
-            //       style: ButtonStyle(
-            //           //  side: MaterialStateProperty.all(
-            //           // const BorderSide(
-            //           //     color: Colors.white)),
-            //           shape: MaterialStateProperty.all(
-            //               const RoundedRectangleBorder(
-            //                   borderRadius:
-            //                       BorderRadius.all(Radius.circular(30)))),
-            //           backgroundColor: MaterialStateProperty.all(Colors.blue),
-            //           foregroundColor: MaterialStateProperty.all(Colors.white)),
-            //       child: Text(
-            //         moreOptions ? 'More Options' : 'Less Options',
-            //         style: TextStyle(
-            //             color: Colors.white,
-            //             fontWeight: FontWeight.bold,
-            //             fontSize: 15),
-            //       ),
-            //     )),
-
             const SizedBox(
               height: 7,
             )

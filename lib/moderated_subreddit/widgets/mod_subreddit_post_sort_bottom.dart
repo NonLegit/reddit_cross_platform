@@ -43,13 +43,9 @@ class ModSubredditPostSortBottomState
   @override
   Widget build(BuildContext context) {
     return Container(
-        // height: MediaQuery.of(context).size.height * 0.23,
-        // width: MediaQuery.of(context).size.width * 1,
         height: 23.h,
         width: 10.w,
         color: const Color.fromARGB(255, 240, 240, 240),
-        //padding: const EdgeInsets.all(20),
-        //color: Colors.black54,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -68,7 +64,7 @@ class ModSubredditPostSortBottomState
                         children: [
                           Icon(
                             _icon,
-                            color: Color.fromARGB(255, 121, 121, 121),
+                            color: const Color.fromARGB(255, 121, 121, 121),
                             size: 25,
                           ),
                           Text(
@@ -79,7 +75,7 @@ class ModSubredditPostSortBottomState
                                 fontSize: 12),
                             textAlign: TextAlign.end,
                           ),
-                          Icon(
+                          const Icon(
                             color: Color.fromARGB(255, 121, 121, 121),
                             Icons.keyboard_arrow_down_rounded,
                             size: 25,
@@ -87,7 +83,7 @@ class ModSubredditPostSortBottomState
                         ]),
                   ),
                   IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.shield_outlined,
                         color: Colors.grey,
                       ),
@@ -98,7 +94,8 @@ class ModSubredditPostSortBottomState
             ]));
   }
 
-//Select the type of Posts
+ // ===================================this function used to===========================================//
+//==================sorting action of Posts===========================//
   Future<void> typesBottomSheet(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -108,8 +105,6 @@ class ModSubredditPostSortBottomState
           onTap: () {},
           child: Container(
             padding: const EdgeInsets.all(20),
-            // height: MediaQuery.of(context).size.height * 0.35,
-            // width: MediaQuery.of(context).size.width * 0.30,
             height: 35.h,
             width: 30.w,
             margin: const EdgeInsets.all(5),
@@ -139,7 +134,7 @@ class ModSubredditPostSortBottomState
                         ),
                         trailing: Visibility(
                           visible: tappedIndex == index,
-                          child: Icon(
+                          child: const Icon(
                             Icons.done,
                             color: Colors.blue,
                           ),
@@ -171,7 +166,6 @@ class ModSubredditPostSortBottomState
       },
     );
   }
-
   int choosePostType(int index) {
     tappedIndexTop = null;
     tappedIndex = index;
@@ -221,10 +215,7 @@ class ModSubredditPostSortBottomState
                                 : Colors.black,
                           ),
                           onTap: () {
-                            setState(() {
-                              // topValue =
-                              //     litemsTop[
-                              //         index1];
+                            setState(() {;
                               chooseTimeTopPost(index, index1);
                             });
                             return Navigator.popUntil(context,

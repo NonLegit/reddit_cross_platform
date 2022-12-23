@@ -25,11 +25,9 @@ class InviteButtonState extends State<InviteButton> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // textMessage = '';
-    // // textMessage = 'Message ${widget.userName}';
-    // message = TextEditingController();
   }
-
+ // ===================================this function used to===========================================//
+//==================fetch date for Moderated Subreddit For User===========================//
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -38,7 +36,6 @@ class InviteButtonState extends State<InviteButton> {
       setState(() {
         _isLoading = true;
       });
-      // print('12 ');
       Provider.of<OtherProfileprovider>(context, listen: false)
           .fetchAndSetModeratedSubredditUser(context)
           .then((value) {
@@ -50,8 +47,6 @@ class InviteButtonState extends State<InviteButton> {
       });
     }
     _isInit = false;
-
-    //==================================================//
     super.didChangeDependencies();
   }
 
@@ -170,19 +165,16 @@ class InviteButtonState extends State<InviteButton> {
                       SizedBox(
                         width: 50.w,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.reddit_outlined,
                         color: Colors.deepOrange,
                         size: 50,
                       ),
                       Container(
-                        // color: Colors.amber,
                         height: 6.h,
                         width: 30.w,
                         child: ElevatedButton(
                             style: ButtonStyle(
-                                //shape: Outlin,
-
                                 side: MaterialStateProperty.all(
                                     const BorderSide(color: Colors.white)),
                                 shape: MaterialStateProperty.all(
@@ -223,7 +215,8 @@ class InviteButtonState extends State<InviteButton> {
       },
     );
   }
-
+ // ===================================this function used to===========================================//
+//==================To Invit Other Users===========================//
   Future<bool> invite(BuildContext context) async {
     bool invite =
         await Provider.of<OtherProfileprovider>(context, listen: false)
@@ -238,7 +231,7 @@ class InviteButtonState extends State<InviteButton> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         CustomSnackBar(
-            isError: true, text:'Invitation Faild' , disableStatus: true),
+            isError: true, text:'Invitation Failed' , disableStatus: true),
       );
     }
     return false;
