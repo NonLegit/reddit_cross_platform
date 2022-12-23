@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:post/discover/discover.dart';
 import 'package:post/home/screens/home_layout.dart';
 import 'dart:async';
 import '../../home/controller/home_controller.dart';
