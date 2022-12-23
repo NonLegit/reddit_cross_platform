@@ -5,17 +5,40 @@ import 'package:provider/provider.dart';
 import '../models/post_model.dart';
 import '../provider/post_provider.dart';
 
+/// This widget displays the moderator tools of the post
+
 class PostModTools extends StatefulWidget {
   /// Check if it's a post created by the user
   final bool isMyPost;
 
+  /// A boolean to determine if the post is approved
+
   final bool isApproved;
+
+  /// A boolean to determine if the post is NSFW
+
   final bool isNSFW;
+
+  /// A boolean to determine if the post is spoiler
+
   final bool isSpoiler;
+
+  /// A boolean to determine if the comments of the post is locked
+
   final bool isCommentsLocked;
+
+  /// A boolean to determine if the post is removed
+
   final bool isRemoved;
+
+  /// A function which is invoked when the state changes
+
   final Function update;
+
+  /// The post data
   final PostModel data;
+
+  /// A boolean to check if in screen
   final bool inScreen;
 
   const PostModTools({
@@ -55,7 +78,7 @@ class _PostModTools extends State<PostModTools> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsetsDirectional.only(top: 2),
+      margin: const EdgeInsetsDirectional.only(top: 2),
       child: Material(
         color: (!widget.inScreen && (widget.data.isSpam ?? false))
             ? Colors.blueGrey[50]
@@ -63,7 +86,7 @@ class _PostModTools extends State<PostModTools> {
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).colorScheme.surface,
         child: Container(
-          margin: EdgeInsetsDirectional.only(start: 10, end: 10),
+          margin: const EdgeInsetsDirectional.only(start: 10, end: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -75,7 +98,7 @@ class _PostModTools extends State<PostModTools> {
                     child: Tooltip(
                       message: 'Approve',
                       child: Container(
-                        padding: EdgeInsetsDirectional.all(10),
+                        padding: const EdgeInsetsDirectional.all(10),
                         child: (!widget.isApproved)
                             ? Icon(
                                 Icons.done,
@@ -108,7 +131,7 @@ class _PostModTools extends State<PostModTools> {
                 child: Tooltip(
                   message: 'More options',
                   child: Container(
-                      padding: EdgeInsetsDirectional.all(10),
+                      padding: const EdgeInsetsDirectional.all(10),
                       child: Icon(
                         Icons.format_list_bulleted,
                         color: Theme.of(context).colorScheme.secondary,

@@ -1,27 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:post/post/widgets/post_tags_and_title.dart';
 import 'package:post/providers/global_settings.dart';
+import 'package:post/widgets/loading_reddit.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 
 import '../models/post_model.dart';
 
-/// A widget to display a video in widget
-class PostVideoInWidget extends StatefulWidget {
+/// A widget to display a video in widget (web)
+
+class PostVideoInWidgetWeb extends StatefulWidget {
   /// The url of the video
   final String url;
 
   /// The video controller
+
   final VideoPlayerController videoController;
 
   /// A boolean to check if in view
+
   final bool inView;
 
   /// The title of the post
+
   final String title;
 
   /// A boolean to determine if spoiler
+
   final bool spoiler;
 
   /// A boolean to determine if NSFW
@@ -31,7 +37,7 @@ class PostVideoInWidget extends StatefulWidget {
   /// The flair data
 
   final FlairId? flair;
-  const PostVideoInWidget({
+  const PostVideoInWidgetWeb({
     super.key,
     required this.url,
     required this.videoController,
@@ -43,10 +49,10 @@ class PostVideoInWidget extends StatefulWidget {
   });
 
   @override
-  State<PostVideoInWidget> createState() => _PostVideoInWidgetState();
+  State<PostVideoInWidgetWeb> createState() => _PostVideoInWidgetWebState();
 }
 
-class _PostVideoInWidgetState extends State<PostVideoInWidget> {
+class _PostVideoInWidgetWebState extends State<PostVideoInWidgetWeb> {
   late ChewieController chewieController;
   bool isMuted = true;
   bool autoPlay = true;
@@ -58,7 +64,10 @@ class _PostVideoInWidgetState extends State<PostVideoInWidget> {
       autoInitialize: true,
       autoPlay: false,
       looping: true,
-      showControls: false,
+      showControls: true,
+      allowMuting: false,
+      allowPlaybackSpeedChanging: true,
+      placeholder: const LoadingReddit(),
     );
   }
 

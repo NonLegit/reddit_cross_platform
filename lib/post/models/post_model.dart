@@ -154,24 +154,24 @@ class PostModel {
     print(json['url'].runtimeType);
 
     sId = json['_id'];
-    ownerType = json['ownerType'];
+    ownerType = json['ownerType'] ?? 'Subreddit';
     replies = json['replies'];
-    title = json['title'];
-    kind = json['kind'];
-    text = json['text'];
-    images = json['images'];
-    createdAt = json['createdAt'];
+    title = json['title'] ?? '';
+    kind = json['kind'] ?? 'self';
+    text = json['text'] ?? '';
+    images = json['images'] ?? [];
+    createdAt = json['createdAt'] ?? '2017-07-21T17:32:28Z';
     locked = json['locked'] ?? false;
     isDeleted = json['isDeleted'] ?? false;
     sendReplies = json['sendReplies'] ?? false;
     nsfw = json['nsfw'] ?? false;
     spoiler = json['spoiler'] ?? false;
-    votes = json['votes'];
-    views = json['views'];
-    commentCount = json['commentCount'];
-    shareCount = json['shareCount'];
-    suggestedSort = json['suggestedSort'];
-    scheduled = json['scheduled'];
+    votes = json['votes'] ?? 0;
+    views = json['views'] ?? 0;
+    commentCount = json['commentCount'] ?? 0;
+    shareCount = json['shareCount'] ?? 0;
+    suggestedSort = json['suggestedSort'] ?? '';
+    scheduled = json['scheduled'] ?? false;
     flairId =
         json['flairId'] != null ? new FlairId.fromJson(json['flairId']) : null;
     isHidden = json['isHidden'] ?? false;

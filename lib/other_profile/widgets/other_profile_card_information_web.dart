@@ -59,10 +59,7 @@ class _OtherProfileCardInformationWebState
             ),
             //tomake widget position
             PositionOtherProfileWeb(loadProfile: widget.loadProfile),
-            // OptionsButton(
-            // //  moreOptions: OtherProfileCardInformationWeb.moreOptions,
-            //   ),
-            Positioned(
+              Positioned(
                 top: 340,
                 child: Column(
                   children: [
@@ -186,7 +183,7 @@ class _OtherProfileCardInformationWebState
             ),
           ),
           Container(
-            width: 35.w,
+            width: 15.w,
             height: 6.h,
             child: ElevatedButton(
               style: ButtonStyle(
@@ -206,13 +203,13 @@ class _OtherProfileCardInformationWebState
                 if (!block) {
                   ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar(
                       isError: false,
-                      text: 'Invitation Successfully',
+                      text: 'Block Successfully',
                       disableStatus: true));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     CustomSnackBar(
                         isError: false,
-                        text: 'Invitation Successfully',
+                        text: 'Block Failed',
                         disableStatus: true),
                   );
                 }

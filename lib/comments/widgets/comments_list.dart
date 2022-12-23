@@ -6,8 +6,15 @@ import '../models/comment_model.dart';
 import '../providers/comments_provider.dart';
 import 'comment.dart';
 
+/// This widget displays the comments tree of a post
+
 class CommentsList extends StatefulWidget {
+  /// The ID of the post to get its comments
+
   final String postId;
+
+  /// The user name
+
   final String userName;
   const CommentsList({super.key, required this.postId, required this.userName});
 

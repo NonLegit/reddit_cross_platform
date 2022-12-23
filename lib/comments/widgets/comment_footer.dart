@@ -27,64 +27,6 @@ class _CommentFooterState extends State<CommentFooter> {
   int commentVoteStatus;
   int votes;
   _CommentFooterState(this.commentVoteStatus, this.votes);
-// upVote() async {
-//     if (postVoteStatus != 1) {
-//       if (await Provider.of<PostProvider>(context, listen: false)
-//           .updateVotes(widget.id, 1)) {
-//         setState(() {
-//           if (postVoteStatus == -1) {
-//             votes = votes + 2;
-//             widget.data.votes = (widget.data.votes! + 2);
-//           } else {
-//             ++votes;
-//             widget.data.votes = (widget.data.votes! + 1);
-//           }
-//           postVoteStatus = 1;
-//           widget.data.postVoteStatus = 1.toString();
-//         });
-//       }
-//     } else {
-//       if (await Provider.of<PostProvider>(context, listen: false)
-//           .updateVotes(widget.id, 0)) {
-//         setState(() {
-//           postVoteStatus = 0;
-//           widget.data.postVoteStatus = 0.toString();
-//           widget.data.votes = (widget.data.votes! - 1);
-//           --votes;
-//         });
-//       }
-//     }
-//   }
-
-//   downVote() async {
-//     if (postVoteStatus != -1) {
-//       if (await Provider.of<PostProvider>(context, listen: false)
-//           .updateVotes(widget.id, -1)) {
-//         setState(() {
-//           if (postVoteStatus == 1) {
-//             votes = votes - 2;
-//             widget.data.votes = (widget.data.votes! - 2);
-//           } else {
-//             --votes;
-//             widget.data.votes = (widget.data.votes! - 1);
-//           }
-//           postVoteStatus = -1;
-//           widget.data.postVoteStatus = (-1).toString();
-//         });
-//       }
-//     } else {
-//       if (await Provider.of<PostProvider>(context, listen: false)
-//           .updateVotes(widget.id, 0)) {
-//         setState(() {
-//           postVoteStatus = 0;
-//           widget.data.postVoteStatus = 0.toString();
-
-//           ++votes;
-//           widget.data.votes = (widget.data.votes! + 1);
-//         });
-//       }
-//     }
-//   }
 
   upVote() {}
   downVote() {}
@@ -92,21 +34,17 @@ class _CommentFooterState extends State<CommentFooter> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsetsDirectional.only(start: 10, end: 10),
+      margin: const EdgeInsetsDirectional.only(start: 10, end: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          CommentPopUpMenu(isSaved: true),
+          const CommentPopUpMenu(isSaved: true),
           const SizedBox(
             width: 20,
           ),
           InkWell(
             onTap: () {
-              print(widget.data.sId);
-              print(widget.data.text);
-              print(widget.data.author?.userName);
-              print(widget.data.createdAt);
-              Get.to(AddReplyScreen(), arguments: {
+              Get.to(const AddReplyScreen(), arguments: {
                 'parentId': widget.data.sId,
                 'comment': widget.data.text,
                 'authorName': widget.data.author?.userName,
@@ -138,7 +76,7 @@ class _CommentFooterState extends State<CommentFooter> {
                 child: Tooltip(
                   message: 'Upvote',
                   child: Container(
-                    padding: EdgeInsetsDirectional.all(8),
+                    padding: const EdgeInsetsDirectional.all(8),
                     child: (commentVoteStatus != 1)
                         ? Icon(
                             Typicons.up_outline,
@@ -164,7 +102,7 @@ class _CommentFooterState extends State<CommentFooter> {
                 child: Tooltip(
                   message: 'Downvote',
                   child: Container(
-                    padding: EdgeInsetsDirectional.all(8),
+                    padding: const EdgeInsetsDirectional.all(8),
                     child: (commentVoteStatus != -1)
                         ? Icon(
                             Typicons.down_outline,
