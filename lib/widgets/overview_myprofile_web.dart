@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttericon/typicons_icons.dart';
-import '../providers/Profile_provider.dart';
+import '../providers/profile_provider.dart';
 import '../myprofile/models/myprofile_data.dart';
 import '../myprofile/widgets/myprofile_card_information_web.dart';
 import '../widgets/loading_reddit.dart';
@@ -54,6 +54,8 @@ class _OverviewMyProfileWebState extends State<OverviewMyProfileWeb> {
   }
 
   ScrollController _scrollController = new ScrollController();
+  //=====================================this function is used to======================================//
+  //=================Loading More Data====================//
   void _loadMore() {
     if (_isLoading == false && _isLoadMoreRunning == false) {
       setState(() {
@@ -70,6 +72,8 @@ class _OverviewMyProfileWebState extends State<OverviewMyProfileWeb> {
     }
   }
 
+//=====================================this function is used to======================================//
+  //=================Start loading More Data====================//
   bool toggleLoadingMore() => _isLoadMoreRunning = !_isLoadMoreRunning;
 
   @override
@@ -79,6 +83,8 @@ class _OverviewMyProfileWebState extends State<OverviewMyProfileWeb> {
     _scrollController = ScrollController()..addListener(_loadMore);
   }
 
+//=====================================this function is used to======================================//
+  //=================Loading Data for first time====================//
   @override
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
@@ -117,76 +123,50 @@ class _OverviewMyProfileWebState extends State<OverviewMyProfileWeb> {
   Widget build(BuildContext context) {
     commentsAndPosts = Provider.of<ProfileProvider>(context, listen: true)
         .gettingPostCommentData;
-    return
-        //  ListView(
-        //   scrollDirection: Axis.vertical,
-        //   controller: widget.scrollController,
-        //   children: [
-        //   Row(
-        // mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        // children: [
-        //   Expanded(
-        //     flex: 2,
-        //     child: Column(
-        //       children: [
-        //         SizedBox(
-        //           height: 4.h,
-        //         ),
-        //         Container(
-        //           height: 6.h,
-        //           width: 50.w,
-        //           margin: EdgeInsets.only(left: 100, bottom: 10, top: 30),
-        //           child: SortBottomWeb(
-        //               page: 1, userName: widget.loadProfile.userName.toString()),
-        //           color: Colors.white,
-        //         ),
-        (_isLoading || _isLoadMoreRunning)
-            ? const LoadingReddit()
-            : (commentsAndPosts == null || commentsAndPosts!.isEmpty)
-                ? Center(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 30.h,
-                        ),
-                        const Icon(
-                          Icons.reddit,
-                          size: 100,
-                          color: Colors.black,
-                        ),
-                        const Text(
-                          'Wow,such empty',
-                          style: TextStyle(color: Colors.grey),
-                        )
-                      ],
+    return (_isLoading || _isLoadMoreRunning)
+        ? const LoadingReddit()
+        : (commentsAndPosts == null || commentsAndPosts!.isEmpty)
+            ? Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 30.h,
                     ),
-                  )
-                : PostCommentList(
-                    leftMargin: 15.w,
-                    rightMargin: 35.w,
-                    topOfTheList: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        SortBottomWeb(
-                            page: 1,
-                            userName: widget.loadProfile.userName.toString()),
-                        MyProfileCardInformationWeb(
-                            loadProfile: widget.loadProfile),
-                      ],
+                    const Icon(
+                      Icons.reddit,
+                      size: 100,
+                      color: Colors.black,
                     ),
-                    userName: widget.loadProfile.userName.toString(),
-                    updateData: _loadMore,
-                    data: commentsAndPosts as List<Map<String, dynamic>>,
-                    type: 'Profile',
-                  );
-    //     ],
-    //   ),
-    // ),
-    // MyProfileCardInformationWeb(loadProfile: widget.loadProfile),
-    //   ],
-    // );
-    //   ],
-    // );
+                    const Text(
+                      'Wow,such empty',
+                      style: TextStyle(color: Colors.grey),
+                    )
+                  ],
+                ),
+              )
+            : PostCommentList(
+                leftMargin: 15.w,
+                rightMargin: 35.w,
+                topOfTheList: Container(
+                  height: 65.h,
+                  width: 50.h,
+                  margin: EdgeInsets.only(left: 15.w),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MyProfileCardInformationWeb(
+                          loadProfile: widget.loadProfile),
+                      SortBottomWeb(
+                          page: 1,
+                          userName: widget.loadProfile.userName.toString()),
+                    ],
+                  ),
+                ),
+                userName: widget.loadProfile.userName.toString(),
+                updateData: _loadMore,
+                data: commentsAndPosts as List<Map<String, dynamic>>,
+                type: 'Profile',
+              );
   }
 }

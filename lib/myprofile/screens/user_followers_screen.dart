@@ -16,38 +16,7 @@ class UserFollowersScreen extends StatefulWidget {
 }
 
 class _UserFollowersScreenState extends State<UserFollowersScreen> {
-  List<MyProfileFollowersData>? followersData
-      // = [
-      //   MyProfileFollowersData(
-      //       profilePicture:
-      //           'https://media.istockphoto.com/id/1243055987/photo/woman-silhouette-with-sun-in-head-with-copy-space-multiple-exposure-image.jpg?s=612x612&w=is&k=20&c=Nxu72uSlbHMuAiaGv33LITFTPYqagd5rlE1j0J61yyw=',
-      //       userName: 'userName',
-      //       displayName: 'displayName',
-      //       karama: 4,
-      //       isFollowed: true),
-      //   MyProfileFollowersData(
-      //       profilePicture:
-      //           'https://media.istockphoto.com/id/1243055987/photo/woman-silhouette-with-sun-in-head-with-copy-space-multiple-exposure-image.jpg?s=612x612&w=is&k=20&c=Nxu72uSlbHMuAiaGv33LITFTPYqagd5rlE1j0J61yyw=',
-      //       userName: 'userName',
-      //       displayName: 'displayName',
-      //       karama: 4,
-      //       isFollowed: false),
-      //   MyProfileFollowersData(
-      //       profilePicture:
-      //           'https://media.istockphoto.com/id/1243055987/photo/woman-silhouette-with-sun-in-head-with-copy-space-multiple-exposure-image.jpg?s=612x612&w=is&k=20&c=Nxu72uSlbHMuAiaGv33LITFTPYqagd5rlE1j0J61yyw=',
-      //       userName: 'userName',
-      //       displayName: 'displayName',
-      //       karama: 4,
-      //       isFollowed: true),
-      //   MyProfileFollowersData(
-      //       profilePicture:
-      //           'https://media.istockphoto.com/id/1243055987/photo/woman-silhouette-with-sun-in-head-with-copy-space-multiple-exposure-image.jpg?s=612x612&w=is&k=20&c=Nxu72uSlbHMuAiaGv33LITFTPYqagd5rlE1j0J61yyw=',
-      //       userName: 'userName',
-      //       displayName: 'displayName',
-      //       karama: 4,
-      //       isFollowed: false)
-      // ]
-      ;
+  List<MyProfileFollowersData>? followersData;
   bool _isInit = true;
   bool _isLoading = false;
   @override
@@ -95,7 +64,6 @@ class _UserFollowersScreenState extends State<UserFollowersScreen> {
                   Icons.search,
                   size: 30,
                 ),
-                //border: OutlineInputBorder(),
                 hintText: 'Search for aspecific userName',
               ),
             ),
@@ -122,7 +90,6 @@ class _UserFollowersScreenState extends State<UserFollowersScreen> {
                           itemBuilder: ((context, index) => InkWell(
                                 child: Container(
                                   width: double.infinity,
-                                  // height: 15.h,
                                   color:
                                       const Color.fromARGB(255, 255, 255, 255),
                                   child: Column(

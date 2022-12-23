@@ -17,7 +17,7 @@ class MyProfileCardInformationWeb extends StatelessWidget {
         decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5), color: Colors.white),
         margin: EdgeInsets.only(right: 180, bottom: 25, top: 30),
-        width: 60.w,
+        width: 50.w,
         height: (loadProfile.description == null ||
                 loadProfile.description == '')
             ? 43.h
@@ -27,7 +27,6 @@ class MyProfileCardInformationWeb extends StatelessWidget {
             children: <Widget>[
               //Profile back ground
               Container(
-                //  color: Colors.blue,
                 height: (loadProfile.description == null ||
                         loadProfile.description == '')
                     ? 40.h

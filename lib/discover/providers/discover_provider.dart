@@ -12,7 +12,11 @@ class DiscoverProvider with ChangeNotifier {
   DiscoverData? get gettingImagesAndVideo {
     return imgAndVideoList;
   }
-
+// ===================================this function used to===========================================//
+//==================fetch and set date===========================//
+//topics==> topics of comminty
+//page==> page number to fetch
+//limit> limit of size data return
   Future<void> fetchAndSetDiscover(String topic,int page, int limit,BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();

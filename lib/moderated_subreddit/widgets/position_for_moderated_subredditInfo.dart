@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:post/moderation_settings/screens/moderator_tools_screen.dart';
@@ -32,8 +30,6 @@ class PositionForModeratedSubredditInfo extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 15),
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.09,
-                // width: 100.w,
-                // height: 9.h,
                 child: ListTile(
                     title: Text('r/${loadedSubreddit!.name.toString()}',
                         style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -44,8 +40,6 @@ class PositionForModeratedSubredditInfo extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 30),
                       width: MediaQuery.of(context).size.width * 0.35,
                       height: MediaQuery.of(context).size.height * 0.04,
-                      // width: 35.w,
-                      // height: 4.h,
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(

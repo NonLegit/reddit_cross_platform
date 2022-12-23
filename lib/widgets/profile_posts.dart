@@ -8,7 +8,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import './post_sort_bottom.dart';
 import '../post/widgets/post_list.dart';
 import 'package:provider/provider.dart';
-import '../providers/Profile_provider.dart';
+import '../providers/profile_provider.dart';
 import '../post/models/post_model.dart';
 
 // import '..'
@@ -35,6 +35,8 @@ class ProfilePostsState extends State<ProfilePosts> {
   bool _isLoading = false;
   List<PostModel>? posts = [];
   late ScrollController _scrollController;
+  //=====================================this function is used to======================================//
+  //=================Loading More Data====================//
   void _loadMore() {
     if (_isLoading == false && _isLoadMoreRunning == false) {
       setState(() {
@@ -50,19 +52,20 @@ class ProfilePostsState extends State<ProfilePosts> {
       });
     }
   }
-
+//=====================================this function is used to======================================//
+  //=================Start loading More Data====================//
+ 
   bool toggleLoadingMore() => _isLoadMoreRunning = !_isLoadMoreRunning;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(
-        '==============================inint profile Post======================');
-    print(widget.userName);
-    // _scrollController = ScrollController()..addListener(_loadMore);
-  }
+    }
 
+//=====================================this function is used to======================================//
+  //=================Loading Data for first time====================//
+ 
   @override
   void didChangeDependencies() {
     if (_isInit) {

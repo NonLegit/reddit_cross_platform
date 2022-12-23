@@ -71,7 +71,7 @@ class _PopDownMenuState extends State<PopDownMenu> {
                               color: Colors.black,
                             ),
                             onTap: () {
-                              _showLeaveDialog();
+                              _showBlockDialog();
                             },
                             title: const Text(
                               'Block account',
@@ -94,8 +94,10 @@ class _PopDownMenuState extends State<PopDownMenu> {
           ),
         ]);
   }
-
-  void _showLeaveDialog() {
+  // ===================================the next three function used to===========================================//
+//==================Block user===========================//
+// have two option one:blocksubreddit two: cancel
+  void _showBlockDialog() {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(

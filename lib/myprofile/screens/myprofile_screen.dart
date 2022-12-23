@@ -22,7 +22,6 @@ class _MyProfileState extends State<MyProfileScreen>
   var _isLoading = false;
   var _isInit = true;
   MyProfileData? loadProfile;
-  //=MyProfileData(userName: 'Zeinab', email:'Zeianb', profilePicture: '', profileBackPicture: '', description: 'My profile', displayName: 'Zeianb', createdAt: '2019-08-24T14:15:22Z', followersCount:1, postKarma: 0, commentkarma: 0);
   //=============Tab Bar======================//
   TabController? _controller;
   List<Tab> tabs = <Tab>[
@@ -62,7 +61,8 @@ class _MyProfileState extends State<MyProfileScreen>
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
-    // //===============================Fetch subreddit data =======================================//
+  // ===================================this function used to===========================================//
+//==================fetch  date for First time===========================//
     if (_isInit) {
       setState(() {
         _isLoading = true;

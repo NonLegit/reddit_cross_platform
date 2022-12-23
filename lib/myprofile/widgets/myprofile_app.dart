@@ -39,15 +39,10 @@ class MyProfileApp extends StatelessWidget {
                 elevation: 4,
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.blue,
-                // innerBoxIsScrolled ? Colors.blue : Colors.white,
                 title:
-                    // Visibility(
-                    //   visible: innerBoxIsScrolled,
-                    //   child:
                     Text('u/${loadProfile.displayName}',
                         style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold)),
-                //),
                 expandedHeight: (loadProfile.description == null ||
                         loadProfile.description == '')
                     ? 54.h
@@ -71,7 +66,6 @@ class MyProfileApp extends StatelessWidget {
                       children: <Widget>[
                         //Profile back ground
                         Container(
-                          //  color: Colors.blue,
                           height: (loadProfile.description == null ||
                                   loadProfile.description == '')
                               ? 56.5.h
@@ -115,7 +109,6 @@ class MyProfileApp extends StatelessWidget {
                 ProfilePosts(
                   routeNamePop: MyProfileScreen.routeName,
                   userName: userName,
-                  //controller: _scrollController,
                 ),
                 ProfileComments(userName: userName),
                 MyProfileAbout(

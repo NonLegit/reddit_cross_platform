@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/Profile_provider.dart';
+import '../providers/profile_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SortBottomWeb extends StatefulWidget {
@@ -27,7 +27,7 @@ class SortBottomWebState extends State<SortBottomWeb> {
     return Container(
         height: 10.h,
         width: 50.w,
-        margin: const EdgeInsets.only(left: 30),
+       // margin: const EdgeInsets.only(left: 30),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +37,7 @@ class SortBottomWebState extends State<SortBottomWeb> {
                   color: Colors.white,
                   // width: 10.w,
                   height: 8.h,
-                  margin: const EdgeInsets.only(left: 5),
+                 // margin: const EdgeInsets.only(left: 5),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,

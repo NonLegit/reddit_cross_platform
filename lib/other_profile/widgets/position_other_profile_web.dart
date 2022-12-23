@@ -15,13 +15,14 @@ class PositionOtherProfileWeb extends StatefulWidget {
 
   @override
   State<PositionOtherProfileWeb> createState() =>
-      _PositionOtherProfileWebState();
+      PositionOtherProfileWebState();
 }
 
-class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
+class PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
   bool moreOptions = false;
     bool isFollowedstate = false;
-
+ // ===================================the next two  function used to===========================================//
+//==================To follow users===========================//
    void _follow() async {
     bool follow =
         await Provider.of<OtherProfileprovider>(context, listen: false)
@@ -46,7 +47,8 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
     isFollowedstate = true;
     return isFollowedstate;
   }
-
+ // ===================================the next two  function used to===========================================//
+//==================To unfollow users===========================//
   void _unFollow() async {
     bool unfollow =
         await Provider.of<OtherProfileprovider>(context, listen: false)
@@ -66,7 +68,6 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
       );
     }
   }
-
   bool unFollowsucceeded() {
     isFollowedstate = false;
     return isFollowedstate;
@@ -83,9 +84,7 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
    top: 100,
       height: 100.h,
       child: Container(
-        // width: 100.w,
         height: 100.h,
-
         padding: const EdgeInsets.only(left: 20, top: 15),
         margin: const EdgeInsets.only(top: 10),
        color: Colors.white,
@@ -138,7 +137,6 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
               height: 7,
             ),
             Row(
-              //mainAxisAlignment: MainAxisAlignment,
               children: [
                 Column(
                   children: [
@@ -200,9 +198,6 @@ class _PositionOtherProfileWebState extends State<PositionOtherProfileWeb> {
                 child: ElevatedButton(
                   onPressed:()=> (isFollowedstate) ? _unFollow() : _follow(),
                   style: ButtonStyle(
-                      //  side: MaterialStateProperty.all(
-                      // const BorderSide(
-                      //     color: Colors.white)),
                       shape: MaterialStateProperty.all(
                           const RoundedRectangleBorder(
                               borderRadius:

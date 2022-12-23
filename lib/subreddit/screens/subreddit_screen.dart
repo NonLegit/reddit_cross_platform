@@ -56,11 +56,11 @@ SubredditData? loadedSubreddit;
     _controller!.dispose();
     super.dispose();
   }
-
+ // ===================================this function used to===========================================//
+//==================fetch date for first time===========================//
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
-    //===============================doing fetch=======================================//
     if (_isInit) {
       setState(() {
         _isLoading = true;
@@ -77,8 +77,6 @@ SubredditData? loadedSubreddit;
       });
     }
     _isInit = false;
-
-    //==================================================//
     super.didChangeDependencies();
   }
 

@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttericon/typicons_icons.dart';
 import '../models/comments_data.dart';
-import '../providers/Profile_provider.dart';
+import '../providers/profile_provider.dart';
 import '../widgets/loading_reddit.dart';
 
 class MyProfileCommentWeb extends StatefulWidget {
@@ -47,6 +47,8 @@ class _MyProfileCommentWebState extends State<MyProfileCommentWeb> {
   }
 
   ScrollController _scrollController = new ScrollController();
+       //=====================================this function is used to======================================//
+  //=================Loading More Data====================//
   void loadMore() async {
     if (_isLoading == false &&
         _isLoadMoreRunning == false &&
@@ -75,7 +77,8 @@ class _MyProfileCommentWebState extends State<MyProfileCommentWeb> {
       });
     }
   }
-
+//=====================================this function is used to======================================//
+  //=================Start loading More Data====================//
   bool toggleLoadingMore() => _isLoadMoreRunning = !_isLoadMoreRunning;
 
   @override
@@ -84,7 +87,8 @@ class _MyProfileCommentWebState extends State<MyProfileCommentWeb> {
     super.initState();
     _scrollController = ScrollController()..addListener(loadMore);
   }
-
+ //=====================================this function is used to======================================//
+  //=================Loading Data for first time====================//
   @override
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies

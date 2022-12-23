@@ -39,15 +39,10 @@ class OtherProfileApp extends StatelessWidget {
               foregroundColor: Colors.white,
                 elevation: 4,
                 backgroundColor:Colors.blue,
-                // innerBoxIsScrolled?Colors.blue:Colors.white,
                 title: 
-                // Visibility(
-                //   visible: innerBoxIsScrolled,
-                //   child: 
                   Text('u/${loadProfile.displayName}',
                       style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),
-               //),
                 expandedHeight: (loadProfile.description == null ||
                         loadProfile.description == '')
                     ? 54.h
@@ -74,7 +69,6 @@ class OtherProfileApp extends StatelessWidget {
                             children: <Widget>[
                               //Profile back ground
                               Container(
-                                // color: Colors.blue,
                                 height: (loadProfile.description == null ||
                                         loadProfile.description == '')
                                     ? 56.h

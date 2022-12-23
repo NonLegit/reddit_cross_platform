@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../post/models/post_model.dart';
-import '../post/widgets/post.dart';
 import 'loading_reddit.dart';
 import 'sort_bottom_web.dart';
-import '../myprofile/models/myprofile_data.dart';
-import 'package:provider/provider.dart';
-import '../providers/Profile_provider.dart';
+import '../providers/profile_provider.dart';
 import '../post/widgets/post_list.dart';
 
 class MyProfilePostWeb extends StatefulWidget {
@@ -26,6 +23,8 @@ class _MyProfilePostWebState extends State<MyProfilePostWeb> {
   bool _isLoading = false;
   List<PostModel>? posts = [];
   late ScrollController _scrollController;
+         //=====================================this function is used to======================================//
+  //=================Loading More Data====================//
   void _loadMore() {
     if (_isLoading == false && _isLoadMoreRunning == false) {
       setState(() {
@@ -41,9 +40,11 @@ class _MyProfilePostWebState extends State<MyProfilePostWeb> {
       });
     }
   }
-
+ //=====================================this function is used to======================================//
+  //=================Start loading More Data====================//
   bool toggleLoadingMore() => _isLoadMoreRunning = !_isLoadMoreRunning;
-
+ //=====================================this function is used to======================================//
+  //=================Loading Data for first time====================//
   @override
   void didChangeDependencies() {
     if (_isInit) {
@@ -72,29 +73,24 @@ class _MyProfilePostWebState extends State<MyProfilePostWeb> {
         ? LoadingReddit()
         : (posts != null)
             ?
-            // Container(
-            //   width: 50,
-            //   padding:EdgeInsets.only(left: 30,right: 30) ,
-            //   child: Column(
-            //     children: [
             PostList(
                 leftMargin: 15.w,
                 rightMargin: 35.w,
-                topOfTheList: Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: SortBottomWeb(
-                    page: _page,
-                    userName: widget.userName,
+                topOfTheList:Container(
+                     height: 10.h,
+                  width: 50.h,
+                  margin: EdgeInsets.only(left: 15.w,right: 37.w),
+                    child: SortBottomWeb(
+                      page: _page,
+                      userName: widget.userName,
+                    ),
                   ),
-                ),
                 userName: widget.userName,
                 updateData: _loadMore,
                 data: posts as List<PostModel>,
                 type: 'profile',
               )
-            //     ],
-            //   ),
-            // )
+
             : Center(
                 child: Column(
                   children: [

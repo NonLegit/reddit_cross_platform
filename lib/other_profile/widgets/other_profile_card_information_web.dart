@@ -28,8 +28,8 @@ class _OtherProfileCardInformationWebState
     return Expanded(
         child: Container(
       margin: const EdgeInsets.only(right: 180, bottom: 25, top: 30),
-      width: 60.w,
-      height: widget.moreOptions ? 65.h : 50.h,
+     width: 50.w,
+      height: widget.moreOptions ? 80.h : 70.h,
       color: Colors.white,
       child: Column(children: <Widget>[
         Stack(
@@ -80,7 +80,7 @@ class _OtherProfileCardInformationWebState
                                         fontSize: 15),
                                   )),
                               TextButton(
-                                  onPressed: ()=> _showLeaveDialog(),
+                                  onPressed: ()=> _showBlockDialog(),
                                   child: const Text(
                                     'Block User',
                                     style: TextStyle(
@@ -137,8 +137,10 @@ class _OtherProfileCardInformationWebState
       ]),
     ));
   }
-
-  void _showLeaveDialog() {
+  // ===================================the next three function used to===========================================//
+//==================Block user===========================//
+// have two option one:blocksubreddit two: cancel
+  void _showBlockDialog() {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(

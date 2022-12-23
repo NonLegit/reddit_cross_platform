@@ -79,7 +79,7 @@ import './moderation_settings/screens/traffic_table.dart';
 //=====================================Providers====================================================//
 import './myprofile/providers/myprofile_provider.dart';
 import './other_profile/providers/other_profile_provider.dart';
-import './providers/Profile_provider.dart';
+import 'providers/profile_provider.dart';
 import 'providers/subreddit_posts_provider.dart';
 import './subreddit/providers/subreddit_provider.dart';
 import './moderated_subreddit/providers/moderated_subreddit_provider.dart';
@@ -517,7 +517,7 @@ class _MyAppState extends State<MyApp> {
             // home: CreateCommunity(),
             //home: homeLayoutScreen(),
             // home: HomeScreen(),
-            // home: Login(),
+            home: Login(),
             // home: CreateCommunity(),
             //home: Login(),
             // home: ForgotUserName(),

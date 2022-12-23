@@ -24,47 +24,7 @@ class GridViewDiscover extends StatefulWidget {
 }
 
 class _GridViewDiscoverState extends State<GridViewDiscover> {
-  DiscoverData? imgAndVideoList
-      // = DiscoverData(
-      //     imgAndVideoList: ([
-      //   {
-      //     'Url':
-      //         'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-      //     'subredditName': 'subredditName'
-      //   },
-      //   {
-      //     'Url':
-      //         'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-      //     'subredditName': 'subredditName'
-      //   },
-      //   {
-      //     'Url':
-      //         'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-      //     'subredditName': 'subredditName'
-      //   },
-      //   {
-      //     'Url':
-      //         'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-      //     'subredditName': 'subredditName'
-      //   },
-      //   {
-      //     'Url':
-      //         'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-      //     'subredditName': 'subredditName'
-      //   },
-      //   {
-      //     'Url':
-      //         'https://images.unsplash.com/photo-1531804226530-70f8004aa44e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80',
-      //     'subredditName': 'subredditName'
-      //   },
-      //   {
-      //     'Url':
-      //         'https://images.unsplash.com/photo-1465056836041-7f43ac27dcb5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80',
-      //     'subredditName': 'subredditName'
-      //   },
-      // ]))
-      ;
-
+  DiscoverData? imgAndVideoList;
   int _page = 1;
   final int _limit = 25;
   bool _isInit = true;
@@ -72,6 +32,8 @@ class _GridViewDiscoverState extends State<GridViewDiscover> {
   bool _isLoadMoreRunning = false;
   ScrollController _scrollController = new ScrollController();
   var userName;
+  //=====================================this function is used to======================================//
+  //=================Loading More Data====================//
   void loadMore() async {
     if (_isLoading == false &&
         _isLoadMoreRunning == false &&
@@ -99,8 +61,11 @@ class _GridViewDiscoverState extends State<GridViewDiscover> {
       });
     }
   }
-
+  //=====================================this function is used to======================================//
+  //=================Start loading More Data====================//
   bool toggleLoadingMore() => _isLoadMoreRunning = !_isLoadMoreRunning;
+ //=====================================this function is used to======================================//
+  //=================Loading Data for first time====================//
   @override
   void didChangeDependencies() async {
     // TODO: implement didChangeDependencies
@@ -142,11 +107,8 @@ class _GridViewDiscoverState extends State<GridViewDiscover> {
             ? MasonryGridView.count(
                 controller: _scrollController,
                 itemCount: imgAndVideoList!.imgAndVideoList!.length,
-                //No of column
                 crossAxisCount: 2,
-                // Vertical gap between two items
                 mainAxisSpacing: 0,
-                // horizontal gap between two items
                 crossAxisSpacing: 0,
                 itemBuilder: (context, index) {
                   return InkWell(

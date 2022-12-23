@@ -40,9 +40,6 @@ class ModeratedSubredditApp extends StatelessWidget {
                 foregroundColor: Colors.white,
                 backgroundColor:
                 const Color.fromARGB(137, 33, 33, 33),
-                //  innerBoxIsScrolled
-                //     ? const Color.fromARGB(137, 33, 33, 33)
-                //     : Colors.white,
                 leading: IconButton(
                   onPressed: () {
                     Navigator.of(context).pop(context);
@@ -50,7 +47,6 @@ class ModeratedSubredditApp extends StatelessWidget {
                   icon: const Icon(Icons.arrow_back),
                   color: Colors.white,
                 ),
-             // for saeching in subreddit
                 title: Container(
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(137, 33, 33, 33),
@@ -58,7 +54,6 @@ class ModeratedSubredditApp extends StatelessWidget {
                   ),
                   width: 60.w,
                   height: 5.h,
-                  //color: Color.fromARGB(157, 255, 245, 245),
                   child: InkWell(
                     onTap: () {
                       Navigator.of(context)
