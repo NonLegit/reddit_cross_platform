@@ -4,10 +4,10 @@
 // import './other_profile_card_information_web.dart';
 
 // class OptionsButton extends StatefulWidget {
-//   // bool moreOptions;
+//    bool moreOptions;
 //    OptionsButton({
 //     Key? key,
-//     //required this.moreOptions,
+//     required this.moreOptions,
 //   }) : super(key: key);
 //   @override
 //   State<OptionsButton> createState() => _OptionsButtonState();

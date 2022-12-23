@@ -12,13 +12,16 @@ import '../../widgets/handle_error.dart';
 class ProfileProvider with ChangeNotifier {
   List<CommentsData> commentsdata = [];
   List<PostModel> data = [];
-
+  List<Map<String, dynamic>> commentsAndPosts=[];
   List<CommentsData>? get gettingProfileComments {
     return commentsdata;
   }
 
   List<PostModel>? get gettingProfilePostData {
     return data;
+  }
+ List<Map<String, dynamic>>? get gettingPostCommentData {
+    return commentsAndPosts;
   }
 
   Future<void> fetchandSetProfileComments(
@@ -33,7 +36,7 @@ class ProfileProvider with ChangeNotifier {
         response.data['posts'].forEach((post) {
           tempData.add(CommentsData.fromJson(post));
         });
-        commentsdata..addAll(tempData);
+        commentsdata = tempData;
         notifyListeners();
       });
     } on DioError catch (e) {
@@ -59,7 +62,7 @@ class ProfileProvider with ChangeNotifier {
           await temp.fromJson(post);
           tempData.add(temp);
         }
-        data..addAll(tempData);
+        data = tempData;
         notifyListeners();
       });
     } on DioError catch (e) {
@@ -67,6 +70,37 @@ class ProfileProvider with ChangeNotifier {
         e,
         context,
       );
+    } catch (error) {
+      HandleError.handleError(error.toString(), context);
+    }
+  }
+
+  Future<void> fetchandSetProfilePostsAndComments(
+      String userName,String postType, int page, int limit, BuildContext context) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+      await DioClient.get(
+          path: '/users/${userName}/overview',
+          query: {'sort': postType,'page': page, 'limit': limit}).then((response) {
+        List<Map<String, dynamic>>tempData=[];
+        response.data['comments'].forEach((comment) {
+          tempData
+              .add({'type': 'comment', 'data': CommentsData.fromJson(comment)});
+        });
+
+        response.data['posts'].forEach((post) {
+           PostModel temp = PostModel();
+            temp.fromJson(post);
+          tempData
+              .add({'type': 'post', 'data': temp});
+        });
+
+        commentsAndPosts = tempData;
+        notifyListeners();
+      });
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
     } catch (error) {
       HandleError.handleError(error.toString(), context);
     }
