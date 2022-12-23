@@ -4,14 +4,14 @@ import 'package:inview_notifier_list/inview_notifier_list.dart';
 import '../models/post_model.dart';
 import './post.dart';
 
-class PostList extends StatefulWidget {
+class PostCommentList extends StatefulWidget {
   final String userName;
   final Widget topOfTheList;
   final Function updateData;
   final List<Map<String, dynamic>> data;
 
   final String type;
-  const PostList(
+  const PostCommentList(
       {super.key,
       required this.userName,
       this.topOfTheList = const SizedBox(),
@@ -20,10 +20,10 @@ class PostList extends StatefulWidget {
       this.type = 'home'});
 
   @override
-  State<PostList> createState() => _PostListState();
+  State<PostCommentList> createState() => _PostCommentListState();
 }
 
-class _PostListState extends State<PostList> {
+class _PostCommentListState extends State<PostCommentList> {
   String dateOfcomment(String date) {
     final data1 = DateTime.parse(date);
     final date2 = DateTime.now();
