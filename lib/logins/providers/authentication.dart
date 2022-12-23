@@ -155,10 +155,9 @@ class Auth with ChangeNotifier {
           appId: Constants.appId,
           messagingSenderId: Constants.messagingSenderId,
           projectId: Constants.projectId));
+          //Get token from fire base and send it to backend 
          final notificationToken = prefs.get('notificationToken');
          await NotificationToken.sendTokenToDatabase(notificationToken);
-        // FirebaseMessaging.onBackgroundMessage(
-        //     _firebaseMessagingBackgroundHandler);
         preparePrefs();
       }
       notifyListeners();
@@ -196,11 +195,10 @@ class Auth with ChangeNotifier {
           appId: Constants.appId,
           messagingSenderId: Constants.messagingSenderId,
           projectId: Constants.projectId));
-         final notificationToken = prefs.get('notificationToken');
-        // await NotificationToken.getTokenOfNotification();
+        //Get token from fire base and send it to backend 
+        await NotificationToken.getTokenOfNotification();
+        final notificationToken = prefs.get('notificationToken');
          await NotificationToken.sendTokenToDatabase(notificationToken);
-        // await NotificationToken.refreshToken();
-        // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
         preparePrefs();
       }
       notifyListeners();

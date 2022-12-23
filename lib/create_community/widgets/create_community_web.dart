@@ -75,15 +75,12 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
   }
 
   _toggleSwitch(value) {
-    print(value);
-    print(widget.checked);
     //used to toggle the switch of 18+ to true or false
     //return type void
 
     setState(() {
       toggleSwitch = value;
     });
-    print(widget.checked);
   }
 
   _onClickWeb(index, type) {
@@ -111,8 +108,6 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
       uniqueCommunityName = false;
     });
     if (name.length >= 3
-        //&&
-        //widget._formKey.currentState!.validate()
         ) {
       try {
         bool found =
@@ -123,17 +118,14 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
             uniqueCommunityName = false;
             widget.errorMessage =
                 'Sorry,${widget._communityNameController.text} is taken.Try another.';
-            //validating = false;
           });
         } else {
           setState(() {
             uniqueCommunityName = true;
             widget.errorMessage = '';
-            //validating = false;
           });
         }
       } catch (error) {
-        //print(error);
       }
     }
   }
@@ -179,7 +171,6 @@ class _CreateCommunityWebState extends State<CreateCommunityWeb> {
         .postCommunity(createCommunityModel.toJson(), context)
         .then((value) {
       Navigator.of(context).pushNamed(ModeratedSubredditScreen.routeName,
-          //  arguments: 'Cooking'
           arguments: widget._communityNameController.text);
     });
   }

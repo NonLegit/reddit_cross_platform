@@ -4,6 +4,7 @@ import 'package:post/messages/widgets/second_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../other_profile/screens/others_profile_screen.dart';
 import '../../widgets/loading_reddit.dart';
 import '../models/user_message.dart';
 import '../provider/message_provider.dart';
@@ -19,6 +20,9 @@ class SentMessage extends StatefulWidget {
 }
 
 class _SentMessageState extends State<SentMessage> {
+      //Parse String to Date Time and get actual time
+  //Input String 
+  //Return type string
   String getTimeOfNotification(date) {
     String howOld;
     final difference = DateTime.now().difference(DateTime.parse(date));
@@ -64,7 +68,8 @@ class _SentMessageState extends State<SentMessage> {
 
     super.didChangeDependencies();
   }
-
+ //Called when user accepts to be moderator in the subreddit
+  //Parameter subreddit name that user will accept invitation in
   _acceptModeration(subredditName) {
     Provider.of<MessageProvider>(context, listen: false)
         .acceptSubredditInvite(context, subredditName)
@@ -72,12 +77,12 @@ class _SentMessageState extends State<SentMessage> {
       Navigator.of(context).pop();
     });
   }
-
+  //deleteMessage => parameter take id of required messaged to be deleted
   _deleteMessage(id) async {
     await Provider.of<MessageProvider>(context, listen: false)
         .deleteMessage(context, id);
   }
-
+ //blockUser => parameter take username of required user to be blocked
   _blockUser(userName) async {
     await Provider.of<MessageProvider>(context, listen: false)
         .blockUser(context, userName);
@@ -150,7 +155,13 @@ class _SentMessageState extends State<SentMessage> {
                                               style: TextButton.styleFrom(
                                                 padding: EdgeInsets.zero,
                                               ),
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.of(context).pushNamed(
+                                                                OthersProfileScreen
+                                                                    .routeName,
+                                                                arguments: sentMessage[index].toUsername
+                                                      );
+                                              },
                                               child: Text(
                                                 'u/${sentMessage[index].toUsername!}',
                                                 style: TextStyle(

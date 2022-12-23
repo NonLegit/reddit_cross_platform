@@ -20,29 +20,22 @@ class MessageProvider with ChangeNotifier {
       await DioClient.get(
           path: '/messages',
           query: {'page': page, 'limit': limit}).then((value) {
-        print(value.data['data']);
         value.data['data'].forEach((element) {
-          print(element);
           String id;
           final message = ShowMessagesModel.fromJson(element);
-          print('herrree');
           if (message.type == 'userMessage') {
             id = message.subjectId!;
           } else {
             id = message.sId!;
           }
-          print('**********************IDS*****************************');
-          print(message.sId);
           messageShow.putIfAbsent(id, () => []).add(message);
         });
         notifyListeners();
       });
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 
@@ -54,10 +47,8 @@ class MessageProvider with ChangeNotifier {
       await DioClient.get(
           path: '/messages/unread',
           query: {'page': page, 'limit': limit}).then((value) {
-        print(value.data['data']);
         value.data['data'].forEach((element) {
           if (element['type'] != 'postReply') {
-            print(element['type']);
             final message = ShowMessagesModel.fromJson(element);
             unreadMessage.add(message);
           }
@@ -66,10 +57,8 @@ class MessageProvider with ChangeNotifier {
       });
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 
@@ -81,23 +70,18 @@ class MessageProvider with ChangeNotifier {
       await DioClient.get(
           path: '/messages/sent',
           query: {'page': page, 'limit': limit}).then((value) {
-        print(value.data['data']);
         value.data['data'].forEach((element) {
           if (element['type'] != 'postReply') {
-            print('*******************IN PROVIDER*********************');
             final message = ShowMessagesModel.fromJson(element);
             sentMessage.add(message);
           }
         });
-        print('*******************AFTER PROVIDER*********************');
         notifyListeners();
       });
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 
@@ -109,7 +93,6 @@ class MessageProvider with ChangeNotifier {
       await DioClient.get(
           path: '/messages/all',
           query: {'page': page, 'limit': limit}).then((value) {
-        print(value.data['data']);
         value.data['data'].forEach((element) {
           if (element['type'] != 'postReply') {
             final message = ShowMessagesModel.fromJson(element);
@@ -120,10 +103,8 @@ class MessageProvider with ChangeNotifier {
       });
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 
@@ -135,10 +116,8 @@ class MessageProvider with ChangeNotifier {
       notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 
@@ -146,16 +125,13 @@ class MessageProvider with ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-      print(messageId);
 
       DioClient.post(path: '/messages/$messageId/reply', data: data);
       notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 
@@ -168,17 +144,13 @@ class MessageProvider with ChangeNotifier {
       notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 
   Future<void> acceptSubredditInvite(context, subredditName) async {
     try {
-      print(subredditName);
-      //http://localhost:8000/api/v1/subreddits/{subredditName}/{action}/invitation
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
       DioClient.post(
@@ -186,10 +158,8 @@ class MessageProvider with ChangeNotifier {
       notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 
@@ -197,16 +167,13 @@ class MessageProvider with ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-      print(messageId);
 
       DioClient.delete(path: '/messages/$messageId');
       notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 
@@ -218,10 +185,8 @@ class MessageProvider with ChangeNotifier {
       notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 }

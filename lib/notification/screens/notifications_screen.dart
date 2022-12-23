@@ -88,15 +88,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
+
+  //Call end point to mark notification as read 
+  //return void
   _markAsRead() async {
     await Provider.of<NotificationProvider>(context, listen: false)
         .markAllAsRead(context);
   }
-
+  //Call end point to mark all notification as read 
+  //return void
   markAllAsRead() {
     _markAsRead();
     usersNotificationEarlier.forEach((element) {
-      print(element.seen);
       if (!element.seen!) {
         setState(() {
           element.seen = true;
@@ -113,13 +116,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     if (!kIsWeb) Navigator.of(context).pop();
   }
 
-  _saveNewMessage(username, subject, message, messageShow) {
-    Provider.of<MessageProvider>(context, listen: false).createMessage(
-        {'to': username, 'text': message, 'subject': subject},
-        context).then((value) {
-      setState(() {});
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

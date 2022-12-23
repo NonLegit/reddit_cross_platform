@@ -16,33 +16,29 @@ class NewMessageScreen extends StatefulWidget {
 
 class _NewMessageScreenState extends State<NewMessageScreen> {
   bool _iselected = false;
-  // TextEditingController? _nameController = null;
-  // TextEditingController? _subjectController = null;
-  //TextEditingController? _bodyController = null;
   bool subjectAvailable = false;
   bool messageAvailable = false;
   String subject = '';
   String message = '';
   String? username;
 
+  //Validate text field to check if it is empty or not 
+  //_iselected is a boolean type variable used to check on before sending new message 
   _changeStateOfUserName() {
-    //print(widget.userName);
     setState(() {
       if (username!.isNotEmpty) {
         widget.userNameAvailable = true;
       } else {
         widget.userNameAvailable = false;
       }
+
       _iselected =
           widget.userNameAvailable! && subjectAvailable && messageAvailable;
-      //   if(widget.userNameAvailable){
-
-      // }
     });
   }
-
+    //Validate text field to check if it is empty or not 
+  //_iselected is a boolean type variable used to check on before sending new message 
   _changeStateOfSubject() {
-    print(subject);
     setState(() {
       if (subject.isNotEmpty) {
         subjectAvailable = true;
@@ -53,9 +49,9 @@ class _NewMessageScreenState extends State<NewMessageScreen> {
           widget.userNameAvailable! && subjectAvailable && messageAvailable;
     });
   }
-
+    //Validate text field to check if it is empty or not 
+  //_iselected is a boolean type variable used to check on before sending new message 
   _changeStateOfMessage() {
-    print(message);
     setState(() {
       if (message.isNotEmpty) {
         messageAvailable = true;
@@ -66,7 +62,9 @@ class _NewMessageScreenState extends State<NewMessageScreen> {
           widget.userNameAvailable! && subjectAvailable && messageAvailable;
     });
   }
-
+  //Parameters userName ==> whom to send to the message
+  // subject ==> Message related to which topic
+  // message ==> The main message you want to send
   _saveNewMessage(username, subject, message) {
     Provider.of<MessageProvider>(context, listen: false).createMessage(
         {'to': username, 'text': message, 'subject': subject},
@@ -75,13 +73,6 @@ class _NewMessageScreenState extends State<NewMessageScreen> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   //_nameController.value = null;
-
-  // }
 
   @override
   void initState() {
@@ -145,7 +136,6 @@ class _NewMessageScreenState extends State<NewMessageScreen> {
                   textAlignVertical: TextAlignVertical.center,
                   cursorColor: Colors.black,
                   onChanged: (value) {
-                    print(value);
                     username = value;
                     _changeStateOfUserName();
                   },

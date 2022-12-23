@@ -11,8 +11,8 @@ import '../../messages/screens/web_sent_message.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../other_profile/screens/others_profile_screen.dart';
 import '../../widgets/loading_reddit.dart';
-import '../constants/get_name.dart';
 import '../models/user_message.dart';
 import 'web_new_message_screen.dart';
 
@@ -26,7 +26,9 @@ class WebMessageScreen extends StatefulWidget {
 
 class _WebMessageScreenState extends State<WebMessageScreen>
     with TickerProviderStateMixin {
-  final name = GetName();
+          //Parse String to Date Time and get actual time
+  //Input String 
+  //Return type string
   String getTimeOfNotification(date) {
     String howOld;
     final difference = DateTime.now().difference(DateTime.parse(date));
@@ -58,9 +60,6 @@ class _WebMessageScreenState extends State<WebMessageScreen>
       setState(() {
         returned = false;
       });
-      //  _updateCount();
-      await name.getUserName().then((value) async {
-        me = name.me!;
         await Provider.of<MessageProvider>(context, listen: false)
             .getAllMessages(context, 0, 10)
             .then((value) {
@@ -70,25 +69,24 @@ class _WebMessageScreenState extends State<WebMessageScreen>
             returned = true;
           });
         });
-      });
 
-      // getUserName();
     }
     _isInit = false;
 
     super.didChangeDependencies();
   }
-
+  //deleteMessage => parameter take id of required messaged to be deleted
   _deleteMessage(id) async {
     await Provider.of<MessageProvider>(context, listen: false)
         .deleteMessage(context, id);
   }
-
+//blockUser => parameter take username of required user to be blocked
   _blockUser(userName) async {
     await Provider.of<MessageProvider>(context, listen: false)
         .blockUser(context, userName);
   }
-
+//Called when user accepts to be moderator in the subreddit
+  //Parameter subreddit name that user will accept invitation in
   _acceptModeration(subredditName) {
     Provider.of<MessageProvider>(context, listen: false)
         .acceptSubredditInvite(context, subredditName)
@@ -218,7 +216,13 @@ class _WebMessageScreenState extends State<WebMessageScreen>
                                                                 EdgeInsets.zero,
                                                           ),
                                                           onPressed: () {
-                                                            //Navigator.of(context).pushNamed(OtherProfileWeb.routeName,arguments: messageShow[key]![index].fromUsername!);
+                                                            Navigator.of(context).pushNamed(
+                                                                OthersProfileScreen
+                                                                    .routeName,
+                                                                arguments: messageShow[
+                                                                            key]![
+                                                                        index]
+                                                                    .fromUsername!);
                                                           },
                                                           child: Text(
                                                             'u/${messageShow[key]![index].fromUsername!}',

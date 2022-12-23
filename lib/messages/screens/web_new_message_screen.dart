@@ -6,7 +6,6 @@ import 'package:post/networks/const_endpoint_data.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../constants/get_name.dart';
 import '../provider/message_provider.dart';
 import 'web_message_screen.dart';
 import 'web_sent_message.dart';
@@ -20,7 +19,6 @@ class WebNewMessageScreen extends StatefulWidget {
 }
 
 class _WebNewMessageScreenState extends State<WebNewMessageScreen> {
-  final name = GetName();
   String? sentUsername;
   String? toSendUsername;
   String? message;
@@ -29,7 +27,9 @@ class _WebNewMessageScreenState extends State<WebNewMessageScreen> {
   bool subjectAvailable = false;
   bool messageAvailable = false;
   bool _iselected = false;
-
+    //Parameters userName ==> whom to send to the message
+  // subject ==> Message related to which topic
+  // message ==> The main message you want to send
   _saveNewMessage(username, subject, message) {
     Provider.of<MessageProvider>(context, listen: false).createMessage(
         {'to': username, 'text': message, 'subject': subject},
@@ -37,7 +37,7 @@ class _WebNewMessageScreenState extends State<WebNewMessageScreen> {
       Navigator.of(context).pushNamed(WebMessageScreen.routeName);
     });
   }
-
+  //Function to get user name of logged in user
   Future<void> getUserName() async {
     final prefs = await SharedPreferences.getInstance();
     sentUsername = 'u/${prefs.getString('userName') as String}';

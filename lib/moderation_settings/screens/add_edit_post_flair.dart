@@ -39,34 +39,37 @@ class _AddAndEditPostFllairState extends State<AddAndEditPostFllair> {
 
   bool showWidget = false;
 
-  //int counter = 0;
-
+ //Used to change state of background color in text field
+ //return value void
   _changeBackgroundColor(color) {
     setState(() {
       widget.backgroundColorText = color;
     });
-    print(color);
   }
-
+   //get remaining of characters 
+   //return value void
   _setCounterState() {
     setState(() {
       widget.counter = 64 - widget.changed!.length;
     });
   }
-
+  //Function called to show colors palette or not
+  //return value void
   _showColorWidget() {
     setState(() {
       showWidget = !showWidget;
     });
   }
-
+   //Used to change state of textColor in text field
+    //return value void
   _changedTextColor() {
     setState(() {
       widget.textColor = !widget.textColor!;
       widget.textColor1 = (!widget.textColor!) ? '#000000' : '#FFFFFF';
     });
   }
-
+  //Used to change state of text typed in text field
+  //return value void
   _editText(value) {
     setState(() {
       widget.changed = value;
@@ -82,23 +85,15 @@ class _AddAndEditPostFllairState extends State<AddAndEditPostFllair> {
     _setCounterState();
   }
 
-  // onClick() {
-  //   setState(() {
-  //     //_selectedIndex = index;
-  //     _iselected = true;
-  //     //choosenTopic = topics.keys.elementAt(_selectedIndex);
-  //   });
-  // }
-
-//SEND MODEL OR ID
+//Call endpoint to clear selected flair
   _deletePostFlair() async {
     await Provider.of<PostFlairProvider>(context, listen: false)
         .deleteFlair(widget.subredditName, context, widget.post!.sId)
         .then((value) => Navigator.pop(context, true));
   }
-
+//Save flair choose between whether flair was created recently to call addNewFlair or was being
+//edited to call editFlair
   saveFlair() async {
-    print('helllllllllllllllo ${widget.backgroundColorText}');
     PostFlairModel post = PostFlairModel(
         text: widget.changed,
         backgroundColor: widget.backgroundColorText,
@@ -108,18 +103,12 @@ class _AddAndEditPostFllairState extends State<AddAndEditPostFllair> {
           .addNewFlair(widget.subredditName, post, context)
           .then((value) {
         Navigator.pop(context, true);
-        //Navigator.popAndPushNamed(context, PostFlairModerator.routeName);
       });
     } else {
       await Provider.of<PostFlairProvider>(context, listen: false)
           .editFlair(widget.subredditName, context, widget.post!.sId, post)
           .then((value) {
         Navigator.pop(context, true);
-        // Navigator.pushReplacement(
-        //     context,
-        //     MaterialPageRoute(builder: (context) => PostFlairModerator()
-        //         //  ModalRoute.withName(PostFlairModerator.routeName)
-        //         ));
       });
     }
   }
@@ -387,7 +376,7 @@ class _AddAndEditPostFllairState extends State<AddAndEditPostFllair> {
     );
   }
 }
-
+//Build palette of color
 class ShowColorWidget extends StatelessWidget {
   ShowColorWidget({
     super.key,

@@ -27,7 +27,6 @@ class TopicButton extends StatelessWidget {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               shape: const StadiumBorder(),
-              // backgroundColor
               primary: (selectedIndex == myIndex || selectedBefore == keyAns)
                   ? Colors.blueGrey.shade100
                   : Colors.grey.shade50,

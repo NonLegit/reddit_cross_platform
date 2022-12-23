@@ -20,6 +20,10 @@ class _PostFlairState extends State<PostFlairModerator> {
   bool fetchingDone = false;
   bool _isInit = true;
   String? subredditName;
+
+  //Function called when editing the post flair 
+  //Navigate to Post Flair edit page 
+  // return type void
   _toEdit(index) async {
     final reLoadPage = await Navigator.push(
         context,
@@ -38,13 +42,6 @@ class _PostFlairState extends State<PostFlairModerator> {
   }
 
   @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-
-  // }
-
-  @override
   void didChangeDependencies() {
     if (_isInit) {
       subredditName = ModalRoute.of(context)!.settings.arguments.toString();
@@ -61,8 +58,6 @@ class _PostFlairState extends State<PostFlairModerator> {
         flair =
             Provider.of<PostFlairProvider>(context, listen: false).flairList;
 
-        // choosenTopic = moderatorToolsModel!.choosenTopic1;
-        // print(choosenTopic);
         setState(() {
           fetchingDone = true;
         });
@@ -73,9 +68,6 @@ class _PostFlairState extends State<PostFlairModerator> {
     super.didChangeDependencies();
   }
 
-  // String text = 'hii';
-  // String backgroundColor = '#ac1291';
-  // String textColor = '#ac1291';
   @override
   Widget build(BuildContext context) {
     final data = Provider.of<PostFlairProvider>(context);
@@ -102,7 +94,6 @@ class _PostFlairState extends State<PostFlairModerator> {
                 if (reLoadPage) {
                   setState(() {});
                 }
-                //Navigator.of(context).pushNamed(AddAndEditPostFllair.routeName,);
               },
               icon: Icon(Icons.add)),
         ],
@@ -166,7 +157,9 @@ class _PostFlairState extends State<PostFlairModerator> {
     );
   }
 }
-
+//Funtion to convert string to hex color to display
+//returns Hex Color
+//Input String
 extension ColorExtension on String {
   toColor() {
     var hexStringColor = this;
