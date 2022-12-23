@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:post/messages/provider/message_provider.dart';
-import 'package:post/messages/screens/web_message_all_screen.dart';
-import 'package:post/messages/screens/web_sent_message.dart';
+import '../../messages/provider/message_provider.dart';
+import '../../messages/screens/web_message_all_screen.dart';
+import '../../messages/screens/web_sent_message.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
