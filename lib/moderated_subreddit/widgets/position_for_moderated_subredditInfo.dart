@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:post/moderation_settings/screens/moderator_tools_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../models/subreddit_data.dart';
-
 class PositionForModeratedSubredditInfo extends StatelessWidget {
   final SubredditData? loadedSubreddit;
   final String? userName;

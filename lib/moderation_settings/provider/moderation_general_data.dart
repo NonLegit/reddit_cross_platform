@@ -3,30 +3,24 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../networks/dio_client.dart';
 import '../../networks/const_endpoint_data.dart';
-import '../models/moderator_tools.dart';
-import '../models/moderators.dart';
-import '../models/approved.dart';
-import '../models/banned.dart';
-import '../models/muted.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/handle_error.dart';
-import '../models/user.dart';
-import '../provider/moderation_settings_provider.dart';
 import '../models/traffic.dart';
+import '../models/moderation_posts.dart';
 
 class ModerationGeneralDataProvider with ChangeNotifier {
   late Traffic dayTraffic;
   late Traffic weekTraffic;
   late Traffic monthTraffic;
   late Traffic yearTraffic;
-
+  late ModerationPosts posts;
   bool isError = false;
   String errorMessage = '';
 
   Future<void> gettrafficData(
       String subRedditName, BuildContext context) async {
-    //If the topic changed call patch to update the community topic
-    subRedditName = 'khaled subreddit';
+    // If the topic changed call patch to update the community topic
+    // subRedditName = 'khaled subreddit';
     try {
       final path1 = '/subreddits/traffic/$subRedditName/day';
       final path2 = '/subreddits/traffic/$subRedditName/week';
@@ -63,6 +57,65 @@ class ModerationGeneralDataProvider with ChangeNotifier {
       monthTraffic = Traffic.fromJson(response3.data);
       yearTraffic = Traffic.fromJson(response4.data);
       // }
+
+      notifyListeners();
+    } on DioError catch (e) {
+      if (e.response!.statusCode != 404) {
+        HandleError.errorHandler(e, context);
+      }
+    } catch (error) {
+      HandleError.handleError(error.toString(), context);
+    }
+  }
+
+  Future<void> patchPosts(
+      String postId, String action, BuildContext context) async {
+    //If the topic changed call patch to update the community topic
+    try {
+      String path = '/posts/$postId/moderate/$action';
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+      subredditName = userName;
+      //  final response =
+      await DioClient.patch(path: path, data: {}).then((response) {
+        isError = !(response.statusCode! < 300);
+        if (isError) {
+          errorMessage = json.decode(response.data)['errorMessage'];
+          print(isError);
+          print(errorMessage);
+        }
+      });
+      notifyListeners();
+    } on DioError catch (e) {
+      if (e.response!.statusCode != 404) {
+        HandleError.errorHandler(e, context);
+      }
+    } catch (error) {
+      HandleError.handleError(error.toString(), context);
+    }
+  }
+
+  Future<void> getPosts(
+      String name, String location, sortType, BuildContext context) async {
+    //If the topic changed call patch to update the community topic
+    // subRedditName = 'khaled subreddit';
+    try {
+      final path =
+          '/subreddits/$name/about/posts/${location.toLowerCase()}?sort=$sortType';
+
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+
+      final Response response = await DioClient.get(
+        path: path,
+      );
+
+      isError = !(response.statusCode! < 310);
+      if (isError) {
+        errorMessage = json.decode(response.data)['errorMessage'];
+      } else {
+        posts = ModerationPosts.fromJson(response.data);
+      }
 
       notifyListeners();
     } on DioError catch (e) {

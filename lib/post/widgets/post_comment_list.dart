@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/typicons_icons.dart';
 import 'package:inview_notifier_list/inview_notifier_list.dart';
-import '../models/post_model.dart';
 import './post.dart';
 
+/// A margin to the left of the posts and comments
+
 class PostCommentList extends StatefulWidget {
+  /// The user name
+
   final String userName;
+
+  /// A widget to be displayed above the posts
+
   final Widget topOfTheList;
+
+  /// A function which is invoked when the CustomScrollView reaches the end
+
   final Function updateData;
+
+  /// The list of posts and comments' data to be displayed
+
   final List<Map<String, dynamic>> data;
+
+  /// A margin to the left of the posts
+
   final double leftMargin;
+
+  /// A margin to the right of the posts
+
   final double rightMargin;
 
   final String type;
@@ -86,8 +104,8 @@ class _PostCommentListState extends State<PostCommentList> {
                       if (widget.data[index]['type'] == 'comment') {
                         return Container(
                           color: Colors.white,
-                          margin:
-                              EdgeInsetsDirectional.only(top: 10, bottom: 10),
+                          margin: const EdgeInsetsDirectional.only(
+                              top: 10, bottom: 10),
                           child: ListTile(
                             title: Text(
                                 widget.data[index]['data'].title.toString()),

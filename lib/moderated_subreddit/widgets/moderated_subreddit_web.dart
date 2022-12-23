@@ -7,6 +7,7 @@ import '../../widgets/subreddit_join_button_web.dart';
 import '../../models/subreddit_data.dart';
 import '../widgets/moderated_subreddite_post_web.dart';
 import '../../widgets/back_to_button.dart';
+import '../screens/moderated_subreddit_screen.dart';
 
 class ModeratedSubredditWeb extends StatelessWidget {
   String userName;
@@ -28,8 +29,22 @@ class ModeratedSubredditWeb extends StatelessWidget {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: _scaffoldKey,
-        floatingActionButton:
-            BackToTopButton(scrollController: scrollController),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        floatingActionButton: Padding(
+          padding: const EdgeInsetsDirectional.only(end: 320.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(ModeratedSubredditScreen.routeName,
+                  arguments:userName);
+            },
+            child: Text(
+              '      Back to top     ',
+              style: TextStyle(color: Colors.white),
+            ),
+            style: ElevatedButton.styleFrom(
+                shape: StadiumBorder(), backgroundColor: Colors.blue),
+          ),
+        ),
         body: isLoading
             ? const Center(
                 child: Icon(

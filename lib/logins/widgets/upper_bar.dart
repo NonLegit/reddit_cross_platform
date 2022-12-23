@@ -8,14 +8,19 @@ import '../../screens/emptyscreen.dart';
 import '../../home/screens/home_layout.dart';
 
 class UpperBar extends StatelessWidget {
-  //  UpperBar({Key? key}) : super(key: key);
-  // final String openningScreen;
+  /// the current status of the poassword input field if it origin or taped or error
+
   final UpperbarStatus currentStatus;
-  UpperBar(this.currentStatus);
+  const UpperBar(this.currentStatus, {super.key});
+
+  ///replace the current screen with other on
+  ///
+  ///if the screen was login then pop it and go to sign up
+  ///else if it was sign up pop the sign uo and go to login
+  ///else if it was skiped then go to home page
+  ///else go to no where
   void _pushScreen(context) {
     Navigator.of(context).pop(context);
-    // Navigator.of(context).pushNamed(homeLayoutScreen.routeName);
-
     Navigator.push(
         context,
         MaterialPageRoute(

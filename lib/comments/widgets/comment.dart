@@ -4,9 +4,16 @@ import '../models/comment_model.dart';
 import 'comment_body.dart';
 import 'comment_header.dart';
 
+/// A widget to display a comment in tree
+
 class Comment extends StatefulWidget {
+  /// The data of the commment
   final CommentModel data;
+
+  /// The userName
   final String userName;
+
+  /// The level of comment
   final int level;
   const Comment(
       {super.key, required this.data, required this.userName, this.level = 0});
@@ -20,7 +27,7 @@ class _CommentState extends State<Comment> {
   @override
   Widget build(BuildContext context) {
     return widget.data.type != null
-        ? Text('more comments')
+        ? const Text('more comments')
         : Container(
             margin: EdgeInsets.only(bottom: widget.level != 0 ? 0 : 10),
             child: Material(
@@ -61,8 +68,8 @@ class _CommentState extends State<Comment> {
                                   text: widget.data.text ?? '',
                                 ),
                                 CommentFooter(
-                                  commentVoteStatus: 1,
-                                  votes: 20,
+                                  commentVoteStatus: 0,
+                                  votes: widget.data.votes ?? 0,
                                   data: widget.data,
                                 )
                               ],
@@ -87,7 +94,7 @@ class _CommentState extends State<Comment> {
                                   level: widget.level + 1,
                                 ))
                             .toList())
-                    : SizedBox()
+                    : const SizedBox()
               ]),
             ),
           );

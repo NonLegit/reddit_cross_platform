@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 import '../../widgets/loading_reddit.dart';
 import '../widgets/myprofile_web.dart';
 import '../widgets/myprofile_app.dart';
 import '../models/myprofile_data.dart';
 import '../providers/myprofile_provider.dart';
-
+import '../../home/widgets/custom_upper_bar.dart';
+import '../../home/controller/home_controller.dart';
+import '../../createpost/controllers/posts_controllers.dart';
 class MyProfileScreen extends StatefulWidget {
   static const routeName = '/myprofile';
 
@@ -81,10 +84,18 @@ class _MyProfileState extends State<MyProfileScreen>
     _isInit = false;
     super.didChangeDependencies();
   }
-
+  final HomeController controller = Get.put(
+    HomeController(),
+  );
+  final PostController controllerForPost = Get.put(
+    PostController(),
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     appBar: ( kIsWeb)?PreferredSize(
+                preferredSize: Size(700, 60),
+                child: UpBar(controller: controller, controllerForCreatePost: controllerForPost,)):null,
         body: _isLoading
             ? LoadingReddit()
             : kIsWeb

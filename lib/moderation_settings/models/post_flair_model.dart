@@ -3,7 +3,6 @@ class PostFlairModel {
   String? text;
   String? backgroundColor;
   String? textColor;
-  //String? modOnly;
   bool? deleteFlair;
 
   PostFlairModel({this.sId, this.text, this.backgroundColor, this.textColor,this.deleteFlair});
@@ -13,7 +12,6 @@ class PostFlairModel {
     text = json['text'];
     backgroundColor = json['backgroundColor'];
     textColor = json['textColor'];
-   // modOnly = json['permissions'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
@@ -21,7 +19,6 @@ class PostFlairModel {
     data['text'] = this.text;
     data['backgroundColor'] = this.backgroundColor;
     data['textColor'] = this.textColor;
-  //  data['permissions'] = this.modOnly;
     return data;
   }
 }

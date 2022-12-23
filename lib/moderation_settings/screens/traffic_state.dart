@@ -15,6 +15,8 @@ import 'package:provider/provider.dart';
 import 'package:editable/editable.dart';
 
 class TraficState extends StatefulWidget {
+  /// the route name of the screen
+
   static const routeName = '/traficstate';
   const TraficState({super.key});
 
@@ -23,32 +25,80 @@ class TraficState extends StatefulWidget {
 }
 
 class _TraficStateState extends State<TraficState> {
+  /// Whether fetching the data from server done or not
+
   bool fetchingDone = true;
+
+  /// Whether the didChangeDependencies is called for the first time or not
+
   bool _isInit = true;
+
+  /// Whether the build fuction calling at least one time or not
+
   bool _isBuild = false;
+
+  /// index will control wich graph will appare
   int index = 0;
-  static const startYear = 1990;
+
+  /// the starting year of years graph
+  static const startYear = 2018;
+
+  ///the list that will carry the name of 7 days of week
   List<String> days = [];
+
+  ///the list that will carry the number of members joined at each day
+
   List<double> daysValues = List<double>.generate(7, (int index) => 0);
+
+  ///the max number of members joined at any day of the week
   int maxDay = 0;
 
+  ///the list that will carry the 52  week of the year
+
   List<String> weeks = [];
+
+  ///the list that will carry the number of members joined at each week
+
   List<double> weeksValues = List<double>.generate(52, (int index) => 0);
+
+  ///the max number of members joined at any week of the year
+
   int maxWeek = 0;
 
+  ///the list that will carry the name of the 12s month of the year
+
   List<String> months = [];
+
+  ///the list that will carry the number of members joined at each month
+
   List<double> monthsValues = List<double>.generate(12, (int index) => 0);
+
+  ///the max number of members joined at any month of the year
+
   int maxMonth = 0;
 
+  ///the list that will carry a string represent each year from starting year until now
+
   List<String> years = [];
+
+  ///the list that will carry the number of members joined at each year
+
   List<double> yearsValues = List<double>.generate(
       DateTime.now().year - startYear + 1, (int index) => 0);
 
+  ///the max number of members joined at any year
+
   int maxYear = 0;
 
-  // int max = 1;
+  ///list of feautures used in the linear graph
+  /// that single feauture represent the values of y access of the graph
   List<Feature> features = [];
+
+  /// get the maximum of two trafic data instance acording to its numOfUsers
   TrafficData maxi(TrafficData a, TrafficData b) {
+    ///Input :
+    /// a,b the two inputs we want to compare between them
+    /// return the max between a,b according the number of users
     return (a.numOfUsers! >= b.numOfUsers!) ? a : b;
   }
 
@@ -92,14 +142,28 @@ class _TraficStateState extends State<TraficState> {
           : '';
 
       provider.gettrafficData(subredditName, context).then((value) {
-        print(provider.dayTraffic);
-        print(provider.weekTraffic);
-        print(provider.monthTraffic);
-        print(provider.yearTraffic);
-        maxDay = provider.dayTraffic.data!.reduce(maxi).numOfUsers!;
-        maxWeek = provider.weekTraffic.data!.reduce(maxi).numOfUsers!;
-        maxMonth = provider.monthTraffic.data!.reduce(maxi).numOfUsers!;
-        maxYear = provider.yearTraffic.data!.reduce(maxi).numOfUsers!;
+        provider.dayTraffic.data = [];
+        maxDay = (provider.dayTraffic.data!.isEmpty)
+            ? 0
+            : (provider.dayTraffic.data!.length == 1)
+                ? provider.dayTraffic.data![0].numOfUsers!
+                : provider.dayTraffic.data!.reduce(maxi).numOfUsers!;
+
+        maxWeek = (provider.weekTraffic.data!.isEmpty)
+            ? 0
+            : (provider.weekTraffic.data!.length == 1)
+                ? provider.weekTraffic.data![0].numOfUsers!
+                : provider.weekTraffic.data!.reduce(maxi).numOfUsers!;
+        maxMonth = (provider.monthTraffic.data!.isEmpty)
+            ? 0
+            : (provider.monthTraffic.data!.length == 1)
+                ? provider.monthTraffic.data![0].numOfUsers!
+                : provider.monthTraffic.data!.reduce(maxi).numOfUsers!;
+        maxYear = (provider.yearTraffic.data!.isEmpty)
+            ? 0
+            : (provider.yearTraffic.data!.length == 1)
+                ? provider.yearTraffic.data![0].numOfUsers!
+                : provider.yearTraffic.data!.reduce(maxi).numOfUsers!;
 
         for (int i = 0; i < provider.dayTraffic.data!.length; i += 1) {
           daysValues[provider.dayTraffic.data![i].iId! - 1] =
@@ -108,9 +172,6 @@ class _TraficStateState extends State<TraficState> {
             daysValues[provider.dayTraffic.data![i].iId! - 1] /=
                 maxDay.toDouble();
           }
-          // if (provider.dayTraffic.data![i].numOfUsers! > maxDay) {
-          //   maxDay = provider.dayTraffic.data![i].numOfUsers!;
-          // }
         }
         for (int i = 0; i < provider.weekTraffic.data!.length; i += 1) {
           weeksValues[provider.weekTraffic.data![i].iId! - 1] =
@@ -118,9 +179,6 @@ class _TraficStateState extends State<TraficState> {
           if (maxWeek != 0) {
             weeksValues[provider.weekTraffic.data![i].iId! - 1] /= maxWeek;
           }
-          // if (provider.weekTraffic.data![i].numOfUsers! > maxWeek) {
-          //   maxWeek = provider.weekTraffic.data![i].numOfUsers!;
-          // }
         }
         for (int i = 0; i < provider.monthTraffic.data!.length; i += 1) {
           monthsValues[provider.monthTraffic.data![i].iId! - 1] =
@@ -128,9 +186,6 @@ class _TraficStateState extends State<TraficState> {
           if (maxMonth != 0) {
             monthsValues[provider.monthTraffic.data![i].iId! - 1] /= maxMonth;
           }
-          // if (provider.monthTraffic.data![i].numOfUsers! > maxMonth) {
-          //   maxMonth = provider.monthTraffic.data![i].numOfUsers!;
-          // }
         }
         for (int i = 0; i < provider.yearTraffic.data!.length; i += 1) {
           yearsValues[provider.yearTraffic.data![i].iId! - startYear] =
@@ -139,9 +194,6 @@ class _TraficStateState extends State<TraficState> {
             yearsValues[provider.yearTraffic.data![i].iId! - startYear] /=
                 maxYear;
           }
-          // if (provider.yearTraffic.data![i].numOfUsers! > maxYear) {
-          //   maxYear = provider.yearTraffic.data![i].numOfUsers!;
-          // }
         }
         fetchingDone = true;
 
@@ -247,16 +299,16 @@ class _TraficStateState extends State<TraficState> {
                                                   ? months
                                                   : years,
                                       labelY: [
-                                        '${(maxmembers * .1)}',
-                                        '${(maxmembers * .2)}',
-                                        '${(maxmembers * .3)}',
-                                        '${(maxmembers * .4)}',
-                                        '${(maxmembers * .5)}',
-                                        '${(maxmembers * .6)}',
-                                        '${(maxmembers * .7)}',
-                                        '${(maxmembers * .8)}',
-                                        '${(maxmembers * .9)}',
-                                        '${(maxmembers * 1)}'
+                                        '${double.parse(((maxmembers * .1)).toStringAsFixed(2))}',
+                                        '${double.parse(((maxmembers * .2)).toStringAsFixed(2))}',
+                                        '${double.parse(((maxmembers * .3)).toStringAsFixed(2))}',
+                                        '${double.parse(((maxmembers * .4)).toStringAsFixed(2))}',
+                                        '${double.parse(((maxmembers * .5)).toStringAsFixed(2))}',
+                                        '${double.parse(((maxmembers * .6)).toStringAsFixed(2))}',
+                                        '${double.parse(((maxmembers * .7)).toStringAsFixed(2))}',
+                                        '${double.parse(((maxmembers * .8)).toStringAsFixed(2))}',
+                                        '${double.parse(((maxmembers * .9)).toStringAsFixed(2))}',
+                                        '${double.parse(((maxmembers * 1)).toStringAsFixed(2))}',
                                       ],
                                       showDescription: true,
                                       graphColor: Colors.black87,

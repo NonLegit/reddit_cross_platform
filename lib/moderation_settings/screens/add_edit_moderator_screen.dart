@@ -9,29 +9,49 @@ import './moderators_screen.dart';
 import '../widgets/input_text_field.dart';
 
 class EditModeratorScreen extends StatefulWidget {
-  final String? userName;
-  // final Baninfo? bannedInfo;
-  final ModeratorPermissions? moderatorPermissions;
-  // final String subreddit;
-  final String subredditName;
+  /// the route name of the screen
 
   static const routeName = './editmoderator';
+
+  /// user name who will be Aadded as moderators
+
+  final String? userName;
+
+  /// all the permissions of the moderator
+
+  final ModeratorPermissions? moderatorPermissions;
+
+  /// the current Subrddit name of the screen
+
+  final String subredditName;
   const EditModeratorScreen(
       {super.key,
       required this.subredditName,
-      // required this.subreddit,
       this.userName = '',
       this.moderatorPermissions = null});
 
   @override
-  State<EditModeratorScreen> createState() => _EditModeratorScreenState();
+  State<EditModeratorScreen> createState() => EditModeratorScreenState();
 }
 
-class _EditModeratorScreenState extends State<EditModeratorScreen> {
+class EditModeratorScreenState extends State<EditModeratorScreen> {
+  /// Whether the banned user is  new or no the 3 inputs
+
   bool isNew = true;
+
+  ///the title of the screen
+
   String title = 'Add a moderator';
+
+  /// Whether user enter data or not , then show the save buttom or not
+
   bool isSlected = false;
+
+  /// listener to the Username input field
+
   final inputUserNameController = TextEditingController();
+
+  ///all permissions of the moderator
   ModeratorPermissions? permissions = ModeratorPermissions(
       all: true, access: true, config: true, flair: true, posts: true);
 
@@ -49,15 +69,21 @@ class _EditModeratorScreenState extends State<EditModeratorScreen> {
       permissions!.config = widget.moderatorPermissions!.config;
       permissions!.flair = widget.moderatorPermissions!.flair;
       permissions!.posts = widget.moderatorPermissions!.posts;
-
-      print(inputUserNameController.text);
     }
     super.initState();
   }
 
+  ///change the isSelcted when write data in input field
+  ///
+  ///when the UserNmae input field  is empty then the selected will be false
+  ///other wise it will be true
+
   void changeUserNmae() {
     /// this function will active only
     /// when the state is add new moderators
+    /// input: none
+    /// output: none
+
     if (inputUserNameController.text.isEmpty == false) {
       isSlected = true;
     } else {
@@ -65,7 +91,12 @@ class _EditModeratorScreenState extends State<EditModeratorScreen> {
     }
   }
 
+  ///select all permision be true when the all box selected
   void changePermossionAll(bool value) {
+    /// input:
+    ///    value:whether the all box selected or not
+    /// output: none
+
     if (permissions!.all == false || value == true) {
       permissions!.access = true;
       permissions!.config = true;
@@ -76,7 +107,16 @@ class _EditModeratorScreenState extends State<EditModeratorScreen> {
     changePermissions();
   }
 
+  ///control checkboxed when access box change
+  ///
+  ///if the new value be false then permissions all will be false
+  ///if the new value will be true and other check boxes was true
+  ///then make all box true
   void changePermossionAccess(bool value) {
+    /// input:
+    ///    value:whether the Access box selected or not
+    /// output: none
+
     if (value == false) {
       permissions!.all = false;
     } else if (permissions!.flair == true &&
@@ -88,7 +128,17 @@ class _EditModeratorScreenState extends State<EditModeratorScreen> {
     changePermissions();
   }
 
+  ///control checkboxed when flair box change
+  ///
+  ///if the new value be false then permissions all will be false
+  ///if the new value will be true and other check boxes was true
+  ///then make all box true
+
   void changePermossionFlair(bool value) {
+    /// input:
+    ///    value:whether the Flair box selected or not
+    /// output: none
+
     if (value == false) {
       permissions!.all = false;
     } else if (permissions!.access == true &&
@@ -100,7 +150,17 @@ class _EditModeratorScreenState extends State<EditModeratorScreen> {
     changePermissions();
   }
 
+  ///control checkboxed when Config box change
+  ///
+  ///if the new value be false then permissions all will be false
+  ///if the new value will be true and other check boxes was true
+  ///then make all box true
+
   void changePermossionConfig(bool value) {
+    /// input:
+    ///    value:whether the Config box selected or not
+    /// output: none
+
     if (value == false) {
       permissions!.all = false;
     } else if (permissions!.flair == true &&
@@ -112,7 +172,17 @@ class _EditModeratorScreenState extends State<EditModeratorScreen> {
     changePermissions();
   }
 
+  ///control checkboxed when Posts box change
+  ///
+  ///if the new value be false then permissions all will be false
+  ///if the new value will be true and other check boxes was true
+  ///then make all box true
+
   void changePermossionPosts(bool value) {
+    /// input:
+    ///    value:whether the Posts box selected or not
+    /// output: none
+
     if (value == false) {
       permissions!.all = false;
     } else if (permissions!.flair == true &&
@@ -124,7 +194,13 @@ class _EditModeratorScreenState extends State<EditModeratorScreen> {
     changePermissions();
   }
 
+  ///chagne the isSelected when change any box
+  ///
+  ///if it is not the same as initiall , then is Selected will be true
+  ///other wise will be false
   void changePermissions() {
+    /// input: none
+    /// output: none
     if (!isNew) {
       if (permissions!.flair != widget.moderatorPermissions!.flair ||
           permissions!.config != widget.moderatorPermissions!.config ||
@@ -137,6 +213,12 @@ class _EditModeratorScreenState extends State<EditModeratorScreen> {
       }
     }
   }
+
+  ///post the new Moderator  info to the backend server
+  ///
+  /// take the data from input controller info and from permisions model
+  /// if the server return failed response then there is error message will appare
+  /// other show sucess message
 
   Future<void> doneChanges() async {
     String sucessMessage;
@@ -159,15 +241,7 @@ class _EditModeratorScreenState extends State<EditModeratorScreen> {
           .then((value) {});
     }
     if (provider.isError == true) {
-      print('falied');
-      // ignore: use_build_context_synchronously
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   CustomSnackBar(
-      //       isError: true, text: provider.errorMessage, disableStatus: true),
-      // );
     } else {
-      // ignore: use_build_context_synchronously
-      print('sucess');
       ScaffoldMessenger.of(context).showSnackBar(
         CustomSnackBar(
             isError: false, text: sucessMessage, disableStatus: true),
@@ -176,8 +250,11 @@ class _EditModeratorScreenState extends State<EditModeratorScreen> {
 
       // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
+      // ignore: use_build_context_synchronously
       if (isNew == false) Navigator.of(context).pop();
+      // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, ModeratorsScreen.routeName,
           arguments: subredditName);
     }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 import '../../home/controller/home_controller.dart';
 import '../../models/subreddit_data.dart';
 import '../../widgets/loading_reddit.dart';
@@ -10,6 +11,10 @@ import '../widgets/subreddit_web.dart';
 import '../widgets/subreddit_app.dart';
 import '../providers/subreddit_provider.dart';
 import '../../home/widgets/end_drawer.dart';
+import '../../home/controller/home_controller.dart';
+import '../../createpost/controllers/posts_controllers.dart';
+import '../../home/widgets/custom_upper_bar.dart';
+
 class SubredditScreen extends StatefulWidget {
   static const routeName = '/Subreddit';
 
@@ -35,7 +40,7 @@ class _SubredditScreenState extends State<SubredditScreen>
         isScrollable: true,
         tabs: tabs,
         labelColor: Colors.black,
-        labelPadding:EdgeInsets.symmetric(horizontal: 18.w),
+        labelPadding: EdgeInsets.symmetric(horizontal: 18.w),
         labelStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         indicatorColor: Colors.blue,
       );
@@ -43,7 +48,7 @@ class _SubredditScreenState extends State<SubredditScreen>
   var _isLoading = false;
   var _isInit = true;
   var subredditUserName;
-SubredditData? loadedSubreddit;
+  SubredditData? loadedSubreddit;
 //===============================================================================//
   @override
   void initState() {
@@ -56,7 +61,8 @@ SubredditData? loadedSubreddit;
     _controller!.dispose();
     super.dispose();
   }
- // ===================================this function used to===========================================//
+
+  // ===================================this function used to===========================================//
 //==================fetch date for first time===========================//
   @override
   void didChangeDependencies() {
@@ -67,7 +73,7 @@ SubredditData? loadedSubreddit;
       });
       subredditUserName = ModalRoute.of(context)?.settings.arguments as String;
       Provider.of<SubredditProvider>(context, listen: false)
-          .fetchAndSetSubredddit(subredditUserName,context)
+          .fetchAndSetSubredddit(subredditUserName, context)
           .then((value) {
         loadedSubreddit = Provider.of<SubredditProvider>(context, listen: false)
             .gettingSubredditeData;
@@ -80,11 +86,25 @@ SubredditData? loadedSubreddit;
     super.didChangeDependencies();
   }
 
+  final HomeController controllerHome = Get.put(
+    HomeController(),
+  );
+  final PostController controllerForPost = Get.put(
+    PostController(),
+  );
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: _scaffoldKey,
+        appBar: (kIsWeb)
+            ? PreferredSize(
+                preferredSize: Size(700, 60),
+                child: UpBar(
+                  controller: controllerHome,
+                  controllerForCreatePost: controllerForPost,
+                ))
+            : null,
         body: _isLoading
             ? LoadingReddit()
             : kIsWeb
@@ -101,7 +121,10 @@ SubredditData? loadedSubreddit;
                     tabBar: _tabBar,
                     loadedSubreddit: loadedSubreddit as SubredditData,
                     userName: subredditUserName),
-        endDrawer: _isLoading ? LoadingReddit() : endDrawer(controller: controller,));
+        endDrawer: _isLoading
+            ? LoadingReddit()
+            : endDrawer(
+                controller: controller,
+              ));
   }
-
- }
+}

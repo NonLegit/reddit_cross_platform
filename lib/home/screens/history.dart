@@ -1,11 +1,16 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/typicons_icons.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:post/home/controller/home_controller.dart';
 import 'package:post/icons/icon_broken.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../post/widgets/post_list.dart';
 import '../../widgets/loading_reddit.dart';
+import '../controller/home_controller.dart';
 class History extends StatefulWidget {
    History({Key? key}) : super(key: key);
 
@@ -26,7 +31,7 @@ class _HistoryState extends State<History>with TickerProviderStateMixin {
         AnimationController(duration: const Duration(seconds: 2), vsync: this);
     loadingSpinnerAnimationController.repeat();
     if (controller.allPosts.isEmpty) {
-      controller.getHistory();
+      controller.getHistory(sort: controller.sortHistoryBy.value, p: controller.pageNumberHistory.value,);
     }
   }
   void dispose() {
@@ -61,6 +66,10 @@ class _HistoryState extends State<History>with TickerProviderStateMixin {
                   return PopupMenuItem<String>(
                     value: choice,
                     child: ListTile(
+                      onTap: ()
+                      {
+                        controller.historyPosts.clear();
+                      },
                       leading: Icon(Icons.close_outlined),
                       title: Text(choice),
                     ),
@@ -77,7 +86,7 @@ class _HistoryState extends State<History>with TickerProviderStateMixin {
             controller.historyPosts.clear();
             controller.pageNumberHistory.value = 1;
             controller.pageNumberHistory.update((val) {});
-            controller.getHistory();
+            controller.getHistory(sort: controller.sortHistoryBy.value, p: controller.pageNumberHistory.value,);
             controller.update();
             //Get.forceAppUpdate();
           },
@@ -108,7 +117,7 @@ class _HistoryState extends State<History>with TickerProviderStateMixin {
             userName: '${controller.myProfile!.userName}', updateData: (){
             controller.pageNumberHistory.value++;
             controller.pageNumberHistory.update((val) { });
-            controller.getHistory();
+            controller.getHistory(sort: controller.sortHistoryBy.value, p: controller.pageNumberHistory.value,);
           }, data: controller.historyPosts,
             topOfTheList:
             Padding(

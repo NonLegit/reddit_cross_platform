@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
 import '../../models/subreddit_data.dart';
-import '../../moderation_settings/screens/traffic_state.dart';
+import '../../moderation_settings/screens/moderator_tools_screen.dart';
 import '../providers/moderated_subreddit_provider.dart';
 import 'package:provider/provider.dart';
 class ModeratedSubredditCardInformationWeb extends StatefulWidget {
@@ -48,8 +48,9 @@ class _ModeratedSubredditCardInformationWebState
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, TraficState.routeName,
-                                arguments: widget.loadedSubreddit!.name);
+                                    Navigator.of(context).pushNamed(
+                              ModeratorTools.routeName,
+                              arguments: widget.loadedSubreddit!.name);
                           },
                           style: ButtonStyle(
                             backgroundColor:

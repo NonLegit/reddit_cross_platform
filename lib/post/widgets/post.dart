@@ -12,13 +12,18 @@ import './post_body.dart';
 
 /// This is the main post Widget.
 ///
-/// It takes a map of the post data.
 class Post extends StatefulWidget {
+  /// The data of the post
   final PostModel data;
   bool _inHome = false, _inProfile = false;
   //final Function updateDate;
+  /// A boolean to check if in view
   final bool inView;
+
+  /// The user name
   final String userName;
+
+  /// a boolean to determine if in the post screen
   final bool inScreen;
 
   /// This is the constructor for home page.
@@ -70,11 +75,10 @@ class _PostState extends State<Post> {
 
   @override
   void didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     if (widget.data.isModerator == null &&
         widget.data.ownerType == 'Subreddit') {
       final provider =
-          await Provider.of<ModerationSettingProvider>(context, listen: false);
+          Provider.of<ModerationSettingProvider>(context, listen: false);
       await provider
           .getUser(
               widget.data.owner?.name as String, UserCase.moderator, context)
@@ -83,8 +87,6 @@ class _PostState extends State<Post> {
 
         for (var mod in moderators!) {
           widget.data.isModerator = false;
-          print('=============Is mod:${mod.userName}=======================');
-
           if (mod.userName == widget.userName) {
             widget.data.isModerator = true;
             break;
@@ -109,7 +111,7 @@ class _PostState extends State<Post> {
     //   imageNumber: data.imageNumber,
     // );
     return widget.data.isDeleted ?? false
-        ? SizedBox()
+        ? const SizedBox()
         : Container(
             margin: const EdgeInsetsDirectional.only(bottom: 10),
             child: Column(

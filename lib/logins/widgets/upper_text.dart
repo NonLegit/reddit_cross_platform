@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class UpperText extends StatelessWidget {
-  // const UpperText({Key? key}) : super(key: key);
+  ///text that will be appare
   final String data;
-  UpperText(this.data);
+  const UpperText(this.data, {super.key});
   @override
   Widget build(BuildContext context) {
     return Center(

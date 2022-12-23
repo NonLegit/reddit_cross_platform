@@ -54,7 +54,6 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
     if (i == 0) {
       if (index.type == 'follow') {
         //Navigate to user profile
-        print(index.requiredName!.substring(2, index.requiredName!.length));
 
         Navigator.popAndPushNamed(context, OthersProfileScreen.routeName,
             arguments:
@@ -99,7 +98,6 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
   String getTimeOfNotification(date) {
     String howOld;
     final difference = DateTime.now().difference(DateTime.parse(date));
-    //print(DateTime.parse(date));
     if (difference.inDays >= 30) {
       howOld = DateFormat.MMMMd().format(DateTime.parse(date));
     } else if (difference.inDays >= 1) {
@@ -126,7 +124,6 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
 
   hideThisNotification(notificationId, i) {
     _hideThisNotification(notificationId, i);
-    print('in hides');
     Navigator.of(context).pop();
   }
 
@@ -359,7 +356,6 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
 //Reply back : Button reply back that appears to reply on a comment
 Widget? notificationMain(
     text, description, type, time, Widget image, width, commentId, postId) {
-  print(description);
   if (type == 'commentReply') {
     return Column(
       children: [

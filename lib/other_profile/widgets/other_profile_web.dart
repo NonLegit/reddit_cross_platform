@@ -5,7 +5,7 @@ import '../widgets/others_profile_about.dart';
 import '../../widgets/myprofile_comment_web.dart';
 import '../../widgets/back_to_button.dart';
 import '../../widgets/myprofile_post_web.dart';
-
+import '../screens/others_profile_screen.dart';
 class OtherProfileWeb extends StatelessWidget {
   OtherProfileWeb(
       {Key? key,
@@ -31,8 +31,22 @@ class OtherProfileWeb extends StatelessWidget {
               color: Colors.white,
               child: _tabBar,
             )),
-        floatingActionButton:
-            BackToTopButton(scrollController: scrollController),
+              floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        floatingActionButton: Padding(
+          padding: const EdgeInsetsDirectional.only(end: 320.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(OthersProfileScreen.routeName,
+                  arguments: loadProfile.userName);
+            },
+            child: Text(
+              '      Back to top     ',
+              style: TextStyle(color: Colors.white),
+            ),
+            style: ElevatedButton.styleFrom(
+                shape: StadiumBorder(), backgroundColor: Colors.blue),
+          ),
+        ),
         body: isLoading
             ? const Center(
                 child: Icon(

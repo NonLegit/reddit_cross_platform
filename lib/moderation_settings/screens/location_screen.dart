@@ -11,45 +11,66 @@ import '../../widgets/custom_snack_bar.dart';
 import '../widgets/location_list.dart';
 
 class LocationScreen extends StatefulWidget {
+  /// the route name of the screen
+
   static const routeName = '/location';
 
   const LocationScreen({super.key});
-  // postTypes({super.key});
 
   @override
   State<LocationScreen> createState() => LocationScreenState();
 }
 
 class LocationScreenState extends State<LocationScreen> {
-  // TextEditingController postTypesController = TextEditingController();
-  InputStatus postTypesStatus = InputStatus.original;
-  String? initialpostTypes;
+  /// the current Subrddit name of the screen
+
   String? subbredditName;
+
+  /// Whether user enter data or not , then show the save buttom or not
+
   bool isSlected = false;
+
+  /// Whether the build fuction calling at least one time or not
+
   bool isBuild = false;
+
+  ///model will be filed from the provider to take the data
+
   ModeratorToolsModel? moderatorToolsModel;
 
+  ///the initiall value of the location
   String? initialLocation = '';
+
+  /// the current value of the location when the user change it
   String? location = '';
+
+  /// Whether fetching the data from server done or not
+
   bool fetchingDone = true;
+
+  /// Whether the didChangeDependencies is called for the first time or not
+
   bool _isInit = true;
+
+  ///list of all regions comming from a constat list
   final List<String> regions = Countries().countries;
+
+  ///change the isSelcted when change the location
+  ///
+  ///when the UserNmae input field and reason both are empty then the selected will be false
+  ///other wise it will be true
+
   void changeLocation(String newLocation) {
-    print(location);
+    /// input:
+    ///   newLocation:the new location value
+    /// output: none
+
     location = newLocation;
-    print(location);
     if (location == initialLocation) {
       isSlected = false;
     } else {
       isSlected = true;
     }
-  }
-
-  // void change
-  @override
-  void initState() {
-    //return hardcoded topics from constant folder
-    super.initState();
   }
 
   @override
@@ -83,8 +104,16 @@ class LocationScreenState extends State<LocationScreen> {
     super.didChangeDependencies();
   }
 
+  ///post the Location  changes to the sever
+  ///
+  /// take the data from location feild info model
+  /// if the server return failed response then there is error message will appare
+  /// other show sucess message
+
   Future<void> saveLocation() async {
-    ////
+    /// input:  none
+    /// output: none
+
     final provider =
         Provider.of<ModerationSettingProvider>(context, listen: false);
     await provider.patchCommunity({

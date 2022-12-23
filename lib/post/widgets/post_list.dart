@@ -3,13 +3,29 @@ import 'package:inview_notifier_list/inview_notifier_list.dart';
 import '../models/post_model.dart';
 import './post.dart';
 
+/// This widget returns a CustomScrollView to display posts
+
 class PostList extends StatefulWidget {
+  /// The user name
   final String userName;
+
+  /// A widget to be displayed above the posts
   final Widget topOfTheList;
+
+  /// A function which is invoked when the CustomScrollView reaches the end
   final Function updateData;
+
+  /// The list of posts' data to be displayed
   final List<PostModel> data;
+
+  /// The type of posts ["home", "profile", "community"]
   final String type;
+
+  /// A margin to the left of the posts
   final double leftMargin;
+
+  /// A margin to the right of the posts
+
   final double rightMargin;
   const PostList({
     super.key,
@@ -31,6 +47,7 @@ class _PostListState extends State<PostList> {
   Widget build(BuildContext context) {
     return Flexible(
       child: InViewNotifierCustomScrollView(
+        
         shrinkWrap: true,
         onListEndReached: () => widget.updateData(),
         scrollDirection: Axis.vertical,

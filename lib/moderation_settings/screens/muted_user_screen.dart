@@ -9,27 +9,52 @@ import '../models/muted.dart';
 import 'add_edit_muted_screen.dart';
 
 class MutedScreen extends StatefulWidget {
+  /// the route name of the screen
+
   static const routeName = '/muted';
 
   const MutedScreen({super.key});
-  // postTypes({super.key});
 
   @override
   State<MutedScreen> createState() => MutedScreenState();
 }
 
 class MutedScreenState extends State<MutedScreen> {
+  /// Whether fetching the data from server done or not
+
   bool fetchingDone = true;
+
+  /// Whether the didChangeDependencies is called for the first time or not
+
   bool _isInit = true;
+
+  /// Whether the build fuction calling at least one time or not
+
   bool isBuild = false;
-  // ignore: non_constant_identifier_names
+
+  /// list of all Muted from the provider
   List<Muted>? muted = [];
+
+  ///list of all Muted to this subreddit to show in muted list screen
+
   List<Map<String, Object>> allmuted = [];
+
+  ///the name of the current subreddit
+
   String subredditName = '';
 
+  ///prepare the map allmuted  from the list muted
+  ///
+  ///process the data like prpare the data as String in formate %yr of %mon
+  ///and prepare the muted info model for each user
+  ///and fill the editable moderators list
+  ///and prepare the _profilePicture of the each user
+
   void extractmuted() {
+    ///Input: none
+    ///output: none
+
     muted!.forEach((element) {
-      print(element);
       final _id = element.sId as String;
       final _userName = element.userName as String;
       String _joiningDate = '';
@@ -62,11 +87,6 @@ class MutedScreenState extends State<MutedScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (_isInit) {
@@ -79,7 +99,6 @@ class MutedScreenState extends State<MutedScreen> {
       subredditName = provider.getSubredditName(context);
       provider.getUser(subredditName, UserCase.muted, context).then((value) {
         muted = provider.muted;
-        print(muted);
         extractmuted();
         fetchingDone = true;
         if (isBuild) setState(() {});
@@ -94,7 +113,6 @@ class MutedScreenState extends State<MutedScreen> {
     isBuild = true;
     return (!fetchingDone)
         ? const LoadingReddit()
-        //Calls TopicMainScreen widget to build Topics Screen
         : Scaffold(
             backgroundColor: Color.fromARGB(255, 228, 231, 239),
             appBar: AppBar(

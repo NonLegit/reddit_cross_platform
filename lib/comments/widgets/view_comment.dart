@@ -13,12 +13,12 @@ class _ViewCommentState extends State<ViewComment> {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      margin: EdgeInsetsDirectional.only(start: 10),
+      margin: const EdgeInsetsDirectional.only(start: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           for (int i = 0; i < widget.level; i++)
-            VerticalDivider(
+            const VerticalDivider(
               color: Colors.grey,
               thickness: 2,
             ),

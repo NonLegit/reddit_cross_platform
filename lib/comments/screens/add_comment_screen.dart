@@ -15,9 +15,6 @@ class _AddCommentScreenState extends State<AddCommentScreen> {
   TextEditingController controller = TextEditingController();
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    //===============================Fetch subreddit data =======================================//
-
     var temp =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     parentId = temp['parentId'];
@@ -27,9 +24,7 @@ class _AddCommentScreenState extends State<AddCommentScreen> {
 
   createComment(String text) async {
     if (await Provider.of<PostCommentsProvider>(context, listen: false)
-        .postComment(parentId, 'Post', text)) {
-      print('created comment');
-    }
+        .postComment(parentId, 'Post', text)) {}
   }
 
   @override
@@ -37,7 +32,7 @@ class _AddCommentScreenState extends State<AddCommentScreen> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.close,
               size: 20,
             ),
@@ -45,7 +40,7 @@ class _AddCommentScreenState extends State<AddCommentScreen> {
               Navigator.pop(context);
             },
           ),
-          title: Text(
+          title: const Text(
             "Add a comment",
             style: TextStyle(fontSize: 20, color: Colors.black),
           ),
@@ -57,7 +52,7 @@ class _AddCommentScreenState extends State<AddCommentScreen> {
                       Navigator.pop(context);
                     }
                   : null,
-              child: Text(
+              child: const Text(
                 "Post",
                 style: TextStyle(
                   color: Colors.blue,
@@ -67,11 +62,11 @@ class _AddCommentScreenState extends State<AddCommentScreen> {
           ],
         ),
         body: Padding(
-          padding: EdgeInsetsDirectional.all(10),
+          padding: const EdgeInsetsDirectional.all(10),
           child: Column(
             children: [
               Text(title),
-              Divider(
+              const Divider(
                 height: 10,
               ),
               Expanded(

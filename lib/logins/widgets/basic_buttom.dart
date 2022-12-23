@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class BasicBottom extends StatelessWidget {
+  ///the basic lable of the input text field
   final String lable;
+
+  ///handler func to be called when onpressed event called
   final Function handler;
   const BasicBottom({this.lable = '', required this.handler});
   @override

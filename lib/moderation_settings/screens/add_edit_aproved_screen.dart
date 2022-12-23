@@ -7,21 +7,36 @@ import '../../widgets/custom_snack_bar.dart';
 import './approved_users_screen.dart';
 
 class EditApprovedScreen extends StatefulWidget {
-  // final String? userName;
-  // final Baninfo? bannedInfo;
+  /// the route name of the screen
+
   static const routeName = './editapproved';
+
+  /// the current Subrddit name of the screen
+
   final String subredditName;
   const EditApprovedScreen({super.key, required this.subredditName});
   @override
-  State<EditApprovedScreen> createState() => _EditApprovedScreenState();
+  State<EditApprovedScreen> createState() => EditApprovedScreenState();
 }
 
-class _EditApprovedScreenState extends State<EditApprovedScreen> {
+class EditApprovedScreenState extends State<EditApprovedScreen> {
+  /// Whether user enter data or not , then show the save buttom or not
+
   bool isSlected = false;
+
+  /// listener to the Username input field
+
   final inputUserNameController = TextEditingController();
+
+  ///change the isSelcted when write data in input field
+  ///
+  ///when the input field is empty then the selected will be false
+  ///other wise it will be true
   void changeUserNmae() {
     /// this function will active only
     /// when the state is add new moderators
+    /// input: none
+    /// output: none
     if (inputUserNameController.text.isEmpty == false) {
       isSlected = true;
     } else {
@@ -29,13 +44,15 @@ class _EditApprovedScreenState extends State<EditApprovedScreen> {
     }
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  ///post the Approved user  info to the backend server
+  ///
+  /// take the data from inputs listener and sent it to the server
+  /// if the server return failed response then there is error message will appare
+  /// other show sucess message
 
   Future<void> submitApproved() async {
+    ///input : none
+    ///output : none
     final provider =
         Provider.of<ChangeUserManagementProvider>(context, listen: false);
     await provider
@@ -43,15 +60,7 @@ class _EditApprovedScreenState extends State<EditApprovedScreen> {
             widget.subredditName, inputUserNameController.text, context, true)
         .then((value) {});
     if (provider.isError == true) {
-      print('falied');
-      // ignore: use_build_context_synchronously
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   CustomSnackBar(
-      //       isError: true, text: provider.errorMessage, disableStatus: true),
-      // );
     } else {
-      // ignore: use_build_context_synchronously
-      print('sucess');
       ScaffoldMessenger.of(context).showSnackBar(
         CustomSnackBar(
             isError: false,

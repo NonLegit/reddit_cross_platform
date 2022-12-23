@@ -16,12 +16,13 @@ import './login.dart';
 import '../widgets/web_image.dart';
 
 class ForgotPassword extends StatefulWidget {
+  /// the route name of the screen
   static const routeName = '/ForgotPassword';
-  final String url =
-      'https://abf8b3a8-af00-46a9-ba71-d2c4eac785ce.mock.pstmn.io';
 
   /// variable to check if the backend finish the actual server of work with the mock
   final bool isMock = true;
+
+  const ForgotPassword({super.key});
   @override
   State<ForgotPassword> createState() => ForgotPasswordState();
 }
@@ -57,6 +58,8 @@ class ForgotPasswordState extends State<ForgotPassword> {
   ///check the changes and detect when the finish flag is true
   ///and then activate the continue bottom
   void changeInput() {
+    //Input: none
+    //Output: none
     isFinished = (!inputUserNameController.text.isEmpty) &&
         (!inputEmailController.text.isEmpty) &&
         (validateEmail() == InputStatus.sucess);
@@ -69,11 +72,15 @@ class ForgotPasswordState extends State<ForgotPassword> {
   /// the validator will return original if the field is empty
   /// otherwise the status will be faild and put an error message
   InputStatus validateEmail() {
-    if (inputEmailController.text.isEmpty)
+    //Input: none
+    //Output: The status of the Email input field
+
+    if (inputEmailController.text.isEmpty) {
       return InputStatus.original;
-    else if (EmailValidator.validate(inputEmailController.text.toLowerCase()))
+    } else if (EmailValidator.validate(
+        inputEmailController.text.toLowerCase())) {
       return InputStatus.sucess;
-    else {
+    } else {
       emailErrorMessage = 'Not a valid email address';
       return InputStatus.failed;
     }
@@ -84,6 +91,9 @@ class ForgotPasswordState extends State<ForgotPassword> {
   /// when user tap in the email textfailed mark it as taped
   /// when tap out check the validation using [validateEmail()]
   void controlEmailStatus(hasFocus) {
+    //Input: Whether the email input field is clicked or not
+    //Output: none
+
     if (hasFocus)
       inputEmailStatus = InputStatus.taped;
     else
@@ -96,6 +106,9 @@ class ForgotPasswordState extends State<ForgotPassword> {
   /// if the server return failed response then there is error message will appare
   /// other show sucess message
   void submitForgorPasssword() async {
+    //Input: none
+    //Output: none
+
     final provider = Provider.of<Auth>(context, listen: false);
     await provider.forgetPassword({
       "email": inputEmailController.text,
@@ -112,8 +125,6 @@ class ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //GestureDetector to hide the soft keyboard
-      //by clicking outside of TextField or anywhere on the screen
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());

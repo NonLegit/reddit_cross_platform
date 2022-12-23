@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import '../subreddit/providers/subreddit_provider.dart';
 import '../subreddit/widgets/notify_button_web.dart';
-import '../../widgets/custom_snack_bar.dart';
+import './custom_snack_bar.dart';
 
 class SubredditJoinButtonWeb extends StatefulWidget {
   bool isJoined;
