@@ -6,6 +6,7 @@ import '../../widgets/subreddit_join_button_web.dart';
 import '../../models/subreddit_data.dart';
 import '../widgets/moderated_subreddite_post_web.dart';
 import '../../widgets/back_to_button.dart';
+
 class ModeratedSubredditWeb extends StatelessWidget {
   String userName;
   ModeratedSubredditWeb(
@@ -24,13 +25,14 @@ class ModeratedSubredditWeb extends StatelessWidget {
   bool isLoading;
   TabController? controller;
   ScrollController scrollController = ScrollController();
-  
+
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: _scaffoldKey,
-          floatingActionButton:BackToTopButton(scrollController:scrollController ) ,
+        floatingActionButton:
+            BackToTopButton(scrollController: scrollController),
         body: isLoading
             ? const Center(
                 child: Icon(

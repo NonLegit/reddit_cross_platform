@@ -26,24 +26,21 @@ class _OverviewOtherProfileWebState extends State<OverviewOtherProfileWeb> {
        controller: widget.scrollController,
       children: [
         Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               flex: 2,
               child: Column(
                 children: [
-                  // SizedBox(height: 4.h,),
                   Container(
                     height: 6.h,
                     width: 50.w,
                     margin: EdgeInsets.only(left: 100, bottom: 10, top: 30),
                     child: SortBottomWeb(page: 1 ,userName: widget.loadProfile.userName.toString()),
                     color: Colors.white,
-                    // width: 100.w,
                   ),
                   Container(
-                    // padding: const EdgeInsets.only(bottom: 100,),
                     margin: EdgeInsets.only(left: 100, bottom: 90, top: 30),
                     height: 30.h,
                     width: 50.w,

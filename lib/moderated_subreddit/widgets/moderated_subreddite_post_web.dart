@@ -22,10 +22,8 @@ class _ModeratedSubredditePostWebState extends State<ModeratedSubredditePostWeb>
       scrollDirection: Axis.vertical,
       children: [
         Row(
-          mainAxisSize: MainAxisSize.min,
-
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //crossAxisAlignment: CrossAxisAlignment.,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               flex: 2,
@@ -40,10 +38,9 @@ class _ModeratedSubredditePostWebState extends State<ModeratedSubredditePostWeb>
                     margin: EdgeInsets.only(left: 100, top: 40),
                     child: SortBottomWeb(page: 1,userName: widget.loadedSubreddit!.name.toString(),),
                     color: Colors.white,
-                    // width: 100.w,
+              
                   ),
                   Container(
-                    // padding: const EdgeInsets.only(bottom: 100,),
                     margin: EdgeInsets.only(left: 100, bottom: 90, top: 30),
                     height: 30.h,
                     width: 50.w,

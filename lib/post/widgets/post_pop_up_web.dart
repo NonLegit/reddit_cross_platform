@@ -26,11 +26,11 @@ class _PostPopUpWebState extends State<PostPopUpWeb> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Container(
+      content: SizedBox(
         height: MediaQuery.of(context).size.width * .8,
         width: MediaQuery.of(context).size.width * .8,
         child: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             width: 40.w,
             child: Column(
               children: [

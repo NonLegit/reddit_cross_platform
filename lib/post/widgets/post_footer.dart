@@ -117,7 +117,7 @@ class _PostFooterState extends State<PostFooter> {
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).colorScheme.surface,
         child: Container(
-          margin: EdgeInsetsDirectional.only(start: 10, end: 10),
+          margin: const EdgeInsetsDirectional.only(start: 10, end: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -134,7 +134,7 @@ class _PostFooterState extends State<PostFooter> {
                     child: Tooltip(
                       message: 'Upvote',
                       child: Container(
-                        padding: EdgeInsetsDirectional.all(8),
+                        padding: const EdgeInsetsDirectional.all(8),
                         child: (postVoteStatus != 1)
                             ? Icon(
                                 Typicons.up_outline,
@@ -160,7 +160,7 @@ class _PostFooterState extends State<PostFooter> {
                     child: Tooltip(
                       message: 'Downvote',
                       child: Container(
-                        padding: EdgeInsetsDirectional.all(8),
+                        padding: const EdgeInsetsDirectional.all(8),
                         child: (postVoteStatus != -1)
                             ? Icon(
                                 Typicons.down_outline,

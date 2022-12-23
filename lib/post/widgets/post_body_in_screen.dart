@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:post/post/models/post_model.dart';
-import 'package:post/post/widgets/post_images.dart';
 import 'package:post/post/widgets/post_images_in_screen.dart';
 import 'package:post/post/widgets/post_link_in_screen.dart';
 import 'package:post/post/widgets/post_tags_and_title.dart';
+import 'package:post/post/widgets/post_video_in_widget_web.dart';
 import 'package:video_player/video_player.dart';
 import 'post_video_in_widget.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 /// This Widget is responsible for the body of the post.
 
 class PostBodyInScreen extends StatefulWidget {
+  /// The data of the post
   final PostModel data;
+
+  /// The user name
   final String userName;
+
+  /// a boolean to check if in screen
   final bool inView;
 
   const PostBodyInScreen(
@@ -83,16 +89,27 @@ class _PostBodyInScreenState extends State<PostBodyInScreen> {
                         type: widget.data.kind as String,
                       )
                     : (widget.data.kind == 'video')
-                        ? PostVideoInWidget(
-                            title: widget.data.title as String,
-                            flair: widget.data.flairId,
-                            nsfw: widget.data.nsfw as bool,
-                            spoiler: widget.data.spoiler as bool,
-                            inView: widget.inView,
-                            url: widget.data.video as String,
-                            videoController: widget.data.videoController
-                                as VideoPlayerController,
-                          )
+                        ? kIsWeb
+                            ? PostVideoInWidgetWeb(
+                                title: widget.data.title as String,
+                                flair: widget.data.flairId,
+                                nsfw: widget.data.nsfw as bool,
+                                spoiler: widget.data.spoiler as bool,
+                                inView: widget.inView,
+                                url: widget.data.video as String,
+                                videoController: widget.data.videoController
+                                    as VideoPlayerController,
+                              )
+                            : PostVideoInWidget(
+                                title: widget.data.title as String,
+                                flair: widget.data.flairId,
+                                nsfw: widget.data.nsfw as bool,
+                                spoiler: widget.data.spoiler as bool,
+                                inView: widget.inView,
+                                url: widget.data.video as String,
+                                videoController: widget.data.videoController
+                                    as VideoPlayerController,
+                              )
                         : const SizedBox(),
       ),
     );

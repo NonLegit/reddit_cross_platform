@@ -9,7 +9,6 @@ import 'package:post/create_community/widgets/community_type.dart';
 import 'package:post/messages/screens/reply_message_screen.dart';
 import 'package:post/messages/screens/show_message_body.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:post/show_post/screens/show_post_web.dart';
 import './messages/screens/web_message_all_screen.dart';
 import './messages/screens/web_message_screen.dart';
 import 'package:post/providers/global_settings.dart';
@@ -94,6 +93,7 @@ import './settings/provider/user_settings_provider.dart';
 import './search/provider/search_provider.dart';
 import './discover/providers/discover_provider.dart';
 import './moderation_settings/provider/moderation_general_data.dart';
+import './show_post/screens/show_post_web.dart';
 import 'widgets/custom_snack_bar.dart';
 //import './models/push_notification_model.dart';
 import './shared/constants.dart';
@@ -623,7 +623,6 @@ class _MyAppState extends State<MyApp> {
               ModeratedSubredditScreen.routeName: (context) =>
                   ModeratedSubredditScreen(),
               ShowPostDetailsWeb.routeName: (context) => ShowPostDetailsWeb(),
-
               // LoginPage.routeName: (context) => LoginPage(),
             },
           ),

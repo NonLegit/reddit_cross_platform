@@ -5,10 +5,19 @@ import 'package:provider/provider.dart';
 
 import '../provider/post_provider.dart';
 
+/// This widget shows the popup menu of the widget
+
 class PostPopupMenu extends StatefulWidget {
+  /// A boolean to determine if the post is saved
   final bool isSaved;
+
+  /// The post data
   final PostModel data;
+
+  /// A function which is invoked when the state changes
   final Function update;
+
+  /// A boolean to determine if it's the user's post
   final bool isMyPost;
   const PostPopupMenu(
       {super.key,

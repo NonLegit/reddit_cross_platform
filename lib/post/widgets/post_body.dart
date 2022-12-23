@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 import 'package:post/post/models/post_model.dart';
 import 'package:post/post/widgets/post_card.dart';
 import 'package:post/post/widgets/post_images.dart';
 import 'package:post/post/widgets/post_images_web.dart';
 import 'package:post/post/widgets/post_link_in_screen.dart';
-import 'package:post/post/widgets/post_pop_up_web.dart';
 import 'package:post/post/widgets/post_tags_and_title.dart';
 import 'package:post/post/widgets/post_video_in_widget_web.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../show_post/screens/show_post.dart';
 import '../../show_post/screens/show_post_web.dart';
-import '../../widgets/loading_reddit.dart';
 import 'post_video_in_widget.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -78,7 +77,10 @@ class _PostBodyState extends State<PostBody> {
                       padding: const EdgeInsetsDirectional.only(
                           start: 10, end: 10, top: 10),
                       child: Text(
-                        widget.data.text as String,
+                        parse(widget.data.text as String)
+                                .documentElement
+                                ?.text ??
+                            '',
                         maxLines: 3,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.secondary,

@@ -7,14 +7,29 @@ import 'package:chewie/chewie.dart';
 
 import '../models/post_model.dart';
 
+/// A widget to display a video in widget
 class PostVideoInWidget extends StatefulWidget {
   /// The url of the video
   final String url;
+
+  /// The video controller
   final VideoPlayerController videoController;
+
+  /// A boolean to check if in view
   final bool inView;
+
+  /// The title of the post
   final String title;
+
+  /// A boolean to determine if spoiler
   final bool spoiler;
+
+  /// A boolean to determine if NSFW
+
   final bool nsfw;
+
+  /// The flair data
+
   final FlairId? flair;
   const PostVideoInWidget({
     super.key,
