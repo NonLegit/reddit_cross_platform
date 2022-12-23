@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:post/messages/widgets/first_nav_bar.dart';
+import 'package:post/messages/widgets/second_nav_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../widgets/loading_reddit.dart';
+import '../models/user_message.dart';
+import '../provider/message_provider.dart';
 import 'web_message_screen.dart';
 import 'web_new_message_screen.dart';
 
@@ -13,156 +19,211 @@ class SentMessage extends StatefulWidget {
 }
 
 class _SentMessageState extends State<SentMessage> {
+  String getTimeOfNotification(date) {
+    String howOld;
+    final difference = DateTime.now().difference(DateTime.parse(date));
+    if (difference.inDays >= 365) {
+      howOld = '${difference.inDays ~/ 365}y';
+    } else if (difference.inDays >= 30) {
+      howOld = '${difference.inDays ~/ 30}mo';
+    } else if (difference.inDays >= 1) {
+      howOld = '${difference.inDays}d';
+    } else if (difference.inMinutes >= 60) {
+      howOld = '${difference.inHours}h';
+    } else if (difference.inSeconds >= 60) {
+      howOld = '${difference.inMinutes}m';
+    } else {
+      howOld = '${difference.inSeconds}s';
+    }
+    return howOld;
+  }
+
+  bool _isInit = true;
+  bool returned = false;
+  bool tried = false;
+
+  List<ShowMessagesModel> sentMessage = [];
+  void didChangeDependencies() async {
+    if (_isInit) {
+      setState(() {
+        returned = false;
+      });
+      //  _updateCount();
+      await Provider.of<MessageProvider>(context, listen: false)
+          .getSentMessages(context, 0, 10)
+          .then((value) {
+        sentMessage =
+            Provider.of<MessageProvider>(context, listen: false).sentMessage;
+        setState(() {
+          returned = true;
+        });
+      });
+    }
+
+    _isInit = false;
+
+    super.didChangeDependencies();
+  }
+
+  _acceptModeration(subredditName) {
+    Provider.of<MessageProvider>(context, listen: false)
+        .acceptSubredditInvite(context, subredditName)
+        .then((value) {
+      Navigator.of(context).pop();
+    });
+  }
+
+  _deleteMessage(id) async {
+    await Provider.of<MessageProvider>(context, listen: false)
+        .deleteMessage(context, id);
+  }
+
+  _blockUser(userName) async {
+    await Provider.of<MessageProvider>(context, listen: false)
+        .blockUser(context, userName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Hiiiii')),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              color: Colors.blue.shade800,
-              child: Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: 13, bottom: 13, left: 100, right: 20),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(WebNewMessageScreen.routeName);
-                        },
-                        child: Text(
-                          'Send a Private Message',
-                          style: TextStyle(
-                              color: Colors.grey.shade400,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: 13, bottom: 13, left: 8, right: 20),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(WebMessageScreen.routeName);
-                        },
-                        child: Text(
-                          'Inbox',
-                          style: TextStyle(
-                              color: Colors.grey.shade400,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: 13, bottom: 13, left: 8, right: 20),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(SentMessage.routeName);
-                        },
-                        child: Text(
-                          'Sent',
-                          style: TextStyle(
-                              color: Colors.grey.shade400,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              color: Colors.indigo[50],
-              margin: EdgeInsets.only(left: 10.w, right: 10.w, top: 10),
-              child: Container(
-                color: Colors.indigo[50],
-                child: Column(
-                  children: [
-                    ListView.builder(
-                      physics: const ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ////subjectccccccccccccccccc
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10, top: 5),
-                              child: Text('Jooko:'),
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 18),
-                                  child: Text('from  '),
-                                ),
-                                TextButton(
-                                    style: TextButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                    ),
-                                    onPressed: () {},
-                                    child: Text(
-                                      'Eman Shahda',
-                                      style: TextStyle(color: Colors.blue),
-                                    )),
-                                Text('   sent 3 days ago'),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 23, right: 8, bottom: 8, top: 8),
-                              child: Text(
-                                  'hiiiiiiiii bgfsvbhszdfkz hadsafjdnkd bhjknkamkfnk arhfbagjarehk dhfjskfa ajfbfrak dfjsk bfdjksml,;htgfjkdl;sp gfdjksl; mrtgwirjawelf gsduhskerjgesl sdgjhrkgl'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16, right: 8, bottom: 8, top: 8),
-                              child: Row(
-                                children: [
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Text('Reply',
-                                          style:
-                                              TextStyle(color: Colors.grey))),
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Text('Delete',
-                                          style:
-                                              TextStyle(color: Colors.grey))),
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Text('BlockUser',
-                                          style:
-                                              TextStyle(color: Colors.grey))),
-                                ],
+      body: (!returned)
+          ? const LoadingReddit()
+          : (sentMessage.isEmpty)
+              ? Container(
+                  color: Colors.grey[100],
+                  child: Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/emptyNotification.png'),
+                      Text(
+                        'Wow,such empty',
+                        style: TextStyle(
+                            color: Colors.grey.shade500,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w300),
+                      ),
+                    ],
+                  )),
+                )
+              : SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FirstNavBar(),
+                      Container(
+                        color: Colors.indigo[50],
+                        margin:
+                            EdgeInsets.only(left: 10.w, right: 10.w, top: 10),
+                        child: Container(
+                          color: Colors.indigo[50],
+                          child: Column(
+                            children: [
+                              ListView.builder(
+                                physics: const ClampingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ////subjectccccccccccccccccc
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20, top: 10),
+                                        child: Text(
+                                            sentMessage[index].subjectText!,style: TextStyle(
+                                              fontWeight: FontWeight.bold),),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 18),
+                                            child: Text('from  '),
+                                          ),
+                                          TextButton(
+                                              style: TextButton.styleFrom(
+                                                padding: EdgeInsets.zero,
+                                              ),
+                                              onPressed: () {},
+                                              child: Text(
+                                                'u/${sentMessage[index].toUsername!}',
+                                                style: TextStyle(
+                                                    color: Colors.blue),
+                                              )),
+                                          Text(
+                                              '   sent ${getTimeOfNotification(sentMessage[index].createdAt!)}'),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 25,
+                                            right: 8,
+                                            bottom: 8,
+                                            top: 8),
+                                        child: Text(sentMessage[index].text!),
+                                      ),
+                                      if (sentMessage[index].type ==
+                                          'subredditModeratorInvite')
+                                        TextButton(
+                                            onPressed: () {
+                                              _acceptModeration(
+                                                  sentMessage[index]
+                                                      .subredditName);
+                                            },
+                                            child: Text(
+                                              'Click to accept',
+                                              style: TextStyle(
+                                                color: Colors.blue,
+                                              ),
+                                            )),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 19,
+                                            right: 8,
+                                            bottom: 8,
+                                            top: 8),
+                                        child: Row(
+                                          children: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  _deleteMessage(
+                                                      sentMessage[index].sId);
+                                                },
+                                                child: Text('Delete',
+                                                    style: TextStyle(
+                                                        color: Colors.grey))),
+                                            TextButton(
+                                                onPressed: () {
+                                                  _blockUser(sentMessage[index]
+                                                      .toUsername);
+                                                },
+                                                child: Text('BlockUser',
+                                                    style: TextStyle(
+                                                        color: Colors.grey))),
+                                          ],
+                                        ),
+                                      ),
+                                      Divider(
+                                        color: Colors.grey,
+                                      )
+                                    ],
+                                  );
+                                },
+                                itemCount: sentMessage.length,
                               ),
-                            ),
-                            Divider(
-                              color: Colors.transparent,
-                            )
-                          ],
-                        );
-                      },
-                      itemCount: 5,
-                    ),
-                    Divider(
-                      color: Colors.grey,
-                    ),
-                  ],
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

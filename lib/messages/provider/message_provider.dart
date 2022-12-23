@@ -56,8 +56,11 @@ class MessageProvider with ChangeNotifier {
           query: {'page': page, 'limit': limit}).then((value) {
         print(value.data['data']);
         value.data['data'].forEach((element) {
-          final message = ShowMessagesModel.fromJson(element);
-          unreadMessage.add(message);
+          if (element['type'] != 'postReply') {
+            print(element['type']);
+            final message = ShowMessagesModel.fromJson(element);
+            unreadMessage.add(message);
+          }
         });
         notifyListeners();
       });
@@ -80,11 +83,13 @@ class MessageProvider with ChangeNotifier {
           query: {'page': page, 'limit': limit}).then((value) {
         print(value.data['data']);
         value.data['data'].forEach((element) {
-          final message = ShowMessagesModel.fromJson(element);
-          print('**********************IDS*****************************');
-          print(message.sId);
-          sentMessage.add(message);
+          if (element['type'] != 'postReply') {
+            print('*******************IN PROVIDER*********************');
+            final message = ShowMessagesModel.fromJson(element);
+            sentMessage.add(message);
+          }
         });
+        print('*******************AFTER PROVIDER*********************');
         notifyListeners();
       });
     } on DioError catch (e) {
@@ -106,9 +111,10 @@ class MessageProvider with ChangeNotifier {
           query: {'page': page, 'limit': limit}).then((value) {
         print(value.data['data']);
         value.data['data'].forEach((element) {
-          final message = ShowMessagesModel.fromJson(element);
-
-          allMessage.add(message);
+          if (element['type'] != 'postReply') {
+            final message = ShowMessagesModel.fromJson(element);
+            allMessage.add(message);
+          }
         });
         notifyListeners();
       });
@@ -126,6 +132,7 @@ class MessageProvider with ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
       DioClient.post(path: '/messages', data: data);
+      notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
       //return false;
@@ -142,6 +149,7 @@ class MessageProvider with ChangeNotifier {
       print(messageId);
 
       DioClient.post(path: '/messages/$messageId/reply', data: data);
+      notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
       //return false;
@@ -157,6 +165,7 @@ class MessageProvider with ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
       DioClient.post(path: '/users/$userName/block_user', data: {});
+      notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
       //return false;
@@ -174,6 +183,7 @@ class MessageProvider with ChangeNotifier {
       DioClient.init(prefs);
       DioClient.post(
           path: '/subreddits/$subredditName/accept/invitation', data: {});
+      notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
       //return false;
@@ -190,6 +200,7 @@ class MessageProvider with ChangeNotifier {
       print(messageId);
 
       DioClient.delete(path: '/messages/$messageId');
+      notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
       //return false;
@@ -204,6 +215,7 @@ class MessageProvider with ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
       DioClient.patch(path: '/messages/mark_as_read');
+      notifyListeners();
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
       //return false;
