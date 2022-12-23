@@ -10,8 +10,6 @@ class DioClient {
     String token = '';
     try {
       token = prefs.getString('token') as String;
-      print('hi');
-      print(token);
     } catch (error) {
       print('dio error $error');
     }
@@ -36,7 +34,6 @@ class DioClient {
       {required String path,
       required Map<String, dynamic>? data,
       Map<String, dynamic>? query}) async {
-    print('datain dio post : $data');
     return await dio!
         .post(path, data: json.encode(data), queryParameters: query);
   }

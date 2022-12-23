@@ -505,7 +505,6 @@ class _MyAppState extends State<MyApp> {
             //home: CreateCommunity(),
              //home: NewMessageScreen(),
             // home: EditPost(),
-              // home: WebMessageScreen(),
             //  home: SearchInside(quiry: 'mohab'),
             //home: const DiscoverScreen(),
             // home: homeLayoutScreen(),

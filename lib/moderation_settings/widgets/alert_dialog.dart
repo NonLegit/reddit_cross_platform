@@ -35,7 +35,6 @@ class AlertDialog1 extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               ),
               primary: Colors.grey[200],
-              // backgroundColor: Colors.grey[200],
             ),
             child: const Text(
               'Cancel',
@@ -55,7 +54,6 @@ class AlertDialog1 extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               ),
               primary: Colors.blue[800],
-              // backgroundColor: Colors.blue[800],
             ),
             child: const Text(
               'Leave',
