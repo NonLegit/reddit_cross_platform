@@ -34,38 +34,10 @@ class NotificationModel {
       this.followeruserName});
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
-    print(json);
-    // print('hh');
-    // print(json['_id'].runtimeType);
-    // print('hh');
-    // print(json['followedUser'].runtimeType);
-    // print('hh');
-    // print(json['followedSubreddit'].runtimeType);
-    // print('hh');
-    // print(json['followerUser'].runtimeType);
-    // print('hh');
-    // //print(json['post']['_id'].runtimeType);
-    // print('hh');
-    // print(json['comment']['_id'].runtimeType);
-    // print('hh');
-    // print(json['createdAt'].runtimeType);
-    // print('hh');
-    // print(json['seen'].runtimeType);
-    // print('hh');
-    // print(json['hidden'].runtimeType);
-    // print(json['_id'].runtimeType);
-    // print(json['_id'].runtimeType);
-    // print(json['_id'].runtimeType);
-    // print(json['_id']);
-    print('idddddddd');
+
     sId = (json['_id'] == null) ? '' : json['_id'] as String;
-    print('hello');
     type = json['type'] ?? '';
-    print('hello');
-    // print(json['followedUser'].runtimeType);
-    //print(json['followedUser']);
     if (json['followedSubreddit'] != null) {
-      print('in followeeeeeeeeeeeeeeeeedddddddddd');
       requiredId = (json['followedSubreddit']['_id'] == null)
           ? ''
           : json['followedSubreddit']['_id'] as String;

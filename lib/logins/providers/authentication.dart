@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../main.dart';
 import '../../notification/models/notification_class_model.dart';
 import '../../notification/provider/notification_provider.dart';
+import '../../shared/constants.dart';
 import './notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -149,9 +150,13 @@ class Auth with ChangeNotifier {
         await prefs.setString('token', token);
         await prefs.setString('expiresIn', expiresIn.toString());
         await prefs.setString('userName', query['userName'] as String);
-        // await Firebase.initializeApp();
-        // final notificationToken = prefs.get('notificationToken');
-        // await NotificationToken.sendTokenToDatabase(notificationToken);
+         await Firebase.initializeApp(options: FirebaseOptions(
+          apiKey: Constants.apiKey,
+          appId: Constants.appId,
+          messagingSenderId: Constants.messagingSenderId,
+          projectId: Constants.projectId));
+         final notificationToken = prefs.get('notificationToken');
+         await NotificationToken.sendTokenToDatabase(notificationToken);
         // FirebaseMessaging.onBackgroundMessage(
         //     _firebaseMessagingBackgroundHandler);
         preparePrefs();
@@ -186,10 +191,14 @@ class Auth with ChangeNotifier {
         await prefs.setString('token', token);
         await prefs.setString('expiresIn', expiresIn.toString());
         await prefs.setString('userName', query['userName'] as String);
-        // await Firebase.initializeApp();
-        // final notificationToken = prefs.get('notificationToken');
+         await Firebase.initializeApp(options: FirebaseOptions(
+          apiKey: Constants.apiKey,
+          appId: Constants.appId,
+          messagingSenderId: Constants.messagingSenderId,
+          projectId: Constants.projectId));
+         final notificationToken = prefs.get('notificationToken');
         // await NotificationToken.getTokenOfNotification();
-        // await NotificationToken.sendTokenToDatabase(notificationToken);
+         await NotificationToken.sendTokenToDatabase(notificationToken);
         // await NotificationToken.refreshToken();
         // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
         preparePrefs();

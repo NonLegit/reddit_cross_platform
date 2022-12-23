@@ -8,6 +8,7 @@ import '../providers/subreddit_provider.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subreddit_post_web.dart';
 import '../../widgets/subreddit_join_button_web.dart';
+
 extension ColorExtension on String {
   toColor() {
     var hexString = this;
@@ -17,6 +18,7 @@ extension ColorExtension on String {
     return Color(int.parse(buffer.toString(), radix: 16));
   }
 }
+
 class SubredditWeb extends StatelessWidget {
   String userName;
   SubredditWeb(
@@ -34,16 +36,20 @@ class SubredditWeb extends StatelessWidget {
   final TabBar tabBar;
   bool isLoading;
   TabController? controller;
-  
+
   @override
   Widget build(BuildContext context) {
-    bool showTheme= Provider.of<SubredditProvider>(context, listen: true).gettingTheme as bool;
+    bool showTheme = Provider.of<SubredditProvider>(context, listen: false)
+       .gettingTheme as bool;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: _scaffoldKey,
-        backgroundColor: (showTheme)
+        backgroundColor: 
+        (showTheme)
             ? Color.fromARGB(255, 218, 224, 230)
-            : (loadedSubreddit!.theme!.contains('https'))?Image.network(loadedSubreddit!.theme.toString()).color:'#6ae792'.toColor(),
+          :   (loadedSubreddit!.theme!.contains('https'))
+                ? Image.network(loadedSubreddit!.theme.toString()).color
+                : '#6ae792'.toColor(),
         body: isLoading
             ? const Center(
                 child: Icon(
@@ -96,7 +102,6 @@ class SubredditWeb extends StatelessWidget {
                                   left: 0,
                                   bottom: 0,
                                   child: Container(
-                                      // padding: EdgeInsets.only(left: 250),
                                       color: Colors.white,
                                       child: Column(
                                         mainAxisAlignment:
@@ -105,7 +110,6 @@ class SubredditWeb extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            //margin: EdgeInsets.only(top: 15),
                                             width: 100.w,
                                             height: 15.h,
                                             padding: EdgeInsets.only(left: 250),
@@ -118,8 +122,6 @@ class SubredditWeb extends StatelessWidget {
                                                 Container(
                                                   width: 10.w,
                                                   height: 20.h,
-                                                  // margin: EdgeInsets.only(bottom: 30,top: 40),
-
                                                   decoration: BoxDecoration(
                                                     color: Colors.orange,
                                                     shape: BoxShape.circle,
@@ -155,8 +157,6 @@ class SubredditWeb extends StatelessWidget {
                                                 SubredditJoinButtonWeb(
                                                     isJoined: loadedSubreddit!
                                                         .isJoined as bool,
-                                                    // icon: icon,
-                                                    //dropDownValue: dropDownValue,
                                                     communityName:
                                                         loadedSubreddit!.name
                                                             .toString()),
@@ -180,7 +180,6 @@ class SubredditWeb extends StatelessWidget {
                         SubredditePostWeb(
                           loadedSubreddit: loadedSubreddit,
                         ),
-                        // SubredditPosts(routeNamePop: SubredditScreen.routeName),
                         SubredditAbout(
                           rules: loadedSubreddit!.rules
                               as List<SubredditAboutRules>,

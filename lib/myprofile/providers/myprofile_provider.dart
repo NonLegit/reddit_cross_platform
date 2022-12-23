@@ -19,7 +19,8 @@ class MyProfileProvider with ChangeNotifier {
   List<MyProfileFollowersData>? get gettingMyProfileFollowersData {
     return followersData;
   }
-
+  // ===================================this function used to===========================================//
+//==================fetch and set date===========================//
   Future<void> fetchAndSetMyProfile(BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -34,7 +35,8 @@ class MyProfileProvider with ChangeNotifier {
       HandleError.handleError(error.toString(), context);
     }
   }
-
+  // ===================================this function used to===========================================//
+//==================fetch and set date of Followers===========================//
   Future<void> fetchAndSetFollowersData(BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();

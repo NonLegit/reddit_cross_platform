@@ -13,6 +13,16 @@ void main() {
         int result = subredditpopupButtonState.chooseNotificationType(1);
         expect(result, 1);
       });
+       test('Subscribe ', () {
+        // TODO: Implement test
+        bool result = subredditpopupButtonState.changeJoinStatus();
+        expect(result, true);
+      });
+       test('UnSubcribe ', () {
+        // TODO: Implement test
+        bool result = subredditpopupButtonState.changeDisJoinStatus();
+        expect(result, false);
+      });
     },
   );
 }

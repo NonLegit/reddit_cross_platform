@@ -9,13 +9,18 @@ class PostList extends StatefulWidget {
   final Function updateData;
   final List<PostModel> data;
   final String type;
-  const PostList(
-      {super.key,
-      required this.userName,
-      this.topOfTheList = const SizedBox(),
-      required this.updateData,
-      required this.data,
-      this.type = 'home'});
+  final double leftMargin;
+  final double rightMargin;
+  const PostList({
+    super.key,
+    required this.userName,
+    this.topOfTheList = const SizedBox(),
+    required this.updateData,
+    required this.data,
+    this.type = 'home',
+    this.leftMargin = 0,
+    this.rightMargin = 0,
+  });
 
   @override
   State<PostList> createState() => _PostListState();
@@ -26,6 +31,7 @@ class _PostListState extends State<PostList> {
   Widget build(BuildContext context) {
     return Flexible(
       child: InViewNotifierCustomScrollView(
+        shrinkWrap: true,
         onListEndReached: () => widget.updateData(),
         scrollDirection: Axis.vertical,
         initialInViewIds: const ['0'],
@@ -44,29 +50,33 @@ class _PostListState extends State<PostList> {
           SliverList(
             delegate: SliverChildBuilderDelegate(childCount: widget.data.length,
                 (context, index) {
-              return InViewNotifierWidget(
-                  id: '$index',
-                  builder: (context, isInView, child) {
-                    if (widget.type == 'profile') {
-                      return Post.profile(
-                        userName: widget.userName,
-                        inView: isInView,
-                        data: widget.data[index],
-                      );
-                    } else if (widget.type == 'community') {
-                      return Post.community(
-                        userName: widget.userName,
-                        inView: isInView,
-                        data: widget.data[index],
-                      );
-                    } else {
-                      return Post.home(
-                        userName: widget.userName,
-                        inView: isInView,
-                        data: widget.data[index],
-                      );
-                    }
-                  });
+              return Container(
+                margin: EdgeInsetsDirectional.only(
+                    start: widget.leftMargin, end: widget.rightMargin),
+                child: InViewNotifierWidget(
+                    id: '$index',
+                    builder: (context, isInView, child) {
+                      if (widget.type == 'profile') {
+                        return Post.profile(
+                          userName: widget.userName,
+                          inView: isInView,
+                          data: widget.data[index],
+                        );
+                      } else if (widget.type == 'community') {
+                        return Post.community(
+                          userName: widget.userName,
+                          inView: isInView,
+                          data: widget.data[index],
+                        );
+                      } else {
+                        return Post.home(
+                          userName: widget.userName,
+                          inView: isInView,
+                          data: widget.data[index],
+                        );
+                      }
+                    }),
+              );
             }),
           )
         ],

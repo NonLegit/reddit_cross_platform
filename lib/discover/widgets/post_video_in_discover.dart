@@ -5,7 +5,6 @@ import 'package:chewie/chewie.dart';
 
 class PostVideoInDiscover extends StatefulWidget {
   final String url;
-  // final VideoPlayerController videoController;
   final double height;
   final bool inView;
   const PostVideoInDiscover(
@@ -22,6 +21,8 @@ class _PostVideoInDiscoverState extends State<PostVideoInDiscover> {
   late ChewieController chewieController;
   bool autoPlay = true;
   late VideoPlayerController videoPlayerController;
+    //=====================================this function is used to======================================//
+  //=================initilize Video====================//
   @override
   void initState() {
     super.initState();

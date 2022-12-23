@@ -24,7 +24,7 @@ class _SubredditCardInformationWebState
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.only(right: 180, top: 100),
-        width: 60.w,
+     width: 50.w,
         height: 40.h,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5), color: Colors.white),
@@ -36,14 +36,14 @@ class _SubredditCardInformationWebState
               width: 100.h,
               height: 6.h,
               padding: const EdgeInsets.only(top: 20, left: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.blue,
+              ),
               child: const Text(
                 'About Community',
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.blue,
               ),
             ),
             Container(
@@ -173,7 +173,6 @@ class _SubredditCardInformationWebState
                       value: chooseTheme,
                       onChanged: (value) {
                         setState(() => chooseTheme = value);
-                        print('==========================in theme=============================');
                         Provider.of<SubredditProvider>(context, listen: true)
                             .togglingTheme();
                       },

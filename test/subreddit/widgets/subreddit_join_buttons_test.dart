@@ -14,10 +14,16 @@ void main() {
         expect(result, 1);
       });
 
-      test('subreddit join buttons test ', () {
+      test('subreddit Disjoin buttons test ', () {
         // TODO: Implement test
         bool result = subredditJoinButtonState.disJoin();
         expect(result, false);
+      });
+
+      test('subreddit join buttons test ', () {
+        // TODO: Implement test
+        bool result = subredditJoinButtonState.join();
+        expect(result, true);
       });
     },
   );

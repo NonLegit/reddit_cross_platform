@@ -8,17 +8,22 @@ void main() {
     () {
       // final createCommunity = CreateCommunity();
       final posttypeButtonState = PostSortBottomState();
-      test('changePost', () {
+      test('changePost to Hot', () {
+        // TODO: Implement test
+        int result = posttypeButtonState.choosePostType(0);
+        expect(result, 0);
+      });
+        test('changePost to New', () {
         // TODO: Implement test
         int result = posttypeButtonState.choosePostType(1);
         expect(result, 1);
       });
-
-      test('changetopPost', () {
+        test('changePost to Top', () {
         // TODO: Implement test
-      int result = posttypeButtonState.chooseTimeOfTopPosts(2,1);
-        expect(result, 1);
+        int result = posttypeButtonState.choosePostType(2);
+        expect(result, 2);
       });
+      
     },
   );
 }

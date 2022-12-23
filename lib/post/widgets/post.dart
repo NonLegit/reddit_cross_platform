@@ -137,6 +137,7 @@ class _PostState extends State<Post> {
                         data: data,
                       ),
                 PostFooter(
+                    userName: widget.userName,
                     inScreen: widget.inScreen,
                     data: widget.data,
                     isMyPost: (widget.data.author?.name == widget.userName),

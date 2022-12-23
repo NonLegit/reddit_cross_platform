@@ -12,15 +12,17 @@ class DiscoverProvider with ChangeNotifier {
   DiscoverData? get gettingImagesAndVideo {
     return imgAndVideoList;
   }
-
+// ===================================this function used to===========================================//
+//==================fetch and set date===========================//
+//topics==> topics of comminty
+//page==> page number to fetch
+//limit> limit of size data return
   Future<void> fetchAndSetDiscover(String topic,int page, int limit,BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-      print('====================in discover================================');
-      print('/subreddits/${topic}/posts/like_reels$page p $limit L');
       await DioClient.get(
-          path: '/subreddits/study/posts/like_reels',
+          path: '/subreddits/${topic}/posts/like_reels',
           query: {'page': page, 'limit': limit}).then((response) {
         print(response.data);
         imgAndVideoList = DiscoverData.fromJson(response.data);

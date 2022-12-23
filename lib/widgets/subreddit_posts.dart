@@ -30,6 +30,9 @@ class _SubredditPosts extends State<SubredditPosts> {
   bool _isLoading = false;
   List<PostModel>? posts = [];
   late ScrollController _scrollController;
+   //=====================================this function is used to======================================//
+  //=================Loading More Data====================//
+  
   void _loadMore() {
     if (_isLoading == false && _isLoadMoreRunning == false) {
       setState(() {
@@ -52,7 +55,8 @@ class _SubredditPosts extends State<SubredditPosts> {
     super.initState();
     _scrollController = ScrollController()..addListener(_loadMore);
   }
-
+//=====================================this function is used to======================================//
+  //=================Loading Data for first time====================//
   @override
   void didChangeDependencies() async {
     if (_isInit) {
@@ -121,35 +125,5 @@ class _SubredditPosts extends State<SubredditPosts> {
                 data: posts as List<PostModel>,
                 type: 'community',
                 );
-    // ListView(
-    //     controller: _scrollController,
-    //     scrollDirection: Axis.vertical,
-    //     physics: const ClampingScrollPhysics(),
-    //     addAutomaticKeepAlives: true,
-    //     shrinkWrap: true,
-    //     children: [
-    //       PostSortBottom(
-    //           page: _page,
-    //           type: 'Subreddit',
-    //           routeNamePop: widget.routeNamePop,
-    //           userName: subredditName
-    //           //_dropDownValue, _icon
-    //           ),
-    //       //Select the type of Posts
-
-    //       SingleChildScrollView(
-    //         child: ListView.builder(
-    //           physics: const ClampingScrollPhysics(),
-    //           shrinkWrap: true,
-    //           itemBuilder: ((context, index) => Post.community(
-    //                 data: posts![index],
-    //                 inView: false,
-    //                 updateDate: () {},
-    //               )),
-    //           itemCount: posts?.length,
-    //         ),
-    //       )
-    //     ],
-    //   );
   }
 }
