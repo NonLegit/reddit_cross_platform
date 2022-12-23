@@ -14,7 +14,6 @@ class _FlairListState extends State<FlairList> {
     PostController(),
   );
 
-  Map selected = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +28,7 @@ class _FlairListState extends State<FlairList> {
               child: Padding(
                 padding: const EdgeInsets.all(25),
                 child: Column(
+                  /// Generic list to select the flair of post submitted to certain subreddit (select only one flair at a time)
                     children: List.generate(
                   controller.checking.length,
                   (index) => (index == 0)
