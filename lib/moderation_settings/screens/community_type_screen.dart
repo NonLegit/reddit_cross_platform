@@ -9,14 +9,17 @@ import '../../widgets/loading_reddit.dart';
 import 'package:flutter/cupertino.dart';
 
 class ComuunityTypesScreen extends StatefulWidget {
+  /// the route name of the screen
+
   static const routeName = '/communitytypes';
-  // postTypes({super.key});
 
   @override
   State<ComuunityTypesScreen> createState() => ComuunityTypesScreenState();
 }
 
 class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
+  ///values of text and color and sub title for the slider
+  ///these values will be used when cahnge the value of the slider
   final sliderValues = [
     {
       'color': Colors.green,
@@ -36,46 +39,85 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
           'Only people you approved can see and participate in this community'
     }
   ];
+
+  ///the curret status of the post type input
   InputStatus postTypesStatus = InputStatus.original;
 
+  ///the initiall value of the post type text unput
   String? initialpostTypes;
+
+  /// the current Subrddit name of the screen
+
   String? subbredditName;
+
+  /// Whether user enter data or not , then show the save buttom or not
+
   bool isSlected = false;
+
+  ///model will be filed from the provider to take the data
   ModeratorToolsModel? moderatorToolsModel;
 
+  ///the initiall value of the index of the slider
+
   double initialIndex = 1;
+
+  ///the initiall value of the plus 18
+
   bool initialIsPlus18 = false;
 
+  ///the initiall value index
+
   double index = 1;
+
+  /// Whether the plus 18 box selected or not
+
   bool isPlus18 = false;
 
+  /// Whether fetching the data from server done or not
+
   bool fetchingDone = true;
+
+  /// Whether the didChangeDependencies is called for the first time or not
+
   bool _isInit = true;
+
+  /// Whether the build fuction calling at least one time or not
+
   bool isBuild = false;
+
+  /// change the index of the slider
   void changeType(newIndex) {
+    ///Input:
+    /// newindex : the new value of the index
+    ///output: none
+
     index = newIndex;
     changeCommunityType();
   }
 
+  /// change the pluse 18
+
   void changePlus18() {
+    /// input:  none
+    /// output: none
+
     isPlus18 = !isPlus18;
-    // print(isPlus18);
     changeCommunityType();
   }
 
+  ///change the isSelcted when change the slider and is plus 18
+  ///
+  ///when the UserNmae input field and reason both are empty then the selected will be false
+  ///other wise it will be true
   void changeCommunityType() {
+    /// input:  none
+    /// output: none
+
     if (index == initialIndex && isPlus18 == initialIsPlus18) {
       isSlected = false;
     } else {
       isSlected = true;
     }
-  }
-
-  // void change
-  @override
-  void initState() {
-    //return hardcoded topics from constant folder
-    super.initState();
   }
 
   @override
@@ -88,7 +130,6 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
       subbredditName = ModalRoute.of(context)?.settings.arguments != null
           ? ModalRoute.of(context)?.settings.arguments as String
           : '';
-      // subbredditName = 'Cooking';
       Provider.of<ModerationSettingProvider>(context, listen: false)
           .getCommunity(subbredditName!, context)
           .then((_) {
@@ -113,8 +154,16 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
     super.didChangeDependencies();
   }
 
+  ///post the community type changes to the sever
+  ///
+  /// take the data from ban info model
+  /// if the server return failed response then there is error message will appare
+  /// other show sucess message
+
   Future<void> saveCommunityTypes() async {
-    //   ////
+    /// input:  none
+    /// output: none
+
     final provider =
         Provider.of<ModerationSettingProvider>(context, listen: false);
     await provider.patchCommunity({
@@ -122,11 +171,6 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
       "nsfw": isPlus18,
     }, subbredditName!, context).then((response) {});
     if (provider.isError == true) {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        CustomSnackBar(
-            isError: true, text: provider.errorMessage, disableStatus: true),
-      );
     } else {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
@@ -142,7 +186,6 @@ class ComuunityTypesScreenState extends State<ComuunityTypesScreen> {
     }
   }
 
-  double _value = 3;
   @override
   Widget build(BuildContext context) {
     isBuild = true;

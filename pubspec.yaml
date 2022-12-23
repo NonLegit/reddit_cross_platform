@@ -159,6 +159,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
+    - assets/images/reddit_community_search.png
     - assets/images/reddit-logins.png
     - assets/images/community_icon.png
     - assets/images/envelope.png
