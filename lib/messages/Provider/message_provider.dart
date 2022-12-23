@@ -8,6 +8,9 @@ import '../models/user_message.dart';
 
 class MessageProvider with ChangeNotifier {
   Map<String, List<ShowMessagesModel>> messageShow = {};
+  List<ShowMessagesModel> allMessage = [];
+  List<ShowMessagesModel> unreadMessage = [];
+  List<ShowMessagesModel> sentMessage = [];
 //http://localhost:8000/api/v1/subreddits/{subredditName}/moderators/{moderatorName}
   Future<void> getAllMessages(context, page, limit) async {
     try {
@@ -23,43 +26,89 @@ class MessageProvider with ChangeNotifier {
           String id;
           final message = ShowMessagesModel.fromJson(element);
           print('herrree');
-          // print(element);
-
-          // if(newList == null){
-          //newList = List<ShowMessagesModel>;
           if (message.type == 'userMessage') {
             id = message.subjectId!;
           } else {
             id = message.sId!;
           }
-          // var newList = messageShow.entries
-          //     .firstWhere((element) => element.value == id)
-          //     .value;
-          // if (newList == null) {
-          //   newList = [];
-          // }
-          //List<ShowMessagesModel> newList = [];
-          // newList.add(message);
           print('**********************IDS*****************************');
           print(message.sId);
           messageShow.putIfAbsent(id, () => []).add(message);
-          // } else{
+        });
+        notifyListeners();
+      });
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
+      //return false;
+    } catch (error) {
+      HandleError.handleError(error.toString(), context);
+      //return false;
+    }
+  }
 
-          // }
+  Future<void> getUnreadMessages(context, page, limit) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+      unreadMessage = [];
+      await DioClient.get(
+          path: '/messages/unread',
+          query: {'page': page, 'limit': limit}).then((value) {
+        print(value.data['data']);
+        value.data['data'].forEach((element) {
+          final message = ShowMessagesModel.fromJson(element);
+          unreadMessage.add(message);
+        });
+        notifyListeners();
+      });
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
+      //return false;
+    } catch (error) {
+      HandleError.handleError(error.toString(), context);
+      //return false;
+    }
+  }
 
-          // messageShow.addEntries(newEntries)
-          // print(messageShow[message.subjectId].runtimeType);
-          // messageShow.
-          // messageShow.addEntries('${message.subjectId}':message);
-          // messageShow.update(message.subjectId!,
-          //     (value) => (value.add(message)) as List<ShowMessagesModel>);
-          // messageShow.putIfAbsent(
-          //     message.subjectId!,
-          //     () => messageShow[message.subjectId!]!.add(message)
-          //         as List<ShowMessagesModel>);
-          // messageShow[message.subjectId!]!.add(message);
+  Future<void> getSentMessages(context, page, limit) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+      sentMessage = [];
+      await DioClient.get(
+          path: '/messages/sent',
+          query: {'page': page, 'limit': limit}).then((value) {
+        print(value.data['data']);
+        value.data['data'].forEach((element) {
+          final message = ShowMessagesModel.fromJson(element);
+          print('**********************IDS*****************************');
+          print(message.sId);
+          sentMessage.add(message);
+        });
+        notifyListeners();
+      });
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
+      //return false;
+    } catch (error) {
+      HandleError.handleError(error.toString(), context);
+      //return false;
+    }
+  }
 
-          // print(messageShow[message.subjectId]);
+  Future<void> getMessages(context, page, limit) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+      allMessage = [];
+      await DioClient.get(
+          path: '/messages/all',
+          query: {'page': page, 'limit': limit}).then((value) {
+        print(value.data['data']);
+        value.data['data'].forEach((element) {
+          final message = ShowMessagesModel.fromJson(element);
+
+          allMessage.add(message);
         });
         notifyListeners();
       });
@@ -125,6 +174,36 @@ class MessageProvider with ChangeNotifier {
       DioClient.init(prefs);
       DioClient.post(
           path: '/subreddits/$subredditName/accept/invitation', data: {});
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
+      //return false;
+    } catch (error) {
+      HandleError.handleError(error.toString(), context);
+      //return false;
+    }
+  }
+
+  Future<void> deleteMessage(context, messageId) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+      print(messageId);
+
+      DioClient.delete(path: '/messages/$messageId');
+    } on DioError catch (e) {
+      HandleError.errorHandler(e, context);
+      //return false;
+    } catch (error) {
+      HandleError.handleError(error.toString(), context);
+      //return false;
+    }
+  }
+
+  Future<void> markAllAsRead(context) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      DioClient.init(prefs);
+      DioClient.patch(path: '/messages/mark_as_read');
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
       //return false;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:get/get.dart';
-import '../../messages/Provider/message_provider.dart';
+import '../../messages/provider/message_provider.dart';
 import '../../messages/screens/web_message_screen.dart';
 import '../models/notification_class_model.dart';
 

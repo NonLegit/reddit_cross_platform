@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../moderation_settings/widgets/alert_dialog.dart';
-import '../Provider/message_provider.dart';
+import '../provider/message_provider.dart';
 
 class NewMessageScreen extends StatefulWidget {
   NewMessageScreen({super.key, this.userName, this.userNameAvailable});

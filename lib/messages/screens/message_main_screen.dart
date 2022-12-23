@@ -4,7 +4,7 @@ import 'package:post/widgets/loading_reddit.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../Provider/message_provider.dart';
+import '../provider/message_provider.dart';
 import '../models/user_message.dart';
 
 class MessageMainScreen extends StatefulWidget {

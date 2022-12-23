@@ -9,6 +9,7 @@ import 'package:post/create_community/widgets/community_type.dart';
 import 'package:post/messages/screens/reply_message_screen.dart';
 import 'package:post/messages/screens/show_message_body.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:post/messages/screens/web_message_all_screen.dart';
 import 'package:post/messages/screens/web_message_screen.dart';
 import 'package:post/providers/global_settings.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -39,9 +40,12 @@ import './logins/screens/forgot_username.dart';
 import './screens/emptyscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'logins/providers/notification.dart';
-import 'messages/Provider/message_provider.dart';
+import 'messages/provider/message_provider.dart';
 import 'messages/models/user_message.dart';
 import 'messages/screens/new_message_screen.dart';
+import 'messages/screens/unread_message_screen.dart';
+import 'messages/screens/web_new_message_screen.dart';
+import 'messages/screens/web_sent_message.dart';
 import 'notification/models/notification_class_model.dart';
 import 'show_post/screens/show_post.dart';
 import 'show_post/widgets/edit_post.dart';
@@ -371,7 +375,28 @@ class _MyAppState extends State<MyApp> {
                   playSound: true,
                   // icon: ('assets/images/reddit.png'),
                 )));
-          } else {}
+          } else {
+            showDialog<bool>(
+              context: context,
+              builder: ((context) {
+                return AlertDialog(
+                  title: const Text(
+                    'New notification arrived',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  insetPadding: EdgeInsets.zero,
+                  content: SizedBox(
+                    width: 40.h,
+                    child: Text(
+                      text,
+                      style: TextStyle(fontSize: 11),
+                    ),
+                  ),
+                  actionsAlignment: MainAxisAlignment.spaceBetween,
+                );
+              }),
+            );
+          }
         }
         // FirebaseMessaging.onMessageOpenedApp.listen(
         //   (RemoteMessage message) async {
@@ -467,15 +492,15 @@ class _MyAppState extends State<MyApp> {
                   onSurface: Colors.white),
             ),
             // home: NotificationScreen(),
-            home: HomeLayoutScreen(),
+         //   home: HomeLayoutScreen(),
             // home: Description(),
             // home: HomeScreen(),
             // home: NotificationScreen(),
             // home:ShowPostDetails(),
             //home: CreateCommunity(),
-            // home: NewMessageScreen(),
+             //home: NewMessageScreen(),
             // home: EditPost(),
-            //   home: WebMessageScreen(),
+               home: WebMessageScreen(),
             //  home: SearchInside(quiry: 'mohab'),
             //home: const DiscoverScreen(),
             // home: homeLayoutScreen(),
@@ -489,7 +514,7 @@ class _MyAppState extends State<MyApp> {
             // home: HomeScreen(),
             // home: Login(),
             // home: CreateCommunity(),
-            // home: Login(),
+             //home: Login(),
             // home: ForgotUserName(),
             //home: SignUp(),
             // home: Gender(),
@@ -507,6 +532,10 @@ class _MyAppState extends State<MyApp> {
             // home: EditModeratorScreen(subredditName: 'Cooking'),
             // home: Search(),
             routes: {
+              AllMessageScreen.routeName : (context) => AllMessageScreen(),
+              WebNewMessageScreen.routeName : (context) => WebNewMessageScreen(),
+              SentMessage.routeName : (context) => SentMessage(),
+              UnreadMessageScreen.routeName : (context) => UnreadMessageScreen(),
               ReplyMessageScreen.routeName: (context) => ReplyMessageScreen(),
               ShowMessageBody.routeName: (context) => ShowMessageBody(),
               MessageMainScreen.routeName: (context) => MessageMainScreen(),
