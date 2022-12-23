@@ -34,13 +34,12 @@ class NotificationImage extends StatelessWidget {
               )),
         ),
         Positioned(
-          bottom: (kIsWeb) ? 2.h : height * 0.018,
-          right: (kIsWeb) ? 0.3.w : width * 0.005,
+          bottom: (kIsWeb) ? 0.1.h : height * 0.018,
+          right: (kIsWeb) ? 2.5.w : width * 0.005,
           child: CircleAvatar(
             backgroundColor: Colors.white,
             radius: 11,
             child: CircleAvatar(
-              //minRadius: 2,
               backgroundColor: Colors.white,
               backgroundImage: AssetImage(usersAllNotificatiion),
               radius: 7,

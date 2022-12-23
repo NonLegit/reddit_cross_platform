@@ -94,8 +94,6 @@ dependencies:
   draw_graph: ^1.0.0
   editable: ^2.0.0
 
-
-
 dev_dependencies:
   test_cov_console: ^0.2.2
 

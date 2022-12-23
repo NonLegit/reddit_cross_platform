@@ -38,16 +38,6 @@ class NotificationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // void incrementCounter() {
-  //   count = count!+1;
-  //   notifyListeners();
-  // }
-
-  // void decrementCounter() {
-  //   counter = counter--;
-  //   notifyListeners();
-  // }
-
 //Get notification
   Future<void> getNotification(BuildContext context) async {
     try {
@@ -57,25 +47,9 @@ class NotificationProvider with ChangeNotifier {
       listEariler = [];
       final response =
           await DioClient.get(path: notificationResults).then((value) {
-        // print('hiii');
-        print(value);
-        print(value.data['data'].runtimeType);
-        // notificationClassModel = NotificationModel.fromJson(value.data['data']);
-        // if (DateTime.now()
-        //         .difference(DateTime.parse(
-        //             notificationClassModel!.createdAt.toString()))
-        //         .inDays >
-        //     1) {
-        //   listEariler.add(notificationClassModel!);
-        // } else {
-        //   listToday.add(notificationClassModel!);
-        // }
 
         value.data['data'].forEach((value1) {
-          print(value1);
-          print('hoiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
           notificationClassModel = NotificationModel.fromJson(value1);
-          print(notificationClassModel);
           if (DateTime.now()
                   .difference(DateTime.parse(
                       notificationClassModel!.createdAt.toString()))
@@ -89,18 +63,13 @@ class NotificationProvider with ChangeNotifier {
               listToday.add(notificationClassModel!);
             }
           }
-          // print(value1.runtimeType);
-          // print('fghjkl');
         });
       });
       notifyListeners();
-      // return true;
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 
@@ -110,26 +79,17 @@ class NotificationProvider with ChangeNotifier {
       DioClient.init(prefs);
       await DioClient.patch(path: '/users/notifications/mark_as_read');
       notifyListeners();
-      // return true;
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
-
-  //http://localhost:8000/api/v1/users/notifications/{notificationId}/hide
   Future<void> markAndHideThisNotification(
       BuildContext context, notificationId, type, i) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       DioClient.init(prefs);
-      // print(notificationId);
-      // print(type);
-      // print('/users/notifications/{$notificationId}/$type');
-      // type ==> hide or mark_as_read
       if (type == 'hide') {
         (i == 1)
             ? listEariler
@@ -138,13 +98,10 @@ class NotificationProvider with ChangeNotifier {
       }
       await DioClient.patch(path: '/users/notifications/$notificationId/$type');
       notifyListeners();
-      // return true;
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
-      //return false;
     } catch (error) {
       HandleError.handleError(error.toString(), context);
-      //return false;
     }
   }
 }

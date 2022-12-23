@@ -9,9 +9,13 @@ import '../../models/subreddit_data.dart';
 //using in heighest widget to use
 class SubredditProvider with ChangeNotifier {
   SubredditData? loadSubreddit;
-
+  bool showTheme = false;
   SubredditData? get gettingSubredditeData {
     return loadSubreddit;
+  }
+
+  bool? get gettingTheme {
+    return showTheme;
   }
 
   Future<void> fetchAndSetSubredddit(
@@ -40,17 +44,12 @@ class SubredditProvider with ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
 
       DioClient.init(prefs);
-      print(
-          '==============================$subredditUserName=======================================================');
-      print('/subreddits/${subredditUserName}/subscribe/$action');
       await DioClient.post(
         path: '/subreddits/${subredditUserName}/subscribe',
         data: {},
         query: {'action': action},
       );
       notifyListeners();
-      print(
-          '========================Successed Join/ disjoin ================================');
       return true;
     } on DioError catch (e) {
       HandleError.errorHandler(e, context);
@@ -59,5 +58,10 @@ class SubredditProvider with ChangeNotifier {
       HandleError.handleError(error.toString(), context);
       return false;
     }
+  }
+
+  Future<void> togglingTheme() async {
+    showTheme = !showTheme;
+    notifyListeners();
   }
 }

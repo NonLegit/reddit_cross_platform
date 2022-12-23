@@ -18,7 +18,6 @@ class CommunityType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      ///extract this to widget
       height: 40.h,
       child: Column(
         children: [

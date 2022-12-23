@@ -167,9 +167,7 @@ class CreateCommunityState extends State<CreateCommunity> {
                     ),
                     SizedBox(
                       height: 10.h,
-                      // width: 60.h,
                       child: Form(
-                        //key:Key('Create-Community'),
                         key: _textFieldKey,
                         child: TextFormField(
                           textAlignVertical: TextAlignVertical.center,
@@ -359,16 +357,8 @@ class CreateCommunityState extends State<CreateCommunity> {
     await Provider.of<CreateCommunityProvider>(context, listen: false)
         .postCommunity(createCommunityModel.toJson(), context)
         .then((value) {
-      //if(value)
-      // print('Community $value');
       Navigator.of(context).popAndPushNamed(ModeratedSubredditScreen.routeName,
-          //  arguments: 'Cooking'
           arguments: _communityNameController.text);
     });
-    // if (postCommunity) {
-    //   setState(() {
-    //     done = true;
-    //   });
-    //}
   }
 }

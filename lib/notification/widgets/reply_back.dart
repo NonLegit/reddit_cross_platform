@@ -16,7 +16,7 @@ ReplyBack({
     return Padding(
       padding: const EdgeInsets.only(top: 2),
       child: SizedBox(
-        width: (kIsWeb) ? 30.w : 75.w,
+        width: (kIsWeb) ? 10.w : 75.w,
         height: 3.h,
         child: OutlinedButton(
             onPressed: () {},
