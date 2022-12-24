@@ -64,13 +64,11 @@ class PositionInFlexAppBarMyProfile extends StatelessWidget {
                         color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.bold),
-                    // style: Theme.of(context).textTheme.headline6,
                   ),
                 )),
             const SizedBox(
               height: 10,
             ),
-            //username
             Text(
               loadProfile.displayName.toString(),
               style: const TextStyle(
@@ -78,7 +76,6 @@ class PositionInFlexAppBarMyProfile extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 22),
             ),
-            // On Click Display all followers of users
             Container(
                 padding: const EdgeInsets.all(0),
                 alignment: Alignment.bottomLeft,
@@ -97,7 +94,6 @@ class PositionInFlexAppBarMyProfile extends StatelessWidget {
                           Text(
                             '${loadProfile.followersCount} followers',
                             style: const TextStyle(
-                                //backgroundColor: Colors.orange,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13),

@@ -114,6 +114,7 @@ class _NotificationsMainScreenState extends State<NotificationsMainScreen> {
   }
 
   _hideThisNotification(notificationId, i) async {
+    print('Hide notification');
     await Provider.of<NotificationProvider>(context, listen: false)
         .markAndHideThisNotification(context, notificationId, 'hide', i)
         .then((value) {

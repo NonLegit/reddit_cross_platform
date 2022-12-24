@@ -7,13 +7,9 @@ import './custom_snack_bar.dart';
 
 class SubredditJoinButtonWeb extends StatefulWidget {
   bool isJoined;
-  //String dropDownValue;
   String communityName;
-  //IconData icon;
   SubredditJoinButtonWeb(
       {required this.isJoined,
-      //required this.icon,
-      //required this.dropDownValue,
       required this.communityName});
 
   @override
@@ -35,7 +31,6 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
     return Container(
         width: 35.w,
         height: 6.h,
-        // color: Colors.yellow,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,11 +76,12 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
           ],
         ));
   }
+ // ===================================the next two function used to===========================================//
+//==================to join subreddit===========================//
+//communityName==> commuintyUserName you want to join
 
   Future<void> subscribe(BuildContext context) async {
-    print(
-        '===============================Subcribe==================================');
-    bool sub = await Provider.of<SubredditProvider>(context, listen: false)
+       bool sub = await Provider.of<SubredditProvider>(context, listen: false)
         .joinAndDisjoinSubreddit(widget.communityName, 'sub', context);
     if (sub) {
       setState(() {
@@ -103,14 +99,16 @@ class SubredditJoinButtonWebState extends State<SubredditJoinButtonWeb> {
   }
 
   bool join() {
-    isJoinedstate = false;
+    isJoinedstate = true;
     return isJoinedstate;
   }
-
+ // ===================================the next three function used to===========================================//
+//==================to disjoin of subreddit===========================//
+// have two option one:leave subreddit two: cancel
+//communityName==> commuintyUserName you want to leave
+ 
   Future<void> unSubescribe(BuildContext ctx) async {
-    print(
-        '===============================Un Subcribe==================================');
-    bool unSub = await Provider.of<SubredditProvider>(context, listen: false)
+      bool unSub = await Provider.of<SubredditProvider>(context, listen: false)
         .joinAndDisjoinSubreddit(widget.communityName, 'unsub', context);
     if (unSub) {
       setState(() {

@@ -96,7 +96,8 @@ class ModeratedSubredditPopupMenuButtonState
     );
   }
 
-// To copy Link of Moderated Subreddit
+  // ===================================this function used to===========================================//
+//==================copy Link of Subreddit===========================//
   Future<void> shareCommunitySheetButton(BuildContext context) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -110,8 +111,10 @@ class ModeratedSubredditPopupMenuButtonState
     );
   }
 
-// to disjoin of subreddit
+  // ===================================the next three function used to===========================================//
+//==================to disjoin of subreddit===========================//
 // have two option one:leave subreddit two: cancel
+//communityName==> commuintyUserName you want to leave
   void _showLeaveDialog(String communityName) {
     showDialog(
       context: context,
@@ -164,7 +167,9 @@ class ModeratedSubredditPopupMenuButtonState
         await Provider.of<ModeratedSubredditProvider>(context, listen: false)
             .joinAndDisjoinModeratedSubreddit(communityName, 'unsub', context);
     if (unSub) {
-      changeDisJoinStatus();
+      setState(() {
+        changeDisJoinStatus();
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         CustomSnackBar(
             isError: false, text: 'Leave Successfully', disableStatus: true),
@@ -176,16 +181,14 @@ class ModeratedSubredditPopupMenuButtonState
     Navigator.of(ctx).pop();
   }
 
-// to disjoin change the isJoined status
   bool changeDisJoinStatus() {
-    setState(() {
-      isJoinedstate = false;
-    });
-
+    isJoinedstate = false;
     return isJoinedstate;
   }
 
-// to join subreddit
+  // ===================================the next two function used to===========================================//
+//==================to join subreddit===========================//
+//communityName==> commuintyUserName you want to join
   void _join(String communityName) async {
     bool sub = await Provider.of<ModeratedSubredditProvider>(context,
             listen: false)
@@ -205,12 +208,8 @@ class ModeratedSubredditPopupMenuButtonState
     }
   }
 
-// to join change the isJoined status
   bool changeJoinStatus() {
-    setState(() {
-      isJoinedstate = true;
-    });
-
+    isJoinedstate = true;
     return isJoinedstate;
   }
 

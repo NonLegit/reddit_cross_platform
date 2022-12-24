@@ -17,7 +17,9 @@ class OtherProfileprovider with ChangeNotifier {
   List<ModeratedSubbredditUserData>? get gettingModeratedSubreddit {
     return moderatedSubbredditUserData;
   }
-
+  // ===================================this function used to===========================================//
+//==================fetch and set date===========================//
+//moderatedSubredditUserName==> userName Of Subreddit
   Future<void> fetchAndSetOtherProfile(
       String otherUserName, BuildContext context) async {
     try {
@@ -34,7 +36,8 @@ class OtherProfileprovider with ChangeNotifier {
       HandleError.handleError(error.toString(), context);
     }
   }
-
+  // ===================================this function used to===========================================//
+//==================fetch and set date moderated Subreddit of user===========================//
   Future<void> fetchAndSetModeratedSubredditUser(BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -55,7 +58,10 @@ class OtherProfileprovider with ChangeNotifier {
       HandleError.handleError(error.toString(), context);
     }
   }
-
+  // ===================================this function used to===========================================//
+//==================invite otherusers to my moderated subreddit===========================//
+//subredditName=> userName Of Subreddit
+//userName=> user who i invite
   Future<bool> invitation(
       String subredditName, String userName, BuildContext context) async {
     try {
@@ -83,7 +89,9 @@ class OtherProfileprovider with ChangeNotifier {
       HandleError.handleError(error.toString(), context);
       return false;
     }
-  }
+  }  // ===================================this function used to===========================================//
+//==================block otherusers===========================//
+//userName=> user who i block
   Future<bool> blockUser(String userName, BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -99,7 +107,10 @@ class OtherProfileprovider with ChangeNotifier {
       return false;
     }
   }
-
+  // ===================================the next two function used to===========================================//
+//==================follow and unfollow otherusers===========================//
+//subredditName=> userName Of Subreddit
+//userName=> user who i follow/unfollow
   Future<bool> followUser(String userName, BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();

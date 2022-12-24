@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:post/discover/discover.dart';
 import 'package:post/home/screens/home_layout.dart';
 import 'dart:async';
 import '../../home/controller/home_controller.dart';
@@ -20,8 +19,6 @@ import '../controllers/posts_controllers.dart';
 import '../screens/posttocommunity.dart';
 import '../widgets/type_of_post.dart';
 import '../widgets/type_of_post_web.dart';
-import '../widgets/web.dart';
-import '../widgets/web_2.dart';
 import 'finalpost.dart';
 
 
@@ -104,8 +101,9 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
 
                             child: Row(
                               children: [
+                                // Icon(Icons.home_filled),
                                 SizedBox(width: 20,),
-                                Text((controller.subredditToSubmitPost.value=="")?"choose a community":"${controller.subredditToSubmitPost.value}"),
+                                Text("choose a community"),
                                 SizedBox(width: 80,),
                                 Icon(Icons.arrow_drop_down_sharp)
                               ],
@@ -119,7 +117,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                                   child: Container(
                                     width: 300,
                                     child: Column(
-                                        children:List.generate(controller.moderatedSubreddits.length, (index) => WebContainer(nameOfSubreddit: controller.moderatedSubreddits[index].subredditName!, iconOfSubreddit: controller.moderatedSubreddits[index].icon!, idOfSubreddit: controller.moderatedSubreddits[index].iId!,))
+                                        children:List.generate(controller.moderatedSubreddits.length, (index) => CommunityContainer(nameOfSubreddit: controller.moderatedSubreddits[index].subredditName!, iconOfSubreddit: controller.moderatedSubreddits[index].icon!))
                                     ),
                                   )
 
@@ -129,7 +127,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                                   child: Container(
                                     width: 300,
                                     child: Column(
-                                        children:List.generate(controller.subscribedSubreddits.length, (index) => WebContainer2(nameOfSubreddit: controller.subscribedSubreddits[index].subredditName!, iconOfSubreddit: controller.subscribedSubreddits[index].icon!, idOfSubreddit: controller.subscribedSubreddits[index].iId!,))
+                                        children:List.generate(controller.subscribedSubreddits.length, (index) => CommunityContainer(nameOfSubreddit: controller.subscribedSubreddits[index].subredditName!, iconOfSubreddit: controller.subscribedSubreddits[index].icon!))
                                     ),
                                   )
 
@@ -140,7 +138,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                     ),
                     SizedBox(height: 20,),
                     Padding(
-                      padding: const EdgeInsetsDirectional.only(start: 300),
+                      padding: const EdgeInsetsDirectional.only(start: 150),
                       child: Row(
                         children: [
 
@@ -324,7 +322,7 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                     BuildFormTypeWeb(controller:controller),
                     SizedBox(height: 10,),
                     Padding(
-                      padding: const EdgeInsetsDirectional.only(start: 300.0),
+                      padding: const EdgeInsetsDirectional.only(start: 20.0),
                       child: Row(
                         children: [
                           /// Spoiler
@@ -455,7 +453,6 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
     }
     return Obx(()=>
         WillPopScope(
-          /// Widget to ask the user if he/she want to discard the post or not
           onWillPop: () async {
             final value = ( controller.imageFileList!.length>0 || controller.videoFile.value != null || controller.urlPost.value.text != "")?await
             showDialog(context: context,
@@ -617,7 +614,6 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                     ],
                   ),
                   SizedBox(height: 10,),
-                  /// To check if the create post screen is opened from home page or subreddit or profile page
                   Visibility(
                     visible: !controller.isFromHomeDirect.value,
                     child: Padding(
@@ -709,7 +705,6 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
                         controller.postTitle.refresh();
                       },
                       validator: ((value) {
-                        /// validate the text form field to title
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         }
@@ -790,7 +785,6 @@ class _CreatePostSCreenState extends State<CreatePostSCreen> {
     Get.delete<PostController>();
     super.dispose();
   }
-  /// To select multi-images from galary
   void selectImages() async {
     final List<File>? selectedImages = (await imagePicker.pickMultiImage()).cast<File>();
     if (selectedImages!.isNotEmpty) {

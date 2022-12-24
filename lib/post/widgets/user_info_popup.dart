@@ -10,8 +10,12 @@ import '../../other_profile/models/others_profile_data.dart';
 import '../../other_profile/providers/other_profile_provider.dart';
 import '../../widgets/loading_reddit.dart';
 
+/// A pop up (AlertDialog) to show the user info
 class UserInfoPopUp extends StatefulWidget {
+  /// the name of the user to get his data
   final String authorName;
+
+  /// A boolean to determine the look of the pop up
   final bool isMine;
   const UserInfoPopUp({
     super.key,
@@ -181,7 +185,6 @@ class _UserInfoPopUpState extends State<UserInfoPopUp> {
                   !widget.isMine
                       ? InkWell(
                           onTap: () {
-
                             _showLeaveDialog();
                           },
                           child: Container(
@@ -282,7 +285,7 @@ class _UserInfoPopUpState extends State<UserInfoPopUp> {
       context: context,
       builder: (ctx) => AlertDialog(
         //title:Text('Are you sure you want to leave the r/${widget.communityName.toString()} community?'),
-        content: Container(
+        content: SizedBox(
           //color: Colors.amber,
           height: 12.h,
           width: 100.w,
@@ -304,7 +307,7 @@ class _UserInfoPopUpState extends State<UserInfoPopUp> {
           ),
         ),
         actions: <Widget>[
-          Container(
+          SizedBox(
             width: 35.w,
             height: 6.h,
             child: ElevatedButton(
@@ -321,7 +324,7 @@ class _UserInfoPopUpState extends State<UserInfoPopUp> {
               },
             ),
           ),
-          Container(
+          SizedBox(
             width: 35.w,
             height: 6.h,
             child: ElevatedButton(

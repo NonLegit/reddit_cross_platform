@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/Profile_provider.dart';
+import '../providers/profile_provider.dart';
 import '../providers/subreddit_posts_provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -50,12 +50,6 @@ class PostSortBottomState extends State<PostSortBottom>
   bool _isLoading = false;
   @override
   void didChangeDependencies() {
-    if (_isInit) {
-      print(
-          '===============================insideSortButton=============================');
-      //  tappedIndex = 0;
-    }
-    _isInit = false;
     super.didChangeDependencies();
   }
 

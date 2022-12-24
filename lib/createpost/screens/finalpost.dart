@@ -50,6 +50,88 @@ class _FinalPostState extends State<FinalPost> {
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.only(end: 1.w),
+                  child: MaterialButton(
+                    onPressed: () {
+                      print( controller.postTitle.value.text);
+                      print(( controller.postTitle.value.text as String).runtimeType);
+                      print(controller.typeOfPost.value);
+                      print((DeltaToHTML.encodeJson(controller.textPost.value.document.toDelta().toJson())).toString());
+                      print(controller.urlPost.value.text);
+                      print(controller.idOfSubredditToSubmittPost.value);
+                      print((controller.subredditToSubmitPost.value == "Myprofile")?"User":"Subreddit");
+                      print(controller.isPostNSFW.value);
+                      print(controller.isPostSpoiler.value);
+                      print("send replies ->true");
+                      print("flair id ${controller.idOfFlair.value}");
+                      print("text of flair ${controller.textOfFlair.value}");
+                      print("suggested sort hot");
+                      print("scheduled false");
+                      print("print data on submit");
+                      Future<String> str;
+                      if(controller.idOfFlair.value=="")
+                      {
+                        str=controller.sendPost(context,
+                          title: controller.postTitle.value.text,
+                          text: (DeltaToHTML.encodeJson(
+                              controller.textPost.value.document.toDelta()
+                                  .toJson())).toString(),
+                          kind: controller.typeOfPost.value,
+                          url: controller.urlPost.value.text,
+                          owner: (controller.idOfSubredditToSubmittPost
+                              .value),
+                          ownerType: controller.subredditToSubmitPost.value=="Myprofile"?"User":"Subreddit",
+                          nsfw: controller.isPostNSFW.value,
+                          spoiler: controller.isPostSpoiler.value,
+                        );
+                      }
+                      else
+                      {
+                        str= controller.sendPostWithFlair(context,
+                          title: controller.postTitle.value.text,
+                          text: (DeltaToHTML.encodeJson(
+                              controller.textPost.value.document.toDelta()
+                                  .toJson())).toString(),
+                          kind: controller.typeOfPost.value,
+                          url: controller.urlPost.value.text,
+                          owner: (controller.idOfSubredditToSubmittPost
+                              .value),
+                          ownerType:controller.subredditToSubmitPost.value=="Myprofile"?"User":"Subreddit",
+                          nsfw: controller.isPostNSFW.value,
+                          spoiler: controller.isPostSpoiler.value, textFlair: controller.textOfFlair.value, idFlair: controller.idOfFlair.value,
+                        );
+                      }
+                      if(controller.typeOfPost.value=="image")
+                      {
+                        for(int i=0;i<controller.imageFileList!.length;i++)
+                        {
+                          services.uploadImage(controller.imageFileList![i],str);
+                        }
+                      }
+                      if(controller.typeOfPost.value=="video")
+                      {
+                        services.uploadImage(controller.videoFile.value!,str);
+                      }
+                      controller.postTitle.value.clear();
+                      controller.urlPost.value.clear();
+                      controller.textPost.value.clear();
+                      controller.isPostSpoiler.value = false;
+                      controller.isPostNSFW.value = false;
+                      controller.typeOfPost.value='';
+                      Get.to(HomeLayoutScreen());
+                    },
+                    elevation: 0.0,
+                    height: 40.0,
+                    minWidth: 80.0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    color: Colors.blue[900],
+                    child: Text(
+                      "post",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 )
               ],
             ),
@@ -79,7 +161,7 @@ class _FinalPostState extends State<FinalPost> {
                           controller.subredditToSubmitPost.value,
                           style: TextStyle(color: Colors.black),
                         ),
-                        label: const Icon(
+                        label: Icon(
                           IconBroken.Arrow___Down_2,
                           color: Colors.black,
                           size: 15,
@@ -155,7 +237,6 @@ class _FinalPostState extends State<FinalPost> {
                 SizedBox(
                   width: 20.0,
                 ),
-                /// Elevated button to select whether the post is NSFW or not
                 ElevatedButton.icon(
                     onPressed: () {
                       if (controller.isPostNSFW.value == false) {
@@ -193,7 +274,6 @@ class _FinalPostState extends State<FinalPost> {
                 SizedBox(
                   width: 10.0,
                 ),
-                /// Elevated button to select whether the post is NSFW or not
                 ElevatedButton.icon(
                   onPressed: () {
                     if (controller.isPostSpoiler.value == false) {
@@ -265,12 +345,6 @@ class _FinalPostState extends State<FinalPost> {
         ),
       ),
     ));
-  }
-  String checkPostSpoilerAndNsfw()
-  {
-    if(controller.isPostSpoiler.value==true&&controller.isPostNSFW.value)
-      return "post is spoiler and nsfw";
-    else return "";
   }
   @override
   void dispose() {

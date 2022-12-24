@@ -18,9 +18,8 @@ class DiscoverScreen extends StatefulWidget {
 
 class _DiscoverScreenState extends State<DiscoverScreen>
     with TickerProviderStateMixin {
+      //========================================ButtonsTabBar============================================//
   TabController? _controller;
- 
-
   ButtonsTabBar get _tabBar => ButtonsTabBar(
         controller: _controller,
         backgroundColor: Colors.grey,
@@ -35,6 +34,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
         radius: 200,
         tabs: tabs,
       );
+      //===============================================================================================//
   // drawer functions
   void showDrawer(BuildContext context) {
     Scaffold.of(context).openDrawer();
@@ -133,7 +133,6 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                   children: topicsName
                       .map((topic) => Tab(
                               child: GridViewDiscover(
-                              //  userName: widget.userName,
                                 topic:topic,
                           )))
                       .toList()))

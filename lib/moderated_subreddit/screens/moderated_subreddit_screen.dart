@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:get/get.dart';
 import '../../home/controller/home_controller.dart';
 import '../widgets/moderated_subreddit_web.dart';
 import '../../models/subreddit_data.dart';
@@ -10,7 +11,9 @@ import '../../widgets/loading_reddit.dart';
 import '../widgets/moderated_subreddit_app.dart';
 import '../providers/moderated_subreddit_provider.dart';
 import '../../home/widgets/end_drawer.dart';
-
+import '../../home/controller/home_controller.dart';
+import '../../createpost/controllers/posts_controllers.dart';
+import '../../home/widgets/custom_upper_bar.dart';
 class ModeratedSubredditScreen extends StatefulWidget {
   static const routeName = '/moderatedsubreddit';
   @override
@@ -58,11 +61,10 @@ SubredditData? loadedSubreddit;
     _controller!.dispose();
     super.dispose();
   }
-
+ // ===================================this function used to===========================================//
+//==================fetch date for first time===========================//
   @override
   void didChangeDependencies() {
-    // // TODO: implement didChangeDependencies
-    //===============================Fetch subreddit data =======================================//
     if (_isInit) {
       setState(() {
         _isLoading = true;
@@ -81,15 +83,22 @@ SubredditData? loadedSubreddit;
       });
     }
     _isInit = false;
-    //==================================================//
     super.didChangeDependencies();
   }
-
+  final HomeController controllerHome = Get.put(
+    HomeController(),
+  );
+  final PostController controllerForPost = Get.put(
+    PostController(),
+  );
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: _scaffoldKey,
+          appBar: ( kIsWeb)?PreferredSize(
+                preferredSize: Size(700, 60),
+                child: UpBar(controller: controllerHome, controllerForCreatePost: controllerForPost,)):null,
         body: _isLoading
             ? LoadingReddit()
             : kIsWeb

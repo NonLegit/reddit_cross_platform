@@ -61,7 +61,7 @@ class _BackToTopButtonState extends State<BackToTopButton> {
             shape: StadiumBorder(),
           ),
           margin: EdgeInsets.only(right: width * 0.20),
-          child: Text(
+          child: const Text(
             'Back to Top',
             style:TextStyle(color: Colors.white),
           ),

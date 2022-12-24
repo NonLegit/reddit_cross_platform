@@ -106,11 +106,11 @@ class _PostModPopUpState extends State<PostModPopUp> {
                 Navigator.pop(context);
               },
               child: Container(
-                margin: EdgeInsetsDirectional.only(bottom: 10, top: 10),
+                margin: const EdgeInsetsDirectional.only(bottom: 10, top: 10),
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsetsDirectional.only(start: 2, end: 5),
+                      margin: const EdgeInsetsDirectional.only(start: 2, end: 5),
                       child: Icon(
                         MfgLabs.attention,
                         size: 18,
@@ -136,11 +136,11 @@ class _PostModPopUpState extends State<PostModPopUp> {
                 Navigator.pop(context);
               },
               child: Container(
-                margin: EdgeInsetsDirectional.only(bottom: 10, top: 10),
+                margin: const EdgeInsetsDirectional.only(bottom: 10, top: 10),
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsetsDirectional.only(start: 2, end: 5),
+                      margin: const EdgeInsetsDirectional.only(start: 2, end: 5),
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
@@ -185,11 +185,11 @@ class _PostModPopUpState extends State<PostModPopUp> {
                 Navigator.pop(context);
               },
               child: Container(
-                margin: EdgeInsetsDirectional.only(bottom: 10, top: 10),
+                margin: const EdgeInsetsDirectional.only(bottom: 10, top: 10),
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsetsDirectional.only(end: 5),
+                      margin: const EdgeInsetsDirectional.only(end: 5),
                       child: Icon(
                         Icons.lock_outline,
                         color: Theme.of(context).colorScheme.brightness ==
@@ -216,11 +216,11 @@ class _PostModPopUpState extends State<PostModPopUp> {
             InkWell(
               onTap: null,
               child: Container(
-                margin: EdgeInsetsDirectional.only(bottom: 10, top: 10),
+                margin: const EdgeInsetsDirectional.only(bottom: 10, top: 10),
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsetsDirectional.only(end: 5),
+                      margin: const EdgeInsetsDirectional.only(end: 5),
                       child: Icon(
                         FontAwesome.mail,
                         color: Theme.of(context).colorScheme.brightness ==
@@ -250,11 +250,11 @@ class _PostModPopUpState extends State<PostModPopUp> {
                       Navigator.pop(context);
                     },
               child: Container(
-                margin: EdgeInsetsDirectional.only(bottom: 10, top: 10),
+                margin: const EdgeInsetsDirectional.only(bottom: 10, top: 10),
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsetsDirectional.only(end: 5),
+                      margin: const EdgeInsetsDirectional.only(end: 5),
                       child: Icon(
                         Icons.block_flipped,
                         color: widget.isRemoved
@@ -288,11 +288,11 @@ class _PostModPopUpState extends State<PostModPopUp> {
                       Navigator.pop(context);
                     },
               child: Container(
-                margin: EdgeInsetsDirectional.only(bottom: 10, top: 10),
+                margin: const EdgeInsetsDirectional.only(bottom: 10, top: 10),
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsetsDirectional.only(end: 5),
+                      margin: const EdgeInsetsDirectional.only(end: 5),
                       child: Icon(
                         Icons.block_flipped,
                         color: widget.data.isSpam ?? false
@@ -326,11 +326,11 @@ class _PostModPopUpState extends State<PostModPopUp> {
                       Navigator.pop(context);
                     },
               child: Container(
-                margin: EdgeInsetsDirectional.only(bottom: 10, top: 10),
+                margin: const EdgeInsetsDirectional.only(bottom: 10, top: 10),
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsetsDirectional.only(end: 5),
+                      margin: const EdgeInsetsDirectional.only(end: 5),
                       child: Icon(
                         Icons.done,
                         color: widget.isApproved

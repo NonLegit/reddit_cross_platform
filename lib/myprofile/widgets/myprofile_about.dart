@@ -48,7 +48,7 @@ class MyProfileAbout extends StatelessWidget {
                 )),
 
                 Container(
-                  margin: EdgeInsets.only(right: 10,left: 10,top: 0),
+                  margin: const EdgeInsets.only(right: 10,left: 10,top: 0),
                   width: 100.w,
                   height: (description == null||description == '')
                       ? 0.h

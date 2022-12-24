@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:post/widgets/loading_reddit.dart';
 import '../../models/subreddit_about _rules.dart';
 import '../../widgets/subreddit_about.dart';
 import '../../widgets/subreddit_join_button_web.dart';
 import '../../models/subreddit_data.dart';
 import '../widgets/moderated_subreddite_post_web.dart';
 import '../../widgets/back_to_button.dart';
+import '../screens/moderated_subreddit_screen.dart';
+
 class ModeratedSubredditWeb extends StatelessWidget {
   String userName;
   ModeratedSubredditWeb(
@@ -14,23 +17,34 @@ class ModeratedSubredditWeb extends StatelessWidget {
       required this.tabBar,
       required this.loadedSubreddit,
       required this.isLoading,
-      required this.controller}) {
-    print(loadedSubreddit!.name);
-  }
-  //===============Drawer Bar=====================//
+      required this.controller});
   bool isOnline = true;
   SubredditData? loadedSubreddit;
   final TabBar tabBar;
   bool isLoading;
   TabController? controller;
   ScrollController scrollController = ScrollController();
-  
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: _scaffoldKey,
-          floatingActionButton:BackToTopButton(scrollController:scrollController ) ,
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        floatingActionButton: Padding(
+          padding: const EdgeInsetsDirectional.only(end: 320.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(ModeratedSubredditScreen.routeName,
+                  arguments:userName);
+            },
+            child: Text(
+              '      Back to top     ',
+              style: TextStyle(color: Colors.white),
+            ),
+            style: ElevatedButton.styleFrom(
+                shape: StadiumBorder(), backgroundColor: Colors.blue),
+          ),
+        ),
         body: isLoading
             ? const Center(
                 child: Icon(
@@ -83,7 +97,6 @@ class ModeratedSubredditWeb extends StatelessWidget {
                                   left: 0,
                                   bottom: 0,
                                   child: Container(
-                                      // padding: EdgeInsets.only(left: 250),
                                       color: Colors.white,
                                       child: Column(
                                         mainAxisAlignment:
@@ -92,10 +105,10 @@ class ModeratedSubredditWeb extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            //margin: EdgeInsets.only(top: 15),
                                             width: 100.w,
                                             height: 15.h,
-                                            padding: EdgeInsets.only(left: 250),
+                                            padding: const EdgeInsets.only(
+                                                left: 250),
                                             child: Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
@@ -105,8 +118,6 @@ class ModeratedSubredditWeb extends StatelessWidget {
                                                 Container(
                                                   width: 10.w,
                                                   height: 20.h,
-                                                  // margin: EdgeInsets.only(bottom: 30,top: 40),
-
                                                   decoration: BoxDecoration(
                                                     color: Colors.orange,
                                                     shape: BoxShape.circle,
@@ -120,17 +131,19 @@ class ModeratedSubredditWeb extends StatelessWidget {
                                                 ),
                                                 Container(
                                                   height: 20.h,
-                                                  margin:
-                                                      EdgeInsets.only(top: 20),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 20),
                                                   child: Column(
                                                     children: [
                                                       Text(
                                                           '${loadedSubreddit!.name.toString()}',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 35)),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize:
+                                                                      35)),
                                                       Text(
                                                         'r/${loadedSubreddit!.name.toString()}',
                                                       ),
@@ -140,8 +153,6 @@ class ModeratedSubredditWeb extends StatelessWidget {
                                                 SubredditJoinButtonWeb(
                                                     isJoined: loadedSubreddit!
                                                         .isJoined as bool,
-                                                    // icon: icon,
-                                                    //dropDownValue: dropDownValue,
                                                     communityName:
                                                         loadedSubreddit!.name
                                                             .toString()),
@@ -160,17 +171,11 @@ class ModeratedSubredditWeb extends StatelessWidget {
                   ];
                 },
                 body: isLoading
-                    ? const Center(
-                        child: Icon(
-                          Icons.reddit,
-                          color: Colors.blue,
-                        ),
-                      )
+                    ? LoadingReddit()
                     : TabBarView(controller: controller, children: [
                         ModeratedSubredditePostWeb(
                           loadedSubreddit: loadedSubreddit,
                         ),
-                        // SubredditPosts(routeNamePop: SubredditScreen.routeName),
                         SubredditAbout(
                           rules: loadedSubreddit!.rules
                               as List<SubredditAboutRules>,

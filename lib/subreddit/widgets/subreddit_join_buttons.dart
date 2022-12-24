@@ -3,6 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:provider/provider.dart';
 import '../providers/subreddit_provider.dart';
 import '../../widgets/custom_snack_bar.dart';
+
 class JoinButtons extends StatefulWidget {
   bool isJoined;
   String communityuserName;
@@ -83,28 +84,29 @@ class JoinButtonsState extends State<JoinButtons> {
         ));
   }
 
+  // ===================================the next two function used to===========================================//
+//==================to join subreddit===========================//
+//communityName==> commuintyUserName you want to join
   Future<void> subscribe(BuildContext context) async {
-        print('===============================Subcribe==================================');
     bool sub = await Provider.of<SubredditProvider>(context, listen: false)
         .joinAndDisjoinSubreddit(widget.communityuserName, 'sub', context);
     if (sub) {
-      join();
-       ScaffoldMessenger.of(context).showSnackBar(
+      setState(() {
+        join();
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
         CustomSnackBar(
             isError: false, text: 'Join Successfully', disableStatus: true),
       );
-    }
-    else{
-        ScaffoldMessenger.of(context).showSnackBar(
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
         CustomSnackBar(isError: true, text: 'Join Failed', disableStatus: true),
-      );}
+      );
+    }
   }
 
   bool join() {
-    setState(() {
-      isJoinedstate = true;
-    });
-    
+    isJoinedstate = true;
     return isJoinedstate;
   }
 
@@ -186,7 +188,10 @@ class JoinButtonsState extends State<JoinButtons> {
     return tappedIndex;
   }
 
-  //to Disjoin from subreddit
+  // ===================================the next three function used to===========================================//
+//==================to disjoin of subreddit===========================//
+// have two option one:leave subreddit two: cancel
+//communityName==> commuintyUserName you want to leave
   void _showLeaveDialog() {
     showDialog(
       context: context,
@@ -225,7 +230,7 @@ class JoinButtonsState extends State<JoinButtons> {
               ),
               child: const Text('Leave'),
               onPressed: () async {
-                await unSubescribe( ctx);
+                await unSubescribe(ctx);
               },
             ),
           )
@@ -235,28 +240,24 @@ class JoinButtonsState extends State<JoinButtons> {
   }
 
   Future<void> unSubescribe(BuildContext ctx) async {
-    print('===============================Un Subcribe==================================');
     bool unSub = await Provider.of<SubredditProvider>(context, listen: false)
         .joinAndDisjoinSubreddit(widget.communityuserName, 'unsub', context);
     if (unSub) {
-      disJoin();
-       ScaffoldMessenger.of(context).showSnackBar(
+      setState(() {
+        disJoin();
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
         CustomSnackBar(
             isError: false, text: 'Leave Successfully', disableStatus: true),
       );
-    }
-    else{
-        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar(
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar(
           isError: true, text: 'Leave Failed', disableStatus: true));
     }
     Navigator.of(ctx).pop();
   }
-
   bool disJoin() {
-    setState(() {
-          isJoinedstate = false;
-    });
-
+    isJoinedstate = false;
     return isJoinedstate;
   }
 }

@@ -7,10 +7,16 @@ void main() {
     () {
       // final createCommunity = CreateCommunity();
       final joinButtonState = SubredditJoinButtonWebState();
-      test(' joinButtonSubredditWeb', () {
+      test(' disjoinButtonSubredditWeb', () {
         // TODO: Implement test
        bool result = joinButtonState.disJoin();
         expect(result, false);
+      });
+
+        test(' joinButtonSubredditWeb', () {
+        // TODO: Implement test
+       bool result = joinButtonState.join();
+        expect(result, true);
       });
     },
   );
