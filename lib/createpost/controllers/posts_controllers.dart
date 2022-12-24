@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,170 +13,167 @@ import '../../networks/const_endpoint_data.dart';
 import '../services/post_services.dart';
 
 class PostController extends GetxController {
-  Rx<TextEditingController> tryanderror = TextEditingController().obs;
+  /// List of subscribed subreddits of user
   List<userSubredditsResponse> subscribedSubreddits =
       <userSubredditsResponse>[].obs;
+  /// List of moderated subreddits of user
   List<userSubredditsResponse> moderatedSubreddits =
       <userSubredditsResponse>[].obs;
   RxString subredditToSubmitPost = "".obs;
-  RxString iconOfSubredditToSubmittPost = "".obs;
-  RxString idOfSubredditToSubmittPost = "".obs;
-  RxBool showMore = false.obs;
+  RxString iconOfSubredditToSubmittPost="".obs;
+  RxString idOfSubredditToSubmittPost="".obs;
+  RxBool showMore=false.obs;
+  /// check whether post is spoiler or not
   RxBool isPostSpoiler = false.obs;
+  /// check whether post is nsfw or not
   RxBool isPostNSFW = false.obs;
   RxBool isLoading = true.obs;
   final services = PostServices();
+  /// The title of post
   Rx<TextEditingController> postTitle = TextEditingController().obs;
-  Rx<quill.QuillController> textPost = quill.QuillController.basic().obs;
+  /// The text of post
+  Rx<quill.QuillController> textPost=quill.QuillController.basic().obs;
+  /// URL if post is link
   Rx<TextEditingController> urlPost = TextEditingController().obs;
-
+  /// To select the type of post whether link or self or video or image
   RxString typeOfPost = ''.obs;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyUrl = GlobalKey<FormState>();
-  List<XFile>? imageFileList = <XFile>[].obs;
-
+  List<File>? imageFileList = <File>[].obs;
+/// To initialise the video player
   Future<void>? initializeVideoPlayerFuture;
 
   // File? videoFile;
   final videoFile = Rx<File?>(null);
+  /// Control the video playing or pause...
   final videoController = Rx<VideoPlayerController?>(null);
-//Flairs belonging to subreddit
-  List<FlairModel> flairsOfSubreddit = <FlairModel>[].obs;
-  RxString idOfFlair = "".obs;
-  RxString textOfFlair = "".obs;
-  RxString textColorOfFlair = "None".obs;
-  RxString backgroundColorOfFlair = "None".obs;
-  RxBool isSubredditHasFlair = false.obs;
-  RxBool isFromHomeDirect = true.obs;
-  List<bool> checking = <bool>[].obs;
-  RxInt checkFromWhich = 0.obs;
+/// Flairs belonging to subreddit
+  List<FlairModel>flairsOfSubreddit=<FlairModel>[].obs;
+  RxString idOfFlair="".obs;
+  RxString textOfFlair="".obs;
+  RxString textColorOfFlair="None".obs;
+  RxString backgroundColorOfFlair="None".obs;
+  RxBool isSubredditHasFlair=false.obs;
+  RxBool isFromHomeDirect=true.obs;
+  List<bool>checking=<bool>[].obs;
+  RxInt checkFromWhich=0.obs;
   dynamic argumentData = Get.arguments;
   @override
-  void onInit() {
-    _fetchHouses();
+  void onInit()
+  {
     getSubreddits();
     super.onInit();
   }
-
-  // @override
-  // onClose()
-  // {
-  //
-  //   typeOfPost.value='';
-  //   super.onClose();
-  // }
-  getFlairsOfSubreddit() async {
+  /// Function to get all the flairs of subreddit belonging to a certain user
+  getFlairsOfSubreddit() async{
     final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
-    try {
-      print('/subreddit/${subredditToSubmitPost}/flairs');
-      await DioClient.get(path: '/subreddits/${subredditToSubmitPost}/flair')
-          .then((value) {
-        print("Flairs returned are $value");
-        value.data['data'].forEach((val) {
+    try{
+      await DioClient.get(path:'/subreddits/${subredditToSubmitPost}/flair').then((value){
+        value.data['data'].forEach((val)
+        {
           flairsOfSubreddit.add(FlairModel.fromJson(val));
         });
       });
-      checking = List<bool>.filled(flairsOfSubreddit.length + 1, false);
-      print(
-          "the size of returned list of flairs of subreddit is ${flairsOfSubreddit.length}");
-      print("the size of checking list is  ${checking.length}");
-    } catch (e) {
-      print(
-          "error in fetching the flairs of ${subredditToSubmitPost} subreddit -> $e");
+      checking = List<bool>.filled(flairsOfSubreddit.length+1, false);
+    }
+    catch(e){
+      print("error in fetching the flairs of ${subredditToSubmitPost} subreddit -> $e");
     }
   }
-
+  /// Function to get all the subreddit belonging to a certain user
   getSubreddits() async {
     final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
     try {
-      await DioClient.get(path: '$mySubreddits/subscriber').then((value) {
-        print("subs list $value");
+      await DioClient.get(path:'$mySubreddits/subscriber').then((value) {
         value.data['data'].forEach((value1) {
           subscribedSubreddits.add(userSubredditsResponse.fromJson(value1));
-          print("name of ${subscribedSubreddits[0].subredditName}");
         });
       });
 
-      await DioClient.get(path: '$mySubreddits/moderator').then((value) {
-        print("moderator list $value");
+      await DioClient.get(path:'$mySubreddits/moderator').then((value) {
         value.data['data'].forEach((value1) {
           moderatedSubreddits.add(userSubredditsResponse.fromJson(value1));
-          print("DDDDDDDDDDDDDDDDD");
         });
       });
-      print("the length of moderated sub is ${moderatedSubreddits.length}");
-      print("the length of subscribed sub is ${subscribedSubreddits.length}");
     } catch (error) {
       print("error in fething subreddits of user $error");
     }
   }
-
-  sendPost(BuildContext context) async {
+  Future<String> sendPost(BuildContext context, {required String title,required String text,required String kind ,required String url,required String owner,required String ownerType,required bool nsfw,required bool spoiler}) async {
     final prefs = await SharedPreferences.getInstance();
     DioClient.init(prefs);
-    var response;
+    var response ;
     try {
-      response = await DioClient.post(path: "/posts", data: {
-        "title": "AHMED",
-        //postTitle.value.text ,
-        "kind": typeOfPost.value as String,
-        "text": "KKKK",
-        //(DeltaToHTML.encodeJson(textPost.value.document.toDelta().toJson())) as String,
-        //"url":urlPost.value.text as String ,
-        "owner": idOfSubredditToSubmittPost.value as String,
-        "ownerType":
-            (subredditToSubmitPost.value == "Myprofile") ? "User" : "Subreddit",
-        // "nsfw": isPostNSFW.value ,
-        // "spoiler": isPostSpoiler.value  ,
+      response= await DioClient.post(path: "/posts", data:{
+        "title": title ,
+        "kind": kind,
+        "text":text,
+        "url":url,
+        "owner":owner,
+        "ownerType": ownerType,
+        "nsfw": nsfw ,
+        "spoiler": spoiler  ,
         "sendReplies": true,
-
-        // "flairId":idOfFlair.value as String ,
-        // "flairText":textOfFlair.value as String,
-
-        // "title": "post",
-        // "kind": "self",
-        // "text": "Test comment count",
-        // "owner": "63a193ffe3d2b7ad4a939978",
-        // "ownerType": "User",
-        // "nsfw": false,
-        // "spoiler": true,
-        // "sendReplies": true
+        "suggestedSort":"hot"
       });
-      print("YA RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB");
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print("response of sending post ${response.data}");
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
               content: Text("sent successfuly",
                   style: TextStyle(color: Colors.white)),
               backgroundColor: Colors.green),
         );
-        print(response.statusCode);
-        print("the id of post created ${response.data["data"]["_id"]}");
-        //print(json.decode(response.data)['message']);
       }
-      //   return response.data["data"]["_id"];
+      return response.data["data"]["_id"];
     } catch (e) {
       print("error in sending the post -> $e");
-      // return 0;
+      return "";
+    }
+  }
+  /// To send a post to a subreddit including flairs
+  Future<String> sendPostWithFlair(BuildContext context, {required String title,required String text,required String kind ,required String url,required String owner,required String ownerType,required bool nsfw,required bool spoiler,required String textFlair,required String idFlair}) async {
+    final prefs = await SharedPreferences.getInstance();
+    DioClient.init(prefs);
+    var response ;
+    try {
+      response = await DioClient.post(path: "/posts", data: {
+        "title": title,
+        "kind": kind,
+        "text": text,
+        "url": url,
+        "owner": owner,
+        "ownerType": ownerType,
+        "nsfw": nsfw,
+        "spoiler": spoiler,
+        "sendReplies": true,
+        "flairId": idOfFlair,
+        "flairText": textOfFlair,
+        "suggestedSort":"hot"
+      });
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text("sent successfuly",
+                  style: TextStyle(color: Colors.white)),
+              backgroundColor: Colors.green),
+        );
+      }
+      return response.data["data"]["_id"];
+    }
+    catch (e) {
+      print("error in sending the post -> $e");
+      return "";
     }
   }
 
-  Future<void> _fetchHouses() async {
-    try {
-      ///here fitch Your Posts
-    } finally {
-      isLoading(false);
-    }
-  }
 
   Future<void> createPost() async {
     try {
       isLoading.value = true;
 
-      ///here post Your Posts
+      /// Here post Your Posts
       await Future.delayed(const Duration(seconds: 3), () {
         isLoading.value = false;
       });
@@ -183,10 +181,10 @@ class PostController extends GetxController {
       isLoading(false);
     }
   }
-
+  /// To get video from galary
   Future getVideo() async {
     Future<XFile?> videoFiles =
-        ImagePicker().pickVideo(source: ImageSource.gallery);
+    ImagePicker().pickVideo(source: ImageSource.gallery);
     videoFiles.then((file) async {
       videoFile.value = File(file!.path);
       videoController.value = VideoPlayerController.file(videoFile.value!);
@@ -198,7 +196,7 @@ class PostController extends GetxController {
       videoController.value!.setLooping(true);
     });
   }
-
+/// To play or pause video
   playVideo() {
     if (videoController.value!.value.isPlaying) {
       videoController.value!.pause();
@@ -208,10 +206,10 @@ class PostController extends GetxController {
     }
     update();
   }
-
+/// Ensure disposing of the VideoPlayerController to free up resources.
   @override
   void dispose() {
-    // Ensure disposing of the VideoPlayerController to free up resources.
+
     videoController.value!.dispose();
     postTitle.close();
     urlPost.close();
@@ -219,4 +217,6 @@ class PostController extends GetxController {
     typeOfPost.close();
     super.dispose();
   }
+
+
 }
