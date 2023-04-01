@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/comments/providers/comments_provider.dart';
 import 'package:post/create_community/widgets/community_type.dart';
 import 'package:post/messages/screens/reply_message_screen.dart';
 import 'package:post/messages/screens/show_message_body.dart';
@@ -90,7 +91,6 @@ import './search/screens/search_inside.dart';
 import './discover/screens/discover_screen.dart';
 import 'moderation_settings/screens/add_edit_aproved_screen.dart';
 import 'moderation_settings/screens/add_edit_moderator_screen.dart';
-
 //=====================================Providers====================================================//
 // import './providers/profile_comments_provider.dart';
 import './myprofile/providers/myprofile_provider.dart';
@@ -422,6 +422,10 @@ class _MyAppState extends State<MyApp> {
         Device.deviceType == DeviceType.web;
         return MultiProvider(
           providers: [
+            /////////// the only line we need to show post and commets frauture with multi level ///////////
+            ChangeNotifierProvider.value(value: PostCommentsProvider()),
+            /////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////
             ChangeNotifierProvider.value(value: SearchProvider()),
             ChangeNotifierProvider.value(value: UserSettingsProvider()),
             ChangeNotifierProvider.value(value: ChangeUserManagementProvider()),
