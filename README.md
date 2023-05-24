@@ -31,36 +31,40 @@
 <li>
 NonLegit  mimic some functionalities of <a href="https://www.reddit.com/">Reddit</a>
 </li>
-<li> We are responsible for Front-End part</li>
+<li> We are responsible for mobile-app part</li>
 <li>The project is built by
+  
+   
 <ol>
 
 <li>
-<a href="https://reactjs.org/docs/getting-started.html">React</a> 
+<a href="[https://mui.com/material-ui/getting-started/overview/](https://dart.dev/)">Dart</a>
 </li>
+   
 <li>
-<a href="https://mui.com/material-ui/getting-started/overview/">MUI</a>
+<a href="[https://reactjs.org/docs/getting-started.html](https://flutter.dev/)">Flutter</a> 
 </li>
+   
 <li>
 <a href="https://firebase.google.com/">Firebase</a> 
 </li>
+   
 <li>
-<a href="https://eslint.org/">eslint</a>
+<a href="[https://eslint.org/](https://pub.dev/packages/dio)">Dio</a>
 </li>
-<li>
-<a href="https://jestjs.io/">jest</a>
-</li>
+   
 </ol>
+   
+   
 </li>
+   
 <li>
 <a href="https://github.com/NonLegit/Front-End/blob/development/%5BSoftware%20Engineering%5D%20Project%20F2022.pdf">Project Description</a>
 </li>
 <br>
 <li>
 You can view
-<a href="https://nonlegit.github.io/Front-End/">Nonleghit</a>
-
-> **Note**: This deployment is built using json server
+<a href="https://drive.google.com/file/d/113yz597bob-3VGn1oPPYE5IKLqPrLrbu/view">Nonleghit App</a>
 </li>
 </ul>
 <hr style="background-color: #4b4c60"></hr>
@@ -73,7 +77,7 @@ You can view
 <br>
 
 ```
-git clone https://github.com/NonLegit/Front-End/tree/main
+git clone https://github.com/reddit_cross_platform/main
 ```
 
 </li>
