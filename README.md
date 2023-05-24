@@ -38,11 +38,11 @@ NonLegit  mimic some functionalities of <a href="https://www.reddit.com/">Reddit
 <ol>
 
 <li>
-<a href="[https://mui.com/material-ui/getting-started/overview/](https://dart.dev/)">Dart</a>
+<a href="https://mui.com/material-ui/getting-started/overview/">Dart</a>
 </li>
    
 <li>
-<a href="[https://reactjs.org/docs/getting-started.html](https://flutter.dev/)">Flutter</a> 
+<a href="https://flutter.dev/">Flutter</a> 
 </li>
    
 <li>
