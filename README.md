@@ -489,12 +489,20 @@ git clone https://github.com/reddit_cross_platform/main
 <table align="center" >
   <tr>
      <td align="center"><a href="https://github.com/emanshahda"><img src="https://avatars.githubusercontent.com/u/89708797?v=4" width="150px;" alt=""/><br /><sub><b>Eman Shahda</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/zeinabmoawad"><sub><b>Zeinab Moawad</b></sub></a><br /></td>
-     <td align="center"><a href="https://github.com/fady2001"><img src="https://avatars.githubusercontent.com/u/75928317?v=4" width="150px;" alt=""/><br /><sub><b>Fady Adel</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/AhmedHosny2024"><img src="https://avatars.githubusercontent.com/u/76389601?v=4" width="150px;" alt=""/><br /><sub><b>Ahmed Hosny</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/AdhamAliAbdelAal" ><img src="https://avatars.githubusercontent.com/u/83884426?v=4" width="150px;" alt=""/><br /><sub><b>Adham Ali</b></sub></a><br />
-    </td>
-     <td align="center"><a href="https://github.com/EslamAsHhraf"><img src="https://avatars.githubusercontent.com/u/71986226?v=4" width="150px;" alt=""/><br /><sub><b>Eslam Ashraf</b></sub></a><br /></td>
+      
+     
+     <td align="center"><a href="https://github.com/zeinabmoawad"><sub><b>Zeinab Moawad</b></sub></a><br /></td>
+     
+      <td align="center"><a href="https://github.com/Amr146"><sub><b>Amr Ahmed</b></sub></a><br /></td>
+     
+     
+     <td align="center"><a href="https://github.com/belfooz"><sub><b>Ahmed Fawzy</b></sub></a><br /></td>
+     
+     
+      <td align="center"><a href="https://github.com/ahmedmadbouly186"><img src="https://avatars.githubusercontent.com/u/66012617?v=4" width="150px;" alt=""/><br /><sub><b>Ahmed Madbouly</b></sub></a><br /></td>
+     
+   
+    
   </tr>
 </table>
 
