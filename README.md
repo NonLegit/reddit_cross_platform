@@ -50,7 +50,7 @@ NonLegit  mimic some functionalities of <a href="https://www.reddit.com/">Reddit
 </li>
    
 <li>
-<a href="[https://eslint.org/](https://pub.dev/packages/dio)">Dio</a>
+<a href="https://pub.dev/packages/dio">Dio</a>
 </li>
    
 </ol>
@@ -81,58 +81,9 @@ git clone https://github.com/reddit_cross_platform/main
 ```
 
 </li>
-<li>Run json server
 
-<br>
-
-```
-npm run server-json 
-```
-</li>
-<li>Run the program
-
-<br>
-
-```
-npm run start
-```
-</li>
-<li>Build functional document
-
-<br>
-
-```
-npm run docs
-```
-</li>
-<li>Build test document
-
-<br>
-
-```
-npm run test
-```
-</li>
 </ol>
 <hr style="background-color: #4b4c60"></hr>
-
-
-
-## <img  align= center width= 80px height =80px src="https://media2.giphy.com/media/r0xXyasMMP3MA493e2/giphy.gif?cid=ecf05e47zzldel3l1zcdf08jibtto03qcwidkegx0itev1fd&rid=giphy.gif&ct=s">  Build & Deployment <a id ="deployment"></a>
-
-There are a few additional environment variables that are used when building and deploying for production.
-
-1. `REACT_APP_GOOGLECLIENTID`: A environment string used in connecting with google client.
-1. `REACT_APP_FACEBOOKCLIENTID`:A environment string used in connecting with facebook client.
-1. `REACT_APP_SITEKEY`: A environment string used in google captcha..
-1. `REACT_APP_ENV`:  An environment string. Currently it is only used to differentiate different deploys (development or production).
-1. `REACT_APP_PROXY_DEVELOPMENT`: The base URL of the development server. default value is `http://localhost:8000`.
-1. `REACT_APP_PROXY_PRODUCTION`: The base URL of the backend
-
-
-<hr style="background-color: #4b4c60"></hr>
-
-
 
 ## <img  align= center width= 70px height =70px src="https://media1.giphy.com/media/NnSFnC428LRHaxUNzj/giphy.gif?cid=ecf05e47r1hlw9wrf1swakc9gxgn508lyzvbyzgp9i1iyvwl&rid=giphy.gif&ct=s"> Features  <a id ="features"></a>
 
@@ -537,8 +488,8 @@ There are a few additional environment variables that are used when building and
 
 <table align="center" >
   <tr>
-     <td align="center"><a href="https://github.com/nouralmulhem"><img src="https://avatars.githubusercontent.com/u/76218033?v=4" width="150px;" alt=""/><br /><sub><b>Nour Ziad Almulhem</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/BasmaElhoseny01"><img src="https://avatars.githubusercontent.com/u/72309546?v=4" width="150px;" alt=""/><br /><sub><b>Basma Elhoseny</b></sub></a><br /></td>
+     <td align="center"><a href="https://github.com/emanshahda"><img src="https://avatars.githubusercontent.com/u/89708797?v=4" width="150px;" alt=""/><br /><sub><b>Eman Shahda</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/zeinabmoawad"><sub><b>Zeinab Moawad</b></sub></a><br /></td>
      <td align="center"><a href="https://github.com/fady2001"><img src="https://avatars.githubusercontent.com/u/75928317?v=4" width="150px;" alt=""/><br /><sub><b>Fady Adel</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/AhmedHosny2024"><img src="https://avatars.githubusercontent.com/u/76389601?v=4" width="150px;" alt=""/><br /><sub><b>Ahmed Hosny</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/AdhamAliAbdelAal" ><img src="https://avatars.githubusercontent.com/u/83884426?v=4" width="150px;" alt=""/><br /><sub><b>Adham Ali</b></sub></a><br />
