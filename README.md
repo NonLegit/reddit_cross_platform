@@ -492,12 +492,12 @@ git clone https://github.com/reddit_cross_platform/main
      <td align="center"><a href="https://github.com/ahmedmadbouly186"><img src="https://avatars.githubusercontent.com/u/66012617?v=4" width="150px;" alt=""/><br /><sub><b> Ahmed Madbouly</b></sub></a><br /></td>
 
      
-     <td align="center"><a href="https://github.com/zeinabmoawad"><img src="https://avatars.githubusercontent.com/u/89708797?v=4" width="150px;" alt=""/><br /><sub><b> Zeinab Moawad</b></sub></a><br /></td>
+     <td align="center"><a href="https://github.com/zeinabmoawad"><br /><sub><b> Zeinab Moawad</b></sub></a><br /></td>
      
-      <td align="center"><a href="https://github.com/Amr146"><img src="https://avatars.githubusercontent.com/u/89708797?v=4" width="150px;" alt=""/><br /><sub><b> Amr Ahmed</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/Amr146"><br /><sub><b> Amr Ahmed</b></sub></a><br /></td>
      
      
-     <td align="center"><a href="https://github.com/belfooz"><img src="https://avatars.githubusercontent.com/u/89708797?v=4" width="150px;" alt=""/><br /><sub><b> Ahmed Fawzy</b></sub></a><br /></td>
+     <td align="center"><a href="https://github.com/belfooz"><br /><sub><b> Ahmed Fawzy</b></sub></a><br /></td>
      
      
      
