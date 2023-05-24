@@ -1,22 +1,3 @@
-# post
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-<div align= >
-   
-
 # <img align=center width=75px height=75px src="https://media1.giphy.com/media/mDN904TRuZwJhmc4mf/giphy.gif?cid=ecf05e47i8t7ozdn1ted9aqqf1z56vqkt9kwei9b5d46c4hy&rid=giphy.gif&ct=s"> NonLegit
 
 
