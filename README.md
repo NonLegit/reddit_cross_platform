@@ -410,18 +410,22 @@ git clone https://github.com/reddit_cross_platform/main
 <th>Video</th>
 <th>Content</th>
 </tr>
+
+
+
 <tr>
-<td  width="83.5%">
-<video src="https://user-images.githubusercontent.com/71986226/214705509-cb1f10bb-aab2-4252-843b-57249bc10ed3.mp4"   >
+<td  width="83.5%"  align="center">
+<video height="500" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/de9cc4af-7ce1-4375-a9ff-7d5e43601c7d">
 </video> 
 </td>
 <td >
 <ul>
-<li>Authentication</li>
-<li>Comments</li>
-<li>Notification</li>
+<li>Create Community</li>
+<li>Topics in mod tools</li>
+<li>Post flair in mod tools</li>
+<li>Notification & push notification </li>
 <li>Messages</li>
-<li>Settings</li>
+<li>Edit post </li>
 </ul>
 </td>
 </tr>
@@ -429,54 +433,76 @@ git clone https://github.com/reddit_cross_platform/main
 <hr style="background-color: #4b4c60"></hr>
 <table align="left;">
 <tr>
-<td width="80.5%">
-<video src="https://user-images.githubusercontent.com/71986226/214708909-fccfd917-f8bb-4166-a76d-de1248faa2bd.mp4"   >
+
+<tr>
+<td  width="83.5%"  align="center">
+<video height="500" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/f2fdef70-a0c9-4a50-9c17-42e8dfa6bc4c">
 </video> 
 </td>
 <td >
 <ul>
-<li>Home page</li>
-<li>Posts</li>
-<li>Create Post</li>
+<li>Profile and other profile </li>
+<li>User actions </li>
+<li>Subreddit and Moderated Subreddit</li>
+<li> moderation page</li>
+<li>Discover </li>
 </ul>
-</td>
 </td>
 </tr>
 </table>
 <hr style="background-color: #4b4c60"></hr>
 <table align="left;">
 <tr>
-<td width="83.5%">
-<video src="https://user-images.githubusercontent.com/71986226/214707390-e21e2c04-08b2-4319-bb1e-7a3cd6316bc4.mp4"   >
-</video> 
-</td>
-<td   >
-<ul>
-<li>My profile</li>
-<li>Other Profile</li>
-<li>Moderation</li>
-<li>Top Communities</li>
-</ul>
-</td>
-</tr>
-</tr>
-</table>
-<hr style="background-color: #4b4c60"></hr>
-<table align="left;">
-<tr >
+
+
+
+<tr>
 <td  width="83.5%">
-<video src="https://user-images.githubusercontent.com/71986226/214714497-83c68943-4ced-4116-a06d-7830b0e0607d.mp4"   >
+<video src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/2ef61423-1e98-42a9-b3c6-1d1d73417c49">
 </video> 
 </td>
 <td >
 <ul>
-<li>Create Subreddit</li>
-<li>Subreddit</li>
-<li>Moderation</li>
-<li>Search</li>
-<li>Explorer</li>
+<li>Home&All page </li>
+<li>Create post</li>
+<li>Saved posts&comments</li>
+<li>History page</li>
+<li>Create comment</li>
 </ul>
 </td>
+</tr>
+</table>
+<hr style="background-color: #4b4c60"></hr>
+<table align="left;">
+<tr>
+
+
+<tr>
+<td  width="83.5%"  align="center">
+<video height="500" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/7aeeefe8-a809-4142-8e15-f42784655b34">
+</video> 
+</td>
+<td >
+<ul>
+<li>Show post with all types</li>
+<li>Post actions (normal &Moderation) </li>
+<li>Comments tree </li>
+<li>Create comment </li>
+<li>Create reply</li>
+</ul>
+</td>
+</tr>
+</table>
+<hr style="background-color: #4b4c60"></hr>
+<table align="left;">
+<tr>
+
+
+
+
+
+
+
 </tr>
 </table>
 
@@ -493,12 +519,6 @@ git clone https://github.com/reddit_cross_platform/main
      <td align="center"><a href="https://github.com/zeinabmoawad"><br /><sub><b> Zeinab Moawad</b></sub></a><br /></td>
      <td align="center"><a href="https://github.com/belfooz"><br /><sub><b> Ahmed Fawzy</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/Amr146"><br /><sub><b> Amr Ahmed</b></sub></a><br /></td>
-
-
-     
-     
-     
-   
     
   </tr>
 </table>
