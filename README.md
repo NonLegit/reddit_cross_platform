@@ -412,6 +412,41 @@ git clone https://github.com/reddit_cross_platform/main
 </tr>
 
 
+<tr>
+<td  width="83.5%"  align="center">
+<video height="500" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/f8600b4b-06b6-429b-986c-d3deafd40f01">
+</video> 
+</td>
+<td >
+<ul>
+<li>Authentication</li>
+</ul>
+</td>
+</tr>
+</table>
+<hr style="background-color: #4b4c60"></hr>
+<table align="left;">
+<tr>
+
+
+
+<tr>
+<td  width="83.5%"  align="center">
+<video height="500" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6e8de4aa-ab34-46f3-8eaa-b8d85f1e88a7">
+</video> 
+</td>
+<td >
+<ul>
+<li>User setting</li>
+<li>Moderation setting</li>
+<li>Search</li>
+</ul>
+</td>
+</tr>
+</table>
+<hr style="background-color: #4b4c60"></hr>
+<table align="left;">
+<tr>
 
 <tr>
 <td  width="83.5%"  align="center">
