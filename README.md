@@ -369,21 +369,9 @@ git clone https://github.com/reddit_cross_platform/main
 
 
 <tr>
-<td  width="83.5%"  >
-   [![Video Preview](https://example.com/preview.png)](https://example.com/video.mp4)
-
-   
-<!-- [![Video Preview](https://github.com/NonLegit/reddit_cross_platform/assets/66012617/1c78e6df-f5ea-4818-8502-63a415bb8583)](https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6a433442-c27e-4625-957e-9ac872810282) -->
-
-<!-- <video width="640" height="360" controls>
-  <source src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6a433442-c27e-4625-957e-9ac872810282" type="video/mp4">
-  Your browser does not support the video tag.
-</video> -->
-
-   
-<!-- <video  width="600" height="400"  src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6a433442-c27e-4625-957e-9ac872810282"
- poster="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/1c78e6df-f5ea-4818-8502-63a415bb8583" controls="controls">
-</video>  -->
+<td  width="83.5%"  > 
+<video  width="600" height="400"  src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/3fcd0247-a715-4960-90d5-2452af801acc" controls="controls">
+</video> 
 </td>
 <td >
 <ul>
@@ -400,7 +388,7 @@ git clone https://github.com/reddit_cross_platform/main
 
 <tr>
 <td  width="83.5%"  >
-<video width="600" height="400" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6094e8c4-a83e-4dc4-82d7-cc73fe53865a" controls="controls" poster="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/2c380f61-af59-41f2-a735-4ff8d0edfa87">
+<video width="600" height="400" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/8d2e0edc-1228-4903-a7ea-b8a5ae12deb4" controls="controls">
 </video> 
 </td>
 <td >
