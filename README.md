@@ -89,9 +89,10 @@ git clone https://github.com/reddit_cross_platform/main
 
 
 <div align="center">
-   <img align="center" width="600px" src="https://user-images.githubusercontent.com/71986226/214973107-694909ea-3fbc-471c-8a2f-adbd7bbe5656.png" alt="Features">
+   <img align="center" width="600px" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/281805c5-69fd-4ddc-a82b-820a17a8677e" alt="Features">
    
 </div>
+
 <hr style="background-color: #4b4c60"></hr>
 
 <table align="left;">
@@ -106,26 +107,28 @@ git clone https://github.com/reddit_cross_platform/main
 </td>
 <td>
 
-   <img align="center"  src="https://user-images.githubusercontent.com/71986226/214926073-f15e5b52-9752-4b19-b5e8-c174c0c37e9f.png" alt="logo">
+   <img align="center" width="300" height="400" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/9b9fdf65-9b9a-42fd-9ba4-81c1ba69c5d3" alt="logo">
 </td>
 <td>
 <ul>
 <li>Login</li>
 <li>Sign-up</li>
-<li>Sign-up with Google and Facebook</li>
 <li>Reset Password</li>
 <li>Forget User Name</li>
 </ul>
 </td>
 </tr>
+
+
+
+
+
 <tr>
 <td>🔶 Create Post</td>
 <td>
-
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214927486-0d758927-af11-444d-811b-50b1a95953ec.png" alt="logo">
+<img align="center" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6ff7a7a0-e890-4eca-92cf-1874d14d790f" alt="logo">
 </td>
 <td>
-
 <p>1) You con create 3 types of post</p>
 <ul>
 <li>📝 Text: you can add text and styling it with fancy text editor</li>
@@ -139,11 +142,12 @@ git clone https://github.com/reddit_cross_platform/main
 </ul>
 </td>
 </tr>
+
+
 <tr>
 <td>🔷 Search</td>
 <td>
-
-   <img align="center"   src="https://user-images.githubusercontent.com/71986226/214928486-b004a587-072b-4e4d-99c1-82c9b232f248.png" alt="logo">
+   <img align="center"   src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/3dd3fa35-85d1-456f-976a-fa17b992d30b" alt="logo">
 </td>
 <td><p>The search results have 4 types</p> 
 <ul>
@@ -154,33 +158,12 @@ git clone https://github.com/reddit_cross_platform/main
 </ul>
 </td>
 </tr>
-<tr>
-<td>🔶 User Actions</td>
-<td>
 
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214938211-46ed9004-afc9-4739-988a-946e0a78cc99.png" alt="logo">
-</td>
-<td>
-<p>You con do actions on posts like</p>
-<ul>
-<li>⏏ Upvote & Downvote</li>
-<li>⤴ Share</li>
-<li>✒ Edit post</li>
-<li>✅ Approve (if you are moderator)</li>
-<li>🕳 Spam</li>
-<li>🙈 Hidden</li>
-<li>🔱 Save</li>
-<li>🚫 Delete (if you are moderator or creator post)</li>
-<li>🔒 Lock (if you are moderator or creator post)</li>
-</ul>
-</td>
-</tr>
-</tr>
+
 <tr>
 <td>🔷 Comments</td>
 <td>
-
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214938584-6b44cb0c-6476-49db-adb2-60915d16a611.png" alt="logo">
+<img align="center" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/34ab3f99-078e-4473-a8a3-7e3cb0cd6729" alt="logo">
 </td>
 <td>
 <p>1) 🖇 Multilevel Comments</p>
@@ -194,11 +177,12 @@ git clone https://github.com/reddit_cross_platform/main
 </ul>
 </td>
 </tr>
+
+
 <tr>
 <td>🔶 Settings</td>
 <td>
-
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214939016-54daf788-41aa-463e-8c9d-0109e76183bb.png" alt="logo">
+<img align="center" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/eb127692-a9b5-47e1-b73f-034d9dd4dd1c" alt="logo">
 </td>
 <td>
 <ul>
@@ -206,20 +190,13 @@ git clone https://github.com/reddit_cross_platform/main
 <p>🚹 Account</p>
 <ul>
 <li><p>You can change (Email, Password, Gender, Country)</li>
-<li>
-<p> Delete Account</p></li>
-<li>
-<p>Connect with google </p></li>
 </ul>
 </li>
 <li>
 <p>👤 Profile</p>
 <ul>
-<li><p>You can Edit (name , about, Profile picture, Background Picture) </p></li>
 <li>
 <p>You can on/off (NSFW, allow people to follow you)</p></li>
-<li>
-<p>You can add  social links to other website </p></li>
 </ul>
 </li>
 </li>
@@ -241,11 +218,12 @@ git clone https://github.com/reddit_cross_platform/main
 </ul>
 </td>
 </tr>
+
+
 <tr>
 <td>🔷 Notifications</td>
 <td>
-
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214939180-a2379ced-8a3e-4009-ba31-7711c6a0104f.png" alt="logo">
+<img align="center" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/d96e526e-9941-49bc-9e0f-e971eaf146b7" alt="logo">
 </td>
 <td>
 <p>1) 🙈 You con hide notification </p>
@@ -253,15 +231,18 @@ git clone https://github.com/reddit_cross_platform/main
 <ul>
 <li>New Followers</li>
 <li>Replies</li>
+<li>new followers</li>
+<li>invitations</li>
 </ul>
 </td>
 </tr>
 </tr>
+
+
 <tr>
 <td>🔶 Profile</td>
 <td>
-
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214939374-1d31bfd4-6385-437c-9b11-dde2cdc44c48.png" alt="logo">
+<img align="center" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/3e4d246a-3022-49ad-ba58-6c3ed429e2fe" alt="logo">
 </td>
 <td>
 <p>You con view </p>
@@ -277,10 +258,11 @@ git clone https://github.com/reddit_cross_platform/main
 </ul>
 </td>
 </tr>
+
+<tr>
 <td>🔷 Subreddit</td>
 <td>
-
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214939616-d6d37452-5cd0-4171-897a-1dbbaa821580.png" alt="logo">
+<img align="center" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/99f2cdd3-521d-44f6-b28e-a88c2fbec6ff" alt="logo">
 </td>
 <td>
 <p>1) 🔰 You con create Subreddit</p>
@@ -294,16 +276,16 @@ git clone https://github.com/reddit_cross_platform/main
 </ul>
 </td>
 </tr>
+
+
 <tr>
 <td>🔶 Moderation</td>
 <td>
-
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214939838-fa3a4dcc-df2e-495f-8e3d-04057205e492.png" alt="logo">
+<img align="center" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/8501d2bd-5c4d-4b93-9005-92190a9a34d3" alt="logo">
 </td>
 <td>
 <p>In Moderation  page, you can control:</p>
 <ul>
-<li>🕳 Spam: you can control spam posts</li>
 <li>✒ Edited: you can control edited posts</li>
 <li>💈 Unmoderator: you can control unmoderator posts</li>
 <li>🚫 BANNED: you can ban users</li>
@@ -311,17 +293,17 @@ git clone https://github.com/reddit_cross_platform/main
 <li>✅ APPROVED: you can add new moderators </li>
 <li>👨🏽‍🤝‍👨🏻 MODERATORS: you can edit access to moderators</li>
 <li>🎨 POST FLAIR: you can edit flair and make new flairs</li>
-<li>🚧 RULES: you can add new rules to subreddit</li>
-<li>👨‍👨‍👦‍👦 COMMUNITY: you can edit (name of subreddit, community topics, community description, region, type of community)</li>
+<li>👨‍👨‍👦‍👦 COMMUNITY: you can edit ( community topics, community description, region, type of community)</li>
 <li>💭 POSTS AND COMMENTS: you can control type of posts</li>
 </ul>
 </td>
 </tr>
+
+
 <tr>
 <td>🔷 Messages</td>
 <td>
-
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214940032-6eae117f-b5cb-4f67-84f1-da6920706e79.png" alt="logo">
+<img align="center" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/614aa55f-155f-4b06-8d63-8fa8d5ed8533" alt="logo">
 </td>
 <td>
 <p>1) 📩 Message Form (Send a private message)</p>
@@ -335,11 +317,12 @@ git clone https://github.com/reddit_cross_platform/main
 </ul>
 </td>
 </tr>
+
+
 <tr>
 <td>🔶 Push Notifications</td>
 <td align="center">
-
-<img align="center" width="50%" src="https://user-images.githubusercontent.com/71986226/214954696-9ec0850c-a802-4a71-b186-1c642ec1df79.png" alt="logo">
+<img align="center" width="50%" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/339222ce-5845-408f-b665-34afb33beac5" alt="logo">
 </td>
 <td>
 <p>1) 💌 Notifications and messages </p>
@@ -351,53 +334,21 @@ git clone https://github.com/reddit_cross_platform/main
 </ul>
 </td>
 </tr>
-</tr>
-<tr>
-<td>🔷 Top Communities</td>
-<td>
 
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214940837-d0a539da-e609-45f4-a010-aaf1949d82a6.png" alt="logo">
-</td>
-<td>
-<p>👨‍👨‍👧‍👧 View top  communities by categories</p>
-</td>
-</tr>
-<tr>
-<td>🔶 Pages</td>
-<td>
 
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214940238-c127ed56-3b07-4e3e-a8b7-6cc3a49595e3.png" alt="logo">
-</td>
-<td>
-<ul>
-<li>
-<p>Home page </p>
-</li>
-<li>
-<p>Popular</p></li>
-<li>
-<p>ALL</p></li>
-<li>
-<p>Explorer</p></li>
-</ul>
-</td>
-</tr>
 <tr>
-<td>🔷 Listing</td>
+<td>🔷 Discovery</td>
 <td>
-
-<img align="center" src="https://user-images.githubusercontent.com/71986226/214940399-25af19f6-6d91-4fcf-9422-d1d3159910a2.png" alt="logo">
+<img align="center" width="300" height="400" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/b853d017-9c7c-4c6e-b358-73675b581fb2" alt="logo">
 </td>
 <td>
-<p>You can sort posts </p>
-<ul>
-<li>Hot</li>
-<li>Top</li>
-<li>New</li>
-<li>Hot</li>
-</ul>
+<p>👨‍👨‍👧‍👧 Discovty iamge and video posts by categories</p>
 </td>
 </tr>
+
+
+
+
 </table>
 
 <hr style="background-color: #4b4c60"></hr>
