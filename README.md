@@ -370,6 +370,14 @@ git clone https://github.com/reddit_cross_platform/main
 
 <tr>
 <td  width="83.5%"  >
+   [![Video Preview](https://github.com/NonLegit/reddit_cross_platform/assets/66012617/1c78e6df-f5ea-4818-8502-63a415bb8583)](https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6a433442-c27e-4625-957e-9ac872810282)
+
+<video width="640" height="360" controls>
+  <source src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6a433442-c27e-4625-957e-9ac872810282" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+   
 <video  width="600" height="400"  src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6a433442-c27e-4625-957e-9ac872810282"
  poster="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/1c78e6df-f5ea-4818-8502-63a415bb8583" controls="controls">
 </video> 
