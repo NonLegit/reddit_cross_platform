@@ -411,10 +411,16 @@ git clone https://github.com/reddit_cross_platform/main
 <th>Content</th>
 </tr>
 
+<!-- <video width="600" height="400" controls >
+  <source src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6a433442-c27e-4625-957e-9ac872810282" type="video/mp4">
+  Your browser does not support the video tag.
+</video> -->
+
 
 <tr>
-<td  width="83.5%"  align="center">
-<video height="500" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/f8600b4b-06b6-429b-986c-d3deafd40f01">
+<td  width="83.5%"  >
+<video  width="600" height="400"  src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6a433442-c27e-4625-957e-9ac872810282"
+ poster="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/1c78e6df-f5ea-4818-8502-63a415bb8583" controls="controls">
 </video> 
 </td>
 <td >
@@ -425,14 +431,14 @@ git clone https://github.com/reddit_cross_platform/main
 </tr>
 </table>
 <hr style="background-color: #4b4c60"></hr>
-<table align="left;">
+<table align="left;" >
 <tr>
 
 
 
 <tr>
-<td  width="83.5%"  align="center">
-<video height="500" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6e8de4aa-ab34-46f3-8eaa-b8d85f1e88a7">
+<td  width="83.5%"  >
+<video width="600" height="400" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/6094e8c4-a83e-4dc4-82d7-cc73fe53865a" controls="controls" poster="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/2c380f61-af59-41f2-a735-4ff8d0edfa87">
 </video> 
 </td>
 <td >
@@ -449,8 +455,8 @@ git clone https://github.com/reddit_cross_platform/main
 <tr>
 
 <tr>
-<td  width="83.5%"  align="center">
-<video height="500" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/de9cc4af-7ce1-4375-a9ff-7d5e43601c7d">
+<td  width="83.5%"  >
+<video width="600" height="400" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/de9cc4af-7ce1-4375-a9ff-7d5e43601c7d" controls="controls">
 </video> 
 </td>
 <td >
@@ -470,8 +476,8 @@ git clone https://github.com/reddit_cross_platform/main
 <tr>
 
 <tr>
-<td  width="83.5%"  align="center">
-<video height="500" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/f2fdef70-a0c9-4a50-9c17-42e8dfa6bc4c">
+<td  width="83.5%"  >
+<video width="600" height="400" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/f2fdef70-a0c9-4a50-9c17-42e8dfa6bc4c" controls="controls">
 </video> 
 </td>
 <td >
@@ -493,7 +499,7 @@ git clone https://github.com/reddit_cross_platform/main
 
 <tr>
 <td  width="83.5%">
-<video src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/2ef61423-1e98-42a9-b3c6-1d1d73417c49">
+<video width="600" height="400" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/2ef61423-1e98-42a9-b3c6-1d1d73417c49" controls="controls">
 </video> 
 </td>
 <td >
@@ -513,8 +519,8 @@ git clone https://github.com/reddit_cross_platform/main
 
 
 <tr>
-<td  width="83.5%"  align="center">
-<video height="500" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/7aeeefe8-a809-4142-8e15-f42784655b34">
+<td  width="83.5%"  >
+<video width="600" height="400" src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/7aeeefe8-a809-4142-8e15-f42784655b34" controls="controls">
 </video> 
 </td>
 <td >
@@ -549,10 +555,10 @@ git clone https://github.com/reddit_cross_platform/main
 
 <table align="center" >
   <tr>
-     <td align="center"><a href="https://github.com/emanshahda"><img src="https://avatars.githubusercontent.com/u/89708797?v=4" width="150px;" alt=""/><br /><sub><b>Eman Shahda</b></sub></a><br /></td>
-     <td align="center"><a href="https://github.com/ahmedmadbouly186"><img src="https://avatars.githubusercontent.com/u/66012617?v=4" width="150px;" alt=""/><br /><sub><b> Ahmed Madbouly</b></sub></a><br /></td>
-     <td align="center"><a href="https://github.com/zeinabmoawad"><br /><sub><b> Zeinab Moawad</b></sub></a><br /></td>
-     <td align="center"><a href="https://github.com/belfooz"><br /><sub><b> Ahmed Fawzy</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/ahmedmadbouly186"><img src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/f98b767a-aaaf-4ec3-94b2-e1363b1551ad" width="150px" height="200px" alt=""/><br /><sub><b> Ahmed Madbouly</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/emanshahda"><img src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/ccece043-e3fc-4c47-bfab-7c4334aee828" width="150px;" height="200px" alt=""/><br /><sub><b>Eman Shahda</b></sub></a><br /></td>
+     <td align="center"><a href="https://github.com/zeinabmoawad"><img src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/c1aa8954-0505-4e9b-96e9-7d3f7078429d"  width="150px;"height="200px" alt=""><br /><sub><b> Zeinab Moawad</b></sub></a><br /></td>
+     <td align="center"><a href="https://github.com/belfooz"><img src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/4c5f528c-fb39-4bfb-9f9b-a56e08c65601" width="150px;" height="200px" alt=""><br /><sub><b> Ahmed Fawzy</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/Amr146"><br /><sub><b> Amr Ahmed</b></sub></a><br /></td>
     
   </tr>
