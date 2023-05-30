@@ -509,8 +509,7 @@ git clone https://github.com/reddit_cross_platform/main
       <td align="center"><a href="https://github.com/emanshahda"><img src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/ccece043-e3fc-4c47-bfab-7c4334aee828" width="150px;" height="200px" alt=""/><br /><sub><b>Eman Shahda</b></sub></a><br /></td>
      <td align="center"><a href="https://github.com/zeinabmoawad"><img src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/c1aa8954-0505-4e9b-96e9-7d3f7078429d"  width="150px;"height="200px" alt=""><br /><sub><b> Zeinab Moawad</b></sub></a><br /></td>
      <td align="center"><a href="https://github.com/belfooz"><img src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/4c5f528c-fb39-4bfb-9f9b-a56e08c65601" width="150px;" height="200px" alt=""><br /><sub><b> Ahmed Fawzy</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/Amr146"><br /><sub><b> Amr Ahmed</b></sub></a><br /></td>
-    
+    <td align="center"><a href="https://github.com/Amr146"><img src="https://github.com/NonLegit/reddit_cross_platform/assets/66012617/7fde8c58-bdca-477a-bddf-97c1baf9abbf" width="150px" height="200px" alt=""/><br /><sub><b> Amr Ahmed</b></sub></a><br /></td>
   </tr>
 </table>
 
